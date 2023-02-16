@@ -38,13 +38,13 @@ return new class extends Migration
             $table->boolean('pawnshop')->default(false);
             $table->text('yandex_rating')->nullable();
             $table->text('google_rating')->nullable();
-            $table->text('2gis_rating')->nullable();
+            $table->text('gis_rating')->nullable();
             $table->text('avito_rating')->nullable();
             $table->text('average_rating')->nullable();
-            $table->text('yandex_comment')->nullable();
-            $table->text('google_comment')->nullable();
-            $table->text('2gis_comment')->nullable();
-            $table->text('avito_comment')->nullable();
+            $table->text('yandex_comments')->nullable();
+            $table->text('google_comments')->nullable();
+            $table->text('gis_comments')->nullable();
+            $table->text('avito_comments')->nullable();
             $table->timestamps();
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('area_id')->references('id')->on('areas');
