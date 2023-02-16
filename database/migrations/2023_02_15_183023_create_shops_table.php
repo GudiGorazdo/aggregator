@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_city');
-            $table->unsignedBigInteger('id_area')->nullable();
+            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('area_id')->nullable();
             $table->text('logo')->nullable();
             $table->text('photo')->nullable();
             $table->text('title')->nullable();
@@ -46,8 +46,8 @@ return new class extends Migration
             $table->text('2gis_comment')->nullable();
             $table->text('avito_comment')->nullable();
             $table->timestamps();
-            $table->foreign('id_city')->references('id')->on('cities');
-            $table->foreign('id_area')->references('id')->on('areas');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('area_id')->references('id')->on('areas');
         });
     }
 

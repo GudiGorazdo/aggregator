@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('subways', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_city');
-            $table->unsignedBigInteger('id_area');
+            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('area_id');
             $table->text('name');
-            $table->foreign('id_city')->references('id')->on('cities');
-            $table->foreign('id_area')->references('id')->on('areas');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('area_id')->references('id')->on('areas');
         });
     }
 

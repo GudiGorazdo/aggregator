@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('subway_shop', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_shop');
-            $table->unsignedBigInteger('id_subway');
-            $table->primary(['id_shop', 'id_subway']);
-            $table->foreign('id_shop')->references('id')->on('shops')->onDelete('cascade');
-            $table->foreign('id_subway')->references('id')->on('subways')->onDelete('cascade');
+            $table->unsignedBigInteger('shop_id');
+            $table->unsignedBigInteger('subway_id');
+            $table->primary(['shop_id', 'subway_id']);
+            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
+            $table->foreign('subway_id')->references('id')->on('subways')->onDelete('cascade');
         });
     }
 

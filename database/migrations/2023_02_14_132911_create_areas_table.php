@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_city');
+            $table->unsignedBigInteger('city_id');
             $table->text('name');
-            $table->foreign('id_city')->references('id')->on('cities');
+            $table->foreign('city_id')->references('id')->on('cities');
         });
     }
 
