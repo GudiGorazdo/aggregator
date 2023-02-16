@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    @include('layouts.menu')
+    {{-- @include('layouts.menu') --}}
     <main>@yield('content')</main>
     {{-- @include('layouts.footer') --}}
     @yield('afterFooter')
