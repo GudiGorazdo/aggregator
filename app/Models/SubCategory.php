@@ -43,7 +43,7 @@ class SubCategory extends Model
         for ($i = 0; $i < count($shops); $i++) {
             for($k = 1; $k < rand(1, 4); $k++) {
                 try {
-                    \Illuminate\Support\Facades\DB::table('sub_category_shop')->insert([
+                    \Illuminate\Support\Facades\DB::table('shop_sub_category')->insert([
                         'sub_category_id' => $subCategories[rand(1, count($subCategories))]->id,
                         'shop_id' => $shops[$i]->id
                     ]);

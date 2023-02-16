@@ -36,7 +36,7 @@ class Area extends Model
         for ($i = 0; $i < $n; $i++) {
             $area = new Area();
             $area->name = ($i + 1) . '_Район';
-            $area->city_id = $cities[rand(1, count($cities))]->id;
+            $area->city_id = $cities[rand(1, count($cities)) - 1]->id;
             $area->save();
         }
     }

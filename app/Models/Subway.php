@@ -49,8 +49,8 @@ class Subway extends Model
         for ($i = 0; $i < $n; $i++) {
             $subway = new Subway();
             $subway->name = 'Метро_' . ($i + 1);
-            $subway->city_id = $cities[rand(1, count($cities))]->id;
-            $subway->area_id = $areas[rand(1, count($areas))]->id;
+            $subway->city_id = $cities[rand(1, count($cities)) - 1]->id;
+            $subway->area_id = $areas[rand(1, count($areas)) - 1]->id;
             $subway->save();
         }
     }

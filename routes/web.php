@@ -12,15 +12,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// GENERATE RANDOM DATA
 // \App\Models\City::generate(20);
 // \App\Models\Area::generate(100);
 // \App\Models\Subway::generate(100);
-// \App\Models\Subway::generateShopsSubways();
-// \App\Models\Shop::generate(100);
 
-// \App\Models\SubCategory::generate(50);
+// \App\Models\Shop::generate(10);
+
+// \App\Models\Subway::generateShopsSubways();
+
 // \App\Models\Category::generate(10);
+// \App\Models\SubCategory::generate(50);
 // \App\Models\Category::generateShopsCategories();
 // \App\Models\SubCategory::generateShopsSubCategories();
+
+
+
+
 
 Route::get('/', 'App\Http\Controllers\ShopController@index');

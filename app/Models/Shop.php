@@ -49,7 +49,7 @@ class Shop extends Model
             $shop->logo =  'LOGO_' . ($i + 1);
             $shop->photo = 'https://picsum.photos/';
             $shop->title = 'Title_' . ($i + 1);
-            $shop->title = 'Name_' . ($i + 1);
+            $shop->name = 'Name_' . ($i + 1);
             $shop->descriprtion = $shop->generateDesc();
             $shop->zip = rand(100000, 999999);
             $shop->coord = json_encode(array(
@@ -58,6 +58,7 @@ class Shop extends Model
             ));
 
 
+            $additionalPhones = NULL;
             $shop->phone = rand(1000000, 9999999);
             for($i=0; $i < rand(0, 7); $i++) {
                 $additionalPhones[] = rand(1000000, 9999999);
@@ -71,6 +72,7 @@ class Shop extends Model
             $shop->telegram = '#';
             $shop->vk = '#';
             $shop->web = '#';
+            $moreSocials = NULL;
             for($i=0; $i < rand(0, 7); $i++) {
                 $moreSocials['name_' . ($i + 1)] = '#';
             }

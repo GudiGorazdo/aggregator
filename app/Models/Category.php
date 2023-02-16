@@ -40,6 +40,10 @@ class Category extends Model
         $categories = \App\Models\Category::all();
 
         for ($i = 0; $i < count($shops); $i++) {
+            \Illuminate\Support\Facades\DB::table('category_shop')->insert([
+                'category_id' => $categories[rand(1, count($categories))]->id,
+                'shop_id' => $shops[$i]->id
+            ]);
             for($k = 1; $k < rand(1, 4); $k++) {
                 try {
                     \Illuminate\Support\Facades\DB::table('category_shop')->insert([
