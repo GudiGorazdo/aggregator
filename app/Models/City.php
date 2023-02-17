@@ -19,26 +19,4 @@ class City extends Model
         return $this->hasMany(\App\Models\Area::class);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // GENERATE RANDOM DATA
-
-    static function generate($n)
-    {
-        for ($i = 0; $i < $n; $i++) {
-            $city = new City();
-            $city->name = 'Город_' . ($i + 1);
-            $city->save();
-        }
-    }
 }

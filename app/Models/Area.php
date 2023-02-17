@@ -18,26 +18,4 @@ class Area extends Model
     {
         return $this->belongsTo(\App\Models\City::class);
     }
-
-
-
-
-
-
-
-
-
-
-    // GENERATE RANDOM DATA
-
-    static function generate($n)
-    {
-        $cities = \App\Models\City::all();
-        for ($i = 0; $i < $n; $i++) {
-            $area = new Area();
-            $area->name = ($i + 1) . '_Район';
-            $area->city_id = $cities[rand(1, count($cities)) - 1]->id;
-            $area->save();
-        }
-    }
 }

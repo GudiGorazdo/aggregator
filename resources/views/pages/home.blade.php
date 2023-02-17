@@ -10,7 +10,9 @@
 
 @section('content')
   <div class="conteiner">
-    <h1>HELLO! IT WORK!!!</h1>
+    <x-shop-list-item>
+      <x-slot name="test">TEST</x-slot>
+    </x-shop-list-item>
   </div>
 @endsection
 

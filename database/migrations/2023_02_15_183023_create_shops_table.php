@@ -45,6 +45,7 @@ return new class extends Migration
             $table->text('google_comments')->nullable();
             $table->text('gis_comments')->nullable();
             $table->text('avito_comments')->nullable();
+            $table->boolean('show')->default(true);
             $table->timestamps();
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('area_id')->references('id')->on('areas');
