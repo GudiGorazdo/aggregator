@@ -10,9 +10,9 @@
 
 @section('content')
   <div class="container">
-    <x-shop-list-item>
-      <x-slot name="test">TEST</x-slot>
-    </x-shop-list-item>
+    @foreach ($shops as $shop)
+      <x-shop-item :shop="$shop"></x-shop-item>
+    @endforeach
   </div>
 @endsection
 
