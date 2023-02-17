@@ -9,13 +9,18 @@
 @endsection
 
 @section('content')
+  @include('layouts.aside')
   <section class="container">
     <h2 class="display-3">Скупки ноутбуков в Московском районе</h2>
     <div class="more-link"><a href="#">Подробнее</a></div>
-    <button class="change-display btn btn-primary d-block">Карта</button>
-    @foreach ($shops as $shop)
-      <x-shop-list-item :shop="$shop"></x-shop-list-item>
-    @endforeach
+    <button class="change-display btn btn-primary d-block">Карта </button>
+    <ul>
+      <li>
+        @foreach ($shops as $shop)
+          <x-shop-list-item :shop="$shop"></x-shop-list-item>
+        @endforeach
+      </li>
+    </ul>
     <h3 class="display-4">Похожие категории</h3>
     <h4 class="">скупка категорий техники:</h4>
     <ul>

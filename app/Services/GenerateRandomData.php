@@ -18,13 +18,14 @@ class GenerateRandomData
     private static function generateArea($city_id)
     {
         $arr = [];
-        for ($i = 0; $i < rand(3, 7); $i++) {
+        for ($i = 0; $i < rand(3, 10); $i++) {
             $area = new \App\Models\Area();
             $area->name = ($i + 1) . '_Район_город_' . $city_id;
             $area->city_id = $city_id;
-            $area->save();
-            if(rand(0, 1)) {
-                self::generateSubway($city_id, $area->id);
+            try {
+                $area->save();
+            } catch (Exception $error) {
+                continue;
             }
             $arr[] = $area->id;
         }
@@ -41,7 +42,11 @@ class GenerateRandomData
             $subway->name = 'Метро_' . ($i + 1) . 'район_' . $area_id . 'город_' . $city_id;
             $subway->city_id = $city_id;
             $subway->area_id = $area_id;
-            $subway->save();
+            try {
+                $subway->save();
+            } catch (Exception $error) {
+                continue;
+            }
             $arr[] = $subway->id;
         }
 
@@ -62,7 +67,7 @@ class GenerateRandomData
             $shop->photo = 'https://picsum.photos/';
             $shop->title = 'Title_' . ($i + 1);
             $shop->name = 'Name_' . ($i + 1);
-            $shop->descriprtion = $desc;
+            $shop->description = $desc;
             $shop->zip = rand(100000, 999999);
             $shop->coord = json_encode(array(
                 'lat' => 0,
@@ -153,7 +158,11 @@ class GenerateRandomData
             $shop->gis_comments = json_encode($comments['gis_comments']);
             $shop->avito_comments = json_encode($comments['avito_comments']);
 
-            $shop->save();
+            try {
+                $shop->save();
+            } catch (Exception $error) {
+                continue;
+            }
 
             $arr[] = $shop->id;
         }
@@ -213,11 +222,15 @@ class GenerateRandomData
     private static function generateSubCategories($category_id)
     {
         $arr = [];
-        for ($i = 0; $i < rand(3, 7); $i++) {
+        for ($i = 0; $i < rand(3, 9); $i++) {
             $area = new \App\Models\SubCategory();
             $area->name = ($i + 1) . '_подкатегория_' . $category_id . '_категория';
             $area->category_id = $category_id;
-            $area->save();
+            try {
+                $area->save();
+            } catch (Exception $error) {
+                continue;
+            }
             $arr[] = $area->id;
         }
         return $arr;
@@ -235,12 +248,12 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShopsWithSubways($city_id, $areas_arr)
+    private static function generateShopsWithSubways($city_id, $areas_arr, $b)
     {
         foreach($areas_arr as $area) {
-            $subway_ids = self::generateSubway($city_id, $area);
-            if (rand(0, 1)) {
-                $shop_ids = self::generateShop(rand(0, 2), $city_id, $area);
+            $shop_ids = self::generateShop(rand(0, 2), $city_id, $area);
+            if ($b < 5) {
+                $subway_ids = self::generateSubway($city_id, $area);
                 foreach($shop_ids as $shop) {
                     self::generateShopSubways($shop, $subway_ids);
                 }
@@ -250,12 +263,12 @@ class GenerateRandomData
 
     private static function generateShopCategoriesAndSubCategories($category_id, $shop_id)
     {
-        for ($i = 0; $i<3;$i++) {
+        for ($i = 0; $i<4;$i++) {
             self::generateShopCategory($category_id, $shop_id);
         }
         $sub_arr = self::generateSubCategories($category_id);
         foreach($sub_arr as $sub) {
-            for ($i = 0; $i<5;$i++) {
+            for ($i = 0; $i<7;$i++) {
                 self::generateShopSubCategory($sub, $shop_id);
             }
         }
@@ -263,16 +276,18 @@ class GenerateRandomData
 
     public static function generateRandomData()
     {
-        self::generate(20, \App\Models\City::class, 'Город');
+        self::generate(25, \App\Models\City::class, 'Город');
+        self::generate(5, \App\Models\Category::class, 'Категория');
         $cities = \App\Models\City::all();
 
+        $b = 0;
         foreach($cities as $city) {
             $areas_arr = self::generateArea($city->id);
-            self::generateShopsWithSubways($city->id, $areas_arr);
+            self::generateShopsWithSubways($city->id, $areas_arr, $b);
+            $b++;
         }
 
         $shops = \App\Models\Shop::all();
-        self::generate(20, \App\Models\Category::class, 'Категория');
         $categories = \App\Models\City::all();
 
         foreach($categories as $category) {

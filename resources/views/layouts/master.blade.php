@@ -12,7 +12,7 @@
 
     @yield('title')
 
-    @vite(['resources/scss/app.scss', 'resources/scss/styles.scss', 'resources/js/app.js'])
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     {{-- @vite(['resources/css/app.css']) --}}
     @yield('styles')
 </head>
