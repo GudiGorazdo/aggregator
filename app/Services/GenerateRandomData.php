@@ -1,7 +1,6 @@
 <?php
 namespace App\Services;
 
-use \App\Models\City;
 use Exception;
 
 class GenerateRandomData
@@ -63,10 +62,10 @@ class GenerateRandomData
             $shop = new \App\Models\Shop();
             $shop->city_id = $city_id;
             $shop->area_id = $area_id;
-            $shop->logo =  'LOGO_' . ($i + 1);
+            $shop->logo =  'LOGO_' .rand(100000, 999999);
             $shop->photo = 'https://picsum.photos/';
-            $shop->title = 'Title_' . ($i + 1);
-            $shop->name = 'Name_' . ($i + 1);
+            $shop->title = 'Title_' .rand(100000, 999999);
+            $shop->name = 'Name_' .rand(100000, 999999);
             $shop->description = $desc;
             $shop->zip = rand(100000, 999999);
             $shop->coord = json_encode(array(

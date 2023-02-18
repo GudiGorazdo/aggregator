@@ -21,6 +21,19 @@
 	transform: translateX($translatex);
 }
 
+.opacity-5 {
+	opacity: 0.5;
+}
+
+.disabled {
+	pointer-events: none;
+	filter: grayscale(0);
+
+	&--grey {
+		background-color: $gray-400;
+	}
+}
+
 #colorlib-main, .colorlib-nav-toggle {
   top: 0;
   @include translateX(270px);
@@ -127,3 +140,4 @@
 	}
 
 }
+

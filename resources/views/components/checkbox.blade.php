@@ -1,6 +1,15 @@
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="{{ $value }}" id="{{ $id }}">
-  <label class="form-check-label" for="{{ $id }}">
-    {{ $slot }}
-  </label>
+<div class="form-check{{ isset($line) & $line ? ' form-check--line' : '' }}">
+    <input
+        id="{{ $id }}"
+        class="form-check-input{{ isset($line) & $line ? ' form-check-input--line' : '' }}"
+        type="checkbox"
+        autocomplete="off"
+        value="{{ $value ?? '' }}"
+        {{ $fullName ?? '' }}
+        {{ isset($name) && !isset($fullName) ? 'name='.$name : '' }}
+        {{ isset($active) && $active ? 'checked' : '' }}
+    >
+    <label class="form-check-label{{ isset($line) & $line ? ' form-check-label--line' : '' }}" for="{{ $id }}">
+        {{ $slot }}
+    </label>
 </div>

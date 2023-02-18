@@ -1,0 +1,14 @@
+.form-check {
+  &-input {
+    &--line {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &-input--line:checked + &-label--line {
+    background-color: $primary;
+  }
+}
+
