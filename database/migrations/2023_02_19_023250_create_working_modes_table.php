@@ -15,20 +15,20 @@ return new class extends Migration
     {
         Schema::create('working_modes', function (Blueprint $table) {
             $table->unsignedBigInteger('shop_id');
-            $table->text('monday_open')->nullable();
-            $table->text('monday_close')->nullable();
-            $table->text('tuesday_open')->nullable();
-            $table->text('tuesday_close')->nullable();
-            $table->text('wednesday_open')->nullable();
-            $table->text('wednesday_close')->nullable();
-            $table->text('thursday_open')->nullable();
-            $table->text('thursday_close')->nullable();
-            $table->text('friday_open')->nullable();
-            $table->text('friday_close')->nullable();
-            $table->text('saturday_open')->nullable();
-            $table->text('saturday_close')->nullable();
-            $table->text('sunday_open')->nullable();
-            $table->text('sunday_close')->nullable();
+            $table->integer('monday_open')->nullable();
+            $table->integer('monday_close')->nullable();
+            $table->integer('tuesday_open')->nullable();
+            $table->integer('tuesday_close')->nullable();
+            $table->integer('wednesday_open')->nullable();
+            $table->integer('wednesday_close')->nullable();
+            $table->integer('thursday_open')->nullable();
+            $table->integer('thursday_close')->nullable();
+            $table->integer('friday_open')->nullable();
+            $table->integer('friday_close')->nullable();
+            $table->integer('saturday_open')->nullable();
+            $table->integer('saturday_close')->nullable();
+            $table->integer('sunday_open')->nullable();
+            $table->integer('sunday_close')->nullable();
             $table->foreign('shop_id')->references('id')->on('shops');
         });
     }

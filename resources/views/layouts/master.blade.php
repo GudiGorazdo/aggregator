@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    @include('layouts.aside.aside')
+    @include('layouts.aside')
     <main class="main-content">@yield('content')</main>
     {{-- @include('layouts.footer') --}}
     @yield('afterFooter')

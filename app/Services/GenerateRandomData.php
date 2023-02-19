@@ -140,7 +140,7 @@ class GenerateRandomData
             $shop->google_rating = $ratingArray[1];
             $shop->gis_rating = $ratingArray[2];
             $shop->avito_rating = $ratingArray[3];
-            $shop->average_rating = array_sum($ratingArray) / count($ratingArray);
+            $shop->average_rating = number_format(array_sum($ratingArray) / count($ratingArray), 1, '.');
 
             $comments = [];
             $services = [

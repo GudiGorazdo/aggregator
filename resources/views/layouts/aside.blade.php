@@ -7,7 +7,7 @@
     <div class="aside-filters">
         <form id="filters_form" class="aside-filters_form" action="/" method="GET">
             @csrf
-            @include('layouts.aside.filter-category')
+            @include('filters.category')
             <input id="filter_city" type="text" hidden vlue="" name="city">
             {{-- <div class="aside-filters_rating">
                 <div class="d-flex flex-row">
@@ -21,8 +21,8 @@
                 </div>
             </div> --}}
             <x-star-rating rating="{{ $requestData['rating'] ?? false }}">kjsdhfakjsdhaksdjl</x-star-rating>
-            @include('layouts.aside.filter-location')
-            @include('layouts.aside.filter-options')
+            @include('filters.location')
+            @include('filters.options')
             <button id="filters_apply" class="btn btn-primary" type="submit">Применить</button>
         </form>
         <a href="/" class="btn btn-primary" type="submit">Сбросить все фильтры</a>

@@ -12,7 +12,6 @@ const getCurrentCity = async (allCities, selectCity) => {
   const saved = localStorage.getItem('city');
   if (+saved) {
     selectCity.select(+saved, true);
-    return saved;
   } else {
     ymaps.ready(async function () {
       // const checkCity = ymaps.geolocation.city;
@@ -21,9 +20,7 @@ const getCurrentCity = async (allCities, selectCity) => {
       if (now) {
         selectCity.select(now.id, true);
         localStorage.setItem('city', now.id);
-        return now.id;
       }
-      return false;
       // location.href = `/?city=${nowIndex}`;
     });
   }
@@ -59,16 +56,14 @@ const addCitySelect = async (onSelect, filterCity = null) => {
       }
     });
   });
-  let selectedCity = false;
   const selectCity = new Chooser(optionsCity);
-  if (!filterCity) selectedCity = await getCurrentCity(allCities, selectCity);
+  if (!filterCity) await getCurrentCity(allCities, selectCity);
   else {
     const item = optionsCity.data.find(city => city.index == filterCity);
     if (item) selectCity.select(item.id);
-    else selectedCity = await getCurrentCity(allCities, selectCity);
+    else await getCurrentCity(allCities, selectCity);
   }
   return {
-    selectedCity: selectedCity,
     select: selectCity,
     options: optionsCity
   };
@@ -173,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } while(!param.done)
 
   const selectCity = await addCitySelect(addLocationFilters, query.city);
-  console.log(selectCity.selectedCity);
+  console.log(selectCity.select.getCurrentItem());
 
   let resp = await fetch('/test');
   // console.log(resp.body.getReader())
