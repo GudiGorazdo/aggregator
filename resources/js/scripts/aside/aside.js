@@ -9,12 +9,24 @@ const getAllCities = async () => {
 }
 
 const getCurrentCity = async (allCities, selectCity) => {
-  ymaps.ready(async function () {
-    const checkCity = 'Город_7';
-    let nowIndex = null;
-    allCities.find((city, index) => city.name == checkCity ? nowIndex = index + 1 : null);
-    if (nowIndex) selectCity.select(nowIndex, true);
-  });
+  const saved = localStorage.getItem('city');
+  if (+saved) {
+    selectCity.select(+saved, true);
+    return saved;
+  } else {
+    ymaps.ready(async function () {
+      // const checkCity = ymaps.geolocation.city;
+      const checkCity = 'Город_7';
+      const now = allCities.find((city, index) => city.name == checkCity);
+      if (now) {
+        selectCity.select(now.id, true);
+        localStorage.setItem('city', now.id);
+        return now.id;
+      }
+      return false;
+      // location.href = `/?city=${nowIndex}`;
+    });
+  }
 }
 
 const addCitySelect = async (onSelect, filterCity = null) => {
@@ -34,28 +46,29 @@ const addCitySelect = async (onSelect, filterCity = null) => {
     },
     onSelect(item) {
       onSelect(item);
-      cityInput.value = item.attr.val;
+      cityInput.value = item.index;
+      localStorage.setItem('city', item.index);
     },
   }
   allCities.forEach(city => {
     optionsCity.data.push({
       value: city.name,
+      index: city.id,
       attr: {
         'val': city.id
       }
     });
   });
+  let selectedCity = false;
   const selectCity = new Chooser(optionsCity);
-  console.log(filterCity)
-  if (!filterCity) getCurrentCity(allCities, selectCity);
+  if (!filterCity) selectedCity = await getCurrentCity(allCities, selectCity);
   else {
-    let nowIndex = null;
-    const item = optionsCity.data.find((city, index) => city.attr.val == filterCity ? nowIndex = index + 1 : null);
-    // const item = optionsCity.data.filter(city => city.attr.val == filterCity)[0];
+    const item = optionsCity.data.find(city => city.index == filterCity);
     if (item) selectCity.select(item.id);
-    else getCurrentCity(allCities, selectCity);
+    else selectedCity = await getCurrentCity(allCities, selectCity);
   }
   return {
+    selectedCity: selectedCity,
     select: selectCity,
     options: optionsCity
   };
@@ -73,7 +86,7 @@ const addFilter = async (type, url) => {
     body.innerHTML = getItemsLayout(items, type);
     enable(button);
   } else {
-    disable(button);
+    disable(button, body.parentElement);
   }
 
   return items;
@@ -116,18 +129,22 @@ const getItemsLayout = (items, type) => {
 
 // DISABLE/ENABLE ACCORDION
 
-const disable = (button) => {
-  disanledClassNames.forEach(className => button.classList.add(className));
+const disable = (button, body) => {
+  disabledClassNames.forEach(className => button.classList.add(className));
+  button.setAttribute('aria-expanded', "true");
+  button.classList.add("collapsed")
+  body.classList.remove('show')
+  body.classList.add('collapse')
 }
 
 const enable = (button) => {
-  disanledClassNames.forEach(className => button.classList.remove(className));
+  disabledClassNames.forEach(className => button.classList.remove(className));
 }
 
-const disanledClassNames = [
+const disabledClassNames = [
   "disabled",
   "disabled--grey",
-  "opacity-5"
+  "opacity-5",
 ];
 
 // ADD SUBWAYS AND AREAS
@@ -155,6 +172,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } while(!param.done)
 
-
   const selectCity = await addCitySelect(addLocationFilters, query.city);
+  console.log(selectCity.selectedCity);
+
+  let resp = await fetch('/test');
+  // console.log(resp.body.getReader())
+  resp = await resp.text();
+  console.log(resp)
 });
