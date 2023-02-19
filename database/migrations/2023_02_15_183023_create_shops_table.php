@@ -33,7 +33,6 @@ return new class extends Migration
             $table->text('more_socials')->nullable();
             $table->text('emails')->nullable();
             $table->boolean('convenience_shop')->default(false);
-            $table->text('working_mode')->nullable();
             $table->boolean('appraisal_online')->default(false);
             $table->boolean('pawnshop')->default(false);
             $table->text('yandex_rating')->nullable();

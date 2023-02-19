@@ -1,7 +1,6 @@
 <?php
 namespace App\Services;
 
-use \App\Models\City;
 use Exception;
 
 class GenerateRandomData
@@ -18,13 +17,14 @@ class GenerateRandomData
     private static function generateArea($city_id)
     {
         $arr = [];
-        for ($i = 0; $i < rand(3, 7); $i++) {
+        for ($i = 0; $i < rand(3, 10); $i++) {
             $area = new \App\Models\Area();
             $area->name = ($i + 1) . '_Район_город_' . $city_id;
             $area->city_id = $city_id;
-            $area->save();
-            if(rand(0, 1)) {
-                self::generateSubway($city_id, $area->id);
+            try {
+                $area->save();
+            } catch (Exception $error) {
+                continue;
             }
             $arr[] = $area->id;
         }
@@ -41,11 +41,39 @@ class GenerateRandomData
             $subway->name = 'Метро_' . ($i + 1) . 'район_' . $area_id . 'город_' . $city_id;
             $subway->city_id = $city_id;
             $subway->area_id = $area_id;
-            $subway->save();
+            try {
+                $subway->save();
+            } catch (Exception $error) {
+                continue;
+            }
             $arr[] = $subway->id;
         }
 
         return $arr;
+    }
+
+    public static function generateWorkingMode($shop_id)
+    {
+        $mode = new \App\Models\WorkingMode();
+        $mode->shop_id = $shop_id;
+        $mode->monday_open = (string) rand(8, 12);
+        $mode->monday_close = (string) rand(18, 22);
+        $mode->tuesday_open = (string) rand(8, 12);
+        $mode->tuesday_close = (string) rand(18, 22);
+        $mode->wednesday_open = (string) rand(8, 12);
+        $mode->wednesday_close = (string) rand(18, 22);
+        $mode->thursday_open = (string) rand(8, 12);
+        $mode->thursday_close = (string) rand(18, 22);
+        $mode->friday_open = (string) rand(8, 12);
+        $mode->friday_close = (string) rand(18, 22);
+        $mode->saturday_open = (string) rand(8, 12);
+        $mode->saturday_close = (string) rand(18, 22);
+        $mode->sunday_open = (string) rand(8, 12);
+        $mode->sunday_close = (string) rand(18, 22);
+        try {
+            $mode->save();
+        } catch (Exception $error) {
+         }
     }
 
     private static function generateShop($n, $city_id, $area_id)
@@ -58,11 +86,11 @@ class GenerateRandomData
             $shop = new \App\Models\Shop();
             $shop->city_id = $city_id;
             $shop->area_id = $area_id;
-            $shop->logo =  'LOGO_' . ($i + 1);
+            $shop->logo =  'LOGO_' .rand(100000, 999999);
             $shop->photo = 'https://picsum.photos/';
-            $shop->title = 'Title_' . ($i + 1);
-            $shop->name = 'Name_' . ($i + 1);
-            $shop->descriprtion = $desc;
+            $shop->title = 'Title_' .rand(100000, 999999);
+            $shop->name = 'Name_' .rand(100000, 999999);
+            $shop->description = $desc;
             $shop->zip = rand(100000, 999999);
             $shop->coord = json_encode(array(
                 'lat' => 0,
@@ -100,15 +128,6 @@ class GenerateRandomData
 
 
             $shop->convenience_shop = rand(0, 1);
-            $shop->working_mode = json_encode(array(
-                'sunday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'monday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'tuesday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'wednesday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'thursday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'friday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'saturday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-            ));
             $shop->appraisal_online = rand(0, 1);
             $shop->pawnshop = rand(0, 1);
             $ratingArray = array(
@@ -121,7 +140,7 @@ class GenerateRandomData
             $shop->google_rating = $ratingArray[1];
             $shop->gis_rating = $ratingArray[2];
             $shop->avito_rating = $ratingArray[3];
-            $shop->average_rating = array_sum($ratingArray) / count($ratingArray);
+            $shop->average_rating = number_format(array_sum($ratingArray) / count($ratingArray), 1, '.');
 
             $comments = [];
             $services = [
@@ -153,7 +172,13 @@ class GenerateRandomData
             $shop->gis_comments = json_encode($comments['gis_comments']);
             $shop->avito_comments = json_encode($comments['avito_comments']);
 
-            $shop->save();
+            try {
+                $shop->save();
+            } catch (Exception $error) {
+                continue;
+            }
+
+            self::generateWorkingMode($shop->id);
 
             $arr[] = $shop->id;
         }
@@ -213,11 +238,15 @@ class GenerateRandomData
     private static function generateSubCategories($category_id)
     {
         $arr = [];
-        for ($i = 0; $i < rand(3, 7); $i++) {
+        for ($i = 0; $i < rand(3, 9); $i++) {
             $area = new \App\Models\SubCategory();
             $area->name = ($i + 1) . '_подкатегория_' . $category_id . '_категория';
             $area->category_id = $category_id;
-            $area->save();
+            try {
+                $area->save();
+            } catch (Exception $error) {
+                continue;
+            }
             $arr[] = $area->id;
         }
         return $arr;
@@ -235,12 +264,12 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShopsWithSubways($city_id, $areas_arr)
+    private static function generateShopsWithSubways($city_id, $areas_arr, $b)
     {
         foreach($areas_arr as $area) {
-            $subway_ids = self::generateSubway($city_id, $area);
-            if (rand(0, 1)) {
-                $shop_ids = self::generateShop(rand(0, 2), $city_id, $area);
+            $shop_ids = self::generateShop(rand(0, 2), $city_id, $area);
+            if ($b < 5) {
+                $subway_ids = self::generateSubway($city_id, $area);
                 foreach($shop_ids as $shop) {
                     self::generateShopSubways($shop, $subway_ids);
                 }
@@ -250,12 +279,12 @@ class GenerateRandomData
 
     private static function generateShopCategoriesAndSubCategories($category_id, $shop_id)
     {
-        for ($i = 0; $i<3;$i++) {
+        for ($i = 0; $i<4;$i++) {
             self::generateShopCategory($category_id, $shop_id);
         }
         $sub_arr = self::generateSubCategories($category_id);
         foreach($sub_arr as $sub) {
-            for ($i = 0; $i<5;$i++) {
+            for ($i = 0; $i<7;$i++) {
                 self::generateShopSubCategory($sub, $shop_id);
             }
         }
@@ -263,16 +292,18 @@ class GenerateRandomData
 
     public static function generateRandomData()
     {
-        self::generate(20, \App\Models\City::class, 'Город');
+        self::generate(25, \App\Models\City::class, 'Город');
+        self::generate(5, \App\Models\Category::class, 'Категория');
         $cities = \App\Models\City::all();
 
+        $b = 0;
         foreach($cities as $city) {
             $areas_arr = self::generateArea($city->id);
-            self::generateShopsWithSubways($city->id, $areas_arr);
+            self::generateShopsWithSubways($city->id, $areas_arr, $b);
+            $b++;
         }
 
         $shops = \App\Models\Shop::all();
-        self::generate(20, \App\Models\Category::class, 'Категория');
         $categories = \App\Models\City::all();
 
         foreach($categories as $category) {

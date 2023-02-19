@@ -9,6 +9,11 @@ class Area extends Model
     protected $fillable = ['name'];
     public $timestamps = false;
 
+    public function scopeGetByCityId($query, $id)
+    {
+        return $query->where('city_id', $id);
+    }
+
     public function shops()
     {
         return $this->hasMany(\App\Models\Shop::class);

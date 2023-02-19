@@ -9,17 +9,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
+    <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 
     @yield('title')
 
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+    @vite([
+        'resources/scss/app.scss',
+        'resources/js/app.js'
+        ])
     {{-- @vite(['resources/css/app.css']) --}}
     @yield('styles')
 </head>
 
 <body>
-    {{-- @include('layouts.menu') --}}
-    <main>@yield('content')</main>
+    @include('layouts.aside')
+    <main class="main-content">@yield('content')</main>
     {{-- @include('layouts.footer') --}}
     @yield('afterFooter')
 </body>

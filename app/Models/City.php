@@ -9,6 +9,11 @@ class City extends Model
     protected $fillable = ['name'];
     public $timestamps = false;
 
+    public function scopeGetAll($query, $order = ['by' => 'name', 'sort'=>'desc'])
+    {
+        return $query->orderBy($order['by'], $order['sort']);
+    }
+
     public function shops()
     {
         return $this->hasMany(\App\Models\Shop::class);
@@ -18,5 +23,4 @@ class City extends Model
     {
         return $this->hasMany(\App\Models\Area::class);
     }
-
 }

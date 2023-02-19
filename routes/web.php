@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
-
 Route::get('/', 'App\Http\Controllers\ShopController@index');
+Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
+Route::get('/areas/{id}', 'App\Http\Controllers\LocationController@areas');
+Route::get('/subways', 'App\Http\Controllers\LocationController@subways');
+
+Route::get('test', function () {
+    $shops = \App\Models\Shop::paginate(10);
+    return response()->view('layouts.shop-list', compact('shops'));
+});
