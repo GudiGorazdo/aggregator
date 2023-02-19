@@ -1,4 +1,4 @@
-<div class="form-check{{ isset($line) & $line ? ' form-check--line' : '' }}">
+<fildset class="form-check{{ isset($line) & $line ? ' form-check--line' : '' }}">
     <input
         id="{{ $id }}"
         class="form-check-input{{ isset($line) & $line ? ' form-check-input--line' : '' }}"
@@ -12,4 +12,4 @@
     <label class="form-check-label{{ isset($line) & $line ? ' form-check-label--line' : '' }}" for="{{ $id }}">
         {{ $slot }}
     </label>
-</div>
+</fildset>

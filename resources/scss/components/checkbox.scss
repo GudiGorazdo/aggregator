@@ -3,8 +3,30 @@
     &--line {
       position: absolute;
       opacity: 0;
-      visibility: hidden;
     }
+  }
+
+  &-input:focus-within,
+  &-input:focus-visible,
+  &-input:focus {
+    outline: 0;
+  }
+
+  &-input:focus-visible +  &-label {
+    outline: 0;
+    border: solid 2px $primary;
+  }
+
+  &-label {
+    padding: 0 5px;
+    border: solid 2px transparent;
+    border-radius: 10px;
+  }
+
+  &-label:focus-within,
+  &-label:focus-visible,
+  &-label:focus {
+    outline: 0;
   }
 
   &-input--line:checked + &-label--line {

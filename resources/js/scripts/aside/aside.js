@@ -99,6 +99,7 @@ const getItemsLayout = (items, type) => {
           type="checkbox"
           value="${item.id}"
           name[]="${type}_${item.id}"
+          tabindex="0"
         >
         <label
           class="form-check-label

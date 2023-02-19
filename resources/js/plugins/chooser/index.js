@@ -295,6 +295,10 @@ export default class Chooser {
     if (this.props.onSetUp) this.props.onSetUp(this.props.data);
   }
 
+  getItemID(item) {
+
+  }
+
   getCurrentItem() {
     return this.current;
   }

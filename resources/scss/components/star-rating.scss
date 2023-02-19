@@ -1,0 +1,48 @@
+.star-rating {
+  $widthStep: 2em;
+  $width: $widthStep * 5;
+  $heght: 2em;
+  $backgroundSize: 2em;
+
+  &_caption { }
+
+  &_group {
+    position: relative;
+    width: $width;
+    height: $heght;
+    background-image: url('/resources/assets/images/starOff.svg');
+    background-size: $backgroundSize;
+    background-repeat: repeat-x;
+  }
+
+  &_radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: $heght;
+    margin: 0;
+    padding: 0;
+    background-size: $backgroundSize;
+    background-repeat: repeat-x;
+    appearance: none;
+    font-size: inherit;
+    cursor: pointer;
+  }
+
+  $z: 6;
+  @for $i from 1 through 5 {
+    &_radio:nth-of-type(#{$i}) {
+      width: ($i * $widthStep);
+      z-index: $z - $i;
+    }
+  }
+
+  &_radio:checked,
+  &_radio:hover {
+    background-image: url('/resources/assets/images/starOn.svg');
+  }
+
+  &_radio:hover ~ &_radio {
+    background-image: url('/resources/assets/images/starOff.svg');
+  }
+}

@@ -24,14 +24,9 @@
                                 <x-checkbox
                                     id="sub_category_{{ $sc->id }}"
                                     value="{{ $sc->id }}"
-                                    {{-- fullName="name[]=sub_categories" --}}
                                     name="sub_categories[]"
                                     line="{{ true }}"
                                     active="{{ isset($requestData['sub_categories']) && in_array($sc->id, $requestData['sub_categories']) }}"
-                                    {{-- {{ in_array($sc->id, $activeSubCategories) ? 'active="{{ true }}"' : '' }} --}}
-                                    {{-- @if (in_array($sc->id, $activeSubCategories))
-                                    active="{{ true }}"
-                                    @endif --}}
                                 >
                                     {{ $sc->name }}
                                 </x-checkbox>
