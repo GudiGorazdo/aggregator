@@ -30,4 +30,9 @@ class Shop extends Model
     {
         return $this->belongsToMany(\App\Models\SubCategory::class);
     }
+
+    public function workingMode()
+    {
+        return $this->belongsTo(\App\Models\WorkingMode::class);
+    }
 }

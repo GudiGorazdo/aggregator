@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
-
 Route::get('/', 'App\Http\Controllers\ShopController@index');
 Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
 Route::get('/areas/{id}', 'App\Http\Controllers\LocationController@areas');

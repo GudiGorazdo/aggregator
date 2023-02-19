@@ -52,6 +52,30 @@ class GenerateRandomData
         return $arr;
     }
 
+    public static function generateWorkingMode($shop_id)
+    {
+        $mode = new \App\Models\WorkingMode();
+        $mode->shop_id = $shop_id;
+        $mode->monday_open = (string) rand(8, 12);
+        $mode->monday_close = (string) rand(18, 22);
+        $mode->tuesday_open = (string) rand(8, 12);
+        $mode->tuesday_close = (string) rand(18, 22);
+        $mode->wednesday_open = (string) rand(8, 12);
+        $mode->wednesday_close = (string) rand(18, 22);
+        $mode->thursday_open = (string) rand(8, 12);
+        $mode->thursday_close = (string) rand(18, 22);
+        $mode->friday_open = (string) rand(8, 12);
+        $mode->friday_close = (string) rand(18, 22);
+        $mode->saturday_open = (string) rand(8, 12);
+        $mode->saturday_close = (string) rand(18, 22);
+        $mode->sunday_open = (string) rand(8, 12);
+        $mode->sunday_close = (string) rand(18, 22);
+        try {
+            $mode->save();
+        } catch (Exception $error) {
+         }
+    }
+
     private static function generateShop($n, $city_id, $area_id)
     {
         $desc = self::generateDesc();
@@ -104,15 +128,6 @@ class GenerateRandomData
 
 
             $shop->convenience_shop = rand(0, 1);
-            $shop->working_mode = json_encode(array(
-                'sunday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'monday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'tuesday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'wednesday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'thursday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'friday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-                'saturday' => [ 'open' => rand(8, 12), 'closed' => rand(18, 22), ],
-            ));
             $shop->appraisal_online = rand(0, 1);
             $shop->pawnshop = rand(0, 1);
             $ratingArray = array(
@@ -162,6 +177,8 @@ class GenerateRandomData
             } catch (Exception $error) {
                 continue;
             }
+
+            self::generateWorkingMode($shop->id);
 
             $arr[] = $shop->id;
         }
