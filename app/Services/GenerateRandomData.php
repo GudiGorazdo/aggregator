@@ -90,6 +90,7 @@ class GenerateRandomData
             $shop->photo = 'https://picsum.photos/';
             $shop->title = 'Title_' .rand(100000, 999999);
             $shop->name = 'Name_' .rand(100000, 999999);
+            $shop->address = 'Улица_' .rand(1000, 9999) . ' д. ' . rand(10, 99);
             $shop->description = $desc;
             $shop->zip = rand(100000, 999999);
             $shop->coord = json_encode(array(

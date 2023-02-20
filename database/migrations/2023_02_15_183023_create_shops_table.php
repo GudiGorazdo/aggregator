@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('zip')->nullable();
             $table->text('coord')->nullable();
+            $table->text('address')->nullable();
             $table->text('phone')->nullable();
             $table->text('additional_phones')->nullable();
             $table->text('whatsapp')->nullable();
