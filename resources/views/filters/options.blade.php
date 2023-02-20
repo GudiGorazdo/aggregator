@@ -1,16 +1,11 @@
-@foreach ([
-  'work_now' => 'Работает сейчас',
-  'convenience_shop' => 'Круглосуточно',
-  'is_pawnshop' => 'Ломбард',
-  'appraisal_online' => 'Онлайн оценка',
-] as $filter => $name)
+@foreach ($filter->getItems() as $f)
   <x-checkbox
-      id="{{ $filter }}"
-      name="{{ $filter }}"
-      value="on"
+      id="{{ $f['name'] }}"
+      name="{{ $f['name'] }}"
+      value="1"
       line="{{ true }}"
-      active="{{ $requestData[$filter] ?? false }}"
+      active="{{ $request[$f['name']] ?? false }}"
   >
-      {{ $name }}
+      {{ $f['label'] }}
   </x-checkbox>
 @endforeach

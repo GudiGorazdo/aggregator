@@ -10,23 +10,23 @@
             <button class="btn btn-primary"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#subcategory_{{ $cat->id }}"
+                data-bs-target="#{{ $filter->getName() }}_{{ $cat->id }}_collapse"
                 aria-expanded="false"
-                aria-controls="subcategory_{{ $cat->id }}"
+                aria-controls="{{ $filter->getName() }}_{{ $cat->id }}_collapse"
             >
                 {{ $cat->name }}
             </button>
             <div class="row">
                 <div class="col">
-                    <div class="collapse multi-collapse" id="subcategory_{{ $cat->id }}">
+                    <div class="collapse multi-collapse" id="{{ $filter->getName() }}_{{ $cat->id }}_collapse">
                         <div class="card card-body">
                             @foreach ($cat->subCategories as $sc)
                                 <x-checkbox
-                                    id="sub_category_{{ $sc->id }}"
+                                    id="{{ $filter->getName() }}_{{ $sc->id }}"
                                     value="{{ $sc->id }}"
-                                    name="sub_categories[]"
+                                    name="{{ $filter->getName() }}[]"
                                     line="{{ true }}"
-                                    active="{{ isset($requestData['sub_categories']) && in_array($sc->id, $requestData['sub_categories']) }}"
+                                    active="{{ isset($request[$filter->getName()]) && in_array($sc->id, $request[$filter->getName()]) }}"
                                 >
                                     {{ $sc->name }}
                                 </x-checkbox>
