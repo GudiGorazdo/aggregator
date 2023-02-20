@@ -23,4 +23,9 @@ class Area extends Model
     {
         return $this->belongsTo(\App\Models\City::class);
     }
+
+    public function subways()
+    {
+        return $this->hasMany(\App\Models\Subway::class);
+    }
 }

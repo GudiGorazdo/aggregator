@@ -26,7 +26,7 @@ const getCurrentCity = async (allCities, selectCity) => {
   }
 }
 
-const addCitySelect = async (onSelect, filterCity = null) => {
+const addCitySelect = async (onSelect, query = null) => {
   const allCities = await getAllCities();
   const classNameItemsCities = 'aside-region';
   const cityInput = document.getElementById('filter_city');
@@ -42,7 +42,7 @@ const addCitySelect = async (onSelect, filterCity = null) => {
       item: `${classNameItemsCities}__item`,
     },
     onSelect(item) {
-      onSelect(item);
+      onSelect(item, query);
       cityInput.value = item.index;
       localStorage.setItem('city', item.index);
     },
@@ -57,9 +57,9 @@ const addCitySelect = async (onSelect, filterCity = null) => {
     });
   });
   const selectCity = new Chooser(optionsCity);
-  if (!filterCity) await getCurrentCity(allCities, selectCity);
+  if (!query.city) await getCurrentCity(allCities, selectCity);
   else {
-    const item = optionsCity.data.find(city => city.index == filterCity);
+    const item = optionsCity.data.find(city => city.index == query.city);
     if (item) selectCity.select(item.id);
     else await getCurrentCity(allCities, selectCity);
   }
@@ -75,51 +75,22 @@ const addCitySelect = async (onSelect, filterCity = null) => {
 const addFilter = async (type, url) => {
   const button = document.getElementById(`ilter_${type}_button`);
   const body = document.getElementById(`filter_${type}_body`);
-  const items = await getFilterItems(url);
-  if (items.length > 0) {
+  const layout = await getFilterItems(url);
+  if (layout) {
     body.innerHTML = '';
-    body.innerHTML = getItemsLayout(items, type);
+    body.innerHTML = layout;
     enable(button);
+    return true;
   } else {
     disable(button, body.parentElement);
   }
-
-  return items;
+  return false;
 }
 
 const getFilterItems = async (url) => {
   let resp = await fetch(url);
-  resp = await resp.json();
+  resp = await resp.text();
   return resp;
-}
-
-
-// GET LAYOUT FOR AREAS AND SUBWAYS FILTERS
-
-const getItemsLayout = (items, type) => {
-  let layout = ``;
-  items.forEach(item => {
-    layout += `
-      <div class="form-check form-check--line">
-        <input id="${type}_${item.id}"
-          class="form-check-input
-          form-check-input--line"
-          type="checkbox"
-          value="${item.id}"
-          name[]="${type}_${item.id}"
-          tabindex="0"
-        >
-        <label
-          class="form-check-label
-          form-check-label--line"
-          for="${type}_${item.id}"
-        >
-          ${item.name}
-        </label>
-      </div>
-    `;
-  });
-  return layout;
 }
 
 // DISABLE/ENABLE ACCORDION
@@ -144,11 +115,15 @@ const disabledClassNames = [
 
 // ADD SUBWAYS AND AREAS
 
-const addLocationFilters = async (city) => {
-  const areas = await addFilter('area', `/areas/${city.attr.val}`);
-  if (areas.length > 0) {
-    let url = '/subways?';
-    areas.forEach((area, ind) => url += `id[${ind}]=${area.id}&`);
+const addLocationFilters = async (city, query) => {
+  console.log(query);
+  const areas = await addFilter('area', `/areas/${city.attr.val}?${document.location.search}`);
+  if (areas) {
+    let url = `/subways${document.location.search}`
+    // console.log(document.location.search);
+    const areasItems = document.querySelectorAll('input[id^="area_"]');
+    areasItems.forEach((item, ind) => url += `id[${ind}]=${item.value}&`);
+    // console.log(url);
     addFilter('subway', url);
   }
 }
@@ -157,6 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // GGET QUERY PARAMS
   let params = (new URL(document.location)).searchParams;
+  console.log(document.location.search)
   let iterator = params.entries();
   const query = {};
   let param = iterator.next();
@@ -167,11 +143,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } while(!param.done)
 
-  const selectCity = await addCitySelect(addLocationFilters, query.city);
-  console.log(selectCity.select.getCurrentItem());
-
-  let resp = await fetch('/test');
-  // console.log(resp.body.getReader())
-  resp = await resp.text();
-  console.log(resp)
+  const selectCity = await addCitySelect(addLocationFilters, query);
 });

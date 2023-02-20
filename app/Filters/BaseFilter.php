@@ -13,6 +13,7 @@ abstract class BaseFilter
     private string $label;
     private string $name;
     private Array $attributes;
+    private Array $request;
 
     public function __construct(
         string $name,
@@ -22,6 +23,7 @@ abstract class BaseFilter
         $this->name = $name;
         $this->label = $label;
         $this->attributes = $attributes;
+        $this->request = app(Request::class)->all();
     }
 
     public function getLabel(): string
@@ -40,9 +42,17 @@ abstract class BaseFilter
         else return '';
     }
 
-    public function render(): View|Factory|Application
+    public function render(int|null $id = null): View|Factory|Application
     {
-        $request = app(Request::class)->all();
-        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $request]);
+        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'id' => $id]);
+    }
+
+    public function responseRender(Array|int|null $params = null)
+    {
+        $request = $this->request;
+        $filter = $this;
+        $view = 'filters.response.' . $this->getName();
+        // \App\Services\Helper::log($this->x(), __DIR__);
+        return response()->view($view, compact('filter', 'params', 'request'));
     }
 }

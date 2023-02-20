@@ -15,4 +15,9 @@ class FilterService
     {
         return $this->filters;
     }
+
+    public function getFilterByName($name)
+    {
+        return $this->filters[$name] ?? false;
+    }
 }

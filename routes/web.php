@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,13 @@ Route::get('/areas/{id}', 'App\Http\Controllers\LocationController@areas');
 Route::get('/subways', 'App\Http\Controllers\LocationController@subways');
 
 Route::get('test', function () {
-    $shops = \App\Models\Shop::paginate(10);
-    return response()->view('layouts.shop-list', compact('shops'));
+    // $items = \App\Models\Area::getByCityId(1)->get()->toArray();
+    // dd($items);
+    // // foreach($items as $key => $value) {
+
+    // // }
+    $filter = app(\App\Services\FilterService::class)->getFilterByName('AreaFilter');
+    $r = app(Request::class)->all();
+    $id = 1;
+    return response()->view('filters.location-item', compact('filter', 'id', 'r'));
 });

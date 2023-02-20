@@ -20,16 +20,8 @@
                 <div class="col">
                     <div class="collapse multi-collapse" id="{{ $filter->getName() }}_{{ $cat->id }}_collapse">
                         <div class="card card-body">
-                            @foreach ($cat->subCategories as $sc)
-                                <x-checkbox
-                                    id="{{ $filter->getName() }}_{{ $sc->id }}"
-                                    value="{{ $sc->id }}"
-                                    name="{{ $filter->getName() }}[]"
-                                    line="{{ true }}"
-                                    active="{{ isset($request[$filter->getName()]) && in_array($sc->id, $request[$filter->getName()]) }}"
-                                >
-                                    {{ $sc->name }}
-                                </x-checkbox>
+                            @foreach ($cat->subCategories as $item)
+                                @include('filters.location-item')
                             @endforeach
                         </div>
                     </div>
