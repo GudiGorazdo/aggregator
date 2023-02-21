@@ -1,6 +1,8 @@
 import Chooser from '../plugins/chooser/';
 
 export default class LocationFilter {
+  start = true;
+
   city = {
     storageMark: null,
     all: null,
@@ -71,7 +73,7 @@ export default class LocationFilter {
     if (!this.query?.city) await this.getCurrentCity(this.city.all);
     else {
       const city = this.city.all.find(item => item.index == this.query.city);
-      if (city) this.setCurrentCity(city.id, true);
+      if (city) this.setCurrentCity(city.id);
       else await this.getCurrentCity(this.city.all);
     }
   }
@@ -95,6 +97,8 @@ export default class LocationFilter {
   addLocationFilters = async (city) => {
     const areas = await this.addFilter(`/location/${city}?${document.location.search}`);
     if (areas) {
+      if (this.start) this.start = false;
+      else this.resetAreasAndSubways();
       this.showFilter();
       this.addAreaListeners();
     }
@@ -110,21 +114,21 @@ export default class LocationFilter {
   }
 
   getCurrentCity = async (all) => {
-    if (this.city.saved) this.setCurrentCity(this.city.saved, true);
+    if (this.city.saved) this.setCurrentCity(this.city.saved);
     else if (this.city.start) {
       const city = all.find(city => city.name == this.city.start);
-      if (city) this.setCurrentCity(city.id, true);
+      if (city) this.setCurrentCity(city.id);
     } else {
       ymaps.ready(async function () {
         const city = ymaps.geolocation.city;
         const check = all.find(item => item.name == city);
-        if (check) this.setCurrentCity(check.id, true);
+        if (check) this.setCurrentCity(check.id);
       });
     }
   }
 
-  setCurrentCity(current, option = false) {
-    this.city.select.select(current, option);
+  setCurrentCity(current) {
+    this.city.select.select(current, true);
   }
 
   onSelectCity = (id) => {
@@ -164,6 +168,11 @@ export default class LocationFilter {
     });
   }
 
+  resetAreasAndSubways = () => {
+    this.getSubwayItems().forEach(item => item.checked = false);
+    this.getAreaItems().forEach(item => item.checked = false);
+  }
+
   changeAreas = (e) => {
     if (e.target.checked) {
       if (!this.activeAreas.includes(e.target.id)) this.activeAreas.push(e.target.id);
@@ -191,7 +200,6 @@ export default class LocationFilter {
     for (const key in this.buttons) {
       if (e.target.id !== this.buttons[key]) continue;
       this.open[key] = !this.open[key];
-      console.log(e.target.id)
     }
   };
 
