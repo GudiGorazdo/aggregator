@@ -4,12 +4,12 @@ export default class LocationFilter {
   city = {
     storageMark: null,
     all: null,
-    options: {},
     input: null,
     current: null,
     select: null,
     saved: null,
     start: null,
+    options: {},
   };
 
   parent = null;
@@ -24,7 +24,7 @@ export default class LocationFilter {
     subway: null,
   };
 
-  query = null;
+  query = {};
 
   collapse = {
     area: null,
@@ -70,9 +70,9 @@ export default class LocationFilter {
 
     if (!this.query?.city) await this.getCurrentCity(this.city.all);
     else {
-      const city = this.city.all.data.find(item => item.index == this.query.city);
+      const city = this.city.all.find(item => item.index == this.query.city);
       if (city) this.setCurrentCity(city.id, true);
-      else await getCurrentCity(this.city.all);
+      else await this.getCurrentCity(this.city.all);
     }
   }
 
@@ -95,12 +95,12 @@ export default class LocationFilter {
   addLocationFilters = async (city) => {
     const areas = await this.addFilter(`/location/${city}?${document.location.search}`);
     if (areas) {
-      this.show();
+      this.showFilter();
       this.addAreaListeners();
     }
   }
 
-  show = () => {
+  showFilter = () => {
     for (let key in this.collapse) {
       if (this.open[key]) {
         document.getElementById(this.collapse[key]).classList.add('show');
@@ -152,17 +152,24 @@ export default class LocationFilter {
 
   hideSubways = (e) => {
     this.getSubwayItems().forEach(item => {
-      if (item.parentElement.classList.contains('d-none')) {
-        item.parentElement.classList.remove('d-none');
+      if (this.activeAreas.length == 0) {
+        return item.parentElement.classList.remove('d-none');
       }
       if (!this.activeAreas.includes(item.dataset.area_target)) {
         item.parentElement.classList.add('d-none');
+        item.checked = false;
+      } else {
+        item.parentElement.classList.remove('d-none');
       }
     });
   }
 
   changeAreas = (e) => {
-    this.activeAreas.push(e.target.id);
+    if (e.target.checked) {
+      if (!this.activeAreas.includes(e.target.id)) this.activeAreas.push(e.target.id);
+    } else if (this.activeAreas.includes(e.target.id)) {
+      this.activeAreas.splice(this.activeAreas.indexOf(e.target.id), 1);
+    }
     this.hideSubways(e);
   }
 
@@ -182,8 +189,9 @@ export default class LocationFilter {
 
   toggleOpen = (e) => {
     for (const key in this.buttons) {
-      if (!e.target.id.includes(key)) continue;
+      if (e.target.id !== this.buttons[key]) continue;
       this.open[key] = !this.open[key];
+      console.log(e.target.id)
     }
   };
 
