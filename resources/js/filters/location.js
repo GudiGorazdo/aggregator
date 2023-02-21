@@ -21,10 +21,15 @@ export default class locationFilter {
 
   buttons = {
     area: null,
-    subway: null
+    subway: null,
   };
 
   query = null;
+
+  collapse = {
+    area: null,
+    subway: null,
+  };
 
   constructor(
     parentId,
@@ -32,6 +37,7 @@ export default class locationFilter {
     subwayButtonId,
     cityInputId,
     cityOptions,
+    collapse,
     cityStorageMark = 'city',
     startCity = null,
   ) {
@@ -40,9 +46,12 @@ export default class locationFilter {
     this.parent = document.getElementById(parentId);
     this.parent.addEventListener('click', this.toggle.bind(this));
 
-    this.buttons.area = document.getElementById(areaButtonId);
-    this.buttons.subway = document.getElementById(subwayButtonId);
+    this.buttons.area = areaButtonId;
+    this.buttons.subway = subwayButtonId;
     this.city.input = document.getElementById(cityInputId);
+
+    this.collapse.area = collapse.area;
+    this.collapse.subway = collapse.subway;
 
     this.city.options = cityOptions;
     this.city.storageMark = cityStorageMark;
@@ -57,11 +66,11 @@ export default class locationFilter {
     this.setCityOptions(this.city.all);
     this.city.select = new Chooser(this.city.options);
 
-    if (!this.query?.city) await this.getCurrentCity();
+    if (!this.query?.city) await this.getCurrentCity(this.city.all);
     else {
       const city = this.city.all.data.find(item => item.index == this.query.city);
       if (city) this.setCurrentCity(city.id, true);
-      else await getCurrentCity();
+      else await getCurrentCity(this.city.all);
     }
   }
 
@@ -84,21 +93,28 @@ export default class locationFilter {
   addLocationFilters = async (city) => {
     const areas = await this.addFilter(`/location/${city}?${document.location.search}`);
     if (areas) {
-      if (this.open.area) this.buttons.area.click();
-      if (this.open.subway) this.buttons.subway.click();
+      this.show();
     }
   }
 
-  getCurrentCity = async () => {
+  show = () => {
+    for (let key in this.collapse) {
+      if (this.open[key]) {
+        document.getElementById(this.collapse[key]).classList.add('show');
+        document.getElementById(this.buttons[key]).setAttribute('aria-expanded', true);
+      }
+    }
+  }
+
+  getCurrentCity = async (all) => {
     if (this.city.saved) this.setCurrentCity(this.city.saved, true);
     else if (this.city.start) {
-      const city = this.city.all.find(city => city.name == this.city.start);
+      const city = all.find(city => city.name == this.city.start);
       if (city) this.setCurrentCity(city.id, true);
-    }
-    else {
+    } else {
       ymaps.ready(async function () {
         const city = ymaps.geolocation.city;
-        const check = this.city.all.find(item => item.name == city);
+        const check = all.find(item => item.name == city);
         if (check) this.setCurrentCity(check.id, true);
       });
     }
@@ -116,7 +132,6 @@ export default class locationFilter {
   }
 
   setCityOptions = (cities) => {
-
     cities.forEach(city => {
       this.city.options.data.push({
         value: city.name,

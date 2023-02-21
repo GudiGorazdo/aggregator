@@ -6,7 +6,7 @@
         id="filter_{{ $name }}_inner"
         className="aside-filters-{{ $name }}_item"
         buttonId="filter_{{ $name }}_button"
-        collapse="coolapse_filter_{{ $name }}_inner"
+        collapse="collapse_filter_{{ $name }}_inner"
         title="{{ $label }}"
         bodyId="filter_{{ $name }}_body"
         disabled="{{ count($items) > 0 ? false : true }}"

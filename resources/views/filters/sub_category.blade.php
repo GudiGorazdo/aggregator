@@ -2,7 +2,7 @@
     <x-accordion-item
         id="filter_categories_inner"
         className="aside-filters-categories_item"
-        collapse="coolapse_filter_categories_inner"
+        collapse="collapse_filter_categories_inner"
         title="Категории"
         show="true"
     >
