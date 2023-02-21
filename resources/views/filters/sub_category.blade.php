@@ -21,7 +21,7 @@
                     <div class="collapse multi-collapse" id="{{ $filter->getName() }}_{{ $cat->id }}_collapse">
                         <div class="card card-body">
                             @foreach ($cat->subCategories as $item)
-                                @include('filters.location-item')
+                                @include('filters.checkbox-item', ['name' => $filter->getName(), 'item' => $item, 'request' => $request])
                             @endforeach
                         </div>
                     </div>

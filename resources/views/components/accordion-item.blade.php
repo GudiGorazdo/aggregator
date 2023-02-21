@@ -1,7 +1,7 @@
 <div class="accordion-item {{ $className ?? '' }}">
     <h2 class="accordion-header {{ $headerClassName ?? '' }}" id="item_{{ $id }}">
         <button
-            class="accordion-button collapsed {{ $headerButtonClassName ?? '' }}{{ isset($disabled) ? ' disabled disabled--grey opacity-5' : '' }}"
+            class="accordion-button collapsed {{ $headerButtonClassName ?? '' }}{{ isset($disabled) && $disabled ? ' disabled disabled--grey opacity-5' : '' }}"
             {{ isset($buttonId) ? 'id=' . $buttonId : '' }}
             type="button"
             data-bs-toggle="collapse"

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\belongsToMany;
 
 class Shop extends Model
 {
@@ -13,7 +15,7 @@ class Shop extends Model
         return 'id';
     }
 
-    public function getNowRatingAttribute()
+    public function getNowRatingAttribute(): string
     {
         return number_format(($this->attributes['yandex_rating']
                 + $this->attributes['google_rating']
@@ -22,32 +24,32 @@ class Shop extends Model
             ) / 4, 1, '.');
     }
 
-    public function city()
+    public function city(): belongsTo
     {
         return $this->belongsTo(\App\Models\City::class);
     }
 
-    public function area()
+    public function area(): belongsTo
     {
         return $this->belongsTo(\App\Models\Area::class);
     }
 
-    public function subways()
+    public function subways(): belongsToMany
     {
         return $this->belongsToMany(\App\Models\Subway::class);
     }
 
-    public function categories()
+    public function categories(): belongsToMany
     {
         return $this->belongsToMany(\App\Models\Category::class);
     }
 
-    public function subCategories()
+    public function subCategories(): belongsToMany
     {
         return $this->belongsToMany(\App\Models\SubCategory::class);
     }
 
-    public function workingMode()
+    public function workingMode(): belongsTo
     {
         return $this->belongsTo(\App\Models\WorkingMode::class);
     }

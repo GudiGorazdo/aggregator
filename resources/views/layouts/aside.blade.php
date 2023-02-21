@@ -6,8 +6,8 @@
     <div class="aside-filters">
         <form id="filters_form" class="aside-filters_form" action="/" method="GET">
             @csrf
-            @foreach(app(\App\Services\FilterService::class)->getFilters() as $f)
-                {{ $f->render() }}
+            @foreach(app(\App\Services\FilterService::class)->getFilters() as $filter)
+                {{ $filter->render() }}
             @endforeach
             <button id="filters_apply" class="btn btn-primary" type="submit">Применить</button>
         </form>

@@ -3,6 +3,8 @@
 namespace App\Filters;
 
 use App\Filters\BaseFilter;
+use App\Models\Area;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @param $items = [
@@ -10,22 +12,16 @@ use App\Filters\BaseFilter;
  *      'name' => string,                      -- query option name
  *      'label' => string                      -- label for otion
  *      'attributes' => array ['key'=>'value'] -- any html attributes
+ *      '*relations*' => array                 -- relations items
  *   ]
  * ];
  */
 
-class OptionsFilter extends BaseFilter
+class LocationFilter extends BaseFilter
 {
-    private $items = [];
-
-    public function __construct(array $items, string $name = 'options', $label = 'Опции')
+    public function getItems(int $id): Collection
     {
-        parent::__construct($name, $label);
-        $this->items = $items;
-    }
-
-    public function getItems(): array
-    {
-        return $this->items;
+        if (!$id) return new  Collection([]);
+        return Area::getByCityIdWithSubways($id)->get();
     }
 }

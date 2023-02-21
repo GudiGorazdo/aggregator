@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\FilterService;
-use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,12 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(FilterService $filters)
     {
+        // ADD FILTERS
         $filters->registerFilters([
             'CityFilter' => new \App\Filters\CityFilter('city', 'Город', ['id'=>'aside_city', 'input_id' => 'filter_city']),
             'CategoryFilter' => new \App\Filters\CategoryFilter('sub_category', 'Категория'),
             'RatingFilter' => new \App\Filters\RatingFilter('rating', 'Рейтинг'),
-            'AreaFilter' => new \App\Filters\AreaFilter('area', 'Район'),
-            'SubwayFilter' => new \App\Filters\SubwayFilter('subway', 'Метро'),
+            'LocationFilter' => new \App\Filters\LocationFilter('location', 'Район'),
             'OptionsFilter' => new \App\Filters\OptionsFilter([
                 [
                     'name' => 'work_now',
@@ -50,6 +49,5 @@ class AppServiceProvider extends ServiceProvider
                 ],
             ]),
         ]);
-        // dd($filters);
     }
 }

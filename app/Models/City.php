@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class City extends Model
 {
@@ -14,12 +15,12 @@ class City extends Model
         return $query->orderBy($order['by'], $order['sort']);
     }
 
-    public function shops()
+    public function shops(): HasMany
     {
         return $this->hasMany(\App\Models\Shop::class);
     }
 
-    public function areas()
+    public function areas(): HasMany
     {
         return $this->hasMany(\App\Models\Area::class);
     }

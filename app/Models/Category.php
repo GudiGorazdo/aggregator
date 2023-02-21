@@ -3,18 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
     protected $fillable = ['name'];
     public $timestamps = false;
 
-    public function subCategories()
+    public function subCategories(): HasMany
     {
         return $this->hasMany(\App\Models\SubCategory::class);
     }
 
-    public function shops()
+    public function shops(): BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Shop::class);
     }

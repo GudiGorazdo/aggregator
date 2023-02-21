@@ -7,18 +7,19 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Stringable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 abstract class BaseFilter
 {
     private string $label;
     private string $name;
-    private Array $attributes;
-    private Array $request;
+    private array $attributes;
+    private array $request;
 
     public function __construct(
         string $name,
         string $label,
-        Array $attributes = []
+        array $attributes = []
     ) {
         $this->name = $name;
         $this->label = $label;
@@ -47,12 +48,12 @@ abstract class BaseFilter
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'id' => $id]);
     }
 
-    public function responseRender(Array|int|null $params = null)
+    public function responseRender(array|int|null $params = null): Response
     {
         $request = $this->request;
         $filter = $this;
         $view = 'filters.response.' . $this->getName();
-        // \App\Services\Helper::log($this->x(), __DIR__);
+        \App\Services\Helper::log($params, __DIR__);
         return response()->view($view, compact('filter', 'params', 'request'));
     }
 }
