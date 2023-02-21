@@ -1,6 +1,6 @@
 import Chooser from '../plugins/chooser/';
 
-export default class locationFilter {
+export default class LocationFilter {
   city = {
     storageMark: null,
     all: null,
@@ -31,6 +31,8 @@ export default class locationFilter {
     subway: null,
   };
 
+  activeAreas = [];
+
   constructor(
     parentId,
     areaButtonId,
@@ -44,7 +46,7 @@ export default class locationFilter {
     this.queryData();
 
     this.parent = document.getElementById(parentId);
-    this.parent.addEventListener('click', this.toggle.bind(this));
+    this.parent.addEventListener('click', this.toggleOpen.bind(this));
 
     this.buttons.area = areaButtonId;
     this.buttons.subway = subwayButtonId;
@@ -94,6 +96,7 @@ export default class locationFilter {
     const areas = await this.addFilter(`/location/${city}?${document.location.search}`);
     if (areas) {
       this.show();
+      this.addAreaListeners();
     }
   }
 
@@ -129,6 +132,7 @@ export default class locationFilter {
     this.city.current = id;
     this.city.input.value = id;
     this.addLocationFilters(id);
+    this.activeAreas = [];
   }
 
   setCityOptions = (cities) => {
@@ -146,6 +150,28 @@ export default class locationFilter {
     }
   }
 
+  hideSubways = (e) => {
+    this.getSubwayItems().forEach(item => {
+      if (item.parentElement.classList.contains('d-none')) {
+        item.parentElement.classList.remove('d-none');
+      }
+      if (!this.activeAreas.includes(item.dataset.area_target)) {
+        item.parentElement.classList.add('d-none');
+      }
+    });
+  }
+
+  changeAreas = (e) => {
+    this.activeAreas.push(e.target.id);
+    this.hideSubways(e);
+  }
+
+  addAreaListeners = () => {
+    this.getAreaItems().forEach(item => {
+      item.addEventListener('click', this.changeAreas.bind(this));
+    });
+  }
+
   getSubwayItems = () => {
     return document.querySelectorAll('[id^="subway_"]');
   };
@@ -154,7 +180,7 @@ export default class locationFilter {
     return document.querySelectorAll('[id^="area_"]');
   };
 
-  toggle = (e) => {
+  toggleOpen = (e) => {
     for (const key in this.buttons) {
       if (!e.target.id.includes(key)) continue;
       this.open[key] = !this.open[key];

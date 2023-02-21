@@ -1,4 +1,4 @@
-import location from '../../filters/location';
+import LocationFilter from '../../filters/location';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     subway: 'collapse_filter_subway_inner'
   }
 
-  new location(
+  new LocationFilter(
     'filter_location',
     'filter_area_button',
     'filter_subway_button',

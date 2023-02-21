@@ -21,7 +21,7 @@ class LocationController extends Controller
 
     public function location($id): Response
     {
-        \App\Services\Helper::log($id, __DIR__);
+        // \App\Services\Helper::log($id, __DIR__);
         $filter = app(\App\Services\FilterService::class)->getFilterByName('LocationFilter');
         if ($filter) {
             return $filter->responseRender($id);

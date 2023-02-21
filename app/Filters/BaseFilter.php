@@ -53,7 +53,7 @@ abstract class BaseFilter
         $request = $this->request;
         $filter = $this;
         $view = 'filters.response.' . $this->getName();
-        \App\Services\Helper::log($params, __DIR__);
+        // \App\Services\Helper::log($params, __DIR__);
         return response()->view($view, compact('filter', 'params', 'request'));
     }
 }
