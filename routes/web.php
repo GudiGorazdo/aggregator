@@ -26,14 +26,6 @@ Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
 Route::get('/location/{id}', 'App\Http\Controllers\LocationController@location');
 Route::get('/subways', 'App\Http\Controllers\LocationController@subways');
 
-Route::get('test', function () {
-    // $items = \App\Models\Area::getByCityId(1)->get()->toArray();
-    // dd($items);
-    // // foreach($items as $key => $value) {
-
-    // // }
-    $filter = app(\App\Services\FilterService::class)->getFilterByName('AreaFilter');
-    $r = app(Request::class)->all();
-    $id = 1;
-    return response()->view('filters.location-item', compact('filter', 'id', 'r'));
+Route::get('/test', function () {
+    return \App\Models\City::with('areas')->with('subways')->get();
 });
