@@ -30,9 +30,14 @@ class Shop extends Model
     public function scopeFilter(Builder $query): Builder
     {
         foreach (app(FilterService::class)->getFilters() as $filter) {
-            $query = $filter->apply($query);
+            $query = $filter->apply($query)->with('workingMode');
         }
         return $query;
+    }
+
+    public function working()
+    {
+        return $this->belongsTo(\App\Models\City::class);
     }
 
     public function city(): belongsTo

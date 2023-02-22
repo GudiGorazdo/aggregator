@@ -158,11 +158,11 @@ class GenerateRandomData
                     $comments[$s][$i]['rating'] = rand(11, 50) / 10;
                     $comments[$s][$i]['text'] = $desc;
                     $comments[$s][$i]['response'] = [];
-                    for($k=0; $k < rand(0, 7); $k++) {
-                        $response[$k]['name'] = 'name_' . ($k + 1);
-                        $response[$k]['date'] = date('Y-m-d', mt_rand(1, time()));
-                        $response[$k]['rating'] = rand(11, 50) / 10;
-                        $response[$k]['text'] = $desc;
+                    for($k=0; $k < rand(1, 7); $k++) {
+                        $comments[$s][$i]['response'][$k]['name'] = 'name_' . ($k + 1);
+                        $comments[$s][$i]['response'][$k]['date'] = date('Y-m-d', mt_rand(1, time()));
+                        $comments[$s][$i]['response'][$k]['rating'] = rand(11, 50) / 10;
+                        $comments[$s][$i]['response'][$k]['text'] = $desc;
 
                     }
                 }
