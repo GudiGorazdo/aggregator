@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 // dd(str('filters')->append('what??')->append('second')->append(['asdf', 'asdfas']));
 // \App\Filters\LocationFilter::apply();
 
-// dd(strtolower(Carbon::now()->isoFormat('dddd')));
+// dd(Carbon::now()->hour);
 
 Route::get('/', 'App\Http\Controllers\ShopController@index');
 

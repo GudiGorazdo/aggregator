@@ -44,8 +44,7 @@ class OptionsFilter extends BaseFilter
     public function workNow(Builder $query): Builder
     {
         $query = $query->whereHas('workingMode', function (Builder $query) {
-            return $query = $query
-                ->where($this->getDay() . '_open', '<', $this->getTime())
+            return $query->where($this->getDay() . '_open', '<', $this->getTime())
                 ->where($this->getDay() . '_close', '>', $this->getTime())
             ;
         });
@@ -61,8 +60,7 @@ class OptionsFilter extends BaseFilter
                     $this->workNow($query);
                     continue;
                 }
-
-
+                $query = $query->where($filter['name'], 1);
             }
         }
         if (is_string($value)) $query = $query->where($this->field, $value);
