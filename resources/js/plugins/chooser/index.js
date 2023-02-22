@@ -125,8 +125,6 @@
 
 */
 
-import './chooser.css';
-
 const li = (props, item, ind, chooser, list, selected) => {
   const dataId = item.chooserId ?? `${props.el}_${item.index}`;
   props.data[ind].id = dataId;

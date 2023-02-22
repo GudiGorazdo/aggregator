@@ -95,7 +95,7 @@ export default class LocationFilter {
   }
 
   addLocationFilters = async (city) => {
-    const areas = await this.addFilter(`/location/${city}?${document.location.search}`);
+    const areas = await this.addFilter(`/api/location/${city}?${document.location.search}`);
     if (areas) {
       if (this.start) this.start = false;
       else this.resetAreasAndSubways();
@@ -157,13 +157,15 @@ export default class LocationFilter {
   hideSubways = (e) => {
     this.getSubwayItems().forEach(item => {
       if (this.activeAreas.length == 0) {
-        return item.parentElement.classList.remove('d-none');
+        item.parentElement.style.postion = 'static';
+        return item.parentElement.style.height = 'min-content';
       }
       if (!this.activeAreas.includes(item.dataset.area_target)) {
-        item.parentElement.classList.add('d-none');
+        item.parentElement.style.postion = 'absolute';
         item.checked = false;
       } else {
-        item.parentElement.classList.remove('d-none');
+        item.parentElement.style.height = 0;
+        item.parentElement.style.postion = 'absolute';
       }
     });
   }
@@ -204,7 +206,7 @@ export default class LocationFilter {
   };
 
   getAllCities = async () => {
-    let resp = await fetch('/cities');
+    let resp = await fetch('/api/cities');
     resp = await resp.json();
     return resp;
   }

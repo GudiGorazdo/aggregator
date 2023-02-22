@@ -1,0 +1,70 @@
+.aside-city {
+  padding-right: 30px;
+  text-align: right;
+
+  &__label {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+
+  &__button {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    padding-right: 25px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color:  $secondary;
+
+    span {
+      border-bottom: 2px solid $secondary;
+    }
+
+    .chooser__icon {
+      position: absolute;
+      right: 0;
+      width: 15px;
+      border-top: 10px solid $secondary;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: none;
+      transition: transform 0.1s linear;
+    }
+
+    .chooser__icon.open  {
+      transform: rotateX(180deg);
+    }
+  }
+
+  &__list {
+    top: 30px;
+    left: 50%;
+    min-width: 100%;
+    width: max-content;
+    margin: 0;
+    padding: 15px 0px;
+    background-color: $light;
+    border: 1px solid $secondary;
+    border-radius: 10px;
+    transform: translateX(-50%);
+
+    &.chooser__list.open {
+      z-index: 8888;
+    }
+  }
+
+  &__item {
+    padding: 5px 20px;
+
+    &.focused,
+    &.hover {
+      background-color: $primary;
+      color: $light;
+    }
+  }
+}

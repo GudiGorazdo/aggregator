@@ -22,8 +22,8 @@ use Illuminate\Http\Request;
 
 
 Route::get('/', 'App\Http\Controllers\ShopController@index');
-Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
-Route::get('/location/{id}', 'App\Http\Controllers\LocationController@location');
+// Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
+// Route::get('/location/{id}', 'App\Http\Controllers\LocationController@location');
 Route::get('/subways', 'App\Http\Controllers\LocationController@subways');
 
 Route::get('/test', function () {

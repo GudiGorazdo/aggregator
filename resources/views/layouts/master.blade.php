@@ -23,7 +23,7 @@
 
 <body>
     @include('layouts.aside')
-    <main class="main-content">@yield('content')</main>
+    <main id="main-content" class="main-content">@yield('content')</main>
     {{-- @include('layouts.footer') --}}
     @yield('afterFooter')
 </body>

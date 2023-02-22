@@ -1,0 +1,29 @@
+.aside-filters-subcategories {
+  &_button {
+    width: 100%;
+    margin: 0;
+    padding: 7px 15px;
+    display: block;
+    border: none;
+    border-bottom: 2px solid $secondary;
+    background-color: transparent;
+    text-align: left;
+    font-size: 1em;
+
+    &::after {
+      margin-left: 10px;
+    }
+
+    &[aria-expanded="false"]::after {
+      content: '+';
+    }
+    &[aria-expanded="true"]::after {
+      content: '-';
+    }
+  }
+
+  &_body {
+    padding: 10px 15px;
+
+  }
+}

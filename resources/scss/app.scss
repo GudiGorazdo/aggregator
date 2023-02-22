@@ -1,5 +1,10 @@
+
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "~bootstrap/scss/bootstrap";
+@import "../js/plugins/chooser/chooser.css";
 @import "./components/checkbox.scss";
 @import "./components/star-rating.scss";
+@import "./components/accordion.scss";
+@import "./filters/filters.scss";
+@import "./aside.scss";
 @import "./styles.scss";
