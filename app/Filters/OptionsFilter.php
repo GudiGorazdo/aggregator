@@ -63,8 +63,6 @@ class OptionsFilter extends BaseFilter
                 $query = $query->where($filter['name'], 1);
             }
         }
-        if (is_string($value)) $query = $query->where($this->field, $value);
-        if (is_array($value)) $query = $query->whereIn($this->field, $value);
         return $query;
     }
 }

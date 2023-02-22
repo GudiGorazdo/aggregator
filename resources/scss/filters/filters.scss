@@ -31,7 +31,6 @@
   }
 
   .accordion-body {
-    padding-top: 10px;
     padding-bottom: 20px;
   }
 
@@ -49,6 +48,10 @@
   .accordion-body::before,
   .form-check {
     border-bottom: 1px solid $secondary;
+  }
+
+  &-filters-options .form-check:first-of-type {
+    border-top: 1px solid $secondary;
   }
 
   .form-check-label {

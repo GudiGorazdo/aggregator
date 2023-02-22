@@ -40,32 +40,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   );
 
   const aside = {
-    elOpen: document.getElementById('burger'),
-    elClose: document.getElementById('aside_close_button'),
-
-    classes: {
-      opened: ['active', 'modal__close'],
-      closed: ['open']
-    },
-
+    burger: document.getElementById('burger'),
     opened: 'active',
-
     openStatus: false,
 
     open() {
-      this.classes.opened.forEach(c => this.elOpen.classList.add(c));
-      this.classes.closed.forEach(c => this.elOpen.classList.remove(c));
+      this.burger.classList.add(this.opened);
       this.openStatus = true;
     },
 
     close() {
-      this.classes.opened.forEach(c => this.elOpen.classList.remove(c));
-      this.classes.closed.forEach(c => this.elOpen.classList.add(c));
+      this.burger.classList.remove(this.opened);
       this.openStatus = false;
     },
 
     initialization() {
-      this.elOpen.addEventListener('click', this.toggle.bind(this));
+      this.burger.addEventListener('click', this.toggle.bind(this));
     },
 
     toggle() {
