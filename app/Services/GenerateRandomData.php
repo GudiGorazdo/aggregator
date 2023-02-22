@@ -98,7 +98,6 @@ class GenerateRandomData
                 'long' => 0
             ));
 
-
             $additionalPhones = NULL;
             $shop->phone = rand(1000000, 9999999);
             for($i=0; $i < rand(0, 7); $i++) {
@@ -107,7 +106,6 @@ class GenerateRandomData
             if ($additionalPhones) {
                 $shop->additional_phones = json_encode($additionalPhones);
             }
-
 
             $shop->whatsapp = '#';
             $shop->telegram = '#';
@@ -121,12 +119,10 @@ class GenerateRandomData
                 $shop->more_socials = json_encode($moreSocials);
             }
 
-
             for($i=0; $i < rand(1, 3); $i++) {
                 $emails[] = '#';
             }
             $shop->emails = json_encode($emails);
-
 
             $shop->convenience_shop = rand(0, 1);
             $shop->appraisal_online = rand(0, 1);
