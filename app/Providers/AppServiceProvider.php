@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             'CityFilter' => new \App\Filters\CityFilter('city', 'Город', ['id'=>'aside_city', 'input_id' => 'filter_city']),
             'CategoryFilter' => new \App\Filters\CategoryFilter('sub_category', 'Категория'),
             'RatingFilter' => new \App\Filters\RatingFilter('rating', 'Рейтинг'),
-            'LocationFilter' => new \App\Filters\LocationFilter('location', 'Район'),
+            'LocationFilter' => new \App\Filters\LocationFilter('location', 'Район', ['area', 'subway']),
             'OptionsFilter' => new \App\Filters\OptionsFilter([
                 [
                     'name' => 'work_now',

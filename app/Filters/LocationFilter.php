@@ -19,9 +19,21 @@ use Illuminate\Database\Eloquent\Collection;
 
 class LocationFilter extends BaseFilter
 {
-    public function getItems(int $id): Collection
+    private array $filters;
+
+    public function __construct(
+        string $name,
+        string $label,
+        array $filters,
+        array $attributes = [],
+    ) {
+        parent::__construct($name, $label, $attributes);
+        $this->filters = $filters;
+    }
+
+    public function getItems(int $city_id): Collection
     {
-        if (!$id) return new  Collection([]);
-        return Area::getByCityIdWithSubways($id)->get();
+        if (!$city_id) return new  Collection([]);
+        return Area::getByCityIdWithSubways($city_id)->get();
     }
 }

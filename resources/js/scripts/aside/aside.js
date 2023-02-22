@@ -1,6 +1,12 @@
 import LocationFilter from '../../filters/location';
+import ModalWindow from '../../plugins/modal/ModalWindow';
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+  window.modalWindowPlugin = new ModalWindow({
+    isOpen: (modal) => { },
+    isClose: (modal) => { },
+  });
 
   const classNameItemsCities = 'aside-city';
   const optionsCity = {
@@ -33,41 +39,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     'Город_7',
   );
 
-  const burger = {
-    el: document.getElementById('burger'),
-    menu: document.getElementById('aside'),
-    main: document.getElementById('main-content'),
+  const aside = {
+    elOpen: document.getElementById('burger'),
+    elClose: document.getElementById('aside_close_button'),
 
     classes: {
-      open: 'active',
-      main: 'off',
-      height: 'height-0',
-      position: 'position-relative'
+      opened: ['active', 'modal__close'],
+      closed: ['open']
     },
 
-    open: false,
+    opened: 'active',
+
+    openStatus: false,
+
+    open() {
+      this.classes.opened.forEach(c => this.elOpen.classList.add(c));
+      this.classes.closed.forEach(c => this.elOpen.classList.remove(c));
+      this.openStatus = true;
+    },
+
+    close() {
+      this.classes.opened.forEach(c => this.elOpen.classList.remove(c));
+      this.classes.closed.forEach(c => this.elOpen.classList.add(c));
+      this.openStatus = false;
+    },
 
     initialization() {
-      this.el.addEventListener('click', this.toggle.bind(this));
+      this.elOpen.addEventListener('click', this.toggle.bind(this));
     },
 
     toggle() {
-      if (this.open) {
-        this.el.classList.remove(this.classes.open);
-        this.menu.classList.remove(this.classes.open);
-        this.el.classList.remove(this.classes.open);
-        // this.main.classList.remove(this.classes.height);
-        // this.main.classList.remove(this.classes.main);
-      } else {
-        this.el.classList.remove(this.classes.open);
-        this.menu.classList.add(this.classes.open);
-        this.el.classList.add(this.classes.open);
-        // this.main.classList.add(this.classes.main);
-        // this.main.style.height = this.menu.offsetHeight + 'px';
-      }
-      this.open = !this.open;
+      if (!this.openStatus) this.open();
+      else this.close();
     },
   }
 
-  burger.initialization();
+  aside.initialization();
 });

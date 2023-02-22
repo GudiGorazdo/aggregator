@@ -1,2 +1,66 @@
-@import "./category.scss";
 @import "./city.scss";
+
+.aside {
+  &-filters-subcategories {
+    &_button {
+      width: 100%;
+      margin: 0;
+      padding: 7px 15px;
+      display: block;
+      border: none;
+      border-bottom: 1px solid $secondary;
+      background-color: transparent;
+      text-align: left;
+      font-size: 1em;
+
+      &::after {
+        margin-left: 10px;
+      }
+
+      &[aria-expanded="false"]::after {
+        content: '+';
+      }
+      &[aria-expanded="true"]::after {
+        content: '-';
+      }
+    }
+
+    &_body {
+      padding: 10px 15px;
+    }
+  }
+
+  .accordion-body {
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  .accordion-body::before {
+    content: '';
+    display: block;
+    width: 100%;
+  }
+
+  .form-check {
+    margin: 0;
+    border-bottom: none;
+  }
+
+  .accordion-body::before,
+  .form-check {
+    border-bottom: 1px solid $secondary;
+  }
+
+  .form-check-label {
+    display: block;
+    padding: 5px 0px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+
+  &-filters_apply,
+  &-filters_cancel,
+  &_add-shop {
+    width: 100%;
+  }
+}

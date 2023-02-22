@@ -1,5 +1,11 @@
 <?php
 namespace App\Filters;
+/*
+$this->name = $name;                              -- Имя фильтра соответствовует имени view шаблона, а также имени переменной в запросе
+$this->label = $label;                            -- Лэйбл используется для заголовка фильтра
+$this->attributes = $attributes;                  -- HTML атрибуты, которые будут использованы в view шаблоне
+$this->request = app(Request::class)->get($name); -- Данные из запроса
+*/
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -43,9 +49,9 @@ abstract class BaseFilter
         else return '';
     }
 
-    public function render(int|null $id = null): View|Factory|Application
+    public function render(int|null $city_id = null): View|Factory|Application
     {
-        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'id' => $id]);
+        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
     }
 
     public function responseRender(array|int|null $params = null): Response
@@ -55,5 +61,12 @@ abstract class BaseFilter
         $view = 'filters.response.' . $this->getName();
         // \App\Services\Helper::log($params, __DIR__);
         return response()->view($view, compact('filter', 'params', 'request'));
+    }
+
+    public function apply(Builder $query): Builder
+    {
+        // $value = $this->request[$this->name];
+        // dd();
+        return $query;
     }
 }

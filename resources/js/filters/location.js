@@ -157,15 +157,13 @@ export default class LocationFilter {
   hideSubways = (e) => {
     this.getSubwayItems().forEach(item => {
       if (this.activeAreas.length == 0) {
-        item.parentElement.style.postion = 'static';
-        return item.parentElement.style.height = 'min-content';
+        return item.parentElement.classList.remove('hidden');
       }
       if (!this.activeAreas.includes(item.dataset.area_target)) {
-        item.parentElement.style.postion = 'absolute';
+        item.parentElement.classList.add('hidden');
         item.checked = false;
       } else {
-        item.parentElement.style.height = 0;
-        item.parentElement.style.postion = 'absolute';
+        item.parentElement.classList.remove('hidden');
       }
     });
   }

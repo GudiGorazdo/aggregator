@@ -1,5 +1,4 @@
-<button id="burger" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></button>
-<aside id="aside" class="aside">
+<aside id="aside" class="aside modal-window__container" data-modal-target="aside_menu">
     <div class="aside_logo"><img src="https://picsum.photos/id/{{ rand(1, 250) }}/125/75" alt="LOGO"></div>
     <div class="aside-filters">
         <form id="filters_form" class="aside-filters_form" action="/" method="GET">

@@ -16,15 +16,10 @@ use Illuminate\Http\Request;
 
 // \App\Services\GenerateRandomData::generateRandomData();
 
-// dd((new App\Filters\LocationFilter('f', 'a'))->getItems(1));
-// $x = App\Filters\LocationFilter::getItems(1);
-// dd($x[1]->subways->toArray());
-
+// dd(str('filters')->append('what??')->append('second')->append(['asdf', 'asdfas']));
+// \App\Filters\LocationFilter::apply();
 
 Route::get('/', 'App\Http\Controllers\ShopController@index');
-// Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
-// Route::get('/location/{id}', 'App\Http\Controllers\LocationController@location');
-Route::get('/subways', 'App\Http\Controllers\LocationController@subways');
 
 Route::get('/test', function () {
     return \App\Models\City::with('areas')->with('subways')->get();

@@ -11,7 +11,7 @@
         bodyId="filter_{{ $name }}_body"
         disabled="{{ count($items) > 0 ? false : true }}"
     >
-        @if ($id)
+        @if ($city_id)
             @foreach ($items as $item)
                 @include('filters.checkbox-item', ['name' => $name, 'item' => $item, 'request' => $request])
             @endforeach

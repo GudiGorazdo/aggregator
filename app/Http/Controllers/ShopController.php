@@ -10,8 +10,7 @@ class ShopController extends Controller
 {
     public function index(Request $request): View
     {
-        $shops = Shop::paginate(10);
-        $requestData = $request->all();
-        return view('pages.home', compact('shops', 'requestData'));
+        $shops = Shop::filter()->paginate(10);
+        return view('pages.home', compact('shops'));
     }
 }
