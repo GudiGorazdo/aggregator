@@ -26,26 +26,26 @@ class AppServiceProvider extends ServiceProvider
     {
         // ADD FILTERS
         $filters->registerFilters([
-            'CityFilter' => new \App\Filters\CityFilter('city', 'Город', ['id'=>'aside_city', 'input_id' => 'filter_city']),
-            'CategoryFilter' => new \App\Filters\CategoryFilter('sub_category', 'Категория'),
-            'RatingFilter' => new \App\Filters\RatingFilter('rating', 'Рейтинг'),
-            'LocationFilter' => new \App\Filters\LocationFilter('location', 'Район', ['area', 'subway']),
+            'CityFilter' => new \App\Filters\CityFilter('city', 'Город', 'city_id', ['id'=>'aside_city', 'input_id' => 'filter_city']),
+            'CategoryFilter' => new \App\Filters\CategoryFilter('sub_category', 'Категория', 'id', [], 'subcategories'),
+            'RatingFilter' => new \App\Filters\RatingFilter('rating', 'Рейтинг', 'average_rating'),
+            'LocationFilter' => new \App\Filters\LocationFilter('location', 'Район', ''),
             'OptionsFilter' => new \App\Filters\OptionsFilter([
                 [
                     'name' => 'work_now',
-                    'label' => ' Работает сейчас',
+                    'label' => 'Работает сейчас',
                 ],
                 [
                     'name' => 'convenience_shop',
-                    'label' => ' Круглосуточно',
+                    'label' => 'Круглосуточно',
                 ],
                 [
-                    'name' => 'is_pawnshop',
-                    'label' => ' Ломбард',
+                    'name' => 'pawnshop',
+                    'label' => 'Ломбард',
                 ],
                 [
                     'name' => 'appraisal_online',
-                    'label' => ' Онлайн оценка',
+                    'label' => 'Онлайн оценка',
                 ],
             ]),
         ]);

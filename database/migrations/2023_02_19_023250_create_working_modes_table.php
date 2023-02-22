@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('working_modes', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('shop_id');
             $table->integer('monday_open')->nullable();
             $table->integer('monday_close')->nullable();

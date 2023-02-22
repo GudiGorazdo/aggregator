@@ -9,27 +9,31 @@ $this->request = app(Request::class)->get($name); -- Данные из запр�
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Stringable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 abstract class BaseFilter
 {
-    private string $label;
-    private string $name;
-    private array $attributes;
-    private array $request;
+    protected string $label;
+    protected string $name;
+    protected string $field;
+    protected array $attributes;
+    protected string|null $related;
+    protected array $request;
 
     public function __construct(
         string $name,
         string $label,
-        array $attributes = []
+        string $field,
+        array $attributes = [],
+        string $related = null
     ) {
         $this->name = $name;
         $this->label = $label;
+        $this->field = $field;
         $this->attributes = $attributes;
+        $this->related = $related;
         $this->request = app(Request::class)->all();
     }
 
@@ -65,8 +69,9 @@ abstract class BaseFilter
 
     public function apply(Builder $query): Builder
     {
-        // $value = $this->request[$this->name];
-        // dd();
+        $value = $this->request[$this->name] ?? false;
+        if (is_string($value)) $query = $query->where($this->field, $value);
+        if (is_array($value)) $query = $query->whereIn($this->field, $value);
         return $query;
     }
 }

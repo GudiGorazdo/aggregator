@@ -224,17 +224,17 @@ class GenerateRandomData
     }
 
 
-    private static function generateShopCategory($category_id, $shop_id)
-    {
-        try {
-            \Illuminate\Support\Facades\DB::table('category_shop')->insert([
-                'category_id' => $category_id,
-                'shop_id' => $shop_id
-            ]);
-        } catch (Exception $error) {
+    // private static function generateShopCategory($category_id, $shop_id)
+    // {
+    //     try {
+    //         \Illuminate\Support\Facades\DB::table('category_shop')->insert([
+    //             'category_id' => $category_id,
+    //             'shop_id' => $shop_id
+    //         ]);
+    //     } catch (Exception $error) {
 
-        }
-    }
+    //     }
+    // }
 
     private static function generateSubCategories($category_id)
     {
@@ -280,9 +280,9 @@ class GenerateRandomData
 
     private static function generateShopCategoriesAndSubCategories($category_id, $shop_id)
     {
-        for ($i = 0; $i<4;$i++) {
-            self::generateShopCategory($category_id, $shop_id);
-        }
+        // for ($i = 0; $i<4;$i++) {
+        //     self::generateShopCategory($category_id, $shop_id);
+        // }
         $sub_arr = self::generateSubCategories($category_id);
         foreach($sub_arr as $sub) {
             for ($i = 0; $i<7;$i++) {

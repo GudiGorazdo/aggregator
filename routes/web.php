@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 // dd(str('filters')->append('what??')->append('second')->append(['asdf', 'asdfas']));
 // \App\Filters\LocationFilter::apply();
 
+// dd(strtolower(Carbon::now()->isoFormat('dddd')));
+
 Route::get('/', 'App\Http\Controllers\ShopController@index');
 
 Route::get('/test', function () {

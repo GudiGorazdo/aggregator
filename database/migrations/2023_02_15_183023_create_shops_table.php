@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('area_id')->nullable();
+            $table->unsignedBigInteger('working_mode_id')->nullable();
             $table->text('logo')->nullable();
             $table->text('photo')->nullable();
             $table->text('title')->nullable();
@@ -49,6 +50,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('area_id')->references('id')->on('areas');
+            $table->foreign('working_mode_id')->references('id')->on('working_mode');
         });
     }
 
