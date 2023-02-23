@@ -1,0 +1,15 @@
+@import "./variables.scss";
+
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "~bootstrap/scss/bootstrap";
+
+@import "./styles.scss";
+
+
+.login-form {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
