@@ -1,6 +1,5 @@
 <div class="{{ $classNameWrapper }}">
     <input
-        id="{{ $id }}"
         class="{{ $classNameInput }}"
         {{ $attributes }}
         type="checkbox"

@@ -23,7 +23,7 @@ use Illuminate\Support\Carbon;
 // dd(Carbon::now()->hour);
 
 Route::get('/', 'App\Http\Controllers\ShopController@index');
-
+Route::get('/admin', 'App\Http\Controllers\AuthController@showLoginForm');
 Route::get('/test', function () {
     return \App\Models\City::with('areas')->with('subways')->get();
 });
