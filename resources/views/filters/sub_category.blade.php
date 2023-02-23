@@ -23,7 +23,11 @@
                     <div class="collapse multi-collapse" id="{{ $filter->getName() }}_{{ $category->id }}_collapse">
                         <div class="card card-body">
                             @foreach ($category->subCategories as $item)
-                                @include('filters.checkbox-item', ['name' => $filter->getName(), 'item' => $item, 'request' => $request])
+                                <x-checkbox-item
+                                    :item="$item"
+                                    :filter="$filter->getName()"
+                                    :request="$request"
+                                />
                             @endforeach
                         </div>
                     </div>

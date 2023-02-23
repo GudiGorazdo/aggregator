@@ -13,7 +13,13 @@
     >
         @if ($city_id)
             @foreach ($items as $item)
-                @include('filters.checkbox-item', ['name' => $name, 'item' => $item, 'request' => $request])
+                <x-checkbox-item
+                    :item="$item"
+                    :filter="$name"
+                    :request="$request"
+                    :groups="$groups ?? []"
+                    :groupfield="$groupField ?? ''"
+                />
             @endforeach
         @endif
     </x-accordion-item>

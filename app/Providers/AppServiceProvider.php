@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\FilterService;
+use App\View\Components\Checkbox;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(FilterService $filters)
     {
+        // COMPONENTS
+        Blade::component(\App\View\Components\Filters\CheckboxItem::class, 'checkbox-item');
+
         // ADD FILTERS
         $filters->registerFilters([
             'CityFilter' => new \App\Filters\CityFilter('city', 'Город', 'city_id', ['id'=>'aside_city', 'input_id' => 'filter_city']),

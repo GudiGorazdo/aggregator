@@ -9,7 +9,7 @@ class Helper
         file_put_contents($dir . $name, print_r($data, true) . PHP_EOL, FILE_APPEND);
     }
 
-    static function getDataSet(array $arr, $value = null): string
+    static function getDataSetString(array $arr, $value = ''): string
     {
         /*
         @param $arr = [

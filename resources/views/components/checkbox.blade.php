@@ -1,16 +1,14 @@
-<div class="form-check{{ isset($line) & $line ? ' form-check--line' : '' }}">
+<div class="{{ $classNameWrapper }}">
     <input
         id="{{ $id }}"
-        class="form-check-input{{ isset($line) & $line ? ' form-check-input--line' : '' }}"
+        class="{{ $classNameInput }}"
+        {{ $attributes }}
         type="checkbox"
         autocomplete="off"
-        value="{{ $value ?? '' }}"
-        {{ $fullName ?? '' }}
-        {{ isset($name) && !isset($fullName) ? 'name='.$name : '' }}
-        {{ isset($active) && $active ? 'checked' : '' }}
-        {{ $dataSet ?? '' }}
+        {{ $active }}
+        {{ $dataset }}
     >
-    <label class="form-check-label{{ isset($line) & $line ? ' form-check-label--line' : '' }}" for="{{ $id }}">
+    <label class="{{ $classNameLabel }}" for="{{ $id }}">
         {{ $slot }}
     </label>
 </div>
