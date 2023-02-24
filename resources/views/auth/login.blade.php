@@ -10,25 +10,21 @@
 
 @section('content')
     <section class="container login-form">
-        <form>
+        <form action="{{ $route }}" method="POST">
             @csrf
             <x-input
                 classNamesWrapper="mb-3"
                 inputId="login"
-                classNamesLabel=""
+                name="login"
                 label="Логин"
-                classNamesInput=""
                 type="text"
-                classNamesDescription=""
             />
-            <x-input
+                <x-input
                 classNamesWrapper="mb-3"
                 inputId="password"
-                classNamesLabel=""
+                name="password"
                 label="Пароль"
-                classNamesInput=""
                 type="password"
-                classNamesDescription=""
             />
             <button type="submit" class="btn btn-primary">Войти</button>
         </form>

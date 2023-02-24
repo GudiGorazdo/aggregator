@@ -54,22 +54,29 @@ class GenerateRandomData
 
     public static function generateWorkingMode($shop_id)
     {
+        $days = [ 'monday', 'tuesday', 'monday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', ];
         $mode = new \App\Models\WorkingMode();
         $mode->shop_id = $shop_id;
-        $mode->monday_open = (string) rand(8, 12);
-        $mode->monday_close = (string) rand(18, 22);
-        $mode->tuesday_open = (string) rand(8, 12);
-        $mode->tuesday_close = (string) rand(18, 22);
-        $mode->wednesday_open = (string) rand(8, 12);
-        $mode->wednesday_close = (string) rand(18, 22);
-        $mode->thursday_open = (string) rand(8, 12);
-        $mode->thursday_close = (string) rand(18, 22);
-        $mode->friday_open = (string) rand(8, 12);
-        $mode->friday_close = (string) rand(18, 22);
-        $mode->saturday_open = (string) rand(8, 12);
-        $mode->saturday_close = (string) rand(18, 22);
-        $mode->sunday_open = (string) rand(8, 12);
-        $mode->sunday_close = (string) rand(18, 22);
+        // $mode->monday_open = (string) rand(8, 12);
+        // $mode->monday_close = (string) rand(18, 22);
+        // $mode->tuesday_open = (string) rand(8, 12);
+        // $mode->tuesday_close = (string) rand(18, 22);
+        // $mode->wednesday_open = (string) rand(8, 12);
+        // $mode->wednesday_close = (string) rand(18, 22);
+        // $mode->thursday_open = (string) rand(8, 12);
+        // $mode->thursday_close = (string) rand(18, 22);
+        // $mode->friday_open = (string) rand(8, 12);
+        // $mode->friday_close = (string) rand(18, 22);
+        // $mode->saturday_open = (string) rand(8, 12);
+        // $mode->saturday_close = (string) rand(18, 22);
+        // $mode->sunday_open = (string) rand(8, 12);
+        // $mode->sunday_close = (string) rand(18, 22);
+        foreach ($days as $day) {
+            if (rand(0, 3)) {
+                $mode[$day . '_open'] = (string) rand(8, 12);
+                $mode[$day . '_close'] = (string) rand(18, 22);
+            }
+        }
         try {
             $mode->save();
         } catch (Exception $error) {
@@ -287,6 +294,14 @@ class GenerateRandomData
         }
     }
 
+    public static function generateRandomAdminUser()
+    {
+        $user = new \App\Models\AdminUser();
+        $user->login = 'admin';
+        $user->password = bcrypt('admin666');
+        $user->save();
+    }
+
     public static function generateRandomData()
     {
         self::generate(25, \App\Models\City::class, 'Город');
@@ -306,5 +321,7 @@ class GenerateRandomData
         foreach($categories as $category) {
             self::generateShopCategoriesAndSubCategories($category->id, $shops[rand(0, count($shops) - 1)]->id);
         }
+
+        self::generateRandomAdminUser();
     }
 }

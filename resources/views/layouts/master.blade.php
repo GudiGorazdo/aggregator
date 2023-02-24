@@ -13,10 +13,7 @@
 
     @yield('title')
 
-    @vite([
-        'resources/scss/app.scss',
-        'resources/js/app.js'
-        ])
+    @vite([ 'resources/scss/app.scss' ])
     {{-- @vite(['resources/css/app.css']) --}}
     @yield('styles')
 </head>
@@ -25,10 +22,9 @@
     <button id="burger" class="js-colorlib-nav-toggle colorlib-nav-toggle open" data-modal-path="aside_menu" data-modal-animation="fadeInLeft" data-modal-one-button="true"><i></i></button>
     <main id="main-content" class="main-content">@yield('content')</main>
     {{-- @include('layouts.footer') --}}
-    <div class="modal-window">
-        @include('layouts.aside')
-    </div>
+    <div class="modal-window">@include('layouts.aside')</div>
     @yield('afterFooter')
+    @vite([ 'resources/js/app.js' ])
 </body>
 
 </html>

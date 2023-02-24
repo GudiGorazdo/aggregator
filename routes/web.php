@@ -16,14 +16,27 @@ use Illuminate\Support\Carbon;
 */
 
 // \App\Services\GenerateRandomData::generateRandomData();
+// \App\Services\GenerateRandomData::generateRandomAdminUser();
 
 // dd(str('filters')->append('what??')->append('second')->append(['asdf', 'asdfas']));
 // \App\Filters\LocationFilter::apply();
 
 // dd(Carbon::now()->hour);
 
-Route::get('/', 'App\Http\Controllers\ShopController@index');
-Route::get('/admin', 'App\Http\Controllers\AuthController@showLoginForm');
+
+// HOME PAGE
+Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
+
+Route::middleware("guest")->group(function () {
+    Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+});
+
+
+Route::middleware("auth")->group(function () {
+    Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+    Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login_process');
+});
+
 Route::get('/test', function () {
     return \App\Models\City::with('areas')->with('subways')->get();
 });

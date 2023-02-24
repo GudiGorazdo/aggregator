@@ -1,14 +1,14 @@
-<div class="{{ $classNameWrapper }}">
+<div class="{{ $classNamesWrapper }}">
     <input
         id="{{ $id }}"
-        class="{{ $classNameInput }}"
+        class="{{ $classNamesInput }}"
         {{ $attributes }}
         type="checkbox"
         autocomplete="off"
         {{ $active }}
         {{ $dataset }}
     >
-    <label class="{{ $classNameLabel }}" for="{{ $id }}">
+    <label class="{{ $classNamesLabel }}" for="{{ $id }}">
         {{ $slot }}
     </label>
 </div>
