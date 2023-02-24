@@ -54,13 +54,16 @@ export default class LocationFilter {
     this.buttons.subway = subwayButtonId;
     this.city.input = document.getElementById(cityInputId);
 
+    console.log(this.city.input.value)
+    if (this.city.input.value > '') this.city.saved = +this.city.input.value;
+
     this.collapse.area = collapse.area;
     this.collapse.subway = collapse.subway;
 
     this.city.options = cityOptions;
     this.city.storageMark = cityStorageMark;
     this.city.start = startCity;
-    this.city.saved = +localStorage.getItem(this.city.storageMark);
+    // this.city.saved = +localStorage.getItem(this.city.storageMark);
 
     this.initialize();
   }

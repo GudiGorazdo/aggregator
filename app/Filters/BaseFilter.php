@@ -13,11 +13,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cookie;
 
 abstract class BaseFilter
 {
     public bool $groupRender;
 
+    public null|string $cookie;
     protected string $label;
     protected string $name;
     protected string $field;
@@ -32,6 +34,7 @@ abstract class BaseFilter
         array $attributes = [],
         string $related = null,
         bool $groupRender = true,
+        null|string $cookie = null,
     ) {
         $this->name = $name;
         $this->label = $label;
@@ -39,6 +42,7 @@ abstract class BaseFilter
         $this->attributes = $attributes;
         $this->related = $related;
         $this->groupRender = $groupRender;
+        $this->cookie = $cookie;
         $this->request = app(Request::class)->all();
     }
 
@@ -60,6 +64,13 @@ abstract class BaseFilter
 
     public function render(int|null $city_id = null): View|Factory|Application
     {
+        // // dd(Cookie::get(CookieConstants::CITY));
+        // \App\Services\Helper::log($city_id, __DIR__);
+        if ($city_id && $this->cookie ) {
+            Cookie::queue($this->cookie, $city_id);
+        } else if ($this->cookie && Cookie::get($this->cookie)) {
+            $city_id = Cookie::get($this->cookie);
+        }
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
     }
 
@@ -77,10 +88,21 @@ abstract class BaseFilter
         return response()->view($view, compact('filter', 'params', 'request'));
     }
 
+    private function setCoockie($value)
+    {
+        if ($this->cookie) {
+            Cookie::queue($this->cookie, Cookie::raw($value), 3000, null, false);
+        }
+    }
+
     public function apply(Builder $query): Builder
     {
         $value = $this->request[$this->name] ?? false;
-        if (is_string($value)) $query = $query->where($this->field, $value);
+        if (is_string($value)) {
+            $query = $query->where($this->field, $value);
+            $this->setCoockie($value);
+            dd($value, Cookie::get($this->cookie));
+        }
         if (is_array($value)) $query = $query->whereIn($this->field, $value);
         return $query;
     }
