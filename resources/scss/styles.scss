@@ -25,7 +25,12 @@
 
 .btn.btn-info:active,
 .btn.btn-warning:active,
-.btn.btn-primary:active {
+.btn.btn-primary:active,
+.btn-outline-primary:active {
+  color: $light;
+}
+
+.btn-outline-primary:hover {
   color: $light;
 }
 

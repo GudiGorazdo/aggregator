@@ -95,7 +95,7 @@ export default class LocationFilter {
   }
 
   addLocationFilters = async (city) => {
-    const areas = await this.addFilter(`/api/location/${city}?${document.location.search}`);
+    const areas = await this.addFilter(`/api/location/${city}`);
     if (areas) {
       if (this.start) this.start = false;
       else this.resetAreasAndSubways();
@@ -137,6 +137,8 @@ export default class LocationFilter {
     this.city.input.value = id;
     this.addLocationFilters(id);
     this.activeAreas = [];
+    if (!this.start) window.location.href = `/?city=${id}`;
+    if (this.start) this.start = false;
   }
 
   setCityOptions = (cities) => {
@@ -152,6 +154,10 @@ export default class LocationFilter {
     this.city.options.onSelect = (item) => {
       this.onSelectCity(item.index);
     }
+  }
+
+  getCityLink = (value) => {
+    return `<a href="/?city=${value}">`;
   }
 
   hideSubways = (e) => {

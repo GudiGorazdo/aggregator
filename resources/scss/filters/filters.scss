@@ -11,7 +11,7 @@
     text-orientation: upright;
     transform: translateY(-50%);
     background-color: $light;
-    border: 1px solid $primary;
+    border: 1px solid $secondary;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     z-index: 999;
@@ -25,8 +25,8 @@
 
     &:hover {
       background-color: $light;
-      border-color: $secondary;
-      box-shadow: 0 5px 5px rgba(0,0,0,.11);
+      border-color: $primary;
+      box-shadow: 0 0px 5px $primary;
 
       &::before {
         animation: arrow-animation 0.5s linear infinite;
@@ -121,7 +121,6 @@
 
 
   $mb: 25px;
-  &-city,
   &-categories,
   .star-rating,
   #filter_location,

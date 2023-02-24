@@ -13,13 +13,11 @@
             {{ Auth::guard('admin')->check() }}
             <h1>sdkjf;alksdf;aklsjdf;klasjdf;aklj</h1>
         @endauth
-        <h2 class="display-3">Скупки ноутбуков в Московском районе</h2>
-        <div class="more-link"><a href="#">Подробнее</a></div>
-        <button class="change-display btn btn-primary d-block">Карта </button>
+        <h2 class="display-3 text-center mb-3">Скупки ноутбуков в Московском районе</h2>
+        <div class="more-link text-center mb-3"><a href="#">Подробнее</a></div>
+        <button class="change-display btn btn-primary d-block mb-5">Карта</button>
 
-        <ul id="shop_list">
-            @include('layouts.shop-list')
-        </ul>
+        @include('layouts.shop.shop-list', ['shops' => $shops])
 
         <h3 class="display-4">Похожие категории</h3>
         <h4 class="">скупка категорий техники:</h4>

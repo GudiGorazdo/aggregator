@@ -1,15 +1,16 @@
-.aside-city {
+.filters-city {
+  width: max-content;
   padding-right: 30px;
   text-align: right;
 
-  &__label {
+  &_label {
     position: absolute;
     opacity: 0;
     height: 0;
     width: 0;
   }
 
-  &__button {
+  &_button {
     position: relative;
     margin: 0;
     padding: 0;
@@ -22,16 +23,16 @@
     color:  $secondary;
 
     span {
-      border-bottom: 2px solid $secondary;
+      border-bottom: 1px solid $secondary;
     }
 
     .chooser__icon {
       position: absolute;
-      right: 0;
-      width: 15px;
-      border-top: 10px solid $secondary;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
+      right: 5px;
+      width: 10px;
+      border-top: 7px solid $secondary;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
       border-bottom: none;
       transition: transform 0.1s linear;
     }
@@ -41,7 +42,7 @@
     }
   }
 
-  &__list {
+  &_list {
     top: 30px;
     left: 50%;
     min-width: 100%;
@@ -54,11 +55,11 @@
     transform: translateX(-50%);
 
     &.chooser__list.open {
-      z-index: 8888;
+      z-index: 1000;
     }
   }
 
-  &__item {
+  &_item {
     padding: 5px 20px;
 
     &.focused,

@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         // ADD FILTERS
         $filters->registerFilters([
-            // 'CityFilter' => new \App\Filters\CityFilter('city', 'Город', 'city_id', ['id'=>'aside_city', 'input_id' => 'filter_city']),
+            'CityFilter' => new \App\Filters\CityFilter('city', 'Город', 'city_id', ['id'=>'aside_city'], null, false),
             'CategoryFilter' => new \App\Filters\CategoryFilter('sub_category', 'Категория', 'id', [], 'subcategories'),
             'RatingFilter' => new \App\Filters\RatingFilter('rating', 'Рейтинг', 'average_rating'),
             'LocationFilter' => new \App\Filters\LocationFilter('location', 'Район', ''),

@@ -9,7 +9,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
-    <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 
     @yield('title')
 
@@ -27,6 +26,7 @@
     @yield('afterFooter')
 
     @vite([ 'resources/js/app.js' ])
+    <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 </body>
 
 </html>

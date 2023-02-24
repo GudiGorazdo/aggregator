@@ -1,15 +1,20 @@
 <?php
 namespace App\Services;
 
+use Faker\Factory;
+
 use Exception;
 
 class GenerateRandomData
 {
-    private static function generate($n, $model, $name)
+    private static function generate($n, $model, $name, $name_for_title = false)
     {
         for ($i = 0; $i < $n; $i++) {
             $m = new $model();
             $m->name = $name . '_' . ($i + 1);
+            if ($name_for_title) {
+                $m->name_for_title = $name_for_title . '_' . ($i + 1);
+            }
             $m->save();
         }
     }
@@ -17,9 +22,10 @@ class GenerateRandomData
     private static function generateArea($city_id)
     {
         $arr = [];
-        for ($i = 0; $i < rand(3, 10); $i++) {
+        for ($i = 0; $i < rand(5, 15); $i++) {
             $area = new \App\Models\Area();
-            $area->name = ($i + 1) . '_Район_город_' . $city_id;
+            $area->name = ($i + 1) . '_Район';
+            $area->name_for_title = 'района' . '_' . ($i + 1);
             $area->city_id = $city_id;
             try {
                 $area->save();
@@ -33,12 +39,13 @@ class GenerateRandomData
 
     private static function generateSubway($city_id, $area_id)
     {
-        $r = rand(0, 3);
+        $r = rand(0, 7);
 
         $arr = [];
         for ($i = 0; $i < $r; $i++) {
             $subway = new \App\Models\Subway();
-            $subway->name = 'Метро_' . ($i + 1) . 'район_' . $area_id . 'город_' . $city_id;
+            $area = \App\Models\Area::where('id', $area_id)->first();
+            $subway->name = ($i + 1) . '_Метро__' . $area->name;
             $subway->city_id = $city_id;
             $subway->area_id = $area_id;
             try {
@@ -83,7 +90,7 @@ class GenerateRandomData
          }
     }
 
-    private static function generateShop($n, $city_id, $area_id)
+    private static function generateShop($n, $city_id, $area_id, $faker)
     {
         $desc = self::generateDesc();
 
@@ -101,8 +108,8 @@ class GenerateRandomData
             $shop->description = $desc;
             $shop->zip = rand(100000, 999999);
             $shop->coord = json_encode(array(
-                'lat' => 0,
-                'long' => 0
+                'lat' => $faker->latitude(),
+                'long' => $faker->longitude()
             ));
 
             $additionalPhones = NULL;
@@ -268,10 +275,10 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShopsWithSubways($city_id, $areas_arr, $b)
+    private static function generateShopsWithSubways($city_id, $areas_arr, $b, $faker)
     {
         foreach($areas_arr as $area) {
-            $shop_ids = self::generateShop(rand(0, 2), $city_id, $area);
+            $shop_ids = self::generateShop(rand(0, 7), $city_id, $area, $faker);
             if ($b < 5) {
                 $subway_ids = self::generateSubway($city_id, $area);
                 foreach($shop_ids as $shop) {
@@ -304,14 +311,16 @@ class GenerateRandomData
 
     public static function generateRandomData()
     {
-        self::generate(25, \App\Models\City::class, 'Город');
-        self::generate(5, \App\Models\Category::class, 'Категория');
+        $faker = Factory::create();
+
+        self::generate(10, \App\Models\City::class, 'Город');
+        self::generate(5, \App\Models\Category::class, 'Категория', 'категории');
         $cities = \App\Models\City::all();
 
         $b = 0;
         foreach($cities as $city) {
             $areas_arr = self::generateArea($city->id);
-            self::generateShopsWithSubways($city->id, $areas_arr, $b);
+            self::generateShopsWithSubways($city->id, $areas_arr, $b, $faker);
             $b++;
         }
 

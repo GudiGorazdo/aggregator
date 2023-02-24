@@ -23,7 +23,6 @@ use Illuminate\Support\Carbon;
 
 // dd(Carbon::now()->hour);
 
-
 // HOME PAGE
 Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
 

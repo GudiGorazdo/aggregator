@@ -5,6 +5,7 @@ $this->name = $name;                              -- Имя фильтра со�
 $this->label = $label;                            -- Лэйбл используется для заголовка фильтра
 $this->attributes = $attributes;                  -- HTML атрибуты, которые будут использованы в view шаблоне
 $this->request = app(Request::class)->get($name); -- Данные из запроса
+$generalRender = false;                           -- Для провверки рендерить в общем цикле или нет
 */
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -15,6 +16,8 @@ use Illuminate\Http\Response;
 
 abstract class BaseFilter
 {
+    public bool $groupRender;
+
     protected string $label;
     protected string $name;
     protected string $field;
@@ -27,13 +30,15 @@ abstract class BaseFilter
         string $label,
         string $field,
         array $attributes = [],
-        string $related = null
+        string $related = null,
+        bool $groupRender = true,
     ) {
         $this->name = $name;
         $this->label = $label;
         $this->field = $field;
         $this->attributes = $attributes;
         $this->related = $related;
+        $this->groupRender = $groupRender;
         $this->request = app(Request::class)->all();
     }
 
@@ -58,12 +63,17 @@ abstract class BaseFilter
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
     }
 
+    public function generalRender(int|null $city_id = null): null|View|Factory|Application
+    {
+        if ($this->groupRender) return $this->render($city_id);
+        return null;
+    }
+
     public function responseRender(array|int|null $params = null): Response
     {
         $request = $this->request;
         $filter = $this;
         $view = 'filters.response.' . $this->getName();
-        // \App\Services\Helper::log($params, __DIR__);
         return response()->view($view, compact('filter', 'params', 'request'));
     }
 

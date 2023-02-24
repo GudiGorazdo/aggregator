@@ -3,14 +3,14 @@
     else if (isset($request['city'])) $city_id = $request['city'] ?? null;
     $items = $filter->getItems(+$city_id);
 @endphp
-@include('filters.location-parent', [
+@include('filters.location-filter', [
     'items' => $items,
     'name' => 'area',
     'label' => 'Район',
     'city_id' => $city_id,
     'request' => $request,
     ])
-@include('filters.location-parent', [
+@include('filters.location-filter', [
     'items' => $items->pluck('subways')->flatten()->all(),
     'name' => 'subway',
     'label' => 'Метро',

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('city_id');
             $table->text('name');
+            $table->text('name_for_title');
             $table->foreign('city_id')->references('id')->on('cities');
         });
     }
