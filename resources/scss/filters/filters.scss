@@ -1,7 +1,59 @@
 @import "./city.scss";
 
-.aside {
-  &-filters-subcategories {
+.filters {
+
+  &_show {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    padding: 15px 5px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    transform: translateY(-50%);
+    background-color: $light;
+    border: 1px solid $primary;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    z-index: 999;
+
+    &::before {
+      content: '→';
+      position: relative;
+
+      margin-bottom: 10px;
+    }
+
+    &:hover {
+      background-color: $light;
+      border-color: $secondary;
+      box-shadow: 0 5px 5px rgba(0,0,0,.11);
+
+      &::before {
+        animation: arrow-animation 0.5s linear infinite;
+      }
+    }
+
+    &:active,
+    &:focus-within,
+    &:focus-visible,
+    &:focus {
+      background-color: $light !important;
+    }
+
+    @keyframes arrow-animation {
+      0% {
+        left: 0px;
+      }
+      70% {
+        left: 5px;
+      }
+      100% {
+        left: 0px;
+      }
+    }
+  }
+
+  &-subcategories {
     &_button {
       width: 100%;
       margin: 0;
@@ -50,7 +102,7 @@
     border-bottom: 1px solid $secondary;
   }
 
-  &-filters-options .form-check:first-of-type {
+  &-options .form-check:first-of-type {
     border-top: 1px solid $secondary;
   }
 
@@ -61,9 +113,22 @@
     font-size: 0.9em;
   }
 
-  &-filters_apply,
-  &-filters_cancel,
+  &_apply,
+  &_cancel,
   &_add-shop {
     width: 100%;
+  }
+
+
+  $mb: 25px;
+  &-city,
+  &-categories,
+  .star-rating,
+  #filter_location,
+  &-area,
+  &_cancel,
+  &-options,
+  &_apply {
+    margin-bottom: $mb;
   }
 }

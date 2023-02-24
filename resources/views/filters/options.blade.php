@@ -1,4 +1,4 @@
-<fieldset class="aside-filters-options">
+<fieldset class="filters-options">
     @foreach ($filter->getItems() as $f)
         <x-check-box
             id="{{ $f['name'] }}"

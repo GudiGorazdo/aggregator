@@ -9,6 +9,10 @@
 
 @section('content')
     <section class="container">
+        @auth("admin")
+            {{ Auth::guard('admin')->check() }}
+            <h1>sdkjf;alksdf;aklsjdf;klasjdf;aklj</h1>
+        @endauth
         <h2 class="display-3">Скупки ноутбуков в Московском районе</h2>
         <div class="more-link"><a href="#">Подробнее</a></div>
         <button class="change-display btn btn-primary d-block">Карта </button>
@@ -39,6 +43,13 @@
         <div class="send-everyone">
             <a class="send-everyone_link" href="#">Подробнее</a>
         </div>
+         <button
+            id="show_filters"
+            class="filters_show btn"
+            data-modal-path="aside_menu"
+            data-modal-animation="fadeInLeft"
+            data-modal-one-button="true"
+        >Фильтры</button>
     </section>
 @endsection
 

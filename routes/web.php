@@ -27,15 +27,15 @@ use Illuminate\Support\Carbon;
 // HOME PAGE
 Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
 
-Route::middleware("guest")->group(function () {
-    Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
-});
 
 
-Route::middleware("auth")->group(function () {
-    Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
-    Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login_process');
-});
+// Route::middleware("guest")->group(function () {
+//     Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+// });
+// Route::middleware("auth")->group(function () {
+//     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+//     Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login_process');
+// });
 
 Route::get('/test', function () {
     return \App\Models\City::with('areas')->with('subways')->get();

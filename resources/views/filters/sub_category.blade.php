@@ -1,15 +1,15 @@
-<x-accordion className="aside-filters-categories" id="filter_categories">
+<x-accordion className="filters-categories" id="filter_categories">
     <x-accordion-item
         id="filter_categories_inner"
-        className="aside-filters-categories_item"
-        bodyClassName="aside-filters-categories_body"
+        className="filters-categories_item"
+        bodyClassName="filters-categories_body"
         collapse="collapse_filter_categories_inner"
         title="Категории"
         show="true"
 
     >
         @foreach (\App\Models\Category::with('subCategories')->get() as $category)
-            <button class="aside-filters-subcategories_button"
+            <button class="filters-subcategories_button"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#{{ $filter->getName() }}_{{ $category->id }}_collapse"

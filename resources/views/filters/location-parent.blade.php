@@ -1,10 +1,10 @@
 <x-accordion
-  className="aside-filters-{{ $name }}"
+  className="filters-{{ $name }}"
   id="filter_{{ $name }}"
   >
     <x-accordion-item
         id="filter_{{ $name }}_inner"
-        className="aside-filters-{{ $name }}_item"
+        className="filters-{{ $name }}_item"
         buttonId="filter_{{ $name }}_button"
         collapse="collapse_filter_{{ $name }}_inner"
         title="{{ $label }}"
