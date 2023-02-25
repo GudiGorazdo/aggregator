@@ -6,7 +6,7 @@
             @foreach(app(\App\Services\FilterService::class)->getFilters() as $filter)
                 {{ $filter->generalRender() }}
             @endforeach
-            <input id="filter_city" type="text" value="{{ Cookie::get(\App\Constants\CookieConstants::CITY) ?? '' }}" name=city hidden>
+            <input id="filter_city" type="text" value="" name=city hidden>
             <button id="filters_apply" class="btn btn-success filters_apply" type="submit">Применить</button>
         </form>
         <a href="/" class="btn btn-warning filters_cancel" type="submit">Сбросить все фильтры</a>

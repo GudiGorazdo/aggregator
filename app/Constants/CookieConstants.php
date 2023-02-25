@@ -4,5 +4,5 @@ namespace App\Constants;
 
 class CookieConstants
 {
-    const CITY = 'CITY';
+    const LOCATION = 'LOCATION';
 }

@@ -91,7 +91,7 @@ abstract class BaseFilter
     private function setCoockie($value)
     {
         if ($this->cookie) {
-            Cookie::queue($this->cookie, Cookie::raw($value), 3000, null, false);
+            Cookie::queue($this->cookie, $value, 3000, null, false);
         }
     }
 
@@ -101,7 +101,7 @@ abstract class BaseFilter
         if (is_string($value)) {
             $query = $query->where($this->field, $value);
             $this->setCoockie($value);
-            dd($value, Cookie::get($this->cookie));
+            // dd($value, Cookie::get($this->cookie));
         }
         if (is_array($value)) $query = $query->whereIn($this->field, $value);
         return $query;

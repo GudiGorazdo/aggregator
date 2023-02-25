@@ -27,7 +27,6 @@ use Illuminate\Support\Carbon;
 Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
 
 
-
 // Route::middleware("guest")->group(function () {
 //     Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
 // });
