@@ -63,23 +63,20 @@ abstract class BaseFilter
         else return '';
     }
 
-    // private function checkDataAndSetCookie(int|null $data = null)
-    // {
-    //     if ($data) {
-    //         CookieController::setCookie($this->cookie, $data, Carbon::now()->addYears(10)->timestamp);
-    //     }
-    //     if ($cookie = CookieController::getCookie($this->cookie) && ! $data) {
-    //         $data = $cookie;
-    //     }
-    //     return $data;
-    // }
+    private function checkDataAndSetCookie(int|null $data = null)
+    {
+        if ($data) {
+            CookieController::setCookie($this->cookie, $data, Carbon::now()->addYears(10)->timestamp);
+        }
+        if (($cookie = CookieController::getCookie($this->cookie)) && ! $data) {
+            $data = $cookie;
+        }
+
+        return $data;
+    }
 
     public function render(int|null $city_id = null): View|Factory|Application
     {
-        // if ($this->cookie ) {
-        //     $this->checkDataAndSetCookie($city_id);
-        // }
-
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
     }
 
@@ -100,11 +97,18 @@ abstract class BaseFilter
     public function apply(Builder $query): Builder
     {
         $value = $this->request[$this->name] ?? false;
+
+        if (!$value && $this->cookie) {
+            $value = CookieController::getCookie($this->cookie) ?? false;
+        }
+
         if (is_string($value)) {
             $query = $query->where($this->field, $value);
             CookieController::setCookie($this->cookie, $value, (Carbon::now()->addYears(10)->timestamp  / 100));
         }
+
         if (is_array($value)) $query = $query->whereIn($this->field, $value);
+
         return $query;
     }
 }

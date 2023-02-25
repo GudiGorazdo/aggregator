@@ -62,9 +62,6 @@ export default class LocationFilter {
     this.city.start = startCity;
 
     this.initialize();
-
-    // document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
-    console.log(document.cookie)
   }
 
   initialize = async () => {
