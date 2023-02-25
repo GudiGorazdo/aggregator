@@ -62,12 +62,15 @@ export default class LocationFilter {
     this.city.start = startCity;
 
     this.initialize();
+
+    // document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
+    console.log(document.cookie)
   }
 
   initialize = async () => {
     this.city.saved = await this.getCookie();
-
     this.city.all = await this.getAllCities();
+
     this.setCityOptions(this.city.all);
     this.city.select = new Chooser(this.city.options);
 

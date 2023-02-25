@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use \App\Http\Controllers\CookieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ use Illuminate\Support\Carbon;
 // \App\Filters\LocationFilter::apply();
 
 // dd(Carbon::now()->hour);
+
+// dd(CookieController::setCookie('user', 'asjkdfkjhasdf'));
+// CookieController::setCookie('user', 'asjkdfkjhasdf');
 
 // HOME PAGE
 Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
