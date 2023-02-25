@@ -23,5 +23,7 @@ class CityFilter extends BaseFilter
         if (!isset($this->request[$name])) {
             !$this->request[$name] = CookieController::getCookie($cookie) ?? LocationController::getStartCityId();
         }
+
+        // dd($this->request[$name]);
     }
 }

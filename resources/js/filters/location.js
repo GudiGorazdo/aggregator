@@ -83,6 +83,10 @@ export default class LocationFilter {
     return resp;
   }
 
+  setCookie = (value) => {
+    document.cookie = `LOCATION=${value}`;
+  }
+
   getBody = async (url) => {
     let resp = await fetch(url);
     resp = await resp.text();
@@ -131,7 +135,10 @@ export default class LocationFilter {
 
     const sartId = await this.getStartId();
     const city = all.find(city => city.id == sartId);
-    if (city) return this.setCurrentCity(city.id);
+    if (city) {
+      this.setCookie(city.id);
+      return this.setCurrentCity(city.id);
+    }
 
     // ymaps.ready(async function () {
     //   const city = ymaps.geolocation.city;

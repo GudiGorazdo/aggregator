@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/location/{id}', [App\Http\Controllers\LocationController::class, 'location']);
 Route::get('/cities', [App\Http\Controllers\LocationController::class, 'cities']);
 Route::get('/location_cookie', [App\Http\Controllers\LocationController::class, 'locationCookie']);
+Route::get('/location_cookie_set/{value}', [App\Http\Controllers\LocationController::class, 'locationCookieSet']);
 Route::get('/location_start', [App\Http\Controllers\LocationController::class, 'getStartCityId']);
