@@ -2,9 +2,11 @@
 
 namespace App\Filters;
 
-use App\Filters\BaseFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use App\Filters\BaseFilter;
+use \App\Http\Controllers\CookieController;
+use \App\Constants\CookieConstants;
 
 /**
  * @param $items = [
@@ -21,7 +23,6 @@ class OptionsFilter extends BaseFilter
 
     public function __construct(array $items, string $name = 'options', $label = 'Опции')
     {
-
         parent::__construct($name, $label, '');
         $this->items = $items;
     }
@@ -38,6 +39,8 @@ class OptionsFilter extends BaseFilter
 
     public function getTime(): int
     {
+        $city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
+        if (!$city_id) dd("Потерялся ид города!!!");
         return (int)Carbon::now()->hour;
     }
 

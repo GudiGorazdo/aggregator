@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Constants\CookieConstants;
 use App\Models\City;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cookie;
+use \App\Http\Controllers\CookieController;
 
 class LocationController extends Controller
 {
@@ -27,7 +27,12 @@ class LocationController extends Controller
 
     public function locationCookie(): Response
     {
-        $city = Cookie::get(CookieConstants::LOCATION);
+        $city = CookieController::getCookie(CookieConstants::LOCATION);
         return response($city);
+    }
+
+    public static function getStartCityId()
+    {
+        return 2;
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->string('timezone', 40)->nullable();
         });
     }
 

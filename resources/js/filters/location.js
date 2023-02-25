@@ -10,7 +10,6 @@ export default class LocationFilter {
     current: null,
     select: null,
     saved: null,
-    start: null,
     options: {},
   };
 
@@ -59,7 +58,6 @@ export default class LocationFilter {
 
     this.city.options = cityOptions;
     this.city.storageMark = cityStorageMark;
-    this.city.start = startCity;
 
     this.initialize();
   }
@@ -120,18 +118,26 @@ export default class LocationFilter {
     }
   }
 
+  getStartId = async () => {
+    let resp = await fetch('/api/location_start');
+    resp = await resp.text();
+    return resp;
+  }
+
   getCurrentCity = async (all) => {
-    if (this.city.saved) this.setCurrentCity(this.city.saved);
-    else if (this.city.start) {
-      const city = all.find(city => city.name == this.city.start);
-      if (city) this.setCurrentCity(city.id);
-    } else {
-      ymaps.ready(async function () {
-        const city = ymaps.geolocation.city;
-        const check = all.find(item => item.name == city);
-        if (check) this.setCurrentCity(check.id);
-      });
+    if (this.city.saved) {
+      return this.setCurrentCity(this.city.saved);
     }
+
+    const sartId = await this.getStartId();
+    const city = all.find(city => city.id == sartId);
+    if (city) return this.setCurrentCity(city.id);
+
+    // ymaps.ready(async function () {
+    //   const city = ymaps.geolocation.city;
+    //   const check = all.find(item => item.name == city);
+    //   if (check) this.setCurrentCity(check.id);
+    // });
   }
 
   setCurrentCity(current) {

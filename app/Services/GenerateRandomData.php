@@ -7,7 +7,13 @@ use Exception;
 
 class GenerateRandomData
 {
-    private static function generate($n, $model, $name, $name_for_title = false)
+    private static function getTimeZone()
+    {
+        $arr = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        return $arr[rand(0, count($arr) - 1)];
+    }
+
+    private static function generate($n, $model, $name, $name_for_title = false, $timezone = false)
     {
         for ($i = 0; $i < $n; $i++) {
             $m = new $model();
@@ -15,6 +21,7 @@ class GenerateRandomData
             if ($name_for_title) {
                 $m->name_for_title = $name_for_title . '_' . ($i + 1);
             }
+            if ($timezone) $m->timezone = self::getTimeZone();
             $m->save();
         }
     }
@@ -313,7 +320,7 @@ class GenerateRandomData
     {
         $faker = Factory::create();
 
-        self::generate(10, \App\Models\City::class, 'Город');
+        self::generate(10, \App\Models\City::class, 'Город', false, true);
         self::generate(5, \App\Models\Category::class, 'Категория', 'категории');
         $cities = \App\Models\City::all();
 

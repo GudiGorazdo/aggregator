@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     optionsCity,
     collapse,
     'city',
-    'Город_7',
   );
 
   // const aside = {
