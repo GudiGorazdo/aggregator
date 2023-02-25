@@ -1,3 +1,29 @@
+.footer {
+  position: relative;
+  margin-bottom: 65px;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 70%;
+    left: 50%;
+    display: inline-block;
+    transform: translateX(-50%);
+    background-color: $secondary;
+  }
+
+  &::before {
+    top: 0;
+    height: 2px;
+  }
+
+  &::after {
+    bottom: 0;
+    height: 1px;
+  }
+}
+
 .footer-nav {
   &_list {
     margin: 0;
