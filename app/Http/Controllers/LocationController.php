@@ -31,11 +31,6 @@ class LocationController extends Controller
         return response($city);
     }
 
-    public function locationCookieSet($value): void
-    {
-        CookieController::setCookie(CookieConstants::LOCATION, $value, CookieController::getYears(1));
-    }
-
     public static function getStartCityId(): string
     {
         return '2';

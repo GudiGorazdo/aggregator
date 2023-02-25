@@ -110,4 +110,6 @@ abstract class BaseFilter
 
         return $query;
     }
+
+    // public static function
 }

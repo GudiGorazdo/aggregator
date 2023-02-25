@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class City extends Model
 {
@@ -13,6 +14,11 @@ class City extends Model
     public function scopeGetAll($query, $order = ['by' => 'name', 'sort'=>'desc'])
     {
         return $query->orderBy($order['by'], $order['sort']);
+    }
+
+    public function scopeGetById(Builder $query, int $id): City
+    {
+        return $query->where('id', $id)->first();
     }
 
     public function shops(): HasMany

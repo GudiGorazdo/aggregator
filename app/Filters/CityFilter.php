@@ -18,12 +18,13 @@ class CityFilter extends BaseFilter
         null|string $cookie = null,
     ) {
         parent::__construct( $name, $label, $field, $attributes, $related, $groupRender, $cookie);
-        // $this->request = app(Request::class)->all();
 
         if (!isset($this->request[$name])) {
-            !$this->request[$name] = CookieController::getCookie($cookie) ?? LocationController::getStartCityId();
-        }
+            if (!$this->request[$name] = CookieController::getCookie($cookie)) {
 
-        // dd($this->request[$name]);
+                // РАСКОМЕНТИРОВАТЬ ЧТОБЫ БЫЛ ДЕФОЛТНЫЙ ГОРОД
+                // $this->request[$name] = LocationController::getStartCityId();
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use App\Filters\BaseFilter;
 use \App\Http\Controllers\CookieController;
 use \App\Constants\CookieConstants;
+use App\Models\City;
 
 /**
  * @param $items = [
@@ -37,11 +38,16 @@ class OptionsFilter extends BaseFilter
         return strtolower(Carbon::now()->isoFormat('dddd'));
     }
 
+    private function getCityUTC(int $id): int
+    {
+        return City::getById($id)['timezone'];
+    }
+
     public function getTime(): int
     {
         $city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
         if (!$city_id) dd("Потерялся ид города!!!");
-        return (int)Carbon::now()->hour;
+        return (int)Carbon::now()->hour + 3 + (int)$this->getCityUTC($city_id);
     }
 
     public function workNow(Builder $query): Builder

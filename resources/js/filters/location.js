@@ -75,6 +75,8 @@ export default class LocationFilter {
       if (city) this.setCurrentCity(city.id);
       else await this.getCurrentCity(this.city.all);
     }
+
+    if (this.start) this.start = false;
   }
 
   getCookie = async () => {
@@ -133,12 +135,12 @@ export default class LocationFilter {
       return this.setCurrentCity(this.city.saved);
     }
 
-    const sartId = await this.getStartId();
-    const city = all.find(city => city.id == sartId);
-    if (city) {
-      this.setCookie(city.id);
-      return this.setCurrentCity(city.id);
-    }
+    // const sartId = await this.getStartId();
+    // const city = all.find(city => city.id == sartId);
+    // if (city) {
+    //   this.setCookie(city.id);
+    //   return this.setCurrentCity(city.id);
+    // }
 
     // ymaps.ready(async function () {
     //   const city = ymaps.geolocation.city;
@@ -158,7 +160,6 @@ export default class LocationFilter {
     this.addLocationFilters(id);
     this.activeAreas = [];
     if (!this.start) window.location.href = `/?city=${id}`;
-    if (this.start) this.start = false;
   }
 
   setCityOptions = (cities) => {
