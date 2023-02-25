@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use \App\Http\Controllers\CookieController;
-use Illuminate\Support\Carbon;
 
 abstract class BaseFilter
 {
@@ -66,7 +65,7 @@ abstract class BaseFilter
     private function checkDataAndSetCookie(int|null $data = null)
     {
         if ($data) {
-            CookieController::setCookie($this->cookie, $data, Carbon::now()->addYears(10)->timestamp);
+            CookieController::setCookie($this->cookie, $data, CookieController::getYears(1));
         }
         if (($cookie = CookieController::getCookie($this->cookie)) && ! $data) {
             $data = $cookie;
@@ -104,7 +103,7 @@ abstract class BaseFilter
 
         if (is_string($value)) {
             $query = $query->where($this->field, $value);
-            CookieController::setCookie($this->cookie, $value, (Carbon::now()->addYears(10)->timestamp  / 100));
+            CookieController::setCookie($this->cookie, $value, CookieController::getYears(1));
         }
 
         if (is_array($value)) $query = $query->whereIn($this->field, $value);
