@@ -3,54 +3,41 @@
 .filters {
 
   &_show {
-    position: fixed;
-    top: 50%;
-    left: 0;
+    position: relative;
+    // top: 50%;
+    // left: 0;
     padding: 15px 5px;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    transform: translateY(-50%);
-    background-color: $light;
-    border: 1px solid $secondary;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    z-index: 999;
+    // writing-mode: vertical-rl;
+    // text-orientation: upright;
+    // transform: translateY(-50%);
+    // border-top-left-radius: 0;
+    // border-bottom-left-radius: 0;
+    // z-index: 999;
 
-    &::before {
-      content: '→';
-      position: relative;
+    // &::before {
+    //   content: '→';
+    //   position: relative;
 
-      margin-bottom: 10px;
-    }
+    //   margin-bottom: 10px;
+    // }
 
-    &:hover {
-      background-color: $light;
-      border-color: $primary;
-      box-shadow: 0 0px 5px $primary;
+    // &:hover {
+      // &::before {
+      //   animation: arrow-animation 0.5s linear infinite;
+      // }
+    // }
 
-      &::before {
-        animation: arrow-animation 0.5s linear infinite;
-      }
-    }
-
-    &:active,
-    &:focus-within,
-    &:focus-visible,
-    &:focus {
-      background-color: $light !important;
-    }
-
-    @keyframes arrow-animation {
-      0% {
-        left: 0px;
-      }
-      70% {
-        left: 5px;
-      }
-      100% {
-        left: 0px;
-      }
-    }
+    // @keyframes a rrow-animation {
+    //   0% {
+    //     left: 0px;
+    //   }
+    //   70% {
+    //     left: 5px;
+    //   }
+    //   100% {
+    //     left: 0px;
+    //   }
+    // }
   }
 
   &-subcategories {

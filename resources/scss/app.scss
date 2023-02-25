@@ -2,6 +2,7 @@
 
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/variables';
 
 @import "../js/plugins/chooser/chooser.css";
 @import "../js/plugins/modal/style.css";
@@ -13,7 +14,9 @@
 
 @import "./filters/filters.scss";
 @import "./aside.scss";
+@import "./nav-menu.scss";
 @import "./header.scss";
+@import "./footer.scss";
 @import "./home.scss";
 
 @import "./styles.scss";

@@ -1,7 +1,7 @@
 <x-accordion
   className="filters-{{ $name }}"
   id="filter_{{ $name }}"
-  >
+>
     <x-accordion-item
         id="filter_{{ $name }}_inner"
         className="filters-{{ $name }}_item"

@@ -1,3 +1,59 @@
+.title {
+  font-size: 32px;
+}
+
 .change-display {
   width: 100%;
+}
+
+.shop-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shop-card {
+  &_title  {
+    font-size: 20px;
+  }
+}
+
+.shop-card-socials {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &_item {
+    a {
+      font-size: 38px;
+    }
+  }
+}
+
+.rating {
+  &_star {
+    color: $secondary;
+
+    &--gold {
+      color: $starColor;
+    }
+  }
+
+  &_count {
+  color: $starColor;
+  }
+}
+
+.send-everyone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  &_link {
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 0;
+  }
 }
