@@ -7,17 +7,17 @@ use Illuminate\Support\Carbon;
 
 class CookieController extends Controller
 {
-    static public function setCookie($cookie, $value, $time)
+    static public function setCookie(string $cookie, string $value, int|string $time): void
     {
         Cookie::queue($cookie, $value, $time);
     }
 
-    static public function getCookie($coockie)
+    static public function getCookie(string $coockie): string
     {
         return Cookie::get($coockie);
     }
 
-    static public function getYears($yaers)
+    static public function getYears($yaers): int
     {
         return (Carbon::now()->addYear($yaers)->timestamp - Carbon::now()->timestamp) / 60;
     }

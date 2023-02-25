@@ -11,12 +11,13 @@ class LocationController extends Controller
 {
     public $errors = [];
     public $response;
+
     public function cities(): Response
     {
         return response(City::getAll()->get());
     }
 
-    public function location($id): Response
+    public function location(int $id): Response
     {
         $filter = app(\App\Services\FilterService::class)->getFilterByName('LocationFilter');
         if ($filter) {

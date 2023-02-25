@@ -18,15 +18,6 @@ class Shop extends Model
         return 'id';
     }
 
-    public function getNowRatingAttribute(): string
-    {
-        return number_format(($this->attributes['yandex_rating']
-                + $this->attributes['google_rating']
-                + $this->attributes['gis_rating']
-                + $this->attributes['avito_rating']
-            ) / 4, 1, '.');
-    }
-
     public function scopeFilter(Builder $query): Builder
     {
         foreach (app(FilterService::class)->getFilters() as $filter) {
@@ -35,7 +26,7 @@ class Shop extends Model
         return $query;
     }
 
-    public function working()
+    public function working(): belongsTo
     {
         return $this->belongsTo(\App\Models\City::class);
     }

@@ -1,11 +1,14 @@
 <?php
 namespace App\Filters;
 /*
-$this->name = $name;                              -- Имя фильтра соответствовует имени view шаблона, а также имени переменной в запросе
-$this->label = $label;                            -- Лэйбл используется для заголовка фильтра
-$this->attributes = $attributes;                  -- HTML атрибуты, которые будут использованы в view шаблоне
-$this->request = app(Request::class)->get($name); -- Данные из запроса
-$generalRender = false;                           -- Для провверки рендерить в общем цикле или нет
+bool $groupRender                                 -- Для провверки рендерить в общем цикле или нет;
+null|string $cookie                               -- Имя кук, если есть записываются при фильтрации;
+string $label                                     -- Лэйбл используется для заголовка фильтра;
+string $name                                      -- Имя фильтра соответствовует имени view шаблона, а также имени переменной в запросе;
+string $field                                     -- Поле в таблице, которое соответствующее фильтру;
+array $attributes                                 -- HTML атрибуты;
+string|null $related                              -- Связь основной таблицы фильтра с другой (имя связанной таблицы);
+array $request                                    -- Параметры GET запроса;
 */
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -18,7 +21,6 @@ use \App\Http\Controllers\CookieController;
 abstract class BaseFilter
 {
     public bool $groupRender;
-
     public null|string $cookie;
     protected string $label;
     protected string $name;
@@ -44,6 +46,15 @@ abstract class BaseFilter
         $this->groupRender = $groupRender;
         $this->cookie = $cookie;
         $this->request = app(Request::class)->all();
+
+        // УСЛОВИЕ ПО КОТОРОМУ ПОДГРУЖАЮТСЯ ДАННЫЕ ИЗ КУКИ
+        if (!isset($this->request[$name]) && $cookie) {
+            if (!$this->request[$name] = CookieController::getCookie($cookie)) {
+
+                // РАСКОМЕНТИРОВАТЬ ЧТОБЫ БЫЛ ДЕФОЛТНЫЙ ГОРОД
+                // $this->request[$name] = LocationController::getStartCityId();
+            }
+        }
     }
 
     public function getLabel(): string
@@ -110,6 +121,4 @@ abstract class BaseFilter
 
         return $query;
     }
-
-    // public static function
 }

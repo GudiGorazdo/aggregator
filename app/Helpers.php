@@ -1,7 +1,7 @@
 <?php
-namespace App\Services;
+namespace App;
 
-class Helper
+class Helpers
 {
     static function log(mixed $data, string $dir = __DIR__, string $name = '/log.txt'): void
     {
@@ -14,14 +14,14 @@ class Helper
         /*
         @param $arr = [
             [
-                'name' => string,          -- required
-                'type' => string,          -- required
-                'value_prefix' => string,  -- required
-                'value' => string   -- optional
+                'name' => string,               -- required
+                'type' => string,               -- required
+                'value_prefix' => string,       -- required
+                'value' => string               -- optional
             ]
         ]
 
-        result --  data-name_type=item_prefixvalue
+        result  --  data-name_type=item_prefixvalue
         */
 
         $dataSet = '';

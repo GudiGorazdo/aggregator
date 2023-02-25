@@ -11,7 +11,7 @@ class City extends Model
     protected $fillable = ['name'];
     public $timestamps = false;
 
-    public function scopeGetAll($query, $order = ['by' => 'name', 'sort'=>'desc'])
+    public function scopeGetAll(Builder $query, array $order = ['by' => 'name', 'sort'=>'desc'])
     {
         return $query->orderBy($order['by'], $order['sort']);
     }

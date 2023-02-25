@@ -7,14 +7,15 @@ use Illuminate\View\Component;
 class Checkbox extends Component
 {
     /*
-        @param string $id                      -- id чекбокса, для
-        @param bool $line                      -- стиль без классического чекбокса, просто линия
-        @param string $classesWrapper          -- классы обёртки
-        @param string $classesInput            -- классы инпута
-        @param string $classesLabel            -- классы лэйбла
-        @param string $dataset                 -- дата сет в виде строки
-        @param bool $active                    -- состояние по умолчанию, выбран лм чекбокс
+    string $id                      -- id чекбокса, для
+    bool $line                      -- стиль без классического чекбокса, просто линия
+    string $classesWrapper          -- классы обёртки
+    string $classesInput            -- классы инпута
+    string $classesLabel            -- классы лэйбла
+    string $dataset                 -- дата сет в виде строки
+    bool $active                    -- состояние по умолчанию, выбран лм чекбокс
     */
+
     private string $linePostfix = '--line';
     public string $classNamesWrapper = 'form-check';
     public string $classNamesInput = 'form-check-input';

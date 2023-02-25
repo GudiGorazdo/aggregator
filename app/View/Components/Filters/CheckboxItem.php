@@ -45,7 +45,7 @@ class CheckboxItem extends Component
         $this->active = isset($request[$this->filter]) && in_array($item->id, $request[$this->filter]);
         $this->groups = $groups;
         if (count($this->groups) > 0) {
-            $this->dataset = \App\Services\Helper::getDataSetString($groups, $item[$groupfield]);
+            $this->dataset = \App\Helpers::getDataSetString($groups, $item[$groupfield]);
         }
     }
 
