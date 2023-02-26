@@ -1,15 +1,6 @@
 <?php
 namespace App\Filters;
-/*
-bool $groupRender                                 -- Для провверки рендерить в общем цикле или нет;
-null|string $cookie                               -- Имя кук, если есть записываются при фильтрации;
-string $label                                     -- Лэйбл используется для заголовка фильтра;
-string $name                                      -- Имя фильтра соответствовует имени view шаблона, а также имени переменной в запросе;
-string $field                                     -- Поле в таблице, которое соответствующее фильтру;
-array $attributes                                 -- HTML атрибуты;
-string|null $related                              -- Связь основной таблицы фильтра с другой (имя связанной таблицы);
-array $request                                    -- Параметры GET запроса;
-*/
+
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,6 +11,17 @@ use \App\Http\Controllers\CookieController;
 
 abstract class BaseFilter
 {
+    /**
+    * @param bool $groupRender            -- Для провверки рендерить в общем цикле или нет;
+    *   @param null|string $cookie          -- Имя кук, если есть записываются при фильтрации;
+    *   @param string $label                -- Лэйбл используется для заголовка фильтра;
+    *   @param string $name                 -- Имя фильтра соответствовует имени view шаблона, а также имени переменной в запросе;
+    *   @param string $field                -- Поле в таблице, которое соответствующее фильтру;
+    *   @param array $attributes            -- HTML атрибуты;
+    *   @param string|null $related         -- Связь основной таблицы фильтра с другой (имя связанной таблицы);
+    *   @param array $request               -- Параметры GET запроса;
+    */
+
     public bool $groupRender;
     public null|string $cookie;
     protected string $label;
@@ -57,22 +59,26 @@ abstract class BaseFilter
         }
     }
 
+    // Получить заголовок фильтра
     public function getLabel(): string
     {
         return $this->label;
     }
 
+    // Получить имя фильтра
     public function getName(): string
     {
         return $this->name;
     }
 
+    // Получить HTML атрибут по названию
     public function getAttribute(string $name): string
     {
         if (isset($this->attributes[$name])) return $this->attributes[$name];
         else return '';
     }
 
+    // Если есть данные записать их в куки
     private function checkDataAndSetCookie(int|null $data = null)
     {
         if ($data) {
@@ -85,6 +91,7 @@ abstract class BaseFilter
         return $data;
     }
 
+    // Отрисовка фильтра
     public function render(int|null $city_id = null): View|Factory|Application
     {
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
@@ -96,6 +103,7 @@ abstract class BaseFilter
         return null;
     }
 
+    // Ответ сервера в формате tex/html. Возвращается вёрстка.
     public function responseRender(array|int|null $params = null): Response
     {
         $request = $this->request;
@@ -104,6 +112,7 @@ abstract class BaseFilter
         return response()->view($view, compact('filter', 'params', 'request'));
     }
 
+    // Фильтрация
     public function apply(Builder $query): Builder
     {
         $value = $this->request[$this->name] ?? false;

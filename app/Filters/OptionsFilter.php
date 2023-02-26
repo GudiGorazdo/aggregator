@@ -9,17 +9,17 @@ use \App\Http\Controllers\CookieController;
 use \App\Constants\CookieConstants;
 use App\Models\City;
 
-/**
- * @param $items = [
- *   [
- *      'name' => string,                      -- имя переменной в запросе, желательно соответствие названию скоупа
- *      'label' => string                      -- заголовок для отображения
- *   ]
- * ];
- */
 
 class OptionsFilter extends BaseFilter
 {
+    /**
+     * @param $items = [
+     *   [
+     *      'name' => string,                      -- имя переменной в запросе, желательно соответствие названию скоупа
+     *      'label' => string                      -- заголовок для отображения
+     *   ]
+     * ];
+     */
     private $items = [];
 
     public function __construct(array $items, string $name = 'options', $label = 'Опции')

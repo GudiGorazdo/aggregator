@@ -7,21 +7,21 @@ use App\Models\Area;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * @param $items = [
- *   [
- *      'name' => string,                      -- query option name
- *      'label' => string                      -- label for otion
- *      'attributes' => array ['key'=>'value'] -- any html attributes
- *      '*relations*' => array                 -- relations items
- *   ]
- * ];
- */
-
 class LocationFilter extends BaseFilter
 {
     private $subway;
     private $area;
+
+    /**
+     * @param $items = [
+     *   [
+     *      'name' => string,                      -- query option name
+     *      'label' => string                      -- label for otion
+     *      'attributes' => array ['key'=>'value'] -- any html attributes
+     *      '*relations*' => array                 -- relations items
+     *   ]
+     * ];
+     */
 
     public function __construct(
         string $name,

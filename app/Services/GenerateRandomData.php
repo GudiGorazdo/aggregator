@@ -66,29 +66,22 @@ class GenerateRandomData
         return $arr;
     }
 
-    public static function generateWorkingMode($shop_id)
+    public static function generateWorkingMode($shop_id, $convience)
     {
         $days = [ 'monday', 'tuesday', 'monday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', ];
         $mode = new \App\Models\WorkingMode();
         $mode->shop_id = $shop_id;
-        // $mode->monday_open = (string) rand(8, 12);
-        // $mode->monday_close = (string) rand(18, 22);
-        // $mode->tuesday_open = (string) rand(8, 12);
-        // $mode->tuesday_close = (string) rand(18, 22);
-        // $mode->wednesday_open = (string) rand(8, 12);
-        // $mode->wednesday_close = (string) rand(18, 22);
-        // $mode->thursday_open = (string) rand(8, 12);
-        // $mode->thursday_close = (string) rand(18, 22);
-        // $mode->friday_open = (string) rand(8, 12);
-        // $mode->friday_close = (string) rand(18, 22);
-        // $mode->saturday_open = (string) rand(8, 12);
-        // $mode->saturday_close = (string) rand(18, 22);
-        // $mode->sunday_open = (string) rand(8, 12);
-        // $mode->sunday_close = (string) rand(18, 22);
         foreach ($days as $day) {
-            if (rand(0, 3)) {
-                $mode[$day . '_open'] = (string) rand(8, 12);
-                $mode[$day . '_close'] = (string) rand(18, 22);
+            if ($convience) {
+                if (rand(0, 4)) {
+                    $mode[$day . '_open'] = 24;
+                    continue;
+                }
+                continue;
+            }
+            if (rand(0, 4)) {
+                $mode[$day . '_open'] = rand(8, 12);
+                $mode[$day . '_close'] = rand(18, 22);
             }
         }
         try {
@@ -196,7 +189,7 @@ class GenerateRandomData
                 continue;
             }
 
-            self::generateWorkingMode($shop->id);
+            self::generateWorkingMode($shop->id, !!$shop->convenience_shop);
 
             $arr[] = $shop->id;
         }

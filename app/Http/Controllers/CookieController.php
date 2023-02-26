@@ -12,7 +12,7 @@ class CookieController extends Controller
         Cookie::queue($cookie, $value, $time);
     }
 
-    static public function getCookie(string $coockie): string
+    static public function getCookie(string $coockie): string|null
     {
         return Cookie::get($coockie);
     }
