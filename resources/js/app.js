@@ -17,55 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
 
-  const city_coords = JSON.parse(document.querySelector('input[name="city_coord"]').value);
   const coords = Array.from(document.querySelectorAll('input[name="shop_coord"]')).map(item => JSON.parse(item.value));
-  console.log(city_coords)
+
+  let sumLat = 0;
+  let sumLong = 0;
+
+  for (var i = 0; i < coords.length; i++) {
+    sumLat += coords[i].lat;
+    sumLong += coords[i].long;
+  }
+  let averageLat = sumLat / coords.length;
+  let averageLong = sumLong / coords.length;
 
   ymaps.ready(function () {
-    var myMap = new ymaps.Map('map', {
-      center: [city_coords.lat, city_coords.long],
+    var myMap = new ymaps.Map("map", {
+      center: [averageLat, averageLong],
       zoom: 10
     }, {
       searchControlProvider: 'yandex#search'
     }),
 
-      // Создаём макет содержимого.
-      MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
-        '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
-      ),
-
-      myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
-        hintContent: 'Москва!',
-        balloonContent: 'Столица России'
-      }, {
-        // Опции.
-        // Необходимо указать данный тип макета.
-        iconLayout: 'default#image',
-        // Своё изображение иконки метки.
-        iconImageHref: 'images/myIcon.gif',
-        // Размеры метки.
-        iconImageSize: [30, 42],
-        // Смещение левого верхнего угла иконки относительно
-        // её "ножки" (точки привязки).
-        iconImageOffset: [-5, -38]
+      blueCollection = new ymaps.GeoObjectCollection(null, {
+        preset: 'islands#blueIcon'
       });
 
-    myMap.geoObjects
-      .add(myPlacemark);
-
-    const placemarks = [];
-    for (var i = 0; i < coords.length; i++) {
-      var point = coords[i];
-      var placemark = new ymaps.Placemark(
-        [point.lat, point.long],
-        {},
-        {
-          preset: 'islands#blueCircleDotIcon'
-        }
-      );
-      placemarks.push(placemark);
+    for (var i = 0, l = coords.length; i < l; i++) {
+      const mark = new ymaps.Placemark([ coords[i]['lat'], coords[i]['long']]);
+      mark.events.add('click', function (e) {
+        console.log(e);
+        // mark.balloon.open();
+    });
+      blueCollection.add(mark);
     }
 
-    myMap.geoObjects.add(new ymaps.GeoObjectCollection(placemarks));
+    myMap.geoObjects.add(blueCollection);
   });
 });
