@@ -42,11 +42,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
     for (var i = 0, l = coords.length; i < l; i++) {
-      const mark = new ymaps.Placemark([ coords[i]['lat'], coords[i]['long']]);
-      mark.events.add('click', function (e) {
-        console.log(e);
-        // mark.balloon.open();
-    });
+      const mark = new ymaps.Placemark([coords[i]['lat'], coords[i]['long']]);
+
+      // const closure = (shop) => {
+      //   return function () {
+      //     console.log(shop);
+      //   }
+      // }
+      // mark.events.add('click', closure(coords[i]));
+
+      mark.events.add('click', ((shop) => {
+        return function () {
+          console.log(shop);
+        }
+      })(coords[i]));
       blueCollection.add(mark);
     }
 
