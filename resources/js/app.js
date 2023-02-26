@@ -6,19 +6,15 @@ import ModalWindow from './plugins/modal/ModalWindow';
 document.addEventListener('DOMContentLoaded', () => {
   window.modalWindowPlugin = new ModalWindow({
     isOpen: (instance, e) => {
-      console.log(instance);
       if (e.target.dataset.alert) {
         instance.modal.querySelector('#site-alert_message').textContent = e.target.dataset.alert;
       }
     },
     isClose: (instance, e) => {
-      console.log(instance);
       if (e.target.dataset.alert) {
         instance.modal.querySelector('#site-alert_message').textContent = '';
       }
     },
-    isCloseBefore: (instance, e) => { },
-    isOpenBefore: (instance, e) => { },
   });
 
   const city_coords = JSON.parse(document.querySelector('input[name="city_coord"]').value);

@@ -24,8 +24,8 @@ class GenerateRandomData
             if ($timezone) {
                 $m->timezone = self::getTimeZone();
                 $m->coord = json_encode(array(
-                    'lat' => $faker->latitude(),
-                    'long' => $faker->longitude()
+                    'lat' => $faker->latitude(47, 65),
+                    'long' => $faker->longitude(30, 100)
                 ));
             }
             $m->save();

@@ -3,8 +3,6 @@ export default class ModalWindow {
     let defaultOptions = {
       isOpen: () => {},
       isClose: () => {},
-      isOpenBefore: () => {},
-      isCloseBefore: () => {},
     }
     this.options = Object.assign(defaultOptions, options);
     this.modal = document.querySelector('.modal-window');
@@ -46,7 +44,7 @@ export default class ModalWindow {
           return;
         }
         if (!e.target.classList.contains('modal-window__container') &&
-           !e.target.closest('.modal-window__contai ner') &&
+           !e.target.closest('.modal-window__container') &&
             this.isOpen
         ) {
           this.close(e);
@@ -54,7 +52,7 @@ export default class ModalWindow {
       }.bind(this));
 
       window.addEventListener('keydown', function(e) {
-        if(e.keyCode == 27 && this.isOpen) this.close();
+        if(e.keyCode == 27 && this.isOpen) this.close(e);
         if(e.keyCode == 9) {
           this.focusCatch(e);
           return;
@@ -64,7 +62,6 @@ export default class ModalWindow {
   }
 
   open(e) {
-    if (this.options.isOpenBefore) this.options.isOpenBefore(this, e);
     this.previosActiveElement = document.activeElement;
     this.modal.style.setProperty('--transition-time', `${this.speed / 1000}s`);
     this.modal.classList.add('modal-window--open');
@@ -73,18 +70,16 @@ export default class ModalWindow {
     this.modalContainer.classList.add('modal-window--open');
     this.modalContainer.classList.add(`modal-window__animation--${this.animation}`);
 
-
     this.isOpen = true;
     this.focusTrap();
 
     setTimeout(() => {
-      if (this.options.isOpen) this.options.isOpen(this, e);
+      this.options.isOpen(this, e);
       this.modalContainer.classList.add('modal-window__animate--open');
     }, this.speed);
   }
-  async close(e) {
+  close(e) {
     if (this.modalContainer) {
-      // if (this.options.isCloseBefore) this.options.isCloseBefore(this, e);
       this.modalContainer.classList.remove('modal-window__animate--open');
       setTimeout(() => {
         this.modalContainer.classList.remove(`modal-window__animation--${this.animation}`);
@@ -93,7 +88,7 @@ export default class ModalWindow {
         this.enableScroll();
         this.isOpen = false;
         this.focusTrap();
-        // if (this.options.isClose) this.options.isClose(this, e);
+        this.options.isClose(this, e);
       }, this.speedOut);
     }
   }
