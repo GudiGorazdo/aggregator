@@ -1,1 +1,6 @@
-<a {{ $attributes->class("nav-menu_link") }}>{{ $slot }}</a>
+<a
+  class="nav-menu_link{{ Request::is($href) ? ' colorlib-active' : '' }}"
+  href="{{ $href }}"
+>
+  {{ $slot }}
+</a>

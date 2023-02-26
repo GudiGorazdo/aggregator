@@ -1,2 +1,3 @@
 import  'bootstrap';
-import './scripts/aside/aside';
+import './scripts/aside';
+import './scripts/burger';

@@ -7,14 +7,16 @@
 @import "../js/plugins/chooser/chooser.css";
 @import "../js/plugins/modal/style.css";
 
+@import "./components/buttons.scss";
 @import "./components/checkbox.scss";
 @import "./components/star-rating.scss";
 @import "./components/accordion.scss";
 @import "./components/burger.scss";
+@import "./components/nav-menu.scss";
 
 @import "./filters/filters.scss";
 @import "./aside.scss";
-@import "./nav-menu.scss";
+@import "./nav-bar.scss";
 @import "./header.scss";
 @import "./footer.scss";
 @import "./home.scss";

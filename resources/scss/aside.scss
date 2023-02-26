@@ -8,20 +8,6 @@
     transform: translateX(0%);
   }
 
-  &_close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-  }
-
   .btn {
     width: 100%;
   }

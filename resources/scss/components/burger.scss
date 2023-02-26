@@ -32,6 +32,9 @@
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
+  &.active {
+    z-index: 1001;
+  }
   &.active i {
     &::before, &::after {
       background: $black;

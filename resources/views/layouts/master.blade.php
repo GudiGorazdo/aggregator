@@ -22,7 +22,7 @@
     <main id="main-content" class="main-content">@yield('content')</main>
     <div class="modal-window">
         @include('layouts.aside')
-        @include('layouts.nav-menu')
+        @include('layouts.nav-bar')
     </div>
     @include('layouts.footer')
     @yield('afterFooter')

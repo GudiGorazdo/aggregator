@@ -14,16 +14,16 @@
             <h1>sdkjf;alksdf;aklsjdf;klasjdf;aklj</h1>
         @endauth
         <h2 class="title display-3 text-center mb-3">Скупки ноутбуков в Московском районе</h2>
-        <div class="text-center mb-3"><a class="more-link" href="#">Подробнее ...</a></div>
+        <div class="text-center mb-3"><x-link class="more-link">Подробнее ...</x-link></div>
         <div class="filters_buttons-wraper d-flex mb-5">
-            <button
+            <x-button-site
                 id="show_filters"
-                class="filters_show btn site-btn me-2"
+                class="filters_show me-2"
                 data-modal-path="aside_menu"
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"
-            >Фильтры</button>
-            <button class="change-display btn site-btn d-block">Карта</button>
+            >Фильтры</x-button-site>
+            <x-button-site class="change-display d-block">Карта</x-button-site>
         </div>
 
         @include('layouts.shop.shop-list', ['shops' => $shops])
@@ -45,7 +45,7 @@
         </div>
 
         <div class="send-everyone">
-            <a class="send-everyone_link btn btn-primary" href="#">Отправить заявку всем</a>
+            <x-button-primary-link class="send-everyone_link" href="#">Отправить заявку всем</x-button-link>
         </div>
     </section>
 @endsection
