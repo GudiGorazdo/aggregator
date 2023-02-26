@@ -3,6 +3,8 @@ export default class ModalWindow {
     let defaultOptions = {
       isOpen: () => {},
       isClose: () => {},
+      isOpenBefore: () => {},
+      isCloseBefore: () => {},
     }
     this.options = Object.assign(defaultOptions, options);
     this.modal = document.querySelector('.modal-window');
@@ -27,7 +29,7 @@ export default class ModalWindow {
       document.addEventListener('click', function(e) {
         const clickedElement = e.target.closest('[data-modal-path]');
         if (clickedElement) {
-          if (clickedElement.dataset.modalOneButton && this.isOpen) return this.close();
+          if (clickedElement.dataset.modalOneButton && this.isOpen) return this.close(e);
           let target = clickedElement.dataset.modalPath;
           let animation = clickedElement.dataset.modalAnimation;
           let speed = clickedElement.dataset.modalSpeedIn;
@@ -36,18 +38,18 @@ export default class ModalWindow {
           this.speed = speed ? parseInt(speed) : 300;
           this.speedOut = speedOut ? parseInt(speedOut) : 100;
           this.modalContainer = document.querySelector(`[data-modal-target="${target}"]`);
-          if (this.modalContainer) this.open();
+          if (this.modalContainer) this.open(e);
           return;
         }
         if (e.target.closest('.modal-window__close')) {
-          this.close();
+          this.close(e);
           return;
         }
         if (!e.target.classList.contains('modal-window__container') &&
-           !e.target.closest('.modal-window__container') &&
+           !e.target.closest('.modal-window__contai ner') &&
             this.isOpen
         ) {
-          this.close();
+          this.close(e);
         }
       }.bind(this));
 
@@ -61,7 +63,8 @@ export default class ModalWindow {
     }
   }
 
-  open(selector) {
+  open(e) {
+    if (this.options.isOpenBefore) this.options.isOpenBefore(this, e);
     this.previosActiveElement = document.activeElement;
     this.modal.style.setProperty('--transition-time', `${this.speed / 1000}s`);
     this.modal.classList.add('modal-window--open');
@@ -70,16 +73,18 @@ export default class ModalWindow {
     this.modalContainer.classList.add('modal-window--open');
     this.modalContainer.classList.add(`modal-window__animation--${this.animation}`);
 
+
     this.isOpen = true;
     this.focusTrap();
 
     setTimeout(() => {
-      this.options.isOpen(this);
+      if (this.options.isOpen) this.options.isOpen(this, e);
       this.modalContainer.classList.add('modal-window__animate--open');
     }, this.speed);
   }
-  close() {
+  async close(e) {
     if (this.modalContainer) {
+      // if (this.options.isCloseBefore) this.options.isCloseBefore(this, e);
       this.modalContainer.classList.remove('modal-window__animate--open');
       setTimeout(() => {
         this.modalContainer.classList.remove(`modal-window__animation--${this.animation}`);
@@ -88,7 +93,7 @@ export default class ModalWindow {
         this.enableScroll();
         this.isOpen = false;
         this.focusTrap();
-        this.options.isClose(this);
+        // if (this.options.isClose) this.options.isClose(this, e);
       }, this.speedOut);
     }
   }

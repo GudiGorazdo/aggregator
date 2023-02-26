@@ -7,10 +7,10 @@ use Illuminate\View\Component;
 class NavMenu extends Component
 {
     public array $items = [
-        [
-            'title' => 'Главная',
-            'href' => '/'
-        ],
+        // [
+        //     'title' => 'Главная',
+        //     'href' => '/'
+        // ],
         [
             'title' => 'Добавить компанию',
             'href' => '#'
@@ -35,10 +35,10 @@ class NavMenu extends Component
             'title' => 'Контакты',
             'href' => '#'
         ],
-        [
-            'title' => 'Связаться',
-            'href' => '#'
-        ],
+        // [
+        //     'title' => 'Связаться',
+        //     'href' => '#'
+        // ],
     ];
 
     public function __construct()

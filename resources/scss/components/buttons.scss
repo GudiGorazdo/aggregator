@@ -17,11 +17,6 @@
     background-color: $light !important;
   }
 
-
-    // &::before {
-    //   animation: arrow-animation 0.5s linear infinite;
-    // }
-
   &:focus-within,
   &:focus-visible,
   &:focus {
@@ -32,9 +27,9 @@
 .btn.btn-primary {
   color: $primary;
 
+  &:hover,
   &:active {
-    opacity: 0.8;
-    background-color: $primary;
+    background-color: var(--bs-link-hover-color);
   }
 }
 

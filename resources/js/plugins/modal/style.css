@@ -5,13 +5,14 @@
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000;
+  display: flex;
   background-color: rgb(0, 0, 0, 0.5);
   cursor: pointer;
   overflow-y: auto;
   overflow-x: hidden;
   text-align: center;
   transition: opacity var(--transition-time), visibility var(--transition-time);
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
 }
@@ -48,9 +49,7 @@
   width: 100%;
 }
 
-/* EFFECTS */
 
-/* Fade */
 .modal-window__animation--fade {
   opacity: 0;
   transition: opacity var(--transition-time);
@@ -61,54 +60,54 @@
   transition: opacity var(--transition-time);
 }
 
-/* Fade Up*/
+
 .modal-window__animation--fadeInUp {
   opacity: 0;
-  transform: translateY(-100px);
+  transform: translateY(-100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 .modal-window__animation--fadeInUp.modal-window__animate--open {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateY(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-/* Fade Down*/
+
 .modal-window__animation--fadeInDown {
   opacity: 0;
-  transform: translateY(100px);
+  transform: translateY(100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 .modal-window__animation--fadeInDown.modal-window__animate--open {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateY(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-/* Fade Left*/
+
 .modal-window__animation--fadeInLeft {
   opacity: 0;
-  transform: translateX(-100px);
+  transform: translateX(-100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 .modal-window__animation--fadeInLeft.modal-window__animate--open {
   opacity: 1;
-  transform: translateX(0px);
+  transform: translateX(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-/* Fade Right*/
+
 .modal-window__animation--fadeInRight {
   opacity: 0;
-  transform: translateX(100px);
+  transform: translateX(100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 .modal-window__animation--fadeInRight.modal-window__animate--open {
   opacity: 1;
-  transform: translateX(0px);
+  transform: translateX(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }

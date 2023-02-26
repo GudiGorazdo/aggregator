@@ -1,28 +1,28 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const burger = {
-    burger: document.getElementById('show_nav-menu'),
-    opened: 'active',
-    openStatus: false,
+// document.addEventListener('DOMContentLoaded', () => {
+//     const burger = {
+//     burger: document.getElementById('show_nav-menu'),
+//     opened: 'active',
+//     openStatus: false,
 
-    open() {
-      this.burger.classList.add(this.opened);
-      this.openStatus = true;
-    },
+//     open() {
+//       // this.burger.classList.add(this.opened);
+//       this.openStatus = true;
+//     },
 
-    close() {
-      this.burger.classList.remove(this.opened);
-      this.openStatus = false;
-    },
+//     close() {
+//       // this.burger.classList.remove(this.opened);
+//       this.openStatus = false;
+//     },
 
-    initialization() {
-      this.burger.addEventListener('click', this.toggle.bind(this));
-    },
+//     initialization() {
+//       this.burger.addEventListener('click', this.toggle.bind(this));
+//     },
 
-    toggle() {
-      if (!this.openStatus) this.open();
-      else this.close();
-    },
-  }
+//     toggle() {
+//       if (!this.openStatus) this.open();
+//       else this.close();
+//     },
+//   }
 
-  burger.initialization();
-});
+//   burger.initialization();
+// });

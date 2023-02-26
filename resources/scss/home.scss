@@ -3,7 +3,7 @@
 }
 
 .change-display {
-  width: 100%;
+  width: 70%;
 }
 
 .shop-list {
@@ -41,6 +41,17 @@
 
   &_count {
   color: $starColor;
+  }
+}
+
+.similar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media(min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-around;
   }
 }
 

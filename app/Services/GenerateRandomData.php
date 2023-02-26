@@ -13,7 +13,7 @@ class GenerateRandomData
         return $arr[rand(0, count($arr) - 1)];
     }
 
-    private static function generate($n, $model, $name, $name_for_title = false, $timezone = false)
+    private static function generate($n, $model, $name, $name_for_title = false, $timezone = false, bool|object $faker = null)
     {
         for ($i = 0; $i < $n; $i++) {
             $m = new $model();
@@ -21,7 +21,13 @@ class GenerateRandomData
             if ($name_for_title) {
                 $m->name_for_title = $name_for_title . '_' . ($i + 1);
             }
-            if ($timezone) $m->timezone = self::getTimeZone();
+            if ($timezone) {
+                $m->timezone = self::getTimeZone();
+                $m->coord = json_encode(array(
+                    'lat' => $faker->latitude(),
+                    'long' => $faker->longitude()
+                ));
+            }
             $m->save();
         }
     }
@@ -90,7 +96,7 @@ class GenerateRandomData
          }
     }
 
-    private static function generateShop($n, $city_id, $area_id, $faker)
+    private static function generateShop($n, $city_id, $area_id, $faker, $city_coord)
     {
         $desc = self::generateDesc();
 
@@ -107,9 +113,15 @@ class GenerateRandomData
             $shop->address = 'Улица_' .rand(1000, 9999) . ' д. ' . rand(10, 99);
             $shop->description = $desc;
             $shop->zip = rand(100000, 999999);
+            $city = json_decode($city_coord);
+            $latMin = (int)$city->lat - (125/1000);
+            $latMax = (int)$city->lat + (125/1000);
+            $longMin = (int)$city->long - (125/1000);
+            $longMax = (int)$city->long + (125/1000);
+            // dd($latMin, $latMax, $longMin, $longMax);
             $shop->coord = json_encode(array(
-                'lat' => $faker->latitude(),
-                'long' => $faker->longitude()
+                'lat' => $faker->latitude($latMin, $latMax ),
+                'long' => $faker->longitude($longMin, $longMax)
             ));
 
             $additionalPhones = NULL;
@@ -275,10 +287,10 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShopsWithSubways($city_id, $areas_arr, $b, $faker)
+    private static function generateShopsWithSubways($city_id, $areas_arr, $b, $faker, $city_coord)
     {
         foreach($areas_arr as $area) {
-            $shop_ids = self::generateShop(rand(0, 7), $city_id, $area, $faker);
+            $shop_ids = self::generateShop(rand(0, 7), $city_id, $area, $faker, $city_coord);
             if ($b < 5) {
                 $subway_ids = self::generateSubway($city_id, $area);
                 foreach($shop_ids as $shop) {
@@ -313,14 +325,14 @@ class GenerateRandomData
     {
         $faker = Factory::create();
 
-        self::generate(10, \App\Models\City::class, 'Город', false, true);
+        self::generate(10, \App\Models\City::class, 'Город', false, true, $faker);
         self::generate(5, \App\Models\Category::class, 'Категория', 'категории');
         $cities = \App\Models\City::all();
 
         $b = 0;
         foreach($cities as $city) {
             $areas_arr = self::generateArea($city->id);
-            self::generateShopsWithSubways($city->id, $areas_arr, $b, $faker);
+            self::generateShopsWithSubways($city->id, $areas_arr, $b, $faker, $city->coord);
             $b++;
         }
 

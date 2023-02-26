@@ -1,5 +1,6 @@
 a {
   text-decoration: none;
+  transition: color $transitionFast ease-in-out;
 }
 
 .disabled {

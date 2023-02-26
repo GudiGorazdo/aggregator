@@ -1,8 +1,10 @@
 <ul id="shop_list" class="shop-list">
+    <input type="hidden" name="city_coord" value="{{ $shops[0]->city['coord']}}">
     @foreach ($shops as $shop)
         <li>
-            <x-card className="shop-card">
-                <div class="p-2 bg-white border rounded mt-2">
+            <x-card className="shop-card mb-4">
+                <input type="hidden" name="shop_coord" value={{ $shop->coord }}>
+                <div class="p-2 bg-white rounded mt-2">
                     <div class="mt-1 d-flex">
                         <img class="shop-card_img img-fluid img-responsive rounded product-image me-3"
                             src="{{ $shop->photo . 'id/' . rand(1, 500) }}/100/100" alt="{{ $shop->logo }}">

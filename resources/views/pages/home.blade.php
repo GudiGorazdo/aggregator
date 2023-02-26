@@ -28,27 +28,43 @@
 
         @include('layouts.shop.shop-list', ['shops' => $shops])
 
-        <div class="mb-3">
-            <h3 class="display-4">Похожие категории</h3>
-            <h4 class="">скупка категорий техники:</h4>
-            <ul>
-                <li>Скупка телефонов</li>
-                <li>Скупка планшетов</li>
-                <li>Скупка фотоаппаратов</li>
-            </ul>
-            <h4 class="">скупка в других районах:</h4>
-            <ul>
-                <li>Скупка в Центральном районе</li>
-                <li>Скупка Ленинском районе</li>
-                <li>Скупка Калининском районе</li>
-            </ul>
+        <h3 class="title display-4 text-center">Похожие категории</h3>
+        <div class="similar mb-3">
+            <div class="similar_categories">
+                <h4 class="">скупка категорий техники:</h4>
+                <ul>
+                    <li>Скупка телефонов</li>
+                    <li>Скупка планшетов</li>
+                    <li>Скупка фотоаппаратов</li>
+                </ul>
+            </div>
+            <div class="similar_areas">
+                <h4 class="">скупка в других районах:</h4>
+                <ul>
+                    <li>Скупка в Центральном районе</li>
+                    <li>Скупка Ленинском районе</li>
+                    <li>Скупка Калининском районе</li>
+                </ul>
+            </div>
         </div>
 
+        <div id="map" style="width: 600px; height: 400px"></div>
+
+
         <div class="send-everyone">
-            <x-button-primary-link class="send-everyone_link" href="#">Отправить заявку всем</x-button-link>
+            <x-button-primary-link
+                id="show-site-alert"
+                class="send-everyone_link"
+                href="#"
+                data-modal-path="site-alert"
+                data-modal-one-button="true"
+                data-alert="Этот функционал временно недоступен."
+            >Отправить заявку всем
+            </x-button-link>
         </div>
     </section>
 @endsection
 
 @section('afterFooter')
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU" type="text/javascript"></script>
 @endsection

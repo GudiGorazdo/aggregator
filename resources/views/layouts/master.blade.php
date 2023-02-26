@@ -23,6 +23,7 @@
     <div class="modal-window">
         @include('layouts.aside')
         @include('layouts.nav-bar')
+        @include('layouts.alert')
     </div>
     @include('layouts.footer')
     @yield('afterFooter')
