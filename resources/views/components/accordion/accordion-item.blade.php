@@ -11,6 +11,7 @@
     @param many $show                            -- открыт ли элемент при загрузке
 --}}
 
+{{-- <div class="accordion-item {{ $className ?? '' }}"> --}}
 <div class="accordion-item {{ $className ?? '' }}">
     <h2 class="accordion-header {{ $headerClassName ?? '' }}">
         <button

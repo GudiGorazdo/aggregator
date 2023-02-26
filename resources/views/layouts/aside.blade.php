@@ -1,5 +1,5 @@
 <aside id="aside" class="aside modal-window__container" data-modal-target="aside_menu">
-    <button class="aside_close button_close modal-window__close"><span class="close-icon"></span></button>
+    <x-close-btn class="nav-menu_close modal-window__close" />
         <div class="filters">
             <div class="mb-3">
                 {{ app(\App\Services\FilterService::class)->getFilterByName('CityFilter')->render() }}

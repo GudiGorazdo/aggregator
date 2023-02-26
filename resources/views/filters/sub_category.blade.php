@@ -9,30 +9,19 @@
 
     >
         @foreach (\App\Models\Category::with('subCategories')->get() as $category)
-            <button class="filters-subcategories_button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#{{ $filter->getName() }}_{{ $category->id }}_collapse"
-                aria-expanded="false"
-                aria-controls="{{ $filter->getName() }}_{{ $category->id }}_collapse"
+            <x-collapse
+                target="{{ $filter->getName() }}_{{ $category->id }}"
+                controls="{{ $filter->getName() }}_{{ $category->id }}"
             >
-                {{ $category->name }}
-            </button>
-            <div class="row">
-                <div class="col">
-                    <div class="collapse multi-collapse" id="{{ $filter->getName() }}_{{ $category->id }}_collapse">
-                        <div class="card card-body">
-                            @foreach ($category->subCategories as $item)
-                                <x-checkbox-item
-                                    :item="$item"
-                                    :filter="$filter->getName()"
-                                    :request="$request"
-                                />
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <x-slot name="title">{{ $category->name }}</x-slot>
+                @foreach ($category->subCategories as $item)
+                    <x-checkbox-item
+                        :item="$item"
+                        :filter="$filter->getName()"
+                        :request="$request"
+                    />
+                @endforeach
+            </x-collapse>
         @endforeach
     </x-accordion-item>
 </x-accordion>
