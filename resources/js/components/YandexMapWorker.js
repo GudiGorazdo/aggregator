@@ -3,8 +3,10 @@ export default class YandexMapWorker {
   items = null;
   mapWrapper = null;
   shopsData = null;
+  shopList = null;
 
   classes = {
+    show: 'show',
     hide: 'hidden',
   }
 
@@ -15,6 +17,7 @@ export default class YandexMapWorker {
     this.button = document.getElementById('change-display');
     this.items = document.querySelectorAll('[data-shop-target]');
     this.mapWrapper = document.getElementById('shops-map');
+    this.shopList = document.getElementById('shop_list');
     this.shopsData = Array.from(document.querySelectorAll('input[name="shop_coord"]')).map(item => {
       return {
         path: item.dataset.shopPath,
@@ -23,6 +26,7 @@ export default class YandexMapWorker {
     });
 
     this.button.addEventListener('click', this.toggle.bind(this));
+    this.addMap(this.shopsData);
   }
 
   getMapCenter() {
@@ -39,11 +43,22 @@ export default class YandexMapWorker {
     }
   }
 
+  scrollToShop(id) {
+    const shopItem = document.getElementById(`anchor_${id}`);
+    const offsetTop = shopItem.offsetTop - this.shopList.offsetTop;
+    this.shopList.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth'
+    });
+  }
+
   addMap(shopsData) {
+    console.log(this.mapAdd)
     if (this.mapAdd) return;
     const average = this.getMapCenter();
     const hideAllItems = this.hideAllItems.bind(this);
     const showShop = this.showShop.bind(this);
+    const scroll = this.scrollToShop.bind(this);
     ymaps.ready(function () {
       var myMap = new ymaps.Map("shops-map", {
         center: [average.lat, average.long],
@@ -62,6 +77,8 @@ export default class YandexMapWorker {
           return function () {
             hideAllItems();
             showShop(shop);
+            // console.log(shop)
+            scroll(shop.path);
             markCollection.each(function (placemark) {
               placemark.options.set('iconColor', '#6c757d');
             });
@@ -78,28 +95,30 @@ export default class YandexMapWorker {
   }
 
   hideMap() {
-    this.mapWrapper.classList.add(this.classes.hide);
+    this.mapWrapper.classList.remove(this.classes.show);
   }
 
   showMap() {
-    this.mapWrapper.classList.remove(this.classes.hide);
+    this.mapWrapper.classList.add(this.classes.show);
   }
 
   showShop(shopData) {
     const target = document.querySelector(`[data-shop-target="${shopData.path}"]`);
     target.classList.remove(this.classes.hide)
+    target.classList.add(this.classes.show)
   }
 
   hideAllItems() {
     this.button.textContent = 'Список';
     this.items.forEach(shopCard => shopCard.classList.add(this.classes.hide));
-    this.addMap(this.shopsData);
+    this.items.forEach(shopCard => shopCard.classList.remove(this.classes.show));
     this.showMap();
     this.map = true;
   }
 
   showAllItems() {
     this.button.textContent = 'Карта';
+    this.items.forEach(shopCard => shopCard.classList.add(this.classes.show));
     this.items.forEach(shopCard => shopCard.classList.remove(this.classes.hide));
     this.hideMap();
     this.map = false;

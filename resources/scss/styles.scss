@@ -18,6 +18,13 @@ a {
   visibility: hidden;
 }
 
+.show {
+  position: relative;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
 .opacity-5 {
   opacity: 0.5;
 }

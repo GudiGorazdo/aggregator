@@ -1,19 +1,96 @@
+.home {
+  @media(min-width: 992px) {
+    padding-left: 30px;
+  }
+}
+
 .title {
   font-size: 32px;
 }
 
-.change-display {
-  width: 70%;
+.descrtiption {
+  &_mobile {
+    @media(min-width: 992px) {
+      display: none;
+    }
+  }
+  &_desktop {
+    display: none;
+    @media(min-width: 992px) {
+      display: block;
+    }
+  }
 }
 
-#shops-map {
+.home-buttons-wrapper {
+  display: flex;
+  margin-bottom: 3rem;
+  @media(min-width: 992px) {
+    justify-content: center;
+  }
+}
+
+.change-display {
+  width: 70%;
+  display: block;
+
+  @media(min-width: 992px) {
+    // padding-left: 70px;
+    display: none;
+  }
+}
+
+.home-content-wrapper {
+  @media(min-width: 992px) {
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 20px;
+  }
+}
+
+.shops-map {
+  position: absolute;
+  max-width: 100%;
+  width: 100%;
+  height: 400px;
   margin-bottom: 40px;
+  opacity: 0;
+  visibility: hidden;
+
+  @media(min-width: 992px) {
+    position: relative;
+    width: 40%;
+    height: 100vh;
+    margin-bottom: 0;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .shop-list {
   margin: 0;
   padding: 0;
   list-style: none;
+  @media(min-width: 992px) {
+    width: 60%;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
+.shop_item {
+  @media(min-width: 992px) {
+    &.hidden {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+    }
+    &.show .shop-card {
+      border-color: $primary;
+      border-width: 2px;
+    }
+  }
 }
 
 .shop-card {
@@ -65,11 +142,14 @@
   left: 0;
   width: 100%;
   z-index: 1000;
+  width: 100%;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 0;
 
-  &_link {
-    width: 100%;
-    padding: 10px;
-    display: inline-block;
-    border-radius: 0;
+  @media(min-width: 992px) {
+    position: relative;
+    width: 70%;
+    z-index: 1;
   }
 }

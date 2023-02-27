@@ -8,14 +8,39 @@
 @endsection
 
 @section('content')
-    <section class="container">
+    <section class="home container">
         @auth("admin")
             {{ Auth::guard('admin')->check() }}
             <h1>sdkjf;alksdf;aklsjdf;klasjdf;aklj</h1>
         @endauth
         <h2 class="title display-3 text-center mb-3">Скупки ноутбуков в Московском районе</h2>
-        <div class="text-center mb-3"><x-link class="more-link">Подробнее ...</x-link></div>
-        <div class="filters_buttons-wraper d-flex mb-5">
+        <div class="descrtiption text-center mb-4">
+            <div class="descrtiption_mobile">
+                <x-link
+                    class="more-link"
+                    href="#more_description"
+                    data-bs-toggle="collapse"
+                    aria-expanded="false"
+                    aria-controls="more_description"
+                    role="button"
+                >Подробнее ...</x-link>
+                <div class="collapse" id="more_description">
+                    Далеко-далеко за словесными горами, в стране гласных и согласных живут рыбные тексты. Всеми единственное выйти раз буквоград даже это языком букв своих речью до. Щеке, за последний. Пояс страна страну свое свой?
+                </div>
+            </div>
+            <p class="descrtiption_desktop">
+                Далеко-далеко за словесными горами, в стране гласных и согласных живут рыбные тексты. Всеми единственное выйти раз буквоград даже это языком букв своих речью до. Щеке, за последний. Пояс страна страну свое свой?
+            </p>
+        </div>
+        <div class="home-buttons-wrapper">
+            <x-button-primary-link
+                class="send-everyone"
+                href="#"
+                data-modal-path="site-alert"
+                data-modal-one-button="true"
+                data-alert="Этот функционал временно не доступен."
+            >Отправить заявку всем
+            </x-button-link>
             <x-button-site
                 id="show_filters"
                 class="filters_show me-2"
@@ -23,11 +48,13 @@
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"
             >Фильтры</x-button-site>
-            <x-button-site id="change-display" class="change-display d-block">Карта</x-button-site>
+            <x-button-site id="change-display" class="change-display">Карта</x-button-site>
         </div>
 
-        <div id="shops-map" class="hidden" style="max-width: 100%; height: 400px"></div>
-        @include('layouts.shop.shop-list', ['shops' => $shops])
+        <div class="home-content-wrapper mb-5">
+            <div id="shops-map" class="shops-map"></div>
+            @include('layouts.shop.shop-list', ['shops' => $shops])
+        </div>
 
         <h3 class="title display-4 text-center">Похожие категории</h3>
         <div class="similar mb-3">
@@ -47,18 +74,6 @@
                     <li>Скупка Калининском районе</li>
                 </ul>
             </div>
-        </div>
-
-        <div class="send-everyone">
-            <x-button-primary-link
-                id="show-site-alert"
-                class="send-everyone_link"
-                href="#"
-                data-modal-path="site-alert"
-                data-modal-one-button="true"
-                data-alert="Этот функционал временно не доступен."
-            >Отправить заявку всем
-            </x-button-link>
         </div>
     </section>
 @endsection

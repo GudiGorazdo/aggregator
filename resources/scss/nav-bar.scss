@@ -16,7 +16,7 @@
   transition: all 0.5s ease;
 
   @media(min-width: 576px) {
-    width: 50%;
+    width: max-content;
     margin: 0;
     margin-right: auto;
   }
