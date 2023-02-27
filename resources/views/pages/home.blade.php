@@ -33,14 +33,16 @@
             </p>
         </div>
         <div class="home-buttons-wrapper">
-            <x-button-primary-link
-                class="send-everyone"
-                href="#"
-                data-modal-path="site-alert"
-                data-modal-one-button="true"
-                data-alert="Этот функционал временно не доступен."
-            >Отправить заявку всем
-            </x-button-link>
+            @if (!count($shops) < 1)
+                <x-button-primary-link
+                    class="send-everyone"
+                    href="#"
+                    data-modal-path="site-alert"
+                    data-modal-one-button="true"
+                    data-alert="Этот функционал временно не доступен."
+                >Отправить заявку всем
+                </x-button-link>
+            @endif
             <x-button-site
                 id="show_filters"
                 class="filters_show me-2"

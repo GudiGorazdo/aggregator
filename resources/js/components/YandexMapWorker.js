@@ -1,9 +1,11 @@
-export default class YandexMapWorker {
+ export default class YandexMapWorker {
   button = null;
   items = null;
   mapWrapper = null;
   shopsData = null;
   shopList = null;
+
+  markCollection = null;
 
   classes = {
     show: 'show',
@@ -27,6 +29,11 @@ export default class YandexMapWorker {
 
     this.button.addEventListener('click', this.toggle.bind(this));
     this.addMap(this.shopsData);
+  }
+
+  addMarkCollection(collection) {
+    console.log(collection)
+    this.markCollection = collection;
   }
 
   getMapCenter() {
@@ -53,12 +60,12 @@ export default class YandexMapWorker {
   }
 
   addMap(shopsData) {
-    console.log(this.mapAdd)
     if (this.mapAdd) return;
     const average = this.getMapCenter();
     const hideAllItems = this.hideAllItems.bind(this);
     const showShop = this.showShop.bind(this);
     const scroll = this.scrollToShop.bind(this);
+    const shops = this.items;
     ymaps.ready(function () {
       var myMap = new ymaps.Map("shops-map", {
         center: [average.lat, average.long],
@@ -72,7 +79,7 @@ export default class YandexMapWorker {
         });
 
       for (var i = 0, l = shopsData.length; i < l; i++) {
-        const mark = new ymaps.Placemark([shopsData[i].coords['lat'], shopsData[i].coords['long']]);
+        const mark = new ymaps.Placemark([shopsData[i].coords['lat'], shopsData[i].coords['long']], { path: shopsData[i].path });
         mark.events.add('click', ((shop) => {
           return function () {
             hideAllItems();
@@ -87,6 +94,19 @@ export default class YandexMapWorker {
         })(shopsData[i]));
         markCollection.add(mark);
       }
+
+      shops.forEach(shop => shop.addEventListener('click', (e) => {
+        shops.forEach(shop => shop.classList.remove('show'));
+        markCollection.each(function (mark) {
+          mark.options.set('iconColor', '#6c757d');
+          if (e.target.dataset.shopTarget == mark.properties.get('path')) {
+            console.log(mark.geometry.getCoordinates());
+            e.target.classList.add('show');
+            myMap.setCenter(mark.geometry.getCoordinates());
+            mark.options.set('iconColor', '#1eafed');
+          }
+        });
+      }));
 
       myMap.geoObjects.add(markCollection);
     });
