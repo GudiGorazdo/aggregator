@@ -39,9 +39,11 @@ export default class YandexMapWorker {
     }
   }
 
-  addMap(shopsData, hideAllItems, showShop) {
+  addMap(shopsData) {
     if (this.mapAdd) return;
     const average = this.getMapCenter();
+    const hideAllItems = this.hideAllItems.bind(this);
+    const showShop = this.showShop.bind(this);
     ymaps.ready(function () {
       var myMap = new ymaps.Map("shops-map", {
         center: [average.lat, average.long],
@@ -50,8 +52,8 @@ export default class YandexMapWorker {
         searchControlProvider: 'yandex#search'
       }),
 
-        blueCollection = new ymaps.GeoObjectCollection(null, {
-          preset: 'islands#blueIcon'
+        markCollection = new ymaps.GeoObjectCollection(null, {
+          iconColor: '#6c757d'
         });
 
       for (var i = 0, l = shopsData.length; i < l; i++) {
@@ -60,16 +62,16 @@ export default class YandexMapWorker {
           return function () {
             hideAllItems();
             showShop(shop);
-            blueCollection.each(function (placemark) {
-              placemark.options.set('preset', 'islands#blueIcon');
+            markCollection.each(function (placemark) {
+              placemark.options.set('iconColor', '#6c757d');
             });
-            mark.options.set('preset', 'islands#greenIcon');
+            mark.options.set('iconColor', '#1eafed');
           }
         })(shopsData[i]));
-        blueCollection.add(mark);
+        markCollection.add(mark);
       }
 
-      myMap.geoObjects.add(blueCollection);
+      myMap.geoObjects.add(markCollection);
     });
 
     this.mapAdd = true;
@@ -91,7 +93,7 @@ export default class YandexMapWorker {
   hideAllItems() {
     this.button.textContent = 'Список';
     this.items.forEach(shopCard => shopCard.classList.add(this.classes.hide));
-    this.addMap(this.shopsData, this.hideAllItems.bind(this), this.showShop.bind(this));
+    this.addMap(this.shopsData);
     this.showMap();
     this.map = true;
   }
