@@ -1,5 +1,5 @@
-import LocationFilter from '../filters/location';
-import optionsCity from '../cityFilterOptions';
+import LocationFilter from '../components/filters/LocationFilter';
+import optionsCity from '../components/filters/cityFilterOptions';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const collapse = {
