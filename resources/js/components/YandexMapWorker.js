@@ -32,7 +32,6 @@
   }
 
   addMarkCollection(collection) {
-    console.log(collection)
     this.markCollection = collection;
   }
 
@@ -101,7 +100,7 @@
           if (e.target.dataset.shopTarget == mark.properties.get('path')) {
             e.target.classList.add('show');
             myMap.setCenter(mark.geometry.getCoordinates());
-            myMap.setZoom(15);
+            // myMap.setZoom(15);
             mark.options.set('iconColor', '#1eafed');
           }
         });

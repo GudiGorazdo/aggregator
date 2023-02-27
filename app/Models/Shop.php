@@ -21,7 +21,7 @@ class Shop extends Model
     public function scopeFilter(Builder $query): Builder
     {
         foreach (app(FilterService::class)->getFilters() as $filter) {
-            $query = $filter->apply($query)->with('workingMode')->with('city');
+            $query = $filter->apply($query)->with('workingMode')->with('area')->with('city');
         }
         return $query;
     }

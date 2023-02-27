@@ -38,7 +38,7 @@ class GenerateRandomData
         for ($i = 0; $i < rand(5, 15); $i++) {
             $area = new \App\Models\Area();
             $area->name = ($i + 1) . '_Район';
-            $area->name_for_title = 'района' . '_' . ($i + 1);
+            $area->name_for_title =   ($i + 1) . 'м' . '_' . 'районе';
             $area->city_id = $city_id;
             try {
                 $area->save();
@@ -325,7 +325,7 @@ class GenerateRandomData
     {
         $faker = Factory::create();
 
-        self::generate(10, \App\Models\City::class, 'Город', false, true, $faker);
+        self::generate(10, \App\Models\City::class, 'Город', 'городе', true, $faker);
         self::generate(5, \App\Models\Category::class, 'Категория', 'категории');
         $cities = \App\Models\City::all();
 

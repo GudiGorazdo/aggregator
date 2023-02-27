@@ -1,3 +1,7 @@
+@php
+    // dd($shops->first()['area']['name_for_title']);
+@endphp
+
 @extends('layouts.master')
 
 @section('title')
@@ -13,7 +17,7 @@
             {{ Auth::guard('admin')->check() }}
             <h1>sdkjf;alksdf;aklsjdf;klasjdf;aklj</h1>
         @endauth
-        <h2 class="title display-3 text-center mb-3">Скупки ноутбуков в Московском районе</h2>
+        <h2 class="title display-3 text-center mb-3"> {{ $title }}</h2>
         <div class="descrtiption text-center mb-4">
             <div class="descrtiption_mobile">
                 <x-link
@@ -45,7 +49,7 @@
             @endif
             <x-button-site
                 id="show_filters"
-                class="filters_show me-2"
+                class="filters-show me-2"
                 data-modal-path="aside_menu"
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"

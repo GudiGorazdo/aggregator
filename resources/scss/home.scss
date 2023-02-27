@@ -30,6 +30,53 @@
   }
 }
 
+.filters-show {
+  position: relative;
+  width: 30%;
+  padding: 15px 5px;
+
+
+  @media(min-width: 992px) {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: unset;
+    padding: 70px 10px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    transform: translateY(-50%);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 20px;
+    z-index: 999;
+
+    &::before {
+      content: '→';
+      position: relative;
+
+      margin-bottom: 10px;
+    }
+
+    &:hover {
+      &::before {
+        animation: arrow-animation 0.5s linear infinite;
+      }
+    }
+
+    @keyframes arrow-animation {
+      0% {
+        left: 0px;
+      }
+      70% {
+        left: 5px;
+      }
+      100% {
+        left: 0px;
+      }
+    }
+  }
+}
+
 .change-display {
   width: 70%;
   display: block;
@@ -86,7 +133,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  // cursor: pointer;
 
   &.show {
     display: flex;
@@ -103,9 +149,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    // height: 55%;
     display: inline-block;
-    // transform: translateY(-8%);
     cursor: pointer;
   }
 
@@ -119,8 +163,6 @@
       border: 5px solid transparent;
     }
     &.show .card-body {
-      // border-color: $primary;
-      // border-width: 5px;
       border: 5px solid $primary;
       border-radius: var(--bs-card-border-radius);
     }
