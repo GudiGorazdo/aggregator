@@ -60,7 +60,10 @@ export default class YandexMapWorker {
           return function () {
             hideAllItems();
             showShop(shop);
-            console.log(shop);
+            blueCollection.each(function (placemark) {
+              placemark.options.set('preset', 'islands#blueIcon');
+            });
+            mark.options.set('preset', 'islands#greenIcon');
           }
         })(shopsData[i]));
         blueCollection.add(mark);
