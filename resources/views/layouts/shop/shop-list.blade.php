@@ -5,8 +5,8 @@
         </li>
     @else
         @foreach ($shops as $shop)
-            <li id="anchor_{{ $shop->id }}" class="shop_item" data-shop-target={{ $shop->id }}>
-                <x-card className="shop-card mb-4">
+            <li id="anchor_{{ $shop->id }}" class="shop_item mb-4" data-shop-target={{ $shop->id }}>
+                <x-card className="shop-card">
                     <input type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
                     <div class="p-2 bg-white rounded mt-2">
                         <div class="mt-1 d-flex">
