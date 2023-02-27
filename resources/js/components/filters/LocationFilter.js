@@ -106,7 +106,7 @@ export default class LocationFilter {
   }
 
   addLocationFilters = async (city) => {
-    const areas = await this.addFilter(`/api/location/${city}`);
+    const areas = await this.addFilter(`/api/location/${city}${window.location.search}`);
     if (areas) {
       if (this.start) this.start = false;
       else this.resetAreasAndSubways();

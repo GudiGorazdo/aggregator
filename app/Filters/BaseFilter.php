@@ -106,7 +106,7 @@ abstract class BaseFilter
     // Ответ сервера в формате tex/html. Возвращается вёрстка.
     public function responseRender(array|int|null $params = null): Response
     {
-        $request = $this->request;
+        $request = app(Request::class)->all();
         $filter = $this;
         $view = 'filters.response.' . $this->getName();
         return response()->view($view, compact('filter', 'params', 'request'));

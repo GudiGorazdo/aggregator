@@ -42,8 +42,6 @@ class CheckboxItem extends Component
         $this->filter= $filter;
         $this->id = $filter . '_' . $item->id;
         $this->value = $item->id;
-        // var_dump($request);
-        // var_dump($request[$this->filter] ?? 0);
         $this->active = isset($request[$this->filter]) && in_array($item->id, $request[$this->filter]);
         $this->groups = $groups;
         if (count($this->groups) > 0) {
