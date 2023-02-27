@@ -1,9 +1,9 @@
 <ul id="shop_list" class="shop-list">
     <input type="hidden" name="city_coord" value="{{ $shops[0]->city['coord']}}">
     @foreach ($shops as $shop)
-        <li>
+        <li id="anchor_{{ $shop->id }}" data-shop-target={{ $shop->id }}>
             <x-card className="shop-card mb-4">
-                <input type="hidden" name="shop_coord" value={{ $shop->coord }}>
+                <input type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
                 <div class="p-2 bg-white rounded mt-2">
                     <div class="mt-1 d-flex">
                         <img class="shop-card_img img-fluid img-responsive rounded product-image me-3"

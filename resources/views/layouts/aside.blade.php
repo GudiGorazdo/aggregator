@@ -12,7 +12,7 @@
             <input id="filter_city" type="text" value="" name=city hidden>
             <button id="filters_apply" class="btn btn-success filters_apply" type="submit">Применить</button>
         </form>
-        <a href="/" class="btn btn-warning filters_cancel" type="submit">Сбросить все фильтры</a>
+        <a href="/" class="btn site-btn filters_cancel" type="submit">Сбросить все фильтры</a>
     </div>
-    <button class="aside_add-shop btn btn-info">добавить организацию</button>
+    <button class="aside_add-shop btn site-btn">добавить организацию</button>
 </aside>

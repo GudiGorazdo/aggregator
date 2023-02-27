@@ -23,9 +23,11 @@
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"
             >Фильтры</x-button-site>
-            <x-button-site class="change-display d-block">Карта</x-button-site>
+            <x-button-site id="change-display" class="change-display d-block">Карта</x-button-site>
         </div>
 
+        <div id="shops-map" class="hidden" style="max-width: 100%; height: 400px"></div>
+        {{-- <div id="shops-map" style="width: 100%; height: 400px"></div> --}}
         @include('layouts.shop.shop-list', ['shops' => $shops])
 
         <h3 class="title display-4 text-center">Похожие категории</h3>
@@ -48,9 +50,6 @@
             </div>
         </div>
 
-        <div id="map" style="width: 100%; height: 400px"></div>
-
-
         <div class="send-everyone">
             <x-button-primary-link
                 id="show-site-alert"
@@ -58,7 +57,7 @@
                 href="#"
                 data-modal-path="site-alert"
                 data-modal-one-button="true"
-                data-alert="Этот функционал временно недоступен."
+                data-alert="Этот функционал временно не доступен."
             >Отправить заявку всем
             </x-button-link>
         </div>

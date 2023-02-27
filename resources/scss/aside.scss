@@ -1,8 +1,14 @@
 .aside {
   position: relative;
+  margin: 0;
   padding-top: 50px;
   background-color: $light;
   border-radius: 0px;
+  @media(min-width: 576px) {
+    width: 50%;
+    margin: 0;
+    margin-right: auto;
+  }
 
   &.active {
     transform: translateX(0%);
