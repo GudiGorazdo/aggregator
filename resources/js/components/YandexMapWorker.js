@@ -84,7 +84,6 @@
           return function () {
             hideAllItems();
             showShop(shop);
-            // console.log(shop)
             scroll(shop.path);
             markCollection.each(function (placemark) {
               placemark.options.set('iconColor', '#6c757d');
@@ -100,9 +99,9 @@
         markCollection.each(function (mark) {
           mark.options.set('iconColor', '#6c757d');
           if (e.target.dataset.shopTarget == mark.properties.get('path')) {
-            console.log(mark.geometry.getCoordinates());
             e.target.classList.add('show');
             myMap.setCenter(mark.geometry.getCoordinates());
+            myMap.setZoom(15);
             mark.options.set('iconColor', '#1eafed');
           }
         });
