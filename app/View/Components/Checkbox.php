@@ -44,7 +44,7 @@ class Checkbox extends Component
         $this->classNamesInput .= ' ' . $classesInput;
         $this->classNamesLabel .= ' ' . $classesLabel;
         $this->dataset = $dataset;
-        $this->active = $active ? 'checked=true' : '';
+        $this->active = $active ? 'checked' : '';
     }
 
     /**

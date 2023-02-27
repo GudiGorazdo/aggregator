@@ -76,6 +76,7 @@ export default class LocationFilter {
       else await this.getCurrentCity(this.city.all);
     }
 
+    this.addAreaListeners();
     if (this.start) this.start = false;
   }
 
@@ -157,7 +158,7 @@ export default class LocationFilter {
     localStorage.setItem(this.city.storageMark, id);
     this.city.current = id;
     this.city.input.value = id;
-    this.addLocationFilters(id);
+    // this.addLocationFilters(id);
     this.activeAreas = [];
     if (!this.start) window.location.href = `/?city=${id}`;
   }
@@ -212,6 +213,8 @@ export default class LocationFilter {
   addAreaListeners = () => {
     this.getAreaItems().forEach(item => {
       item.addEventListener('click', this.changeAreas.bind(this));
+      if (item.checked) this.activeAreas.push(item.id);
+      this.hideSubways();
     });
   }
 
