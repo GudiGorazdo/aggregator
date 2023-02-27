@@ -27,7 +27,6 @@
         </div>
 
         <div id="shops-map" class="hidden" style="max-width: 100%; height: 400px"></div>
-        {{-- <div id="shops-map" style="width: 100%; height: 400px"></div> --}}
         @include('layouts.shop.shop-list', ['shops' => $shops])
 
         <h3 class="title display-4 text-center">Похожие категории</h3>
@@ -66,4 +65,5 @@
 
 @section('afterFooter')
     <script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU" type="text/javascript"></script>
+    @vite([ 'resources/js/scripts/pages/home.js' ])
 @endsection

@@ -2,7 +2,6 @@ import 'bootstrap';
 import './scripts/aside';
 import './scripts/burger';
 import ModalWindow from './plugins/modal/ModalWindow';
-import YandexMapWorker from './components/YandexMapWorker';
 
 document.addEventListener('DOMContentLoaded', () => {
   window.modalWindowPlugin = new ModalWindow({
@@ -18,5 +17,4 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
 
-  new YandexMapWorker();
 });
