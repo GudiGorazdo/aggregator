@@ -38,7 +38,7 @@ class GenerateRandomData
         for ($i = 0; $i < rand(5, 15); $i++) {
             $area = new \App\Models\Area();
             $area->name = ($i + 1) . '_Район';
-            $area->name_for_title =   ($i + 1) . 'м' . '_' . 'районе';
+            $area->name_for_title =   ($i + 1) . 'м';
             $area->city_id = $city_id;
             try {
                 $area->save();
@@ -61,11 +61,7 @@ class GenerateRandomData
             $subway->name = ($i + 1) . '_Метро__' . $area->name;
             $subway->city_id = $city_id;
             $subway->area_id = $area_id;
-            try {
-                $subway->save();
-            } catch (Exception $error) {
-                continue;
-            }
+            $subway->save();
             $arr[] = $subway->id;
         }
 
@@ -262,35 +258,27 @@ class GenerateRandomData
     {
         $arr = [];
         for ($i = 0; $i < rand(3, 9); $i++) {
-            $area = new \App\Models\SubCategory();
-            $area->name = ($i + 1) . '_подкатегория_' . $category_id . '_категория';
-            $area->category_id = $category_id;
-            try {
-                $area->save();
-            } catch (Exception $error) {
-                continue;
-            }
-            $arr[] = $area->id;
+            $sub_category = new \App\Models\SubCategory();
+            $sub_category->name = ($i + 1) . '_подкатегория_' . $category_id . '_категория';
+            $sub_category->category_id = $category_id;
+            $sub_category->save();
+            $arr[] = $sub_category->id;
         }
         return $arr;
     }
 
     private static function generateShopSubCategory($category_id, $shop_id)
     {
-        try {
-            \Illuminate\Support\Facades\DB::table('shop_sub_category')->insert([
-                'sub_category_id' => $category_id,
-                'shop_id' => $shop_id
-            ]);
-        } catch (Exception $error) {
-
-        }
+        \Illuminate\Support\Facades\DB::table('shop_sub_category')->insert([
+            'sub_category_id' => $category_id,
+            'shop_id' => $shop_id
+        ]);
     }
 
     private static function generateShopsWithSubways($city_id, $areas_arr, $b, $faker, $city_coord)
     {
         foreach($areas_arr as $area) {
-            $shop_ids = self::generateShop(rand(0, 7), $city_id, $area, $faker, $city_coord);
+            $shop_ids = self::generateShop(rand(1, 3), $city_id, $area, $faker, $city_coord);
             if ($b < 5) {
                 $subway_ids = self::generateSubway($city_id, $area);
                 foreach($shop_ids as $shop) {
@@ -306,11 +294,11 @@ class GenerateRandomData
         //     self::generateShopCategory($category_id, $shop_id);
         // }
         $sub_arr = self::generateSubCategories($category_id);
-        foreach($sub_arr as $sub) {
-            for ($i = 0; $i<7;$i++) {
-                self::generateShopSubCategory($sub, $shop_id);
-            }
-        }
+        // foreach($sub_arr as $sub) {
+        //     for ($i = 0; $i<7;$i++) {
+        //         self::generateShopSubCategory($sub, $shop_id);
+        //     }
+        // }
     }
 
     public static function generateRandomAdminUser()
@@ -337,11 +325,25 @@ class GenerateRandomData
         }
 
         $shops = \App\Models\Shop::all();
-        $categories = \App\Models\City::all();
+        $categories = \App\Models\Category::all();
 
         foreach($categories as $category) {
-            self::generateShopCategoriesAndSubCategories($category->id, $shops[rand(0, count($shops) - 1)]->id);
+            self::generateSubCategories($category->id);
+            // self::generateShopCategoriesAndSubCategories($category->id, '$shop->id');
         }
+
+        $sub_categories = \App\Models\SubCategory::all();
+        // dd(count($sub_categories));
+
+
+        foreach($shops as $shop) {
+            foreach($sub_categories as $c) {
+                if (rand(0, 3) > 0) {
+                    self::generateShopSubCategory($c->id, $shop->id);
+                }
+            }
+        }
+
 
         self::generateRandomAdminUser();
     }

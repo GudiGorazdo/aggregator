@@ -15,8 +15,9 @@ use \App\Http\Controllers\CookieController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//
 // \App\Services\GenerateRandomData::generateRandomData();
+
 // \App\Services\GenerateRandomData::generateRandomAdminUser();
 
 // dd(str('filters')->append('what??')->append('second')->append(['asdf', 'asdfas']));

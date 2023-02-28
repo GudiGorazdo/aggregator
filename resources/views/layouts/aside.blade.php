@@ -2,12 +2,12 @@
     <x-close-btn class="nav-menu_close modal-window__close" />
         <div class="filters">
             <div class="mb-3">
-                {{ app(\App\Services\FilterService::class)->getFilterByName('CityFilter')->render() }}
+                {{ app(\App\Services\FilterService::class)->getFilterByName('CityFilter')->render(null, false) }}
             </div>
             <form id="filters_form" class="filters_form" action="/" method="GET">
             @csrf
             @foreach(app(\App\Services\FilterService::class)->getFilters() as $filter)
-                {{ $filter->generalRender() }}
+                {{ $filter->render() }}
             @endforeach
             <input id="filter_city" type="text" value="" name=city hidden>
             <button id="filters_apply" class="btn btn-success filters_apply" type="submit">Применить</button>

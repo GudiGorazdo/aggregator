@@ -18,10 +18,11 @@ class TitleService
         $categories = self::getCategories($request);
         $areas = self::getAreas($request, $shops);
 
-        $location = $areas != ''
-            ? ' в ' . $areas
-            : ' в ' . self::getCityTitle($request, $shops)
-        ;
+        $city = self::getCityTitle($request, $shops);
+
+        $location = '';
+        if ($areas != '') $location = ' в ' . $areas;
+        else if ($city != '') $location = ' в ' . $city;
 
         $title = $categories . $location;
         if ($title == '') return 'Все скупки';
@@ -67,8 +68,14 @@ class TitleService
         $city = array_values($city->unique()->toArray());
 
         if (count($city) < 1) {
-            $city_id = $request->get('city') ?? CookieController::getCookie(CookieConstants::LOCATION) ?? '';
-            $city = [City::where('id', $city_id)->get()->first()['name_for_title']];
+            $city_id = $request->get('city') ?? CookieController::getCookie(CookieConstants::LOCATION) ?? false;
+            if ($city_id) {
+                $city = City::where('id', $city_id)->get()->first();
+                if ($city) $city = [$city['name_for_title']];
+                else $city = [];
+            } else {
+                $city = [];
+            }
         }
 
         if (count($city) > 1) return '';
