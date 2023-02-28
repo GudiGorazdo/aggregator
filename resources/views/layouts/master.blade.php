@@ -21,6 +21,7 @@
     @include('layouts.header')
     <main id="main-content" class="main-content">@yield('content')</main>
     <div class="modal-window">
+        @yield('modal')
         @include('layouts.aside')
         @include('layouts.nav-bar')
         @include('layouts.alert')

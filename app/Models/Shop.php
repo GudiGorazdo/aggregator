@@ -26,6 +26,11 @@ class Shop extends Model
         return $query;
     }
 
+    public function scopeGetById(Builder $query, string|int $id): Builder
+    {
+        return $query->where('id', $id)->with('workingMode')->with('area')->with('city')->with('subCategories');
+    }
+
     public function working(): belongsTo
     {
         return $this->belongsTo(\App\Models\City::class);

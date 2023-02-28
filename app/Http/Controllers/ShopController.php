@@ -19,7 +19,7 @@ class ShopController extends Controller
 
     public function shop(Request $request, string $id): View
     {
-        dd($id);
-        return view('pages.shop');
+        $shop = Shop::getById(+$id)->get();
+        return view('pages.shop', compact('shop'));
     }
 }

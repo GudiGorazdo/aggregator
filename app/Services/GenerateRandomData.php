@@ -121,7 +121,7 @@ class GenerateRandomData
             ));
 
             $photos = [];
-            for($i = 0; $i < rand(1, 30); $i++) {
+            for($i = 0; $i < rand(10, 30); $i++) {
                 $photos[] = 'https://picsum.photos/';
             }
 
