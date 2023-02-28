@@ -20,7 +20,6 @@ abstract class BaseFilter
     protected string $name;
     protected string $field;
     protected array $attributes;
-    protected string|null $related;
     protected array $request;
 
     public function __construct(
@@ -28,13 +27,11 @@ abstract class BaseFilter
         string $label,
         string $field,
         array $attributes = [],
-        string $related = null,
     ) {
         $this->name = $name;
         $this->label = $label;
         $this->field = $field;
         $this->attributes = $attributes;
-        $this->related = $related;
         $this->request = app(Request::class)->all();
     }
 

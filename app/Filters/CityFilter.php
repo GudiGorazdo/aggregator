@@ -43,17 +43,13 @@ class CityFilter extends BaseFilter
     public function apply(Builder $query): Builder
     {
         $value = $this->request[$this->name] ?? false;
-
-        if (!$value && CookieConstants::LOCATION) {
+        if (!$value) {
             $value = CookieController::getCookie(CookieConstants::LOCATION) ?? false;
         }
-
-        if (is_string($value)) {
-            $query = $query->where($this->field, $value);
+        if ($value) {
             CookieController::setCookie(CookieConstants::LOCATION, $value, CookieController::getYears(1));
+            return $query->where($this->field, $value);
         }
-
-        if (is_array($value)) $query = $query->whereIn($this->field, $value);
 
         return $query;
     }
