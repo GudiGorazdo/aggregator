@@ -1,7 +1,8 @@
 @php
     if (isset($params)) $city_id = $params ?? null;
-    else if (isset($request['city'])) $city_id = $request['city'] ?? null;
+    else $city_id = $request['city'] ?? \App\Http\Controllers\CookieController::getCookie(\App\Constants\CookieConstants::LOCATION) ?? null;
     $items = $filter->getItems(+$city_id);
+    var_dump($city_id);
 @endphp
 @include('filters.location-filter', [
     'items' => $items,

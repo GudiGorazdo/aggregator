@@ -2,10 +2,15 @@
 
 namespace App\Filters;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\CookieController;
+use App\Constants\CookieConstants;
 use App\Filters\BaseFilter;
 use App\Models\Area;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Builder;
 
 class LocationFilter extends BaseFilter
 {
@@ -39,6 +44,14 @@ class LocationFilter extends BaseFilter
     {
         if (!$city_id) return new  Collection([]);
         return Area::getByCityIdWithSubways($city_id)->get();
+    }
+
+    // Отрисовка фильтра
+    public function render(int|null $city_id = null): View|Factory|Application
+    {
+        if (!$city_id) $city_id = $request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION) ?? null;
+        $items = $this->getItems(+$city_id);
+        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id, 'items'=> $items]);
     }
 
     public function apply(Builder $query): Builder

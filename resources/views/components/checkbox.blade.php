@@ -7,7 +7,6 @@
         {{ $active }}
         {{ $dataset }}
         id="{{ $id }}"
-        {{-- checked --}}
     >
     <label class="{{ $classNamesLabel }}" for="{{ $id }}">
         {{ $slot }}

@@ -28,7 +28,7 @@ class LocationController extends Controller
 
     public function locationCookie(): Response
     {
-        $city = CookieController::getCookie(CookieConstants::LOCATION);
+        $city = CookieController::getCookie(CookieConstants::LOCATION) ?? null;
         return response($city);
     }
 

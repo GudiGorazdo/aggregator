@@ -155,11 +155,11 @@ export default class LocationFilter {
   }
 
   onSelectCity = (id) => {
-    localStorage.setItem(this.city.storageMark, id);
+    // localStorage.setItem(this.city.storageMark, id);
+    // // this.addLocationFilters(id);
+    // this.activeAreas = [];
     this.city.current = id;
     this.city.input.value = id;
-    // this.addLocationFilters(id);
-    this.activeAreas = [];
     if (!this.start) window.location.href = `/?city=${id}`;
   }
 
