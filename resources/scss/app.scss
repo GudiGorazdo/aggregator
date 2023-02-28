@@ -13,14 +13,19 @@
 @import "./components/accordion.scss";
 @import "./components/burger.scss";
 @import "./components/nav-menu.scss";
+@import "./components/button-fixed-bottom.scss";
 
-@import "./alert.scss";
 @import "./filters/filters.scss";
-@import "./aside.scss";
-@import "./nav-bar.scss";
-@import "./header.scss";
-@import "./footer.scss";
-@import "./home.scss";
+
+@import "./layouts/alert.scss";
+@import "./layouts/header.scss";
+@import "./layouts/footer.scss";
+@import "./layouts/aside.scss";
+@import "./layouts/nav-bar.scss";
+@import "./layouts/similar.scss";
+
+@import "./pages/home.scss";
+@import "./pages/shop.scss";
 
 @import "./styles.scss";
 

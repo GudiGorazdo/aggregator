@@ -11,7 +11,7 @@
                     <div class="p-2 bg-white rounded mt-2">
                         <div class="mt-1 d-flex">
                             <img class="shop-card_img img-fluid img-responsive rounded product-image me-3"
-                                src="{{ $shop->photo . 'id/' . rand(1, 500) }}/100/100" alt="{{ $shop->logo }}">
+                                src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="логотип магазина {{ $shop->name }}">
                             <div class="mt-1">
                                 <h5 class="shop-card_title">{{ $shop->name }}</h5>
                                 <div class="d-flex flex-row">

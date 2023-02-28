@@ -16,4 +16,10 @@ class ShopController extends Controller
         // dd($title);
         return view('pages.home', compact('shops', 'title'));
     }
+
+    public function shop(Request $request, string $id): View
+    {
+        dd($id);
+        return view('pages.shop');
+    }
 }

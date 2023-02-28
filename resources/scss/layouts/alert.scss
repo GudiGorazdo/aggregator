@@ -1,13 +1,13 @@
 .site-alert {
   width: max-content;
   max-width: 80%;
-  padding-top: 50px;
+  padding-top: 4em;
 
   &_close {
-    top: 5px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
+    top: 0.25em;
+    right: 0.25em;
+    width: 2em;
+    height: 2em;
   }
 
   @media(min-width: 992px) {

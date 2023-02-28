@@ -5,28 +5,27 @@
     @param string $bodyClassName                 -- класс для тела элемента
     @param string $buttonId                      -- id кликабельного заголовка(кнопка открытия/закрытия)
     @param string $collapse                      -- идентификатор связи кнопки и тела элемента
+    @param many $show                            -- открыт ли элемент при загрузке. Для того чтобы был открыт нужна строка 'true'
 
     -- эти переменные могут передовать что угодно, если они заданы, то это интерпритируется как true
     @param many $disabled                        -- доступен ли элемент пользователю
-    @param many $show                            -- открыт ли элемент при загрузке
 --}}
 
-{{-- <div class="accordion-item {{ $className ?? '' }}"> --}}
 <div class="accordion-item {{ $className ?? '' }}">
     <h2 class="accordion-header {{ $headerClassName ?? '' }}">
         <button
-            class="accordion-button {{ isset($show) ? '' : ' collapsed' }} {{ $headerButtonClassName ?? '' }}{{ isset($disabled) && $disabled ? ' disabled disabled--grey opacity-5' : '' }}"
+            class="accordion-button {{  (isset($show) && $show =='true') ? '' : ' collapsed' }} {{ $headerButtonClassName ?? '' }}{{ isset($disabled) && $disabled ? ' disabled disabled--grey opacity-5' : '' }}"
             {{ isset($buttonId) ? 'id=' . $buttonId : '' }}
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#{{ $collapse }}"
-            aria-expanded="{{ isset($show) ? ' true' : 'false' }}"
+            aria-expanded="{{ (isset($show) && $show =='true') ? ' true' : 'false' }}"
             aria-controls="{{ $collapse }}"
         >
             {{ $title }}
         </button>
     </h2>
-    <div id="{{ $collapse }}" class="multi-collapse collapse{{ isset($show) ? ' show' : '' }}">
+    <div id="{{ $collapse }}" class="multi-collapse collapse{{  (isset($show) && $show =='true') ? ' show' : '' }}">
         <div
             {{ isset($bodyId) ? "id=" . $bodyId : ''}}
             class="accordion-body {{ $bodyClassName ?? '' }}"

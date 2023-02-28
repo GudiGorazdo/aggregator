@@ -5,7 +5,7 @@
     &_button {
       width: 100%;
       margin: 0;
-      padding: 7px 15px;
+      padding: 0.5em 1em;
       display: block;
       border: none;
       border-bottom: 1px solid $secondary;
@@ -14,7 +14,7 @@
       font-size: 1em;
 
       &::after {
-        margin-left: 10px;
+        margin-left: 0.7em;
       }
 
       &[aria-expanded="false"]::after {
@@ -26,12 +26,12 @@
     }
 
     &_body {
-      padding: 10px 15px;
+      padding: 0.7em 1em;
     }
   }
 
   .accordion-body {
-    padding-bottom: 20px;
+    padding-bottom: 1.2em;
   }
 
   .accordion-body::before {
@@ -56,7 +56,7 @@
 
   .form-check-label {
     display: block;
-    padding: 5px 0px;
+    padding: 0.3em 0px;
     text-align: center;
     font-size: 0.9em;
   }
@@ -68,7 +68,7 @@
   }
 
 
-  $mb: 25px;
+  $mb: 1.5em;
   &-categories,
   .star-rating,
   #filter_location,

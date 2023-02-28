@@ -25,6 +25,7 @@
         @include('layouts.nav-bar')
         @include('layouts.alert')
     </div>
+    @include('layouts.similar')
     @include('layouts.footer')
     @yield('afterFooter')
 

@@ -24,7 +24,7 @@
 .colorlib-nav-toggle {
   width: max-content;
   margin: 0;
-  padding: 20px !important;
+  padding: 0.7em !important;
   border: none;
   display: inline-flex;
   justify-content: center;
@@ -54,17 +54,17 @@
   i {
     position: relative;
     display: inline-block;
-    width: 30px;
+    width: 1.8em;
     height: 2px;
     color: $black;
-    font:bold 14px/.4 Helvetica;
+    font:bold 1em/.4 Helvetica;
     text-transform: uppercase;
-    text-indent:-55px;
+    text-indent: 3.4em;
     background: $black;
     transition: all .3s ease-out;
      &::before, &::after {
         content:'';
-      width: 30px;
+      width: 1.8em;
       height: 2px;
       background: $black;
       position: absolute;
@@ -87,16 +87,16 @@
 }
 
 .colorlib-nav-toggle i::before {
-  top: -7px;
+  top: -0.4em;
 }
 .colorlib-nav-toggle i::after {
-  bottom: -7px;
+  bottom: -0.4em;
 }
 .colorlib-nav-toggle:hover i::before {
-  top: -10px;
+  top: -0.7em;
 }
 .colorlib-nav-toggle:hover i::after {
-  bottom: -10px;
+  bottom: -0.7em;
 }
 .colorlib-nav-toggle.active i {
   background: transparent;
@@ -119,7 +119,7 @@
 }
 .colorlib-nav-toggle {
   cursor: pointer;
-  padding: 20px;
+  padding: 0.7em;
   opacity: 1;
   visibility: visible;
   @include transition(.3s);

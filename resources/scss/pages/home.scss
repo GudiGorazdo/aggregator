@@ -5,17 +5,24 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 2em;
 }
 
 .descrtiption {
-  &_mobile {
+  &-mobile {
     @media(min-width: 992px) {
       display: none;
     }
   }
-  &_desktop {
+  &-desktop {
     display: none;
+
+    &--lower {
+      padding: 1em 2em;
+      font-weight: 600;
+      font-size: 1.2em;
+    }
+
     @media(min-width: 992px) {
       display: block;
     }
@@ -33,7 +40,7 @@
 .filters-show {
   position: relative;
   width: 30%;
-  padding: 15px 5px;
+  padding: 1em 0.3em;
 
 
   @media(min-width: 992px) {
@@ -41,13 +48,13 @@
     top: 50%;
     left: 0;
     width: unset;
-    padding: 70px 10px;
+    padding: 4em 0.8em;
     writing-mode: vertical-rl;
     text-orientation: upright;
     transform: translateY(-50%);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    font-size: 20px;
+    font-size: 1.2em;
     z-index: 999;
 
     &::before {
@@ -65,13 +72,13 @@
 
     @keyframes arrow-animation {
       0% {
-        left: 0px;
+        left: 0em;
       }
       70% {
-        left: 5px;
+        left: 0.3em;
       }
       100% {
-        left: 0px;
+        left: 0em;
       }
     }
   }
@@ -93,7 +100,7 @@
   @media(min-width: 992px) {
     display: flex;
     flex-direction: row-reverse;
-    column-gap: 20px;
+    column-gap: 1.2em;
   }
 }
 
@@ -102,7 +109,7 @@
   max-width: 100%;
   width: 100%;
   height: 400px;
-  margin-bottom: 40px;
+  margin-bottom: 2.4em;
   opacity: 0;
   visibility: hidden;
 
@@ -160,10 +167,10 @@
       visibility: visible;
     }
     & .card-body {
-      border: 5px solid transparent;
+      border: 0.3em solid transparent;
     }
     &.show .card-body {
-      border: 5px solid $primary;
+      border: 0.3em solid $primary;
       border-radius: var(--bs-card-border-radius);
     }
   }
@@ -172,7 +179,7 @@
 .shop-card {
   box-sizing: content-box;
   &_title  {
-    font-size: 20px;
+    font-size: 1.2em;
   }
 }
 
@@ -183,7 +190,7 @@
 
   &_item {
     a {
-      font-size: 38px;
+      font-size: 2.3em;
     }
   }
 }
@@ -202,31 +209,4 @@
   }
 }
 
-.similar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
-  @media(min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-}
-
-.send-everyone {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  width: 100%;
-  padding: 10px;
-  display: inline-block;
-  border-radius: 0;
-
-  @media(min-width: 992px) {
-    position: relative;
-    width: 70%;
-    z-index: 1;
-  }
-}

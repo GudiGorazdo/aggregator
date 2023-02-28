@@ -9,6 +9,7 @@
         collapse="collapse_filter_{{ $name }}_inner"
         title="{{ $label }}"
         bodyId="filter_{{ $name }}_body"
+        show="{{ isset($request[$name]) ? 'true' : 'false' }}"
         disabled="{{ count($items) > 0 ? false : true }}"
     >
         @if ($city_id)

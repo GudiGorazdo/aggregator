@@ -77,6 +77,7 @@ class GenerateRandomData
             if ($convience) {
                 if (rand(0, 4)) {
                     $mode[$day . '_open'] = 24;
+                    $mode[$day . '_close'] = 0;
                     continue;
                 }
                 continue;
@@ -102,8 +103,7 @@ class GenerateRandomData
             $shop = new \App\Models\Shop();
             $shop->city_id = $city_id;
             $shop->area_id = $area_id;
-            $shop->logo =  'LOGO_' .rand(100000, 999999);
-            $shop->photo = 'https://picsum.photos/';
+            $shop->logo =  'https://picsum.photos/';
             $shop->title = 'Title_' .rand(100000, 999999);
             $shop->name = 'Name_' .rand(100000, 999999);
             $shop->address = 'Улица_' .rand(1000, 9999) . ' д. ' . rand(10, 99);
@@ -119,6 +119,13 @@ class GenerateRandomData
                 'lat' => $faker->latitude($latMin, $latMax ),
                 'long' => $faker->longitude($longMin, $longMax)
             ));
+
+            $photos = [];
+            for($i = 0; $i < rand(1, 30); $i++) {
+                $photos[] = 'https://picsum.photos/';
+            }
+
+            $shop->photos = json_encode($photos);
 
             $additionalPhones = NULL;
             $shop->phone = rand(1000000, 9999999);
@@ -278,7 +285,7 @@ class GenerateRandomData
     private static function generateShopsWithSubways($city_id, $areas_arr, $b, $faker, $city_coord)
     {
         foreach($areas_arr as $area) {
-            $shop_ids = self::generateShop(rand(1, 3), $city_id, $area, $faker, $city_coord);
+            $shop_ids = self::generateShop(rand(1, 5), $city_id, $area, $faker, $city_coord);
             if ($b < 5) {
                 $subway_ids = self::generateSubway($city_id, $area);
                 foreach($shop_ids as $shop) {
