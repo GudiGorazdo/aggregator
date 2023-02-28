@@ -1,20 +1,28 @@
 .site-alert {
   width: max-content;
   max-width: 80%;
-  padding-top: 4em;
-
-  &_close {
-    top: 0.25em;
-    right: 0.25em;
-    width: 2em;
-    height: 2em;
-  }
-
+  padding: 2em;
   @media(min-width: 992px) {
     max-width: 60%;
   }
-
   @media(min-width: 992px) {
     max-width: 50%;
+  }
+
+  &_close.button_close {
+    top: -1.7em;
+    right: -2em;
+    background-color: $light;
+    border-radius: 100%;
+
+    // span.close-icon::after,
+    // span.close-icon::before {
+    //   background-color: $light;
+    // }
+  }
+
+  &_message {
+    margin: 0;
+    padding: 0;
   }
 }

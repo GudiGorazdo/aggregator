@@ -22,7 +22,7 @@
             @for($a = 0; $a < count($f); $a++)
                 <li class="preview_item">
                     <button class="preview_button" data-modal-path="photos_window" data-preview={{ $a }}>
-                        <img class="preview_img" src="{{ json_decode($shop->photos)[$a] . '/id/' . $f[$a] }}/150/150" alt="фото компании {{ $shop->name }}">
+                        <img class="preview_img" src="{{ json_decode($shop->photos)[$a] . '/id/' . $f[$a] }}/150/150" loading="lazy" alt="фото компании {{ $shop->name }}">
                     </button>
                 </li>
             @endfor
@@ -31,30 +31,20 @@
 @endsection
 
 @section('modal')
-    <div id="photos" class="photos modal-window__container" data-modal-target="photos_window" style="max-width: 80%">
-        <!-- Slider main container -->
+    <div id="photos" class="photos modal-window__container" data-modal-target="photos_window">
+        <x-close-btn class="photos_close modal-window__close" />
         <div class="swiper">
-            <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
-                <!-- Slides -->
                 @foreach (json_decode($shop->photos) as $photo)
                     <div class="swiper-slide d-flex justify-content-center">
-                        <img src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 300)) }}/1000/700" alt="фото компании {{ $shop->name }}">
+                        <img src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 300)) }}/1000/700" loading="lazy" alt="фото компании {{ $shop->name }}">
                         @php $i++ @endphp
                     </div>
                 @endforeach
             </div>
-            <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
-
-            <!-- If we need navigation buttons -->
-            {{-- <div id="n" class="swiper-button-prev"></div>
-            <div id="p" class="swiper-button-next"></div> --}}
-            <div id="n" class="swiper-button-prev"></div>
-            <div id="p" class="swiper-button-next"></div>
-
-            <!-- If we need scrollbar -->
-            <div class="swiper-scrollbar"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
     </div>
 @endsection

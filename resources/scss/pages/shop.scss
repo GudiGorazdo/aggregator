@@ -3,3 +3,30 @@
     pointer-events: none;
   }
 }
+
+.photos {
+  max-width: 70%;
+  padding: 0;
+  background-color: transparent;
+}
+
+.photos_close.button_close {
+  top: -1em;
+  right: -5.3em;
+  width: 5em;
+  height: 5em;
+  z-index: 2;
+}
+
+.photos_close.button_close span.close-icon::after,
+.photos_close.button_close span.close-icon::before {
+  background-color: $light;
+  height: 3px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 0 !important;
+  height: 100% !important;
+  padding: 0 2em;
+}

@@ -1,4 +1,4 @@
-import YandexMapWorker from '../../components/YandexMapWorker';
+import YandexMapWorker from '../../modules/YandexMapWorker';
 
 document.addEventListener('DOMContentLoaded', () => {
   new YandexMapWorker();
