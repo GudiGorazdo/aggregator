@@ -112,12 +112,11 @@ export default class ModalWindow {
 
   focusTrap() {
     const focusable = this.modalContainer.querySelectorAll(this.focusElements);
-    if (this.isOpen) {
-      if (focusable) {
-        setTimeout(() => {
+    if (this.isOpen && focusable.length > 0) {
+      console.log(focusable)
+      setTimeout(() => {
         focusable[0].focus();
-        }, 100);
-      }
+      }, 100);
     } else {
       this.previosActiveElement.focus();
     }

@@ -2,12 +2,16 @@
 /**
   Start
   First, just copy the chooser.js and chooser.css files to the project folder.
+
   Then connect them to the head of your html file
   <script defer="defer" src="/your/path/chooser.js"></script>
   <link href="/your/path/chooser.css" rel="stylesheet">
+
   Then connect your file with scripts, such as scripts.js
   <script defer="defer" src="scripts.js"></script>
+
   and create a new Chooser instance in your file using the object with the settings.
+
   Example of a settings object
   const options = {
     el: 'select',
@@ -32,7 +36,9 @@
       item: 'some-class__item',
     }
   }
+
   const select = new Chooser(options);
+
   Complete list of settings
   const select = new Chooser({
   el: 'element',
@@ -104,6 +110,7 @@
     someFunction(item);
   }  -- the function will be executed during the selection of the item
 });
+
   Methods
 
   select(index, true) - select element;
@@ -114,6 +121,7 @@
 
   Aattributes
   data-chooser_no_close=${id} - do not close this.checkMiss(event);
+
   Classes
   hover       - stylizing the state of hover
   focused     - stylizing the state of focus when accessing from the keyboard
