@@ -21,7 +21,10 @@ extends Controller
     {
         $shop = Shop::getById(+$id)->get()->first();
         $photos = json_decode($shop->photos);
+        foreach($shop->services as $service) {
+            $comments[$service->id] = json_decode($service->pivot->comments) ?? [];
+        }
         $timeBeforeClose = TitleService::getTimeBeforeClose($shop);
-        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose'));
+        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'comments'));
     }
 }

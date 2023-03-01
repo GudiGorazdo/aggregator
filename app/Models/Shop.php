@@ -11,8 +11,6 @@ use App\Services\FilterService;
 
 class Shop extends Model
 {
-    protected $appends = ['now_rating'];
-
     public function getRouteKey()
     {
         return 'id';
@@ -21,14 +19,25 @@ class Shop extends Model
     public function scopeFilter(Builder $query): Builder
     {
         foreach (app(FilterService::class)->getFilters() as $filter) {
-            $query = $filter->apply($query)->with('workingMode')->with('area')->with('city')->with('subCategories');
+            $query = $filter->apply($query)
+                ->with('workingMode')
+                ->with('area')
+                ->with('city')
+                ->with('subCategories')
+            ;
         }
         return $query;
     }
 
     public function scopeGetById(Builder $query, string|int $id): Builder
     {
-        return $query->where('id', $id)->with('workingMode')->with('area')->with('city')->with('subCategories');
+        return $query->where('id', $id)
+            ->with('workingMode')
+            ->with('area')
+            ->with('city')
+            ->with('subCategories')
+            ->with('services')
+        ;
     }
 
     public function working(): belongsTo
@@ -64,5 +73,13 @@ class Shop extends Model
     public function workingMode(): hasOne
     {
         return $this->hasOne(\App\Models\WorkingMode::class);
+    }
+
+    public function services(): belongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Service::class)
+            ->withPivot('rating')
+            ->withPivot('comments')
+        ;
     }
 }

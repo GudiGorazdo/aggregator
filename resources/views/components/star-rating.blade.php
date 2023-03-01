@@ -3,7 +3,7 @@
 @endphp
 
 <fieldset class="star-rating">
-  <legend class="star-rating_caption">Рейтинг</legend>
+  <legend class="star-rating_caption">{{ $label }}</legend>
   <div class="star-rating_group">
     @foreach ([
       '1' => 'Очень плохо',
@@ -15,7 +15,7 @@
         class="star-rating_radio"
         type="radio"
         name="rating"
-        value="{{ $key }}" {{ $key == $rating ? 'checked' : '' }}
+        value="{{ (integer)$key }}" {{ (integer)$key == number_format((integer)$rating, 0, '') ? 'checked' : '' }}
         autocomplete="off"
         aria-label="{{ $value }}"
       >@endforeach

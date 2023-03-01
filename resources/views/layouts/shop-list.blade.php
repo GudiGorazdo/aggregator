@@ -14,12 +14,7 @@
                             <div class="mt-1">
                                 <h5 class="shop-card_title"><a href="{{ route('shop', ['id' => $shop->id]) }}">{{ $shop->name }}</a></h5>
                                 <div class="d-flex flex-row">
-                                    <div class="rating mr-2">
-                                        @for ($i = 0; $i < 5; $i++)
-                                            <i class="fa fa-star rating_star {{ $i < (int)$shop->average_rating ? 'rating_star--gold' : '' }}"></i>
-                                        @endfor
-                                        <span class="rating_count">{{ number_format($shop->average_rating, 2, ',') }}</span>
-                                    </div>
+                                   <x-star-rating-display rating="{{ $shop->average_rating }}"/>
                                 </div>
                                 <div class="mt-1 mb-1 spec-1">
                                     <span>{{ $shop->address }}</span>

@@ -96,6 +96,15 @@ class GenerateRandomData
 
         $arr = [];
 
+        $services = ['Яндекс карты', 'Google maps', '2Gis', 'Авито'];
+
+        foreach($services as $s) {
+            \Illuminate\Support\Facades\DB::table('services')->insert([
+                'name' => $s,
+            ]);
+        }
+
+
         for ($i = 0; $i < $n; $i++) {
             $shop = new \App\Models\Shop();
             $shop->city_id = $city_id;
@@ -159,11 +168,15 @@ class GenerateRandomData
                 rand(11, 50) / 10,
                 rand(11, 50) / 10,
             );
-            $shop->yandex_rating = $ratingArray[0];
-            $shop->google_rating = $ratingArray[1];
-            $shop->gis_rating = $ratingArray[2];
-            $shop->avito_rating = $ratingArray[3];
+
             $shop->average_rating = number_format(array_sum($ratingArray) / count($ratingArray), 1, '.');
+
+            try {
+                $shop->save();
+            } catch (Exception $error) {
+                continue;
+            }
+
 
             $comments = [];
             $services = [
@@ -195,11 +208,21 @@ class GenerateRandomData
             $shop->gis_comments = json_encode($comments['gis_comments']);
             $shop->avito_comments = json_encode($comments['avito_comments']);
 
-            try {
-                $shop->save();
-            } catch (Exception $error) {
-                continue;
+            // $shop->yandex_rating = $ratingArray[0];
+            // $shop->google_rating = $ratingArray[1];
+            // $shop->gis_rating = $ratingArray[2];
+            // $shop->avito_rating = $ratingArray[3];
+
+
+            for ($i = 0; $i < 4; $i++) {
+                \Illuminate\Support\Facades\DB::table('service_shop')->insert([
+                    'shop_id' => $shop->id,
+                    'service_id' => $i + 1,
+                    'rating' => $ratingArray[$i],
+                    'comments' => json_encode($comments[$services[$i]]),
+                ]);
             }
+
 
             self::generateWorkingMode($shop->id, !!$shop->convenience_shop);
 

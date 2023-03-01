@@ -38,6 +38,21 @@
             <h2 class="shop-header_title">Комиссионный магазин "{{ $shop->name }}"</h2>
         </div>
         <div class="shop-open"><h4 class="shop-open_title">{{ $timeBeforeClose }}</h4></div>
+        <div class="shop-rating">
+            <div class="shop-rating_average">
+                <x-star-rating-display rating="{{ +$shop->average_rating }}"/>
+                <span>{{ +$shop->average_rating }}</span>
+            </div>
+            <ul class="shop-rating_list">
+                @foreach($shop->services as $service)
+                    <li class="shop-rating_item">
+                        <p class="shop-rating_service">{{ $service->name }}</p>
+                        <x-star-rating-display rating="{{ +$service->pivot->rating }}"/>
+                        <p class="shop-rating_comments">{{ count($comments[$service->id]) }}</p>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </section>
 @endsection
 
