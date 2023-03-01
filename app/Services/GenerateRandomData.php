@@ -133,20 +133,24 @@ class GenerateRandomData
 
             $shop->photos = json_encode($photos);
 
-            $additionalPhones = NULL;
-            $shop->phone = rand(1000000, 9999999);
+            $additionalPhones = [];
+            $shop->phone = $faker->phoneNumber();
             for($i=0; $i < rand(0, 7); $i++) {
-                $additionalPhones[] = rand(1000000, 9999999);
+                $additionalPhones[] = $faker->phoneNumber();
             }
             if ($additionalPhones) {
                 $shop->additional_phones = json_encode($additionalPhones);
             }
 
-            $shop->whatsapp = '#';
-            $shop->telegram = '#';
-            $shop->vk = '#';
-            $shop->web = '#';
-            $moreSocials = NULL;
+            $shop->whatsapp = $faker->phoneNumber();
+            $shop->telegram = $faker->phoneNumber();
+            $shop->vk = $faker->phoneNumber();
+            $web = [];
+            for($i = 0; $i < rand(1, 5); $i++) {
+                $web[] = $faker->safeEmailDomain();
+            }
+            $shop->web = json_encode($web);
+            $moreSocials = [];
             for($i=0; $i < rand(0, 7); $i++) {
                 $moreSocials['name_' . ($i + 1)] = '#';
             }
@@ -155,7 +159,7 @@ class GenerateRandomData
             }
 
             for($i=0; $i < rand(1, 3); $i++) {
-                $emails[] = '#';
+                $emails[] = $faker->email();
             }
             $shop->emails = json_encode($emails);
 
@@ -336,7 +340,7 @@ class GenerateRandomData
         $user->save();
     }
 
-    public static function generateRandomData()
+    public static function start()
     {
         $faker = Factory::create();
 

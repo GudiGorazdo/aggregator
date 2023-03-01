@@ -53,6 +53,42 @@
                 @endforeach
             </ul>
         </div>
+        <x-socials-list
+            classNameList="shop-rating-socials"
+            classNameItem="shop-rating-socials_item"
+            tg="{{ $shop->telegram }}"
+            whatsapp="{{ $shop->whatsapp }}"
+            phone="{{ $shop->phone }}"
+        />
+        <div class="shop-contacts">
+            <h5 class="shop_subtitle">телефон:</h5>
+            <ul class="shop-contacts_list">
+                @foreach(json_decode($shop->additional_phones) as $phone)
+                    <li class="shop-contacts_item"><a class="shop-list_link" href="tel:{{ $phone }}">{{ $phone }}</a></li>
+                @endforeach
+            </ul>
+            <h5 class="shop_subtitle">вебсайт</h5>
+            <ul class="shop-contacts_list">
+                @foreach(json_decode($shop->web) as $web)
+                    <li class="shop-contacts_item"><a class="shop-list_link" href="{{ $web }}">{{ $web }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="shop-working-mode">
+            <h5 class="shop_subtitle">режим работы</h5>
+            <table class="shop-working-mode_list">
+                @foreach($workingMode as $day)
+                    <tr>
+                        <td>{{ $day['day'] }}</td>
+                        @if ($day['open'] == '0')
+                            <td>Выходной</td>
+                        @else
+                            <td>{{ $day['open'] }}:00 - {{ $day['close'] }}:00</td>
+                        @endif
+                    </tr>
+                @endforeach
+            </table>
+        </div>
     </section>
 @endsection
 

@@ -29,18 +29,14 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center mt-4">
-                            <ul class="shop-card-socials d-flex">
-                                <li class="shop-card-socials_item me-2">
-                                    <x-contact-telegram href="{{ $shop->telegram }}"/>
-                                </li>
-                                <li class="shop-card-socials_item me-2">
-                                    <x-contact-whatsapp href="{{ $shop->whatsapp }}"/>
-                                </li>
-                                <li class="shop-card-socials_item me-2">
-                                    <x-contact-phone href="tel:{{ $shop->phone }}"/>
-                                </li>
-                            </ul>
-                            <x-button-primary-link class="btn-sm p-2" href="#">Отправить заявку</x-button-primary-link>
+                            <x-socials-list
+                                classNameList="shop-card-socials"
+                                classNameItem="shop-card-socials_item"
+                                tg="{{ $shop->telegram }}"
+                                whatsapp="{{ $shop->whatsapp }}"
+                                phone="{{ $shop->phone }}"
+                            />
+                            <x-button-primary-link class="btn-sm p-2 ms-2" href="#">Отправить заявку</x-button-primary-link>
                             <a class="more-details" href="{{ route('shop', ['id' => $shop->id]) }}">Детальнее &#8594;</a>
                         </div>
                     </div>
