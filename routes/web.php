@@ -23,7 +23,7 @@ use \App\Http\Controllers\CookieController;
 // dd(str('filters')->append('what??')->append('second')->append(['asdf', 'asdfas']));
 // \App\Filters\LocationFilter::apply();
 
-// dd(Carbon::now()->hour);
+// dd(Carbon::now('Etc/GMT-3')->format('l H:i:s'));
 
 // dd(CookieController::setCookie('user', 'asjkdfkjhasdf'));
 // CookieController::setCookie('user', 'asjkdfkjhasdf');

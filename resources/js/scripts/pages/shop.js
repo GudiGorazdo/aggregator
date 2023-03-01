@@ -4,7 +4,7 @@ import 'swiper/css/pagination';
 import Swiper, { Navigation, Pagination } from 'swiper';
 
 document.addEventListener('DOMContentLoaded', (e) => {
-  const swiper = new Swiper('.swiper', {
+  const swiperParams = {
     modules: [Navigation, Pagination],
     loop: true,
     pagination: {
@@ -15,11 +15,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
     },
+  }
+  const swiper = new Swiper('.swiper', swiperParams);
+
+  window.modalWindowPlugin.options.addOpenCallBack(() => {
+    swiper.updateProgress();
+    swiper.update();
   });
 
   document.querySelectorAll('[data-preview]').forEach(button => {
     button.addEventListener('click', (e) => {
-      swiper.slideTo(e.target.dataset.preview, 0, false);
+      swiper.slideTo(+e.target.dataset.preview, 0, false);
     });
   });
 });

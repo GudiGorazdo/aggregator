@@ -73,14 +73,11 @@ class GenerateRandomData
         $days = [ 'monday', 'tuesday', 'monday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', ];
         $mode = new \App\Models\WorkingMode();
         $mode->shop_id = $shop_id;
-        foreach ($days as $day) {
+
+        foreach ($days as $i => $day) {
             if ($convience) {
-                if (rand(0, 4)) {
-                    $mode[$day . '_open'] = 24;
-                    $mode[$day . '_close'] = 0;
-                    continue;
-                }
-                continue;
+                $mode[$day . '_open'] = 24;
+                $mode[$day . '_close'] = 24;
             }
             if (rand(0, 4)) {
                 $mode[$day . '_open'] = rand(8, 12);

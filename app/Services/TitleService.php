@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
-use App\Constants\CookieConstants;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\CookieController;
+use App\Constants\CookieConstants;
 use App\Models\Area;
 use App\Models\City;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use App\Models\SubCategory;
 use App\Models\Subway;
 
@@ -111,5 +113,102 @@ class TitleService
         }
 
         return $string;
+    }
+
+    public static function getTimeBeforeClose(Model $shop): string
+    {
+        $timezone = 'Etc/GMT-' . (3 + $shop->city->timezone);
+        $now = mb_strtolower(Carbon::now($timezone)->format('l Y-m-d H:i:s'));
+        $nowData = explode(' ', $now);
+        $shopOpen = $shop->workingMode[$nowData[0] . '_open'];
+        $shopClose = $shop->workingMode[$nowData[0] . '_close'];
+
+        $openTime = Carbon::parse($nowData[1] . ' ' . $shopOpen . ":00:00");
+        $closeTime = Carbon::parse($nowData[1] . ' ' . $shopClose . ":00:00");
+        $nowTime = Carbon::parse($nowData[1] . ' ' . $nowData[2]);
+
+        if ($shopOpen == 24) return 'Магазин открыт круглосуточно';
+
+        if ($closeTime->gt($nowTime) && !$closeTime->gt($openTime)) {
+            $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
+            if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
+            return 'До закрытия магазина осталось '
+                . $timeBeforeClose[0]
+                . ' '
+                . self::getNumEnding((integer)$timeBeforeClose[0], array('час', 'часа', 'часов'))
+                . ' '
+                . $timeBeforeClose[1]
+                . ' '
+                . self::getNumEnding((integer)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
+            ;
+         } else if ($closeTime->gt($openTime)) {
+            return 'Магазин откроется сегодня в '
+                . $shopOpen
+                . ' '
+                . self::getNumEnding($shopOpen, array('час', 'часа', 'часов'))
+            ;
+         } else {
+            $nextWorkDayData = self::getNextWorkDay($shop, $nowData[0]);
+            return 'Магазин откроется '
+                . self::getDayName($nextWorkDayData[0])
+                . ' в '
+                . $shop->workingMode[$nextWorkDayData[0] . '_open']
+                . ' '
+                . self::getNumEnding($shop->workingMode[$nextWorkDayData[0] . '_open'], array('час', 'часа', 'часов'))
+            ;
+        }
+    }
+
+    private static function getDayName(string $name): string
+    {
+        switch($name) {
+            case 'monday':
+                return 'в понедельник';
+            case 'tuesday':
+                return 'во вторник';
+            case 'wednesday':
+                return 'в среду';
+            case 'thursday':
+                return 'в четверг';
+            case 'friday':
+                return 'в пятницу';
+            case 'saturday':
+                return 'в субботу';
+            case 'sunday':
+                return 'в воскресенье';
+        }
+    }
+
+    private static function getNumEnding(int $number, array $endingArray): string
+    {
+        $number = $number % 100;
+        if ($number>=11 && $number<=19) {
+            $ending=$endingArray[2];
+        }
+        else {
+            $i = $number % 10;
+            switch ($i)
+            {
+                case (1): $ending = $endingArray[0]; break;
+                case (2):
+                case (3):
+                case (4): $ending = $endingArray[1]; break;
+                default: $ending=$endingArray[2];
+            }
+        }
+        return $ending;
+    }
+
+    private static function getNextWorkDay(Model $shop, string $date): array
+    {
+        $day = 1;
+        $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l Y-m-d H:i:s'));
+        $data = explode(' ', $next);
+        while(is_null($shop->workingMode[$data[0] . '_open'])) {
+            $day++;
+            $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l Y-m-d H:i:s'));
+            $data = explode(' ', $next);
+        }
+        return $data;
     }
 }

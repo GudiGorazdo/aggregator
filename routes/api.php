@@ -25,3 +25,5 @@ Route::get('/location/{id}', [App\Http\Controllers\LocationController::class, 'l
 Route::get('/cities', [App\Http\Controllers\LocationController::class, 'cities']);
 Route::get('/location_cookie', [App\Http\Controllers\LocationController::class, 'locationCookie']);
 Route::get('/location_start', [App\Http\Controllers\LocationController::class, 'getStartCityId']);
+
+Route::get('/coords', [App\Http\Controllers\LocationController::class, 'getStartCityId']);

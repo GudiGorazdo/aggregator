@@ -47,13 +47,13 @@
                 data-modal-path="aside_menu"
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"
-            >Фильтры</x-button-site>
+            ><span>Фильтры</span></x-button-site>
             <x-button-site id="change-display" class="change-display">Карта</x-button-site>
         </div>
 
         <div class="home-content-wrapper mb-5">
             <div id="shops-map" class="shops-map"></div>
-            @include('layouts.shop.shop-list', ['shops' => $shops])
+            @include('layouts.shop-list', ['shops' => $shops])
         </div>
 
         <p class="descrtiption-desktop descrtiption-desktop--lower">

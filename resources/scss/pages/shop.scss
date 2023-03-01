@@ -7,7 +7,24 @@
 .photos {
   max-width: 70%;
   padding: 0;
-  background-color: transparent;
+  background-color: $light;
+
+  &_img {
+    width: 94%;
+    max-width: 100%;
+    margin: auto;
+    height: 100vh;
+    object-fit: contain;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: 0 !important;
+    height: 100% !important;
+    margin-top: 0 !important;
+    padding: 0 3%;
+    background-color: $light;
+  }
 }
 
 .photos_close.button_close {
@@ -22,11 +39,4 @@
 .photos_close.button_close span.close-icon::before {
   background-color: $light;
   height: 3px;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  top: 0 !important;
-  height: 100% !important;
-  padding: 0 2em;
 }
