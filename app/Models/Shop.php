@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Database\Eloquent\Relations\hasOne;
 use App\Services\FilterService;
 
@@ -70,9 +71,9 @@ class Shop extends Model
         return $this->belongsToMany(\App\Models\SubCategory::class);
     }
 
-    public function workingMode(): hasOne
+    public function workingMode(): hasMany
     {
-        return $this->hasOne(\App\Models\WorkingMode::class);
+        return $this->hasMany(\App\Models\ShopWorkingMode::class);
     }
 
     public function services(): belongsToMany

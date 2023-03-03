@@ -47,7 +47,14 @@
                 data-modal-path="aside_menu"
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"
-            ><span>Фильтры</span></x-button-site>
+            ><span>Ф</span>
+            <span>и</span>
+            <span>л</span>
+            <span>ь</span>
+            <span>т</span>
+            <span>р</span>
+            <span>ы</span>
+        </x-button-site>
             <x-button-site id="change-display" class="change-display">Карта</x-button-site>
         </div>
 

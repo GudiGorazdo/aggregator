@@ -12,15 +12,19 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\SubCategory;
 use App\Models\Subway;
+use App\Traits\GetNumEndingTrait;
+use \App\Traits\GetDayTime;
 
 class TitleService
 {
+    use GetNumEndingTrait;
+    use GetDayTime;
+
     static function getHomePage(Request $request, Collection $shops): string
     {
         $categories = self::getCategories($request);
         $areas = self::getAreas($request, $shops);
-
-        $city = self::getCityTitle($request, $shops);
+        $city = self::getCity($request, $shops);
 
         $location = '';
         if ($areas != '') $location = ' в ' . $areas;
@@ -41,7 +45,6 @@ class TitleService
         $areasTitles = $areas->map(function ($area, $key) {
             return $area->name_for_title;
         });
-
         $areasTitles = $areasTitles->toArray();
 
         $subway_ids = $request->get('subway') ?? [];
@@ -51,10 +54,8 @@ class TitleService
         });
 
         $areasTitles = [... $areasTitles, ... $subwaysAreas->toArray()];
-
         $areasTitles = array_values(array_unique($areasTitles));
         $string = self::getStringFromAtrray($areasTitles);
-
 
         if (count($areasTitles) == 1) $string .= ' районе';
         else if ($string != '') $string .= ' районах';
@@ -62,7 +63,7 @@ class TitleService
         return $string;
     }
 
-    private static function getCityTitle(Request $request, Collection $shops): string
+    private static function getCity(Request $request, Collection $shops): string
     {
         $city = $shops->map(function ($shop, $key) {
             return $shop->city->name_for_title;
@@ -117,98 +118,148 @@ class TitleService
 
     public static function getTimeBeforeClose(Model $shop): string
     {
-        $timezone = 'Etc/GMT-' . (3 + $shop->city->timezone);
-        $now = mb_strtolower(Carbon::now($timezone)->format('l Y-m-d H:i:s'));
+        $now = mb_strtolower(self::getFullTime($shop->city->timezone));
         $nowData = explode(' ', $now);
-        $shopOpen = $shop->workingMode[$nowData[0] . '_open'];
-        $shopClose = $shop->workingMode[$nowData[0] . '_close'];
-
-        $openTime = Carbon::parse($nowData[1] . ' ' . $shopOpen . ":00:00");
-        $closeTime = Carbon::parse($nowData[1] . ' ' . $shopClose . ":00:00");
+        $dayNum = self::getDayNumByName($nowData[0]);
+        $shopOpen = $shop->workingMode[(int)$dayNum - 1]['open_time'];
+        $shopClose = $shop->workingMode[(int)$dayNum - 1]['close_time'];
+        $shopIsOpen = $shop->workingMode[(int)$dayNum - 1]['is_open'];
+        $openTime = $shopOpen ? Carbon::parse($nowData[1] . ' ' . $shopOpen) : null;
+        $closeTime = $shopClose ? Carbon::parse($nowData[1] . ' ' . $shopClose) : null;
         $nowTime = Carbon::parse($nowData[1] . ' ' . $nowData[2]);
 
-        if ($shopOpen == 24) return 'Магазин открыт круглосуточно';
+        if (!$shopIsOpen) {
+            $nextDayOpen = self::getNextWorkDay($shop, $nowData[0]);
+            return 'Магазин откроется '
+                . self::getDayWithEndingForOpen($nextDayOpen['day'])
+                . ' '
+                . $nextDayOpen['date']
+                . ' в '
+                . substr($nextDayOpen['time'], 0, -3)
+            ;
+        }
 
-        if ($closeTime->gt($nowTime) && !$closeTime->gt($openTime)) {
+        if ((!$openTime || $openTime->lessThan($nowTime)) && !$closeTime) {
+            $nextDayClose = self::getNextCloseDay($shop, $nowData[0]);
+            if ($nextDayClose) {
+                return 'Магазин открыт до '
+                    . self::getDayWithEndingForClose($nextDayClose['day'])
+                    . ' '
+                    . $nextDayClose['date']
+                    . ' '
+                    . substr($nextDayClose['time'], 0, -3)
+                ;
+            }
+            return 'Магазин открыт каждый день круглосуточно';
+        }
+
+        if ($closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '
-                . self::getNumEnding((integer)$timeBeforeClose[0], array('час', 'часа', 'часов'))
+                . self::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
                 . ' '
                 . $timeBeforeClose[1]
                 . ' '
-                . self::getNumEnding((integer)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
+                . self::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
-         } else if ($closeTime->gt($openTime)) {
+         } else if ($closeTime->greaterThan($openTime)) {
             return 'Магазин откроется сегодня в '
                 . $shopOpen
                 . ' '
-                . self::getNumEnding($shopOpen, array('час', 'часа', 'часов'))
+                . self::getNumEnding((int)$shopOpen, array('час', 'часа', 'часов'))
             ;
          } else {
             $nextWorkDayData = self::getNextWorkDay($shop, $nowData[0]);
             return 'Магазин откроется '
-                . self::getDayName($nextWorkDayData[0])
+                . self::getDayWithEndingForOpen($nextWorkDayData[0])
                 . ' в '
                 . $shop->workingMode[$nextWorkDayData[0] . '_open']
-                . ' '
+                . ' в '
                 . self::getNumEnding($shop->workingMode[$nextWorkDayData[0] . '_open'], array('час', 'часа', 'часов'))
             ;
         }
+        return '';
     }
 
-    private static function getDayName(string $name): string
+    private static function getNextWorkDay(Model $shop, string $date): array|bool
+    {
+        $day = 1;
+        $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
+        $data = explode(' ', $next);
+        $dayNum = self::getDayNumByName($data[0]);
+        while(!$shop->workingMode[$dayNum - 1]['is_open']) {
+            if ($day == 8 ) return false;
+            $day++;
+            $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
+            $data = explode(' ', $next);
+            $dayNum = self::getDayNumByName($data[0]);
+        }
+        return [
+            'day' => $data[0],
+            'date' => $data[1],
+            'time' => $shop->workingMode[$dayNum - 1]['open_time'],
+        ];
+    }
+
+    private static function getNextCloseDay(Model $shop, string $date): array|bool
+    {
+        $day = 1;
+        $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
+        $data = explode(' ', $next);
+        $dayNum = self::getDayNumByName($data[0]);
+        while(!$shop->workingMode[$dayNum - 1]['is_open'] || is_null($shop->workingMode[$dayNum - 1]['close_time'])) {
+            if ($day == 8 ) return false;
+            $day++;
+            $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
+            $data = explode(' ', $next);
+            $dayNum = self::getDayNumByName($data[0]);
+        }
+        return [
+            'day' => $data[0],
+            'date' => $data[1],
+            'time' => $shop->workingMode[$dayNum - 1]['close_time'],
+        ];
+    }
+
+    private static function getDayWithEndingForOpen(string $name): string
     {
         switch($name) {
             case 'monday':
-                return 'в понедельник';
+                return 'понедельник';
             case 'tuesday':
                 return 'во вторник';
             case 'wednesday':
-                return 'в среду';
+                return 'среду';
             case 'thursday':
-                return 'в четверг';
+                return 'четверг';
             case 'friday':
-                return 'в пятницу';
+                return 'пятницу';
             case 'saturday':
-                return 'в субботу';
+                return 'субботу';
             case 'sunday':
-                return 'в воскресенье';
+                return 'воскресенье';
         }
     }
-
-    private static function getNumEnding(int $number, array $endingArray): string
+    private static function getDayWithEndingForClose(string $name): string
     {
-        $number = $number % 100;
-        if ($number>=11 && $number<=19) {
-            $ending=$endingArray[2];
+        switch($name) {
+            case 'monday':
+                return 'понедельника';
+            case 'tuesday':
+                return 'вторника';
+            case 'wednesday':
+                return 'среды';
+            case 'thursday':
+                return 'четверга';
+            case 'friday':
+                return 'пятницы';
+            case 'saturday':
+                return 'субботы';
+            case 'sunday':
+                return 'воскресенья';
         }
-        else {
-            $i = $number % 10;
-            switch ($i)
-            {
-                case (1): $ending = $endingArray[0]; break;
-                case (2):
-                case (3):
-                case (4): $ending = $endingArray[1]; break;
-                default: $ending=$endingArray[2];
-            }
-        }
-        return $ending;
-    }
-
-    private static function getNextWorkDay(Model $shop, string $date): array
-    {
-        $day = 1;
-        $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l Y-m-d H:i:s'));
-        $data = explode(' ', $next);
-        while(is_null($shop->workingMode[$data[0] . '_open'])) {
-            $day++;
-            $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l Y-m-d H:i:s'));
-            $data = explode(' ', $next);
-        }
-        return $data;
     }
 }

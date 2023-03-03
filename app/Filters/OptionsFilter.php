@@ -4,14 +4,18 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use App\Filters\BaseFilter;
+use \App\Filters\BaseFilter;
 use \App\Http\Controllers\CookieController;
 use \App\Constants\CookieConstants;
-use App\Models\City;
+use \App\Traits\GetDayTime;
+use \App\Models\City;
 
 
 class OptionsFilter extends BaseFilter
 {
+
+    use GetDayTime;
+
     /**
      * @param $items = [
      *   [
@@ -21,6 +25,8 @@ class OptionsFilter extends BaseFilter
      * ];
      */
     private $items = [];
+    private $city_id = null;
+    private $timezone = null;
 
     public function __construct(array $items, string $name = 'options', $label = 'Опции')
     {
@@ -33,28 +39,21 @@ class OptionsFilter extends BaseFilter
         return $this->items;
     }
 
-    public function getDay(): string
-    {
-        return strtolower(Carbon::now()->isoFormat('dddd'));
-    }
-
-    private function getCityUTC(int $id): int
-    {
-        return City::getById($id)['timezone'];
-    }
-
-    public function getTime(): int
-    {
-        $city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
-        if (!$city_id) dd("Потерялся ид города!!!");
-        return (int)Carbon::now()->hour + 3 + (int)$this->getCityUTC($city_id);
-    }
-
     public function workNow(Builder $query): Builder
     {
         $query = $query->whereHas('workingMode', function (Builder $query) {
-            return $query->where($this->getDay() . '_open', '<', $this->getTime())
-                ->where($this->getDay() . '_close', '>', $this->getTime())
+            return $query->where('day_of_week', self::getNowDayNum($this->timezone))
+                ->where('is_open', 1)
+                ->where(function (Builder $query) {
+                        $query->whereTime('open_time', '<', self::getTime($this->timezone))
+                            ->orWhereNull('open_time')
+                    ;
+                })
+                ->where(function (Builder $query) {
+                        $query->whereTime('close_time', '>', self::getTime($this->timezone))
+                            ->orWhereNull('close_time')
+                    ;
+                })
             ;
         });
         return $query;
@@ -62,10 +61,13 @@ class OptionsFilter extends BaseFilter
 
     public function apply(Builder $query): Builder
     {
+
         foreach ($this->getItems() as $filter) {
             $value = $this->request[$filter['name']] ?? false;
             if ($value) {
                 if ($filter['name'] == 'work_now') {
+                    $this->city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
+                    $this->timezone = City::getById($this->city_id)['timezone'];
                     $this->workNow($query);
                     continue;
                 }

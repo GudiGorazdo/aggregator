@@ -80,10 +80,10 @@
                 @foreach($workingMode as $day)
                     <tr>
                         <td>{{ $day['day'] }}</td>
-                        @if ($day['open'] == '0')
+                        @if (!$day['is_open'])
                             <td>Выходной</td>
                         @else
-                            <td>{{ $day['open'] }}:00 - {{ $day['close'] }}:00</td>
+                            <td>с {{ $day['open'] ?? '-'  }} до {{ $day['close'] ?? '-' }}</td>
                         @endif
                     </tr>
                 @endforeach

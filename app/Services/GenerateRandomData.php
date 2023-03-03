@@ -4,6 +4,7 @@ namespace App\Services;
 use Faker\Factory;
 
 use Exception;
+use Illuminate\Support\Carbon;
 
 class GenerateRandomData
 {
@@ -68,26 +69,72 @@ class GenerateRandomData
         return $arr;
     }
 
-    public static function generateWorkingMode($shop_id, $convience)
+    public static function generateWorkingMode($shop_id, $faker, $convience)
     {
-        $days = [ 'monday', 'tuesday', 'monday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', ];
-        $mode = new \App\Models\WorkingMode();
-        $mode->shop_id = $shop_id;
+        $firstOpen = false;
+        $firstOpenTime = null;
 
-        foreach ($days as $i => $day) {
+        $nextDay = $faker->boolean(80); // 80% вероятность, что открыто
+        $bDay = false;
+        $bDayClose = false;
+
+        for ($i = 1; $i <= 7; $i++) {
+            $shop_id = $shop_id;
+            $day_of_week = $i;
+            $is_open = $nextDay;
+            if ($i == 7 ) $nextDay = false;
+            else $nextDay = $faker->boolean(80);
+            $minutesOpen = $faker->boolean() ? '30' : '00';
+            $minutesClose = $faker->boolean() ? '30' : '00';
             if ($convience) {
-                $mode[$day . '_open'] = 24;
-                $mode[$day . '_close'] = 24;
+                if ($bDay && is_null($bDayClose)) {
+                    $open_time = null;
+                } else if (($is_open && !$bDay) || !$bDay) {
+                    $open_time = rand(8, 12) . ':' . $minutesOpen;
+                    // $open_time = substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3);
+                }
+                if (!$nextDay) {
+                    $close_time = rand(18, 21) . ':' . $minutesClose;
+                    // $close_time = substr((string) Carbon::parse((string)rand(18, 21) . ':' . $minutesClose), 0, -3);
+                } else {
+                    $close_time = null;
+                }
+            } else {
+                if ($bDay && is_null($bDayClose)) {
+                    $open_time = null;
+                } else if ($nextDay && !is_null($bDayClose)) {
+                    $open_time = rand(8, 12) . ':' . $minutesOpen;
+                    // $open_time = substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3);
+                } else if (($is_open && !$bDay) || !$bDay) {
+                    $open_time = rand(8, 12) . ':' . $minutesOpen;
+                    // $open_time = substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3);
+                } else {
+                    $open_time = $faker->boolean() ? rand(8, 12) . ':' . $minutesOpen : null; // 50% вероятность, что будет время открытия
+                    // $open_time = $faker->boolean() ? substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3) : null; // 50% вероятность, что будет время открытия
+                }
+                if (!$nextDay || ($i == 7 && $firstOpen && !is_null($firstOpenTime))) {
+                    $close_time = rand(18, 21) . ':' . $minutesClose;
+                    // $close_time = substr((string) Carbon::parse((string)rand(18, 21) . ':' . $minutesClose), 0, -3);
+                } else if ($i == 7 && $firstOpen && is_null($firstOpenTime)) {
+                    $close_time = null;
+                } else {
+                    $close_time = $faker->boolean() ? rand(18, 21) . ':' . $minutesClose : null; // 50% вероятность, что будет время закрытия
+                }
             }
-            if (rand(0, 4)) {
-                $mode[$day . '_open'] = rand(8, 12);
-                $mode[$day . '_close'] = rand(18, 22);
+            $bDay = $is_open;
+            $bDayClose = $close_time;
+            if($i == 1) {
+                $firstOpen = $is_open;
+                $firstOpenTime = $open_time;
             }
+            \Illuminate\Support\Facades\DB::table('shop_working_modes')->insert([
+                'shop_id' => $shop_id,
+                'day_of_week' => $day_of_week,
+                'is_open' => $is_open,
+                'open_time' => $open_time,
+                'close_time' => $close_time,
+            ]);
         }
-        try {
-            $mode->save();
-        } catch (Exception $error) {
-         }
     }
 
     private static function generateShop($n, $city_id, $area_id, $faker, $city_coord)
@@ -175,12 +222,7 @@ class GenerateRandomData
 
             $shop->average_rating = number_format(array_sum($ratingArray) / count($ratingArray), 1, '.');
 
-            try {
-                $shop->save();
-            } catch (Exception $error) {
-                continue;
-            }
-
+            $shop->save();
 
             $comments = [];
             $services = [
@@ -228,7 +270,7 @@ class GenerateRandomData
             }
 
 
-            self::generateWorkingMode($shop->id, !!$shop->convenience_shop);
+            self::generateWorkingMode($shop->id, $faker, $shop->convenience_shop);
 
             $arr[] = $shop->id;
         }

@@ -16,7 +16,7 @@ use \App\Http\Controllers\CookieController;
 |
 */
 //
-// \App\Services\GenerateRandomData::generateRandomData();
+// \App\Services\GenerateRandomData::start();
 
 // \App\Services\GenerateRandomData::generateRandomAdminUser();
 
