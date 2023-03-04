@@ -172,12 +172,14 @@
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
                     <div class="swiper-slide d-flex justify-contentrcenter">
+                        <div id="ftco-loader" class="loader"></div>
                         <img
                             class="photos_img"
                             src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 200)) }}/1000/700"
                             loading="lazy"
                             alt="фото компании {{ $shop->name }}"
                         >
+
                         @php $i++ @endphp
                     </div>
                 @endforeach

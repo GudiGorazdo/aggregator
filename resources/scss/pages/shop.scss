@@ -15,6 +15,8 @@
     margin: auto;
     height: 100vh;
     object-fit: contain;
+    color: transparent;
+    z-index: 2;
   }
 
   .swiper-button-prev,
@@ -39,4 +41,14 @@
 .photos_close.button_close span.close-icon::before {
   background-color: $light;
   height: 3px;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/images/Loading.gif');
+  background-repeat: no-repeat;
+  background-position: center;
 }
