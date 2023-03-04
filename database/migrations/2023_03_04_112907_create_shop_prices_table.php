@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_shop', function (Blueprint $table) {
+        Schema::create('shop_prices', function (Blueprint $table) {
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('category_id');
-            $table->primary(['shop_id', 'category_id']);
+            $table->unsignedBigInteger('sub_category_id');
+            $table->integer('price');
+            $table->primary(['shop_id', 'category_id', 'sub_category_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_shop');
+        Schema::dropIfExists('shop_prices');
     }
 };

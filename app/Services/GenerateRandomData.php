@@ -91,11 +91,9 @@ class GenerateRandomData
                     $open_time = null;
                 } else if (($is_open && !$bDay) || !$bDay) {
                     $open_time = rand(8, 12) . ':' . $minutesOpen;
-                    // $open_time = substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3);
                 }
                 if (!$nextDay) {
                     $close_time = rand(18, 21) . ':' . $minutesClose;
-                    // $close_time = substr((string) Carbon::parse((string)rand(18, 21) . ':' . $minutesClose), 0, -3);
                 } else {
                     $close_time = null;
                 }
@@ -104,17 +102,13 @@ class GenerateRandomData
                     $open_time = null;
                 } else if ($nextDay && !is_null($bDayClose)) {
                     $open_time = rand(8, 12) . ':' . $minutesOpen;
-                    // $open_time = substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3);
                 } else if (($is_open && !$bDay) || !$bDay) {
                     $open_time = rand(8, 12) . ':' . $minutesOpen;
-                    // $open_time = substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3);
                 } else {
                     $open_time = $faker->boolean() ? rand(8, 12) . ':' . $minutesOpen : null; // 50% вероятность, что будет время открытия
-                    // $open_time = $faker->boolean() ? substr((string) Carbon::parse((string)rand(8, 12) . ':' . $minutesOpen), 0, -3) : null; // 50% вероятность, что будет время открытия
                 }
                 if (!$nextDay || ($i == 7 && $firstOpen && !is_null($firstOpenTime))) {
                     $close_time = rand(18, 21) . ':' . $minutesClose;
-                    // $close_time = substr((string) Carbon::parse((string)rand(18, 21) . ':' . $minutesClose), 0, -3);
                 } else if ($i == 7 && $firstOpen && is_null($firstOpenTime)) {
                     $close_time = null;
                 } else {
@@ -167,7 +161,6 @@ class GenerateRandomData
             $latMax = (int)$city->lat + (125/1000);
             $longMin = (int)$city->long - (125/1000);
             $longMax = (int)$city->long + (125/1000);
-            // dd($latMin, $latMax, $longMin, $longMax);
             $shop->coord = json_encode(array(
                 'lat' => $faker->latitude($latMin, $latMax ),
                 'long' => $faker->longitude($longMin, $longMax)
@@ -254,12 +247,6 @@ class GenerateRandomData
             $shop->gis_comments = json_encode($comments['gis_comments']);
             $shop->avito_comments = json_encode($comments['avito_comments']);
 
-            // $shop->yandex_rating = $ratingArray[0];
-            // $shop->google_rating = $ratingArray[1];
-            // $shop->gis_rating = $ratingArray[2];
-            // $shop->avito_rating = $ratingArray[3];
-
-
             for ($i = 0; $i < 4; $i++) {
                 \Illuminate\Support\Facades\DB::table('service_shop')->insert([
                     'shop_id' => $shop->id,
@@ -268,7 +255,6 @@ class GenerateRandomData
                     'comments' => json_encode($comments[$services[$i]]),
                 ]);
             }
-
 
             self::generateWorkingMode($shop->id, $faker, $shop->convenience_shop);
 
@@ -315,18 +301,6 @@ class GenerateRandomData
     }
 
 
-    // private static function generateShopCategory($category_id, $shop_id)
-    // {
-    //     try {
-    //         \Illuminate\Support\Facades\DB::table('category_shop')->insert([
-    //             'category_id' => $category_id,
-    //             'shop_id' => $shop_id
-    //         ]);
-    //     } catch (Exception $error) {
-
-    //     }
-    // }
-
     private static function generateSubCategories($category_id)
     {
         $arr = [];
@@ -361,25 +335,24 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShopCategoriesAndSubCategories($category_id, $shop_id)
-    {
-        // for ($i = 0; $i<4;$i++) {
-        //     self::generateShopCategory($category_id, $shop_id);
-        // }
-        $sub_arr = self::generateSubCategories($category_id);
-        // foreach($sub_arr as $sub) {
-        //     for ($i = 0; $i<7;$i++) {
-        //         self::generateShopSubCategory($sub, $shop_id);
-        //     }
-        // }
-    }
-
     public static function generateRandomAdminUser()
     {
         $user = new \App\Models\AdminUser();
         $user->login = 'admin';
         $user->password = bcrypt('admin666');
         $user->save();
+    }
+
+    public static function generateShopPrices($shop_id, $category_id, $sub_category_id)
+    {
+        if (rand(0, 3)) {
+            \Illuminate\Support\Facades\DB::table('shop_prices')->updateOrInsert([
+                'shop_id' => $shop_id,
+                'category_id' => $category_id,
+                'sub_category_id' => $sub_category_id,
+                'price' => rand(10, 500) . '000',
+            ]);
+        }
     }
 
     public static function start()
@@ -402,21 +375,24 @@ class GenerateRandomData
 
         foreach($categories as $category) {
             self::generateSubCategories($category->id);
-            // self::generateShopCategoriesAndSubCategories($category->id, '$shop->id');
         }
 
         $sub_categories = \App\Models\SubCategory::all();
-        // dd(count($sub_categories));
-
 
         foreach($shops as $shop) {
             foreach($sub_categories as $c) {
+                // if (rand(0, 5)) continue;
                 if (rand(0, 3) > 0) {
                     self::generateShopSubCategory($c->id, $shop->id);
+                    $category = $categories->find($c->category_id);
+                    \Illuminate\Support\Facades\DB::table('category_shop')->updateOrInsert([
+                        'category_id' => $category->id,
+                        'shop_id' => $shop->id
+                    ]);
+                    self::generateShopPrices($shop->id, $category->id, $c->id);
                 }
             }
         }
-
 
         self::generateRandomAdminUser();
     }

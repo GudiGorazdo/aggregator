@@ -36,8 +36,10 @@ class Shop extends Model
             ->with('workingMode')
             ->with('area')
             ->with('city')
+            ->with('categories')
             ->with('subCategories')
             ->with('services')
+            ->with('prices')
         ;
     }
 
@@ -74,6 +76,11 @@ class Shop extends Model
     public function workingMode(): hasMany
     {
         return $this->hasMany(\App\Models\ShopWorkingMode::class);
+    }
+
+    public function prices(): hasMany
+    {
+        return $this->hasMany(\App\Models\ShopPrices::class);
     }
 
     public function services(): belongsToMany

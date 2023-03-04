@@ -35,6 +35,18 @@ class ShopController extends Controller
                 'close' => substr($day['close_time'], 0, -3)
             ];
         }
-        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'comments', 'workingMode'));
+        foreach($shop->categories as $key => $category) {
+            $subCategories = $shop->subCategories->where('category_id', $category->id);
+            foreach($subCategories as $k => $subCategory) {
+                $prices[$key]['data'][$k] = [
+                    'name' => $subCategory->name,
+                    'price' => $shop->prices->where('sub_category_id', $subCategory->id)->first()->price ?? null
+                ];
+            }
+            $prices[$key]['name'] =  $category->name;
+            $prices[$key]['max'] = max(array_column($prices[$key]['data'], 'price')) ?? null;
+        }
+
+        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'comments', 'workingMode', 'prices'));
     }
 }

@@ -18,6 +18,7 @@
 
 @section('content')
     <section class="shop container">
+        <input id="shop_coord" type="hidden" value="{{ $shop->coord }}">
         <div class="preview wrapper d-flex align-items-center">
             <ul class="preview d-flex">
                 @for($a = 0; $a < count($f); $a++)
@@ -40,6 +41,7 @@
         <div class="shop-open"><h4 class="shop-open_title">{{ $timeBeforeClose }}</h4></div>
         <div class="shop-rating">
             <div class="shop-rating_average">
+                <p class="shop-rating_label">Общий рейтинг</p>
                 <x-star-rating-display rating="{{ +$shop->average_rating }}"/>
                 <span>{{ +$shop->average_rating }}</span>
             </div>
@@ -48,7 +50,6 @@
                     <li class="shop-rating_item">
                         <p class="shop-rating_service">{{ $service->name }}</p>
                         <x-star-rating-display rating="{{ +$service->pivot->rating }}"/>
-                        <p class="shop-rating_comments">{{ count($comments[$service->id]) }}</p>
                     </li>
                 @endforeach
             </ul>
@@ -89,6 +90,31 @@
                 @endforeach
             </table>
         </div>
+            <div class="shop-location">
+                <h5 class="shop_subtitle">адрес:</h5>
+                <div id="shops-map" class="shop-location_map"></div>
+            </div>
+            <div class="shop-description">{{ $shop->description }}</div>
+            <ul class="shop-categories">
+                @foreach ($prices as $price)
+                    <li class="shop-categories_item">
+                        <h4 class="shop-categories_title">{{ $price['name'] }}</h4>
+                        @if (!is_null($price['max']))
+                            <span class="shop-categories_price">от {{ $price['max'] }}</span>
+                        @endif
+                        <ul class="shop-categories_sub-categories">
+                            @foreach ($price['data'] as $subCategory)
+                                <li class="shop-categories_sub-item">
+                                    <h4 class="shop-categories_title">{{ $subCategory['name'] }}</h4>
+                                    @if (!is_null($price['max']))
+                                        <span class="shop-categories_price">от {{ $subCategory['price'] }}</span>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endforeach
+            </ul>
     </section>
 @endsection
 
