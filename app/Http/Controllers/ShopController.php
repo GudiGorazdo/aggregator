@@ -7,10 +7,12 @@ use Illuminate\Contracts\View\View;
 use App\Models\Shop;
 use \App\Services\TitleService;
 use \App\Traits\GetDayTime;
+use \App\Traits\GetNumEndingTrait;
 
 class ShopController extends Controller
 {
     use GetDayTime;
+    use GetNumEndingTrait;
 
     public function index(Request $request): View
     {
@@ -23,11 +25,18 @@ class ShopController extends Controller
     {
         $shop = Shop::getById(+$id)->get()->first();
         $photos = json_decode($shop->photos);
-        foreach($shop->services as $service) {
-            $comments[$service->id] = json_decode($service->pivot->comments) ?? [];
+        foreach ($shop->services as $service) {
+            $serviceCommments = json_decode($service->pivot->comments) ?? [];
+            $services[] = [
+                'id' => $service->id,
+                'name' => $service->name,
+                'rating' => $service->pivot->rating,
+                'comments_count_title' => count($serviceCommments) . ' ' . $this->getNumEnding(count($serviceCommments), array('отзыв', 'oтзыва', 'отзывов')),
+                'comments' => $serviceCommments
+            ];
         }
         $timeBeforeClose = TitleService::getTimeBeforeClose($shop);
-        foreach($shop->workingMode->toArray() as $day) {
+        foreach ($shop->workingMode->toArray() as $day) {
             $workingMode[] = [
                 'day' => self::getDayNumByNum((int) $day['day_of_week']),
                 'is_open' => $day['is_open'],
@@ -35,9 +44,9 @@ class ShopController extends Controller
                 'close' => substr($day['close_time'], 0, -3)
             ];
         }
-        foreach($shop->categories as $key => $category) {
+        foreach ($shop->categories as $key => $category) {
             $subCategories = $shop->subCategories->where('category_id', $category->id);
-            foreach($subCategories as $k => $subCategory) {
+            foreach ($subCategories as $k => $subCategory) {
                 $prices[$key]['data'][$k] = [
                     'name' => $subCategory->name,
                     'price' => $shop->prices->where('sub_category_id', $subCategory->id)->first()->price ?? null
@@ -47,6 +56,6 @@ class ShopController extends Controller
             $prices[$key]['max'] = max(array_column($prices[$key]['data'], 'price')) ?? null;
         }
 
-        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'comments', 'workingMode', 'prices'));
+        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'services', 'workingMode', 'prices'));
     }
 }
