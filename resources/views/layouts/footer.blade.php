@@ -1,4 +1,4 @@
-<footer class="footer container pb-3 pt-3">
+<footer class="footer container pb-3 pt-5">
     <div class="d-flex justify-content-center mb-4">
         <div class="footer_logo d-flex align-items-center justify-content-center me-5">
             <a href="{{ route('home') }}">

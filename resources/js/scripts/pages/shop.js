@@ -3,7 +3,22 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Swiper, { Navigation, Pagination } from 'swiper';
 
+const checkMediaWidth = (e = null) => {
+  const previewButton = document.getElementById('preview_count');
+  const photosLength = document.querySelectorAll('.photos_img').length;
+  if (window.innerWidth < 576) {
+    previewButton.textContent = `ещё +${photosLength - 2}`;
+  } else if (window.innerWidth < 768) {
+    previewButton.textContent = `ещё +${photosLength - 3}`;
+  } else {
+    previewButton.textContent = `ещё +${photosLength - 4}`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', (e) => {
+
+  checkMediaWidth();
+
   const swiperParams = {
     modules: [Navigation, Pagination],
     loop: true,
@@ -51,19 +66,45 @@ document.addEventListener('DOMContentLoaded', (e) => {
     myMap.geoObjects.add(markCollection);
   });
 
-  const descriptionMore = document.getElementById('description_more');
-  const descriptionWrapper = document.getElementById('description_wrapper');
+  const description = {
+    more: document.getElementById('description_more'),
+    wrapper: document.getElementById('description_wrapper'),
+    text: document.getElementById('description_text'),
+    ellipsis: document.getElementById('description_ellipsis'),
 
-  descriptionMore.addEventListener('click', (e) => {
-    if (descriptionWrapper.classList.contains('close')) {
-      descriptionWrapper.style.height = `${descriptionWrapper.scrollHeight}px`;
-      descriptionWrapper.classList.remove('close');
-      descriptionMore.textContent = 'Скрыть';
-      return;
+    init() {
+      this.more.addEventListener('click', description.toggle.bind(this));
+      this.checkDescriptionHeight();
+    },
+
+    toggle(e) {
+      if (this.wrapper.classList.contains('close')) {
+        this.wrapper.style.height = `${this.wrapper.scrollHeight}px`;
+        this.wrapper.classList.remove('close');
+        this.more.textContent = 'Скрыть';
+        return;
+      }
+      this.wrapper.classList.add('close');
+      this.more.textContent = 'Далее';
+      this.wrapper.removeAttribute('style');
+    },
+
+    checkDescriptionHeight() {
+      if (this.text.scrollHeight <= this.wrapper.offsetHeight) {
+        this.more.style.display = 'none';
+        this.ellipsis.style.display = 'none';
+      } else {
+        this.more.style.display = 'inline-block';
+        this.ellipsis.style.display = 'block';
+
+      }
     }
-    descriptionWrapper.classList.add('close');
-    descriptionMore.textContent = 'Далее';
-    descriptionWrapper.removeAttribute('style');
+  }
+  description.init();
+
+  window.addEventListener('resize', (e) => {
+    checkMediaWidth(e);
+    description.checkDescriptionHeight(e);
   });
 });
 
