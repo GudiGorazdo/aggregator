@@ -130,29 +130,32 @@ class TitleService
 
 
         if (!$shopIsOpen) {
-            $nextDayOpen = self::getNextWorkDay($shop, $nowData[0]);
-            return 'Магазин откроется '
-                . self::getDayWithEndingForOpen($nextDayOpen['day'])
-                . ' '
-                . $nextDayOpen['date']
-                . ' в '
-                . substr($nextDayOpen['time'], 0, -3)
-            ;
+            return 'Магазин закрыт';
         }
+        // if (!$shopIsOpen) {
+        //     $nextDayOpen = self::getNextWorkDay($shop, $nowData[0]);
+        //     return 'Магазин откроется '
+        //         . self::getDayWithEndingForOpen($nextDayOpen['day'])
+        //         . ' '
+        //         . $nextDayOpen['date']
+        //         . ' в '
+        //         . substr($nextDayOpen['time'], 0, -3)
+        //     ;
+        // }
 
-        if ((!$openTime || $openTime->lessThan($nowTime)) && !$closeTime) {
-            $nextDayClose = self::getNextCloseDay($shop, $nowData[0]);
-            if ($nextDayClose) {
-                return 'Магазин открыт до '
-                    . self::getDayWithEndingForClose($nextDayClose['day'])
-                    . ' '
-                    . $nextDayClose['date']
-                    . ' '
-                    . substr($nextDayClose['time'], 0, -3)
-                ;
-            }
-            return 'Магазин открыт каждый день круглосуточно';
-        }
+        // if ((!$openTime || $openTime->lessThan($nowTime)) && !$closeTime) {
+        //     $nextDayClose = self::getNextCloseDay($shop, $nowData[0]);
+        //     if ($nextDayClose) {
+        //         return 'Магазин открыт до '
+        //             . self::getDayWithEndingForClose($nextDayClose['day'])
+        //             . ' '
+        //             . $nextDayClose['date']
+        //             . ' '
+        //             . substr($nextDayClose['time'], 0, -3)
+        //         ;
+        //     }
+        //     return 'Магазин открыт каждый день круглосуточно';
+        // }
 
         if ($closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
@@ -166,27 +169,42 @@ class TitleService
                 . ' '
                 . self::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
-         } else if ($closeTime->greaterThan($openTime)) {
-        //  } else if ($openTime && $openTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
-            $timeBeforeOpen = explode(':', $closeTime->diff($openTime)->format('%H:%I'));
-            // dd($timeBeforeOpen, $openTime);
-            return 'Магазин откроется сегодня через '
-                . $shopOpen
-                . ' '
-                . self::getNumEnding((int)$shopOpen, array('час', 'часа', 'часов'))
-            ;
          } else {
-            $nextWorkDayData = self::getNextWorkDay($shop, $nowData[0]);
-            return 'Магазин откроется '
-                . self::getDayWithEndingForOpen($nextWorkDayData['day'])
-                . ' '
-                . $nextWorkDayData['date']
-                . ' в '
-                . $nextWorkDayData['time']
-                . ' '
-                . self::getNumEnding((int)$nextWorkDayData['time'], array('час', 'часа', 'часов'))
-            ;
+            return 'Магазин закрыт';
         }
+        // if ($closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
+        //     $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
+        //     if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
+        //     return 'До закрытия магазина осталось '
+        //         . $timeBeforeClose[0]
+        //         . ' '
+        //         . self::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
+        //         . ' '
+        //         . $timeBeforeClose[1]
+        //         . ' '
+        //         . self::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
+        //     ;
+        //  } else if ($closeTime->greaterThan($openTime)) {
+        // //  } else if ($openTime && $openTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
+        //     $timeBeforeOpen = explode(':', $closeTime->diff($openTime)->format('%H:%I'));
+        //     // dd($timeBeforeOpen, $openTime);
+        //     return 'Магазин откроется сегодня через '
+        //         . $shopOpen
+        //         . ' '
+        //         . self::getNumEnding((int)$shopOpen, array('час', 'часа', 'часов'))
+        //     ;
+        //  } else {
+        //     $nextWorkDayData = self::getNextWorkDay($shop, $nowData[0]);
+        //     return 'Магазин откроется '
+        //         . self::getDayWithEndingForOpen($nextWorkDayData['day'])
+        //         . ' '
+        //         . $nextWorkDayData['date']
+        //         . ' в '
+        //         . $nextWorkDayData['time']
+        //         . ' '
+        //         . self::getNumEnding((int)$nextWorkDayData['time'], array('час', 'часа', 'часов'))
+        //     ;
+        // }
         return '';
     }
 
