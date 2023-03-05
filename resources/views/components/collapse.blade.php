@@ -1,4 +1,4 @@
-<button class="filters-subcategories_button"
+<button class="{{ $classNameButton ?? '' }}"
   type="button"
   data-bs-toggle="collapse"
   data-bs-target="#{{ $target }}_collapse"

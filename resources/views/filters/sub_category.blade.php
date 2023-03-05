@@ -10,6 +10,7 @@
     >
         @foreach (\App\Models\Category::with('subCategories')->get() as $category)
             <x-collapse
+                classNameButton="filters-subcategories_button"
                 target="{{ $filter->getName() }}_{{ $category->id }}"
                 controls="{{ $filter->getName() }}_{{ $category->id }}"
             >

@@ -19,11 +19,11 @@
 @section('content')
     <section class="shop container">
         <input id="shop_coord" type="hidden" value="{{ $shop->coord }}">
-        <div class="preview wrapper d-flex align-items-center">
-            <ul class="preview d-flex">
+        <div class="preview d-flex">
+            <ul class="preview_list d-flex">
                 @for ($a = 0; $a < count($f); $a++)
                     @if (isset($photos[$a]))
-                        <li class="preview_item">
+                        <li class="preview_item preview_item--{{$a + 1}}">
                             <button class="preview_button" data-modal-path="photos_window" data-preview="{{ $a }}">
                                 <img class="preview_img" src="{{ $photos[$a] . '/id/' . $f[$a] }}/150/150" loading="lazy" alt="фото компании {{ $shop->name }}">
                             </button>
@@ -32,128 +32,177 @@
                 @endfor
             </ul>
 
-            <button class="previw_count" data-modal-path="photos_window" data-preview="0">Все фото</button>
+            <button class="preview_count btn site-btn" data-modal-path="photos_window" data-preview="0">ещё +{{ count($photos) - 2 }}</button>
         </div>
-        <div class="shop-header d-flex">
-            <img class="shop-header_logo" src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="лого компании {{ $shop->name }}">
-            <h2 class="shop-header_title">Комиссионный магазин "{{ $shop->name }}"</h2>
-        </div>
-        <div class="shop-open">
-            <h4 class="shop-open_title">{{ $timeBeforeClose }}</h4>
-        </div>
-        <div class="shop-rating">
-            <div class="shop-rating_average">
-                <p class="shop-rating_label">Общий рейтинг</p>
+        <section class="head d-flex">
+            <img class="head_logo" src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="лого компании {{ $shop->name }}">
+            <h2 class="head_title">Комиссионный магазин "{{ $shop->name }}"</h2>
+        </section>
+        <section class="work">
+            <h6 class="work_title text-center">{{ $timeBeforeClose }}</h6>
+        </section>
+        <div class="rating">
+            <div class="rating_average">
+                <p class="rating_label">Общий рейтинг</p>
                 <x-star-rating-display rating="{{ +$shop->average_rating }}" />
-                <span>{{ +$shop->average_rating }}</span>
             </div>
-            <ul class="shop-rating_list">
-                @foreach ($shop->services as $service)
-                    <li class="shop-rating_item">
-                        <p class="shop-rating_service">{{ $service->name }}</p>
-                        <x-star-rating-display rating="{{ +$service->pivot->rating }}" />
+            <ul class="rating_list">
+                @foreach ($services as $service)
+                    <li class="rating_item">
+                        <p class="rating_label">{{ $service['name'] }}</p>
+                        <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i>{{ +$service['rating'] }}</p>
+                        <p class="rating_comments-count">({{ $service['comments_count_title']}})</p>
                     </li>
                 @endforeach
             </ul>
         </div>
         <x-socials-list
-            classNameList="shop-rating-socials"
-            classNameItem="shop-rating-socials_item"
+            classNameList="rating-socials"
+            classNameItem="rating-socials_item"
             tg="{{ $shop->telegram }}"
             whatsapp="{{ $shop->whatsapp }}"
             phone="{{ $shop->phone }}"
         />
-        <div class="shop-contacts">
+        <section class="contacts">
             <h5 class="shop_subtitle">телефон:</h5>
-            <ul class="shop-contacts_list">
-                @foreach (json_decode($shop->additional_phones) as $phone)
-                    <li class="shop-contacts_item">
-                        <a class="shop-list_link" href="tel:{{ $phone }}">{{ $phone }}</a>
+            <ul class="contacts_list">
+                <li class="contacts_item">
+                    <a class="list_link" href="tel:{{ $shop->phone }}">{{ $shop->phone }}</a>
+                </li>
+                @foreach ($additionalPhones as $phone)
+                    <li class="contacts_item">
+                        <a class="list_link" href="tel:{{ $phone }}">{{ $phone }}</a>
                     </li>
                 @endforeach
             </ul>
             <h5 class="shop_subtitle">вебсайт</h5>
-            <ul class="shop-contacts_list">
+            <ul class="contacts_list">
                 @foreach (json_decode($shop->web) as $web)
-                    <li class="shop-contacts_item">
-                        <a class="shop-list_link" href="{{ $web }}">{{ $web }}</a>
+                    <li class="contacts_item">
+                        <a class="list_link" href="{{ $web }}">{{ $web }}</a>
                     </li>
                 @endforeach
             </ul>
-        </div>
-        <div class="shop-working-mode">
+        </section>
+        <section class="working-mode">
             <h5 class="shop_subtitle">режим работы</h5>
-            <table class="shop-working-mode_list">
+            <table class="working-mode_list">
                 @foreach ($workingMode as $day)
                     <tr>
-                        <td>{{ $day['day'] }}</td>
+                        <th>{{ $day['day'] }}</th>
                         @if (!$day['is_open'])
-                            <td>Выходной</td>
+                            <td>выходной</td>
                         @else
-                            <td>с {{ $day['open'] ?? '-' }} до {{ $day['close'] ?? '-' }}</td>
+                            <td>{{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : '' }}{{ $day['close'] > '' ? 'до ' . $day['close'] : '' }}</td>
                         @endif
                     </tr>
                 @endforeach
             </table>
-        </div>
-        <div class="shop-location">
+        </section>
+        <section class="location">
             <h5 class="shop_subtitle">адрес:</h5>
-            <div id="shops-map" class="shop-location_map"></div>
-        </div>
-        <div class="shop-description">{{ $shop->description }}</div>
-        <ul class="shop-categories">
-            @foreach ($prices as $price)
-                <li class="shop-categories_item">
-                    <h4 class="shop-categories_title">{{ $price['name'] }}</h4>
-                    @if (!is_null($price['max']))
-                        <span class="shop-categories_price">от {{ $price['max'] }}</span>
-                    @endif
-                    <ul class="shop-categories_sub-categories">
-                        @foreach ($price['data'] as $subCategory)
-                            <li class="shop-categories_sub-item">
-                                <h4 class="shop-categories_title">{{ $subCategory['name'] }}</h4>
-                                @if (!is_null($price['max']))
-                                    <span class="shop-categories_price">от {{ $subCategory['price'] }}</span>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-            @endforeach
-        </ul>
-        <div class="shop-reviews">
-            <x-accordion className="shop-reviews_accordion" id="shop-reviews">
+            <p class="location_address">{{ $shop->address }}</p>
+            <div id="shop-map" class="location_map"></div>
+        </section>
+        <section id="description" class="description">
+            <h5 class="shop_subtitle">Описание</h5>
+            <div id="description_wrapper" class="description_wrapper close">
+                <p id="description_text" class="description_text">{{ $shop->description }}</p>
+            </div>
+            <div class="elipsis">...</div>
+            <button id="description_more" class="description_more btn-link">Далее</button>
+        </section>
+        <section class="categories">
+            <h3 class="title text-center">Можно продать</h3>
+            <ul class="categories_list">
+                @foreach ($prices as $price)
+                    <li class="categories_item">
+                        <x-collapse
+                            classNameButton="categories_collapse collapsed"
+                            target="category_{{ $price['category_id'] }}"
+                            controls="category_{{ $price['category_id'] }}"
+                        >
+                            <x-slot name="title">
+                                <div class="categories_head">
+                                    <p class="categories_title">{{ $price['name'] }}</p>
+                                    @if (!is_null($price['max']))
+                                        <span class="categories_price">до {{ number_format($price['max'] , 0, '', ' ')}}₽</span>
+                                    @endif
+                                </div>
+                            </x-slot>
+
+                            <ul class="categories_sublist">
+                                @foreach ($price['data'] as $subCategory)
+                                    <li class="categories_subitem">
+                                        <p class="categories_title">{{ $subCategory['name'] }}</p>
+                                        @if (!is_null($subCategory['price']))
+                                            <span class="categories_price">до  {{ number_format($subCategory['price'] , 0, '', ' ')}}₽</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </x-collapse>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+        <section class="reviews">
+            <h3 class="title text-center">Отзывы</h3>
+            <x-accordion className="reviews_accordion" id="reviews">
                 @foreach ($services as $service)
                     <x-accordion-item
-                        id="shop-reviews_inner"
-                        className="shop-reviews_item"
-                        bodyClassName="shop-reviews_body"
-                        collapse="shop-rewies_service-{{ $service['id'] }}"
+                        id="reviews_inner"
+                        className="reviews_item"
+                        bodyClassName="reviews_body"
+                        collapse="reviews_service-{{ $service['id'] }}"
                     >
                         <x-slot name="title">
-                            {{ $service['name'] }}<span>{{ $service['rating'] }}</span>({{ $service['comments_count_title'] }})
+                            <span class="reviews_service-name">{{ $service['name'] }}</span>
+                            <p class="reviews_rating-count rating-count">
+                                <i class="fa fa-star rating_star rating_star--gold"></i>
+                                {{ +$service['rating'] }}
+                            </p>
+                            <span class="reviews_count">({{ $service['comments_count_title'] }})</span>
                         </x-slot>
-                        <ul class="shop-reviews_list">
+                        <p class="reviews_subtitle text-center">
+                            Все актуальные отзывы можно просмотреть в
+                            <a class="reviews_link" href="{{ $service['link']}}">карточке организации</a>
+                        </p>
+                        <ul class="reviews_list">
                             @foreach ($service['comments'] as $comment)
-                                <li class="shop-reviews_comment">
+                                <li class="reviews_comment">
                                     <div class="d-flex">
-                                        <p class="shop-reviews_name">{{ $comment->name }}</p>
-                                        <p class="shop-reviews_date">{{ $comment->date }}</p>
+                                        <p class="reviews_name">{{ $comment->name }}</p>
+                                        <p class="reviews_date">{{ $comment->date }}</p>
                                     </div>
-                                    <p class="shop-reviews_text">{{ $comment->text }}</p>
+                                    <p class="reviews_text">{{ $comment->text }}</p>
                                     @if (!empty($comment->response))
-                                        <h5 class="shop-reviews_subtitle">Ответы:</h5>
-                                        <ul class="shop-reviews_sublist">
-                                            @foreach ($comment->response as $response)
-                                                <li class="shop-reviews_comment">
-                                                    <div class="d-flex">
-                                                        <p class="shop-reviews_name">{{ $comment->name }}</p>
-                                                        <p class="shop-reviews_date">{{ $comment->date }}</p>
-                                                    </div>
-                                                    <p class="shop-reviews_text">{{ $comment->text }}</p>
-                                                </li>
-                                            @endforeach
-                                        </ul>
+                                        <x-collapse
+                                            classNameButton="reviews_response collapsed btn-link"
+                                            target="comment_{{ $comment->date }}_{{ $comment->name }}"
+                                            controls="comment_{{ $comment->date }}_{{ $comment->name }}"
+                                            title="({{ count($comment->response) }})"
+                                        >
+                                            <ul class="reviews_sublist">
+                                                @foreach ($comment->response as $response)
+                                                    <li class="reviews_subcomment">
+                                                        <div class="d-flex">
+                                                            <p class="reviews_name">{{ $comment->name }}</p>
+                                                            <p class="reviews_date">{{ $comment->date }}</p>
+                                                        </div>
+                                                        <p class="reviews_text">{{ $comment->text }}</p>
+                                                        <span class="shadow-line"></span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            {{-- <button
+                                                class="btn-link"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#comment_{{ $comment->date }}_{{ $comment->name }}_collapse"
+                                                aria-controls="comment_{{ $comment->date }}_{{ $comment->name }}_collapse"
+                                                aria-expanded="false"
+                                            >Скрыть ответы</button> --}}
+                                        </x-collapse>
                                     @endif
                                 </li>
                             @endforeach
@@ -161,7 +210,7 @@
                     </x-accordion-item>
                 @endforeach
             </x-accordion>
-        </div>
+        </section>
     </section>
 @endsection
 
@@ -172,7 +221,7 @@
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
                     <div class="swiper-slide d-flex justify-contentrcenter">
-                        <div id="ftco-loader" class="loader"></div>
+                        <div class="loader"></div>
                         <img
                             class="photos_img"
                             src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 200)) }}/1000/700"
@@ -192,7 +241,6 @@
 @endsection
 
 @section('afterFooter')
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU"
-        type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU" type="text/javascript"></script>
     @vite(['resources/js/scripts/pages/shop.js'])
 @endsection

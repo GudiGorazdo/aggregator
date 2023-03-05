@@ -137,15 +137,6 @@ class GenerateRandomData
 
         $arr = [];
 
-        $services = ['Яндекс карты', 'Google maps', '2Gis', 'Авито'];
-
-        foreach($services as $s) {
-            \Illuminate\Support\Facades\DB::table('services')->insert([
-                'name' => $s,
-            ]);
-        }
-
-
         for ($i = 0; $i < $n; $i++) {
             $shop = new \App\Models\Shop();
             $shop->city_id = $city_id;
@@ -252,6 +243,7 @@ class GenerateRandomData
                     'shop_id' => $shop->id,
                     'service_id' => $i + 1,
                     'rating' => $ratingArray[$i],
+                    'link' => '#',
                     'comments' => json_encode($comments[$services[$i]]),
                 ]);
             }
@@ -306,7 +298,7 @@ class GenerateRandomData
         $arr = [];
         for ($i = 0; $i < rand(3, 9); $i++) {
             $sub_category = new \App\Models\SubCategory();
-            $sub_category->name = ($i + 1) . '_подкатегория_' . $category_id . '_категория';
+            $sub_category->name = ($i + 1) . '_подкатегория';
             $sub_category->category_id = $category_id;
             $sub_category->save();
             $arr[] = $sub_category->id;
@@ -358,6 +350,13 @@ class GenerateRandomData
     public static function start()
     {
         $faker = Factory::create();
+
+        $services = ['Яндекс карты', 'Google maps', '2Gis', 'Авито'];
+        foreach($services as $s) {
+            \Illuminate\Support\Facades\DB::table('services')->insert([
+                'name' => $s,
+            ]);
+        }
 
         self::generate(10, \App\Models\City::class, 'Город', 'городе', true, $faker);
         self::generate(5, \App\Models\Category::class, 'Категория', 'категории');

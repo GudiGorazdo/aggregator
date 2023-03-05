@@ -29,10 +29,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
   });
 
-  const coord = JSON.parse(document.getElementById('shop_coord').value);
-
   ymaps.ready(function () {
-    var myMap = new ymaps.Map("shops-map", {
+    const coord = JSON.parse(document.getElementById('shop_coord').value);
+    var myMap = new ymaps.Map("shop-map", {
       center: [coord.lat, coord.long],
       zoom: 10,
       controls: []
@@ -47,10 +46,24 @@ document.addEventListener('DOMContentLoaded', (e) => {
     myMap.controls.remove('trafficControl');
     myMap.controls.remove('fullscreenControl');
 
-
     const mark = new ymaps.Placemark([coord.lat, coord.long]);
     markCollection.add(mark);
     myMap.geoObjects.add(markCollection);
+  });
+
+  const descriptionMore = document.getElementById('description_more');
+  const descriptionWrapper = document.getElementById('description_wrapper');
+
+  descriptionMore.addEventListener('click', (e) => {
+    if (descriptionWrapper.classList.contains('close')) {
+      descriptionWrapper.style.height = `${descriptionWrapper.scrollHeight}px`;
+      descriptionWrapper.classList.remove('close');
+      descriptionMore.textContent = 'Скрыть';
+      return;
+    }
+    descriptionWrapper.classList.add('close');
+    descriptionMore.textContent = 'Далее';
+    descriptionWrapper.removeAttribute('style');
   });
 });
 

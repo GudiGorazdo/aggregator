@@ -128,6 +128,7 @@ class TitleService
         $closeTime = $shopClose ? Carbon::parse($nowData[1] . ' ' . $shopClose) : null;
         $nowTime = Carbon::parse($nowData[1] . ' ' . $nowData[2]);
 
+
         if (!$shopIsOpen) {
             $nextDayOpen = self::getNextWorkDay($shop, $nowData[0]);
             return 'Магазин откроется '
@@ -166,7 +167,10 @@ class TitleService
                 . self::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
          } else if ($closeTime->greaterThan($openTime)) {
-            return 'Магазин откроется сегодня в '
+        //  } else if ($openTime && $openTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
+            $timeBeforeOpen = explode(':', $closeTime->diff($openTime)->format('%H:%I'));
+            // dd($timeBeforeOpen, $openTime);
+            return 'Магазин откроется сегодня через '
                 . $shopOpen
                 . ' '
                 . self::getNumEnding((int)$shopOpen, array('час', 'часа', 'часов'))
@@ -174,11 +178,13 @@ class TitleService
          } else {
             $nextWorkDayData = self::getNextWorkDay($shop, $nowData[0]);
             return 'Магазин откроется '
-                . self::getDayWithEndingForOpen($nextWorkDayData[0])
+                . self::getDayWithEndingForOpen($nextWorkDayData['day'])
+                . ' '
+                . $nextWorkDayData['date']
                 . ' в '
-                . $shop->workingMode[$nextWorkDayData[0] . '_open']
-                . ' в '
-                . self::getNumEnding($shop->workingMode[$nextWorkDayData[0] . '_open'], array('час', 'часа', 'часов'))
+                . $nextWorkDayData['time']
+                . ' '
+                . self::getNumEnding((int)$nextWorkDayData['time'], array('час', 'часа', 'часов'))
             ;
         }
         return '';
@@ -228,19 +234,19 @@ class TitleService
     {
         switch($name) {
             case 'monday':
-                return 'понедельник';
+                return 'в понедельник';
             case 'tuesday':
                 return 'во вторник';
             case 'wednesday':
-                return 'среду';
+                return 'в среду';
             case 'thursday':
-                return 'четверг';
+                return 'в четверг';
             case 'friday':
-                return 'пятницу';
+                return 'в пятницу';
             case 'saturday':
-                return 'субботу';
+                return 'в субботу';
             case 'sunday':
-                return 'воскресенье';
+                return 'в воскресенье';
         }
     }
     private static function getDayWithEndingForClose(string $name): string

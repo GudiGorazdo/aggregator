@@ -25,6 +25,7 @@ class ShopController extends Controller
     {
         $shop = Shop::getById(+$id)->get()->first();
         $photos = json_decode($shop->photos);
+        $additionalPhones = json_decode($shop->additional_phones) ?? [];
         foreach ($shop->services as $service) {
             $serviceCommments = json_decode($service->pivot->comments) ?? [];
             $services[] = [
@@ -32,7 +33,8 @@ class ShopController extends Controller
                 'name' => $service->name,
                 'rating' => $service->pivot->rating,
                 'comments_count_title' => count($serviceCommments) . ' ' . $this->getNumEnding(count($serviceCommments), array('отзыв', 'oтзыва', 'отзывов')),
-                'comments' => $serviceCommments
+                'comments' => $serviceCommments,
+                'link' =>  $service->link
             ];
         }
         $timeBeforeClose = TitleService::getTimeBeforeClose($shop);
@@ -54,8 +56,9 @@ class ShopController extends Controller
             }
             $prices[$key]['name'] =  $category->name;
             $prices[$key]['max'] = max(array_column($prices[$key]['data'], 'price')) ?? null;
+            $prices[$key]['category_id'] = $category->id;
         }
 
-        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'services', 'workingMode', 'prices'));
+        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'services', 'workingMode', 'prices', 'additionalPhones'));
     }
 }

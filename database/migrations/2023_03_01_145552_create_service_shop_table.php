@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('service_id');
             $table->decimal('rating', 10, 2);
+            $table->text('link');
             $table->text('comments');
             $table->primary(['shop_id', 'service_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
