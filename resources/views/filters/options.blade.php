@@ -1,6 +1,6 @@
 <fieldset class="filters-options">
     @foreach ($filter->getItems() as $f)
-        <x-check-box
+        <x-checkbox
             id="{{ $f['name'] }}"
             name="{{ $f['name'] }}"
             value="1"
@@ -8,6 +8,6 @@
             active="{{ $request[$f['name']] ?? false }}"
         >
             {{ $f['label'] }}
-        </x-check-box>
+        </x-checkbox>
     @endforeach
 </fieldset>
