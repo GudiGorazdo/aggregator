@@ -5,7 +5,6 @@
 @endsection
 
 @section('styles')
-    @vite([ 'resources/scss/auth.scss'])
 @endsection
 
 @section('content')
