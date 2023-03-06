@@ -127,8 +127,6 @@ class TitleService
         $openTime = $shopOpen ? Carbon::parse($nowData[1] . ' ' . $shopOpen) : null;
         $closeTime = $shopClose ? Carbon::parse($nowData[1] . ' ' . $shopClose) : null;
         $nowTime = Carbon::parse($nowData[1] . ' ' . $nowData[2]);
-
-
         if (!$shopIsOpen) {
             return 'Магазин закрыт';
         }
@@ -157,7 +155,7 @@ class TitleService
         //     return 'Магазин открыт каждый день круглосуточно';
         // }
 
-        if ($closeTime && $nowTime && $closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
+        if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             return 'До закрытия магазина осталось '
@@ -169,7 +167,9 @@ class TitleService
                 . ' '
                 . self::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
-         } else {
+         } else if (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
+            return 'Магазин открыт круглосуточно';
+        } else {
             return 'Магазин закрыт';
         }
         // if ($closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
