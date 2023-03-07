@@ -155,7 +155,9 @@ class TitleService
         //     return 'Магазин открыт каждый день круглосуточно';
         // }
 
-        if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->lessThan($openTime)) {
+        // dd($closeTime->lessThan($openTime));
+
+        if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             return 'До закрытия магазина осталось '

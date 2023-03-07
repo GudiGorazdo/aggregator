@@ -487,9 +487,13 @@
   }
 
   &_name {
-    margin-right: auto;
+    margin-right: 1em;
   }
 
+  &_date {
+    font-weight: 600;
+    color: $secondary;
+  }
   &_text {
     margin-bottom: 0;
   }
