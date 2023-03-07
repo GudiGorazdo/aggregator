@@ -242,10 +242,10 @@
     <div id="photos" class="photos modal-window__container" data-modal-target="photos_window">
         <x-close-btn class="photos_close modal-window__close" />
         <div class="swiper">
+            <div class="loader"></div>
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
                     <div class="swiper-slide d-flex justify-contentrcenter">
-                        <div class="loader"></div>
                         <img
                             class="photos_img"
                             src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 200)) }}/1000/700"
