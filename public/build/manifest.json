@@ -44,12 +44,12 @@
     "src": "resources/assets/images/starOn.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-bfd412d0.js",
+    "file": "assets/app-b12e65bf.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/scripts/pages/home.js": {
-    "file": "assets/home-199be2d6.js",
+    "file": "assets/home-366c69ab.js",
     "isEntry": true,
     "src": "resources/js/scripts/pages/home.js"
   },
@@ -61,7 +61,7 @@
     "css": [
       "assets/shop-1e0ee291.css"
     ],
-    "file": "assets/shop-15c013f5.js",
+    "file": "assets/shop-5913215f.js",
     "isEntry": true,
     "src": "resources/js/scripts/pages/shop.js"
   },

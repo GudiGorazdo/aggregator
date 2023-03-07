@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
 import autoprefixer from 'autoprefixer';
-import  terser  from '@rollup/plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default defineConfig({
     css: {
@@ -23,6 +23,23 @@ export default defineConfig({
                 'resources/js/scripts/pages/shop.js'
             ],
             refresh: true,
+        }),
+        terser({
+            format: {
+                comments: false,
+            },
+            compress: {
+                drop_console: true,
+                dead_code: true,
+                global_defs: {
+                    'process.env.NODE_ENV': 'production',
+                },
+            },
+            mangle: {
+                properties: {
+                    regex: /^_/,
+                },
+            },
         }),
         // terser({
         //     ecma: 2020,
