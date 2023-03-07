@@ -522,7 +522,9 @@
 .photos {
   // max-width: 70%;
   width: 100%;
+  max-height: 100vh;
   padding: 0;
+  padding-bottom: 2em;
   background-color:rgb(0, 0, 0);
   border-radius: 0;
 
@@ -531,7 +533,7 @@
     // width: 94%;
     // max-width: 100%;
     margin: auto;
-    height: 100vh;
+    height: 100%;
     object-fit: contain;
     color: transparent;
     z-index: 2;
@@ -556,7 +558,7 @@
   }
 
   .swiper-pagination {
-    bottom: 0 !important;
+    bottom: 2em !important;
     background-color:rgb(0, 0, 0, 0.5);
   }
 
