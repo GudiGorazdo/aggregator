@@ -5,6 +5,7 @@
     @param string $bodyClassName                 -- класс для тела элемента
     @param string $buttonId                      -- id кликабельного заголовка(кнопка открытия/закрытия)
     @param string $collapse                      -- идентификатор связи кнопки и тела элемента
+    @param string $parent                        -- идентификатор родительского элемента, на случай если надо, чтобы мог быть открыт только один итем
     @param many $show                            -- открыт ли элемент при загрузке. Для того чтобы был открыт нужна строка 'true'
 
     -- эти переменные могут передовать что угодно, если они заданы, то это интерпритируется как true
@@ -25,7 +26,12 @@
             {{ $title }}
         </button>
     </h2>
-    <div id="{{ $collapse }}" class="multi-collapse collapse{{  (isset($show) && $show =='true') ? ' show' : '' }}">
+    <div
+        id="{{ $collapse }}"
+        class="multi-collapse collapse{{  (isset($show) && $show =='true') ? ' show' : '' }}"
+        aria-labelledby="{{ $collapse }}"
+        {{ isset($parent) ? 'data-bs-parent=' . '#' . $parent: '' }}
+    >
         <div
             {{ isset($bodyId) ? "id=" . $bodyId : ''}}
             class="accordion-body {{ $bodyClassName ?? '' }}"

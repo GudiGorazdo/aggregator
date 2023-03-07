@@ -59,6 +59,6 @@ class ShopController extends Controller
             $prices[$key]['category_id'] = $category->id;
         }
 
-        return view('pages.shop', compact('shop', 'photos', 'timeBeforeClose', 'services', 'workingMode', 'prices', 'additionalPhones'));
+        return view('pages.shop.index', compact('shop', 'photos', 'timeBeforeClose', 'services', 'workingMode', 'prices', 'additionalPhones'));
     }
 }

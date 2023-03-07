@@ -37,7 +37,7 @@
         <section class="head d-flex justify-content-center">
             <img class="head_logo" src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="лого компании {{ $shop->name }}">
             <h2 class="head_title">
-                Комиссионный магазин
+                Комиссионный магазин 
                 <p>"{{ $shop->name }}"</p>
             </h2>
         </section>
@@ -77,6 +77,8 @@
                     <h5 class="shop_subtitle">Описание</h5>
                     <p class="description_text description_text--desktop">{{ $shop->description }}</p>
                 </section>
+                {{-- @include('pages.shop.comments-list', ['mod' => 'desktop']) --}}
+                @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'desktop'])
             </div>
             <div class="shop-right">
                 <div class="contacts-working-mode-wrapper">
@@ -110,7 +112,7 @@
                                     @if (!$day['is_open'])
                                         <td>выходной</td>
                                     @else
-                                        <td>{{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : '' }}{{ $day['close'] > '' ? 'до ' . $day['close'] : '' }}</td>
+                                        <td>{{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : 'с 00:00 ' }}{{ $day['close'] > '' ? 'до ' . $day['close'] : 'до 00:00' }}</td>
                                     @endif
                                 </tr>
                             @endforeach
@@ -132,109 +134,11 @@
             <div id="description_ellipsis" class="ellipsis">...</div>
             <button id="description_more" class="description_more btn-link">Далее</button>
         </section>
-        <section class="categories">
-            <h3 class="title text-center">Можно продать:</h3>
-            <ul class="categories_list">
-                @foreach ($prices as $price)
-                    <li class="categories_item">
-                        <x-collapse
-                            classNameButton="categories_collapse collapsed"
-                            target="category_{{ $price['category_id'] }}"
-                            controls="category_{{ $price['category_id'] }}"
-                        >
-                            <x-slot name="title">
-                                <div class="categories_head">
-                                    <p class="categories_title">{{ $price['name'] }}</p>
-                                    @if (!is_null($price['max']))
-                                        <span class="categories_price">до {{ number_format($price['max'] , 0, '', ' ')}}₽</span>
-                                    @endif
-                                </div>
-                            </x-slot>
 
-                            <ul class="categories_sublist">
-                                @foreach ($price['data'] as $subCategory)
-                                    <li class="categories_subitem">
-                                        <p class="categories_title">{{ $subCategory['name'] }}</p>
-                                        @if (!is_null($subCategory['price']))
-                                            <span class="categories_price">до  {{ number_format($subCategory['price'] , 0, '', ' ')}}₽</span>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </x-collapse>
-                    </li>
-                @endforeach
-            </ul>
-        </section>
-        <section class="reviews">
-            <h3 class="title text-center">Отзывы</h3>
-            <x-accordion className="reviews_accordion" id="reviews">
-                @foreach ($services as $service)
-                    <x-accordion-item
-                        id="reviews_inner"
-                        className="reviews_item"
-                        bodyClassName="reviews_body"
-                        collapse="reviews_service-{{ $service['id'] }}"
-
-                    >
-                        <x-slot name="title">
-                            <span class="reviews_service-name">{{ $service['name'] }}</span>
-                            <p class="reviews_rating-count rating-count reviews_rating-count--mobile">
-                                <i class="fa fa-star rating_star rating_star--gold"></i>
-                                {{ +$service['rating'] }}
-                            </p>
-                            <div class="reviews_rating-count reviews_rating-count--desktop">
-                                <x-star-rating-display rating="{{ +$service['rating'] }}" />
-                            </div>
-                            <span class="reviews_count">({{ $service['comments_count_title'] }})</span>
-                        </x-slot>
-                        <p class="reviews_subtitle text-center">
-                            Все актуальные отзывы можно просмотреть в
-                            <a class="reviews_link" href="{{ $service['link']}}">карточке организации</a>
-                        </p>
-                        <ul class="reviews_list">
-                            @foreach ($service['comments'] as $comment)
-                                <li class="reviews_comment">
-                                    <div class="d-flex">
-                                        <p class="reviews_name">{{ $comment->name }}</p>
-                                        <p class="reviews_date">{{ $comment->date }}</p>
-                                    </div>
-                                    <p class="reviews_text">{{ $comment->text }}</p>
-                                    @if (!empty($comment->response))
-                                        <x-collapse
-                                            classNameButton="reviews_response collapsed btn-link"
-                                            target="comment_{{ $comment->date }}_{{ $comment->name }}"
-                                            controls="comment_{{ $comment->date }}_{{ $comment->name }}"
-                                            title="({{ count($comment->response) }})"
-                                        >
-                                            <ul class="reviews_sublist">
-                                                @foreach ($comment->response as $response)
-                                                    <li class="reviews_subcomment">
-                                                        <div class="d-flex">
-                                                            <p class="reviews_name">{{ $comment->name }}</p>
-                                                            <p class="reviews_date">{{ $comment->date }}</p>
-                                                        </div>
-                                                        <p class="reviews_text">{{ $comment->text }}</p>
-                                                        <span class="shadow-line"></span>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            {{-- <button
-                                                class="btn-link"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#comment_{{ $comment->date }}_{{ $comment->name }}_collapse"
-                                                aria-controls="comment_{{ $comment->date }}_{{ $comment->name }}_collapse"
-                                                aria-expanded="false"
-                                            >Скрыть ответы</button> --}}
-                                        </x-collapse>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </x-accordion-item>
-                @endforeach
-            </x-accordion>
-        </section>
+        <div class="categories-reviews-wrapper">
+            @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'mobile'])
+            @include('pages.shop.comments-list', ['services' => $services])
+        </div>
     </section>
 @endsection
 
