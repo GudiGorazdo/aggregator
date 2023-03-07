@@ -538,8 +538,9 @@
 .photos {
   max-width: 100%;
   width: auto;
-  max-height: 100vh;
-  height: auto;
+  height: 100vh;
+  // max-height: 100vh;
+  // height: auto;
   padding: 0;
   padding-bottom: 2em;
   background-color:rgb(0, 0, 0);
@@ -551,14 +552,14 @@
   }
 
   .swiper-slide {
-    height: 95vh;
+    height: 90vh;
   }
 
   &_img {
     width: 100%;
     margin: auto;
     height: auto;
-    max-height: 100vh;
+    max-height: 90vh;
     object-fit: contain;
     color: transparent;
     z-index: 2;
