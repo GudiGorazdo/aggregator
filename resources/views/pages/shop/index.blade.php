@@ -60,7 +60,15 @@
                                 <li class="rating_item">
                                     <p class="rating_label">{{ $service['name'] }}</p>
                                     <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i>{{ +$service['rating'] }}</p>
-                                    <p class="rating_comments-count">({{ $service['comments_count_title']}})</p>
+                                    <a
+                                        id="anchor_reviews_{{ $service['id'] }}"
+                                        class="rating_comments-count"
+                                        href="#reviews_item_{{ $service['id'] }}"
+                                        {{-- data-bs-toggle="collapse" --}}
+                                        {{-- data-bs-taraget="#reviews_service-{{ $service['id'] }}" --}}
+                                        {{-- data-anchor-target="reviews_item_{{ $service['id'] }}" --}}
+                                        data-anchor-target="reviews_service-{{ $service['id'] }}"
+                                    >({{ $service['comments_count_title']}})</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -150,8 +158,7 @@
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
                     <div class="swiper-slide d-flex justify-contentrcenter">
-                        <img
-                            class="photos_img"
+                        <img class="photos_img"
                             src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 200)) }}/1000/700"
                             loading="lazy"
                             alt="фото компании {{ $shop->name }}"

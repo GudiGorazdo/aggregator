@@ -17,8 +17,10 @@ const checkMediaWidth = (e = null) => {
 
 document.addEventListener('DOMContentLoaded', (e) => {
 
+  // check previews photos
   checkMediaWidth();
 
+  // add swiper
   const swiperParams = {
     modules: [Navigation, Pagination],
     loop: true,
@@ -33,17 +35,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
   }
   const swiper = new Swiper('.swiper', swiperParams);
 
+  // swiper add to modal  window
   window.modalWindowPlugin.options.addOpenCallBack(() => {
     swiper.updateProgress();
     swiper.update();
   });
 
+  // swiper slide to preview image
   document.querySelectorAll('[data-preview]').forEach(button => {
     button.addEventListener('click', (e) => {
       swiper.slideTo(+e.target.dataset.preview, 0, false);
     });
   });
 
+  // yandex map add
   ymaps.ready(function () {
     const coord = JSON.parse(document.getElementById('shop_coord').value);
     var myMap = new ymaps.Map("shop-map", {
@@ -66,6 +71,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     myMap.geoObjects.add(markCollection);
   });
 
+  // description collapse
   const description = {
     more: document.getElementById('description_more'),
     wrapper: document.getElementById('description_wrapper'),
@@ -102,6 +108,47 @@ document.addEventListener('DOMContentLoaded', (e) => {
   }
   description.init();
 
+  // reviews anchor links
+  const reviewsAnchor = {
+    SHOW_CLASS: 'show',
+    COLLAPSED_CLASS: 'collapsed',
+
+    links: document.querySelectorAll('[id^="anchor_reviews_"]'),
+    items: document.querySelectorAll('[id^="reviews_service-"]'),
+
+    init() {
+      this.links.forEach(link => {
+        link.addEventListener('click', () => {
+          const el = document.getElementById(link.dataset.anchorTarget);
+          this.show(el);
+          el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        });
+      });
+    },
+    hideAll() {
+      this.items.forEach(item => {
+        item.classList.remove(this.SHOW_CLASS);
+        const button = item.parentElement.querySelector('[data-bs-toggle="collapse"]');
+        button.classList.add(this.COLLAPSED_CLASS);
+        button.setAttribute('aria-expanded', 'false');
+      });
+    },
+
+    show(el) {
+      this.hideAll();
+      if (el.classList.contains(this.SHOW_CLASS)) return;
+      el.classList.add(this.SHOW_CLASS);
+      const button = el.parentElement.querySelector('[data-bs-toggle="collapse"]');
+      button.classList.remove(this.COLLAPSED_CLASS);
+      button.setAttribute('aria-expanded', 'true');
+    }
+  }
+  reviewsAnchor.init();
+
+  // add eventlistener to resize event
   window.addEventListener('resize', (e) => {
     checkMediaWidth(e);
     description.checkDescriptionHeight(e);

@@ -91,6 +91,7 @@
   @media(min-width: 992px) {
     position: relative;
     margin-bottom: 3em;
+    padding-bottom: 3em;
     display: flex;
     column-gap: 5em;
 
@@ -247,20 +248,15 @@
   &_list {
     width: 100%;
 
-    tr {
-      padding-left: 10%;
-      @media(min-width: 992px) {
-        padding-left: 0;
-      }
-    }
-
     th, td {
       text-align: left;
     }
 
     th {
-      padding-left: 10%;
-      @media(min-width: 516px) {
+      @media(min-width: 400px) {
+        padding-left: 10%;
+      }
+      @media(min-width: 576px) {
         padding: 0;
       }
     }
@@ -555,7 +551,7 @@
   }
 
   .swiper-slide {
-    height: 100vh;
+    height: 95vh;
   }
 
   &_img {

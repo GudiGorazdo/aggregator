@@ -12,7 +12,7 @@
     @param many $disabled                        -- доступен ли элемент пользователю
 --}}
 
-<div class="accordion-item {{ $className ?? '' }}">
+<div class="accordion-item {{ $className ?? '' }}" {{ isset($itemId) ? "id=" . $itemId : ''}}>
     <h2 class="accordion-header {{ $headerClassName ?? '' }}">
         <button
             class="accordion-button {{  (isset($show) && $show =='true') ? '' : ' collapsed' }} {{ $headerButtonClassName ?? '' }}{{ isset($disabled) && $disabled ? ' disabled disabled--grey opacity-5' : '' }}"

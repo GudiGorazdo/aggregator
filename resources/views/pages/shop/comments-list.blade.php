@@ -3,9 +3,10 @@
     <x-accordion className="reviews_accordion" id="reviews">
         @foreach ($services as $service)
             <x-accordion-item
-                id="reviews_inner"
+                itemId="reviews_item_{{ $service['id'] }}"
                 className="reviews_item"
                 bodyClassName="reviews_body"
+                {{-- bodyId="reviews_body_{{ $service['id'] }}" --}}
                 collapse="reviews_service-{{ $service['id'] }}"
                 parent="reviews"
             >
