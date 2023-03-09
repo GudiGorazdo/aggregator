@@ -174,6 +174,7 @@ export default class LocationFilter {
   }
 
   getCurrentCity = async (all) => {
+    if (!this.checkPath()) return;
     if (this.city.saved) {
       return this.setCurrentCity(this.city.saved);
     }

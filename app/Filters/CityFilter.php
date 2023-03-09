@@ -3,8 +3,8 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use App\Constants\CookieConstants;
 use App\Filters\BaseFilter;
+use App\Constants\CookieConstants;
 use \App\Http\Controllers\CookieController;
 
 class CityFilter extends BaseFilter

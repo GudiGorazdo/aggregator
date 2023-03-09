@@ -8,6 +8,8 @@ use App\Models\Shop;
 use \App\Services\TitleService;
 use \App\Traits\GetDayTime;
 use \App\Traits\GetNumEndingTrait;
+use \App\Http\Controllers\CookieController;
+use App\Constants\CookieConstants;
 
 class ShopController extends Controller
 {
@@ -24,6 +26,8 @@ class ShopController extends Controller
     public function shop(Request $request, string $id): View
     {
         $shop = Shop::getById(+$id)->get()->first();
+        $checkLocationCookie = CookieController::getCookie(CookieConstants::LOCATION) ?? false;
+        if (!$checkLocationCookie) CookieController::setCookie(CookieConstants::LOCATION, $shop->city_id, CookieController::getYears(1));
         $photos = json_decode($shop->photos);
         $additionalPhones = json_decode($shop->additional_phones) ?? [];
         foreach ($shop->services as $service) {

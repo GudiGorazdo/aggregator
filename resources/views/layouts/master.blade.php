@@ -20,14 +20,14 @@
 <body>
     @include('layouts.header')
     <main id="main-content" class="main-content">@yield('content')</main>
+    @include('layouts.similar')
+    @include('layouts.footer')
     <div class="modal-window">
-        @yield('modal')
         @include('layouts.aside')
         @include('layouts.nav-bar')
         @include('layouts.alert')
+        @yield('modal')
     </div>
-    @include('layouts.similar')
-    @include('layouts.footer')
 
     @vite([ 'resources/js/app.js' ])
     @yield('afterFooter')
