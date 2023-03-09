@@ -31,10 +31,6 @@
     "file": "assets/fa-v4compatibility-7c377405.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
-  "resources/assets/images/Loading_black.gif": {
-    "file": "assets/Loading_black-8c517ee1.gif",
-    "src": "resources/assets/images/Loading_black.gif"
-  },
   "resources/assets/images/starOff.svg": {
     "file": "assets/starOff-f28e2bda.svg",
     "src": "resources/assets/images/starOff.svg"
@@ -44,7 +40,7 @@
     "src": "resources/assets/images/starOn.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-b12e65bf.js",
+    "file": "assets/app-ccffc6ef.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
@@ -66,7 +62,7 @@
     "src": "resources/js/scripts/pages/shop.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-6d5b821c.css",
+    "file": "assets/app-c3805e38.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }
