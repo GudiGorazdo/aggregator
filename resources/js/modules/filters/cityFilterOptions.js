@@ -1,5 +1,6 @@
 const optionsCity = {
-  el: window.screen.width < 768 ? 'aside_city' : 'header_city',
+  el: 'header_city',
+  // el: window.screen.width < 768 ? 'aside_city' : 'header_city',
   placeholder: 'Выберите город',
   data: [],
   classList: {

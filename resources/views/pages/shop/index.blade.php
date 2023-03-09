@@ -5,6 +5,7 @@
 @endsection
 
 @section('styles')
+    <link rel="preload" href="{{ asset('assets/images/Loading_black.gif') }}" as="image">
 @endsection
 
 @php
@@ -106,7 +107,7 @@
                         <ul class="contacts_list">
                             @foreach (json_decode($shop->web) as $web)
                                 <li class="contacts_item">
-                                    <a class="contacts_link" href="{{ $web }}">{{ $web }}</a>
+                                    <a class="contacts_link" href="https://{{ $web }}">{{ $web }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -156,8 +157,10 @@
         <div class="swiper">
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
-                    <div class="swiper-slide d-flex justify-contentrcenter">
-                        <div class="loader"></div>
+                <div class="swiper-slide d-flex justify-contentrcenter">
+                        <div class="loader">
+                            <img src="{{ asset('assets/images/Loading_black.gif') }}" loading="lazy" alt="loader">
+                        </div>
                         <img class="photos_img"
                             src="{{ $photo . '/id/' . ($i < 4 ? $f[$i] : rand(1, 200)) }}/1000/700"
                             loading="lazy"

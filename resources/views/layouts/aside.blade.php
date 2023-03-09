@@ -1,9 +1,9 @@
 <aside id="aside" class="aside modal-window__container" data-modal-target="aside_menu">
     <x-close-btn class="nav-menu_close modal-window__close" />
     <div class="filters">
-        <div class="aside-city mb-3">
+        {{-- <div class="aside-city mb-3">
             {{ app(\App\Services\FilterService::class)->getFilterByName('CityFilterAside')->render(null, false) }}
-        </div>
+        </div> --}}
         <form id="filters_form" class="filters_form" action="/" method="GET">
             @csrf
             @foreach(app(\App\Services\FilterService::class)->getFilters() as $filter)

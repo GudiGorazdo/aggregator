@@ -32,9 +32,11 @@ class ShopController extends Controller
                 'id' => $service->id,
                 'name' => $service->name,
                 'rating' => $service->pivot->rating,
-                'comments_count_title' => count($serviceCommments) . ' ' . $this->getNumEnding(count($serviceCommments), array('отзыв', 'oтзыва', 'отзывов')),
                 'comments' => $serviceCommments,
-                'link' =>  $service->link
+                'link' =>  $service->link,
+                'comments_count_title' => count($serviceCommments)
+                    . ' '
+                    . $this->getNumEnding(count($serviceCommments), array('отзыв', 'oтзыва', 'отзывов'))
             ];
         }
         $timeBeforeClose = TitleService::getTimeBeforeClose($shop);

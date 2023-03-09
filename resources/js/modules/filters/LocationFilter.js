@@ -3,6 +3,14 @@ import Chooser from '../../plugins/chooser';
 export default class LocationFilter {
   start = true;
 
+  popup = {
+    wrapper: null,
+    button: null,
+    close: null,
+    HIDDEN_CLASS: 'hidden',
+    hidden: true,
+  }
+
   city = {
     storageMark: null,
     all: null,
@@ -59,6 +67,18 @@ export default class LocationFilter {
     this.city.options = cityOptions;
     this.city.storageMark = cityStorageMark;
 
+
+    this.popup.wrapper = document.getElementById('city_confirm_popup');
+    this.popup.close = document.getElementById('city_popup_close');
+    this.popup.button = document.getElementById('city_confirm_true');
+
+    if (!this.cityCheckConfirm()) {
+      this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
+      this.popup.close.addEventListener('click', this.popupClose.bind(this));
+      this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
+    }
+
+
     this.initialize();
   }
 
@@ -78,6 +98,29 @@ export default class LocationFilter {
 
     this.addAreaListeners();
     if (this.start) this.start = false;
+
+
+  }
+
+  popupClose = () => {
+    this.popup.wrapper.classList.add(this.popup.HIDDEN_CLASS);
+  }
+
+  cityConfirm = () => {
+    document.cookie = `LOCATION_CONFIRM=1`;
+    this.popupClose();
+
+  }
+  cityCheckConfirm = () => {
+    // const cookieValue = document.cookie
+    //   .split('; ')
+    //   .find(cookie => cookie.startsWith('LOCATION_CONFIRM='))
+    //   .split('=')[1]
+    // ;
+    const cookies = document.cookie.split('; ');
+    const confirm = cookies.find(cookie => cookie.startsWith('LOCATION_CONFIRM='));
+    if (confirm && confirm.split('=')[1] == '1') return true;
+    return false;
   }
 
   getCookie = async () => {
@@ -136,18 +179,23 @@ export default class LocationFilter {
       return this.setCurrentCity(this.city.saved);
     }
 
-    // const sartId = await this.getStartId();
-    // const city = all.find(city => city.id == sartId);
-    // if (city) {
-    //   this.setCookie(city.id);
-    //   return this.setCurrentCity(city.id);
-    // }
+    const start = () => this.getStartId();
+    const setCookie = (id) => this.setCookie(id);
+    const setCurrentCity = (id) => this.setCurrentCity(id);
 
-    // ymaps.ready(async function () {
-    //   const city = ymaps.geolocation.city;
-    //   const check = all.find(item => item.name == city);
-    //   if (check) this.setCurrentCity(check.id);
-    // });
+    ymaps.ready(async function () {
+      const city = ymaps.geolocation.city;
+      const check = all.find(item => item.name == city);
+      if (check) setCurrentCity(check.id);
+      else {
+        const sartId = await start();
+        const city = all.find(city => city.id == sartId);
+        if (city) {
+          setCookie(city.id);
+          return setCurrentCity(city.id);
+        }
+      }
+    });
   }
 
   setCurrentCity(current) {
