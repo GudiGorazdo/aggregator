@@ -78,6 +78,7 @@ export default class LocationFilter {
       this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
     }
 
+    console.log()
 
     this.initialize();
   }
@@ -112,11 +113,6 @@ export default class LocationFilter {
 
   }
   cityCheckConfirm = () => {
-    // const cookieValue = document.cookie
-    //   .split('; ')
-    //   .find(cookie => cookie.startsWith('LOCATION_CONFIRM='))
-    //   .split('=')[1]
-    // ;
     const cookies = document.cookie.split('; ');
     const confirm = cookies.find(cookie => cookie.startsWith('LOCATION_CONFIRM='));
     if (confirm && confirm.split('=')[1] == '1') return true;
@@ -208,7 +204,7 @@ export default class LocationFilter {
     // this.activeAreas = [];
     this.city.current = id;
     this.city.input.value = id;
-    if (!this.start) window.location.href = `/?city=${id}`;
+    if (!this.start && window.location.pathname == '/') window.location.href = `/?city=${id}`;
   }
 
   setCityOptions = (cities) => {
