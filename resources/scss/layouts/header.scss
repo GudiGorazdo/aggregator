@@ -1,11 +1,9 @@
 .header {
   $py: 0.7em;
-  // position: fixed;
   margin-bottom: 2em;
   padding-top: $py;
   padding-bottom: $py;
   box-shadow: 0 0.15em 0.15em rgba(0,0,0,.11);
-  // z-index: 1000;
 
   &_logo {
     width: min-content;
@@ -13,13 +11,11 @@
 
   &-city {
     position: relative;
-    // display: none;
-    // @media(min-width: 768px) {
-      width: max-content;
-      margin-left: auto;
-      display: inline-block;
-      text-align: right;
-    // }
+    width: max-content;
+    margin-left: auto;
+    padding-right: 1em;
+    display: inline-block;
+    text-align: right;
 
     &-popup {
       position: absolute;

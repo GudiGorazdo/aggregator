@@ -31,7 +31,6 @@
 
     @vite([ 'resources/js/app.js' ])
     @yield('afterFooter')
-    <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 </body>
 
 </html>

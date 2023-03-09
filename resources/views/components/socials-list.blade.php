@@ -1,12 +1,12 @@
 <ul class="{{ $classNameList ?? '' }} d-flex">
     @if($tg)
         <li class="{{ $classNameItem }}">
-            <x-contact-telegram href="{{ $tg }}" />
+            <x-contact-telegram href="tg://{{ $tg }}" />
         </li>
     @endif
     @if($whatsapp)
         <li class="{{ $classNameItem }}">
-            <x-contact-whatsapp href="{{ $whatsapp }}" />
+            <x-contact-whatsapp href="https://api.whatsapp.com/send?phone={{ $whatsapp }}" />
         </li>
     @endif
     @if($phone)

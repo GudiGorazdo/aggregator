@@ -80,6 +80,7 @@
       height: 2px;
       display: inline-block;
       background-color: $secondary;
+      transition: background 0.2s ease-in-out;
     }
 
     &::before {
@@ -87,6 +88,24 @@
     }
     &::after {
       transform: rotate(45deg);
+    }
+  }
+
+  &:hover {
+    .close-icon {
+      &::before,
+      &::after {
+        background-color: $primary;
+      }
+    }
+  }
+
+  &:active {
+    .close-icon {
+      &::before,
+      &::after {
+        background-color: var(--bs-link-hover-color);
+      }
     }
   }
 }
