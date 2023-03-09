@@ -16,9 +16,10 @@ class City extends Model
         return $query->orderBy($order['by'], $order['sort']);
     }
 
-    public function scopeGetById(Builder $query, int $id): City
+    public function scopeGetById(Builder $query, int|string $id): City|Builder
     {
-        return $query->where('id', $id)->first();
+        if ($id) return $query->where('id', +$id)->first();
+        return $query;
     }
 
     public function shops(): HasMany

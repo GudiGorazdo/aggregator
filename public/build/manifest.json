@@ -61,12 +61,12 @@
     "css": [
       "assets/shop-1e0ee291.css"
     ],
-    "file": "assets/shop-c7ca8ace.js",
+    "file": "assets/shop-1c7ce285.js",
     "isEntry": true,
     "src": "resources/js/scripts/pages/shop.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-7f3cbf83.css",
+    "file": "assets/app-6d5b821c.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }

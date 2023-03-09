@@ -152,7 +152,7 @@
 
 @section('modal')
     <div id="photos" class="photos modal-window__container" data-modal-target="photos_window">
-        <x-close-btn class="photos_close modal-window__close" />
+        <x-close-btn id="exit_fullscreen_photos" class="photos_close modal-window__close" />
         <div class="swiper">
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
@@ -168,10 +168,10 @@
                     </div>
                 @endforeach
             </div>
-            <div class="swiper-pagination"></div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
         </div>
+        <div class="swiper-pagination"></div>
     </div>
 @endsection
 

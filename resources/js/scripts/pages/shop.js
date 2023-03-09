@@ -48,6 +48,33 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
   });
 
+  const buttonsFullscreen = document.querySelectorAll('[data-modal-path="photos_window"]');
+  buttonsFullscreen.forEach(button => button.addEventListener('click', (e) => {
+    if (window.innerWidth < 992) {
+      const modalWindow = document.getElementById('photos');
+      if (modalWindow.requestFullscreen) {
+        modalWindow.requestFullscreen();
+      } else if (modalWindow.webkitRequestFullscreen) {
+        modalWindow.webkitRequestFullscreen();
+      } else if (modalWindow.msRequestFullscreen) {
+        modalWindow.msRequestFullscreen();
+      }
+    }
+  }));
+
+  const exitFullscreenButton = document.getElementById('exit_fullscreen_photos');
+  exitFullscreenButton.addEventListener('click', (e) => {
+    if (window.innerWidth < 992) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  });
+
   // yandex map add
   ymaps.ready(function () {
     const coord = JSON.parse(document.getElementById('shop_coord').value);
