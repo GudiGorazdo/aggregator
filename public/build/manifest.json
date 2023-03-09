@@ -40,7 +40,7 @@
     "src": "resources/assets/images/starOn.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-7bc63e2b.js",
+    "file": "assets/app-71aee083.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
@@ -62,7 +62,7 @@
     "src": "resources/js/scripts/pages/shop.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-50aa0117.css",
+    "file": "assets/app-953f3a2d.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }

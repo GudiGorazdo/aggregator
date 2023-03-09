@@ -67,20 +67,23 @@ export default class LocationFilter {
     this.city.options = cityOptions;
     this.city.storageMark = cityStorageMark;
 
+    if (this.checkPath()) {
+      this.popup.wrapper = document.getElementById('city_confirm_popup');
+      this.popup.close = document.getElementById('city_popup_close');
+      this.popup.button = document.getElementById('city_confirm_true');
 
-    this.popup.wrapper = document.getElementById('city_confirm_popup');
-    this.popup.close = document.getElementById('city_popup_close');
-    this.popup.button = document.getElementById('city_confirm_true');
-
-    if (!this.cityCheckConfirm()) {
-      this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
-      this.popup.close.addEventListener('click', this.popupClose.bind(this));
-      this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
+      if (!this.cityCheckConfirm()) {
+        this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
+        this.popup.close.addEventListener('click', this.popupClose.bind(this));
+        this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
+      }
     }
 
-    console.log()
-
     this.initialize();
+  }
+
+  checkPath = () => {
+    return window.location.pathname == '/';
   }
 
   initialize = async () => {
@@ -204,7 +207,7 @@ export default class LocationFilter {
     // this.activeAreas = [];
     this.city.current = id;
     this.city.input.value = id;
-    if (!this.start && window.location.pathname == '/') window.location.href = `/?city=${id}`;
+    if (!this.start && this.checkPath()) window.location.href = `/?city=${id}`;
   }
 
   setCityOptions = (cities) => {
