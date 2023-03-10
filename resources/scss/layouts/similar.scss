@@ -1,4 +1,6 @@
 .similar {
+  margin-bottom: 3em;
+
   &_content {
     display: flex;
     flex-direction: column;
@@ -9,5 +11,33 @@
       flex-direction: row;
       justify-content: space-around;
     }
+  }
+
+  &-swiper-wrapper {
+    position: relative;
+  }
+
+  &-swiper {
+    max-width: 90%;
+    // padding-right: 1px !important;
+  }
+
+  .swiper-wrapper {
+    align-items: center;
+  }
+
+  .swiper-slide {
+    padding-right: 1px;
+  }
+
+  &-swiper-button-prev,
+  &-swiper-button-next {
+    color: $primary !important;
+  }
+  &-swiper-button-prev {
+    left: -1.3em !important;
+  }
+  &-swiper-button-next {
+    right: -1.3em !important;
   }
 }

@@ -27,7 +27,9 @@ class ShopController extends Controller
     {
         $shop = Shop::getById(+$id)->get()->first();
         $checkLocationCookie = CookieController::getCookie(CookieConstants::LOCATION) ?? false;
-        if (!$checkLocationCookie) CookieController::setCookie(CookieConstants::LOCATION, $shop->city_id, CookieController::getYears(1));
+        if (!$checkLocationCookie) {
+            CookieController::setCookie(CookieConstants::LOCATION, $shop->city_id, CookieController::getYears(1));
+        }
         $photos = json_decode($shop->photos);
         $additionalPhones = json_decode($shop->additional_phones) ?? [];
         foreach ($shop->services as $service) {
@@ -46,7 +48,7 @@ class ShopController extends Controller
         $timeBeforeClose = TitleService::getTimeBeforeClose($shop);
         foreach ($shop->workingMode->toArray() as $day) {
             $workingMode[] = [
-                'day' => self::getDayNumByNum((int) $day['day_of_week']),
+                'day' => self::getDayByNum((int) $day['day_of_week']),
                 'is_open' => $day['is_open'],
                 'open' => substr($day['open_time'], 0, -3),
                 'close' => substr($day['close_time'], 0, -3)
@@ -65,6 +67,20 @@ class ShopController extends Controller
             $prices[$key]['category_id'] = $category->id;
         }
 
-        return view('pages.shop.index', compact('shop', 'photos', 'timeBeforeClose', 'services', 'workingMode', 'prices', 'additionalPhones'));
+        $shopSubCategories = $shop->subCategories->pluck('id')->toArray();
+        $similar = Shop::similarFilter(+$shop->city_id, +$shop->id, $shopSubCategories)->get();
+
+        // dd($similar->first()->subways->toArray());
+
+        return view('pages.shop.index', compact(
+            'shop',
+            'photos',
+            'timeBeforeClose',
+            'services',
+            'workingMode',
+            'prices',
+            'additionalPhones',
+            'similar'
+        ));
     }
 }

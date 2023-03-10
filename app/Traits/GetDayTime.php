@@ -22,24 +22,24 @@ trait GetDayTime
     private static function getDayNumByName(string $name): string
     {
         switch ($name) {
-            case 'monday':
+            case 'monday' || 'понедельник':
                 return 1;
-            case 'tuesday':
+            case 'tuesday' || 'вторник':
                 return 2;
-            case 'wednesday':
+            case 'wednesday' || 'среда':
                 return 3;
-            case 'thursday':
+            case 'thursday' || 'четверг':
                 return 4;
-            case 'friday':
+            case 'friday' || 'пятница':
                 return 5;
-            case 'saturday':
+            case 'saturday' || 'суббота':
                 return 6;
-            case 'sunday':
+            case 'sunday' || 'воскресенье':
                 return 7;
         }
     }
 
-    private static function getDayNumByNum(int $num): string
+    private static function getDayByNum(int $num): string
     {
         switch ($num) {
             case 1:

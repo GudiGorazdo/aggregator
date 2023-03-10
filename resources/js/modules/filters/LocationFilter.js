@@ -111,7 +111,9 @@ export default class LocationFilter {
   }
 
   cityConfirm = () => {
-    document.cookie = `LOCATION_CONFIRM=1`;
+    const date = new Date();
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+    document.cookie = `LOCATION_CONFIRM=1; expires=${date.toUTCString()}; path=/; SameSite=None;`;
     this.popupClose();
 
   }

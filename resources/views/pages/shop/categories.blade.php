@@ -1,5 +1,5 @@
 <section class="categories categories--{{ $mod }}">
-    <h3 class="title text-center">Можно продать:</h3>
+    <h3 class="title text-center">Можно продать</h3>
     <ul class="categories_list">
         @foreach ($prices as $price)
             <li class="categories_item">

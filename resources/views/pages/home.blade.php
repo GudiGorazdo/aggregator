@@ -38,8 +38,7 @@
                     data-modal-path="site-alert"
                     data-modal-one-button="true"
                     data-alert="Этот функционал временно не доступен."
-                >Отправить заявку всем
-                </x-button-fixed-bottom>
+                >Отправить заявку всем</x-button-fixed-bottom>
             @endif
             <x-button-site
                 id="show_filters"
@@ -47,14 +46,26 @@
                 data-modal-path="aside_menu"
                 data-modal-animation="fadeInLeft"
                 data-modal-one-button="true"
-            ><span>Ф</span><span>и</span><span>л</span><span>ь</span><span>т</span><span>р</span><span>ы</span>
-        </x-button-site>
+            ><span>Ф</span><span>и</span><span>л</span><span>ь</span><span>т</span><span>р</span><span>ы</span></x-button-site>
             <x-button-site id="change-display" class="change-display">Карта</x-button-site>
         </div>
 
         <div class="home-content-wrapper mb-5">
             <div id="shops-map" class="shops-map"></div>
-            @include('layouts.shop-list', ['shops' => $shops])
+            <ul id="shop_list" class="shop-list">
+                @if (count($shops) < 1)
+                    <li class="shop_not-found text-danger">
+                        По вашему запросу ничего не найдено ...
+                    </li>
+                @else
+                    @foreach ($shops as $shop)
+                        <li id="anchor_{{ $shop->id }}"
+                            class="shop-list_item mb-4"
+                            data-shop-target={{ $shop->id }}
+                        ><x-shop-card :shop="$shop"/></li>
+                    @endforeach
+                @endif
+            </ul>
         </div>
 
         <p class="descrtiption-desktop descrtiption-desktop--lower">

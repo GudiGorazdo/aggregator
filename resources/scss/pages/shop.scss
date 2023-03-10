@@ -565,8 +565,8 @@
     z-index: 2;
   }
 
-  .swiper-button-prev,
-  .swiper-button-next {
+  .photos-swiper-button-prev,
+  .photos-swiper-button-next {
     display: none;
 
 
@@ -585,7 +585,7 @@
     }
   }
 
-  .swiper-pagination {
+  .photos-swiper-pagination {
     bottom: 1em !important;
     background-color:rgb(0, 0, 0, 0.5);
   }

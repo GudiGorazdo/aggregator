@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\belongsToMany;
 use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Database\Eloquent\Relations\hasOne;
 use App\Services\FilterService;
+use App\Filters\SimilarCategoriesFilter;
 
 class Shop extends Model
 {
@@ -24,9 +25,24 @@ class Shop extends Model
                 ->with('workingMode')
                 ->with('area')
                 ->with('city')
+                ->with('subways')
                 ->with('subCategories')
             ;
         }
+        return $query;
+    }
+
+    public function scopeSimilarFilter(Builder $query, int $city_id, int $shop_id, array $subCategories = []): Builder
+    {
+            $query = (new SimilarCategoriesFilter())->apply($query, $subCategories)
+                ->with('area')
+                ->with('city')
+                ->with('categories')
+                ->with('subCategories')
+                ->with('subways')
+                ->where('id', '!=',  $shop_id)
+                ->where('city_id',  $city_id)
+            ;
         return $query;
     }
 

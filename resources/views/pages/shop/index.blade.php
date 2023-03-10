@@ -61,8 +61,7 @@
                                 <li class="rating_item">
                                     <p class="rating_label">{{ $service['name'] }}</p>
                                     <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i>{{ +$service['rating'] }}</p>
-                                    <a
-                                        id="anchor_reviews_{{ $service['id'] }}"
+                                    <a id="anchor_reviews_{{ $service['id'] }}"
                                         class="rating_comments-count"
                                         href="#reviews_item_{{ $service['id'] }}"
                                         {{-- data-bs-toggle="collapse" --}}
@@ -83,16 +82,15 @@
                     />
                 </div>
                 <section id="description_desktop" class="description description--desktop">
-                    <h5 class="shop_subtitle">Описание</h5>
+                    <h3 class="shop_subtitle">Описание</h3>
                     <p class="description_text description_text--desktop">{{ $shop->description }}</p>
                 </section>
-                {{-- @include('pages.shop.comments-list', ['mod' => 'desktop']) --}}
                 @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'desktop'])
             </div>
             <div class="shop-right">
                 <div class="contacts-working-mode-wrapper">
                     <section class="contacts">
-                        <h5 class="shop_subtitle">Телефон:</h5>
+                        <h4 class="shop_subtitle">Телефон:</h4>
                         <ul class="contacts_list">
                             <li class="contacts_item">
                                 <a class="contacts_link" href="tel:{{ $shop->phone }}">{{ $shop->phone }}</a>
@@ -103,7 +101,7 @@
                                 </li>
                             @endforeach
                         </ul>
-                        <h5 class="shop_subtitle">Вебсайт:</h5>
+                        <h4 class="shop_subtitle">Вебсайт:</h4>
                         <ul class="contacts_list">
                             @foreach (json_decode($shop->web) as $web)
                                 <li class="contacts_item">
@@ -113,7 +111,7 @@
                         </ul>
                     </section>
                     <section class="working-mode">
-                        <h5 class="shop_subtitle">Режим работы:</h5>
+                        <h4 class="shop_subtitle">Режим работы:</h4>
                         <table class="working-mode_list">
                             @foreach ($workingMode as $day)
                                 <tr>
@@ -121,7 +119,10 @@
                                     @if (!$day['is_open'])
                                         <td>выходной</td>
                                     @else
-                                        <td>{{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : 'с 00:00 ' }}{{ $day['close'] > '' ? 'до ' . $day['close'] : 'до 00:00' }}</td>
+                                        <td>
+                                            {{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : 'с 00:00 ' }}
+                                            {{ $day['close'] > '' ? 'до ' . $day['close'] : 'до 00:00' }}
+                                        </td>
                                     @endif
                                 </tr>
                             @endforeach
@@ -129,14 +130,14 @@
                     </section>
                 </div>
                 <section class="location">
-                    <h5 class="shop_subtitle">Адрес:</h5>
+                    <h4 class="shop_subtitle">Адрес:</h4>
                     <address class="location_address">{{ $shop->address }}</address>
                     <div id="shop-map" class="location_map"></div>
                 </section>
             </div>
         </div>
         <section id="description_mobile" class="description description--mobile">
-            <h5 class="shop_subtitle">Описание</h5>
+            <h4 class="shop_subtitle">Описание</h4>
             <div id="description_wrapper" class="description_wrapper close">
                 <p id="description_text" class="description_text description_text--mobile">{{ $shop->description }}</p>
             </div>
@@ -148,16 +149,17 @@
             @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'mobile'])
             @include('pages.shop.comments-list', ['services' => $services])
         </div>
+        @include('layouts.similar', ['similar' => $similar])
     </section>
 @endsection
 
 @section('modal')
     <div id="photos" class="photos modal-window__container" data-modal-target="photos_window">
         <x-close-btn id="exit_fullscreen_photos" class="photos_close modal-window__close" />
-        <div class="swiper">
+        <div class="swiper photos-swiper">
             <div class="swiper-wrapper">
                 @foreach ($photos as $photo)
-                <div class="swiper-slide d-flex justify-contentrcenter">
+                    <div class="swiper-slide d-flex justify-contentrcenter">
                         <div class="loader">
                             <img src="{{ asset('assets/images/Loading_black.gif') }}" loading="lazy" alt="loader">
                         </div>
@@ -171,10 +173,10 @@
                     </div>
                 @endforeach
             </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev photos-swiper-button-prev"></div>
+            <div class="swiper-button-next photos-swiper-button-next"></div>
         </div>
-        <div class="swiper-pagination"></div>
+        <div class="swiper-pagination photos-swiper-pagination"></div>
     </div>
 @endsection
 

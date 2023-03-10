@@ -20,60 +20,69 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // check previews photos
   checkMediaWidth();
 
-  // add swiper
-  const swiperParams = {
+  // add photos
+  const photosParams = {
     modules: [Navigation, Pagination],
     loop: true,
     pagination: {
-      el: '.swiper-pagination',
+      el: '.photos-swiper-pagination',
       clickable: true,
     },
     navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
+      nextEl: '.photos-swiper-button-next',
+      prevEl: '.photos-swiper-button-prev',
     },
   }
-  const swiper = new Swiper('.swiper', swiperParams);
+  const photos = new Swiper('.photos-swiper', photosParams);
 
-  // swiper add to modal  window
+  // photos add to modal  window
   window.modalWindowPlugin.options.addOpenCallBack(() => {
-    swiper.updateProgress();
-    swiper.update();
+    photos.updateProgress();
+    photos.update();
   });
 
-  // swiper slide to preview image
+  // photos slide to preview image
   document.querySelectorAll('[data-preview]').forEach(button => {
     button.addEventListener('click', (e) => {
-      swiper.slideTo(+e.target.dataset.preview, 0, false);
+      photos.slideTo(+e.target.dataset.preview, 0, false);
     });
   });
 
-  const buttonsFullscreen = document.querySelectorAll('[data-modal-path="photos_window"]');
-  buttonsFullscreen.forEach(button => button.addEventListener('click', (e) => {
-    if (window.innerWidth < 992) {
-      const modalWindow = document.getElementById('photos');
-      if (modalWindow.requestFullscreen) {
-        modalWindow.requestFullscreen();
-      } else if (modalWindow.webkitRequestFullscreen) {
-        modalWindow.webkitRequestFullscreen();
-      } else if (modalWindow.msRequestFullscreen) {
-        modalWindow.msRequestFullscreen();
-      }
-    }
-  }));
 
-  const exitFullscreenButton = document.getElementById('exit_fullscreen_photos');
-  exitFullscreenButton.addEventListener('click', (e) => {
-    if (window.innerWidth < 992) {
+  const FullscreenController = {
+    modal: document.getElementById('photos'),
+    enters: document.querySelectorAll('[data-modal-path="photos_window"]'),
+    exit: document.getElementById('exit_fullscreen_photos'),
+
+    init() {
+      this.enters.forEach(button => button.addEventListener('click', this.enterFullscreen.bind(this)));
+    },
+
+    enterFullscreen() {
+      if (window.innerWidth < 992) {
+        if (this.modal.requestFullscreen) {
+          this.modal.requestFullscreen();
+        } else if (this.modal.webkitRequestFullscreen) {
+          this.modal.webkitRequestFullscreen();
+        } else if (this.modal.msRequestFullscreen) {
+          this.modal.msRequestFullscreen();
+        }
+        this.exit.addEventListener('click', this.exitFullscreen.bind(this));
+      }
+    },
+
+    exitFullscreen() {
       if (document.exitFullscreen) {
         document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
+      } else if (document.webkitexitFullscreen) {
+        document.webkitexitFullscreen();
+      } else if (document.msexitFullscreen) {
+        document.msexitFullscreen();
       }
+      this.exit.removeEventListener('click', this.exitFullscreen);
     }
-  });
+  }
+  FullscreenController.init();
 
   // yandex map add
   ymaps.ready(function () {
@@ -91,7 +100,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     myMap.controls.remove('typeSelector');
     myMap.controls.remove('geolocationControl');
     myMap.controls.remove('trafficControl');
-    myMap.controls.remove('fullscreenControl');
+    myMap.controls.remove('FullscreenControl');
 
     const mark = new ymaps.Placemark([coord.lat, coord.long]);
     markCollection.add(mark);
@@ -180,5 +189,34 @@ document.addEventListener('DOMContentLoaded', (e) => {
     checkMediaWidth(e);
     description.checkDescriptionHeight(e);
   });
+
+    // addsimilar
+    const similarParams = {
+      modules: [Navigation, Pagination],
+      loop: false,
+      pagination: {
+        el: '.similar-swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.similar-swiper-button-next',
+        prevEl: '.similar-swiper-button-prev',
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 5
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 5
+        },
+        992: {
+          slidesPerView: 3,
+          spaceBetween: 5
+        },
+      }
+    }
+    const similar = new Swiper('.similar-swiper', similarParams);
 });
 
