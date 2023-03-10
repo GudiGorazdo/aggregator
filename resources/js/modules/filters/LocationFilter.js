@@ -73,7 +73,6 @@ export default class LocationFilter {
       this.popup.button = document.getElementById('city_confirm_true');
 
       if (!this.cityCheckConfirm()) {
-        this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
         this.popup.close.addEventListener('click', this.popupClose.bind(this));
         this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
       }
@@ -103,7 +102,7 @@ export default class LocationFilter {
     this.addAreaListeners();
     if (this.start) this.start = false;
 
-
+    if (this.city.current) this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
   }
 
   popupClose = () => {
@@ -186,17 +185,24 @@ export default class LocationFilter {
     const setCurrentCity = (id) => this.setCurrentCity(id);
 
     ymaps.ready(async function () {
-      const city = ymaps.geolocation.city;
-      const check = all.find(item => item.name == city);
-      if (check) setCurrentCity(check.id);
-      else {
-        const sartId = await start();
-        const city = all.find(city => city.id == sartId);
-        if (city) {
-          setCookie(city.id);
-          return setCurrentCity(city.id);
-        }
-      }
+      ymaps.geolocation.get({}).then(function (result) {
+        const userLocation = result.geoObjects.get(0).geometry.getCoordinates();
+        ymaps.geocode(userLocation, {
+          kind: 'locality'
+        }).then(async function (res) {
+          const city = res.geoObjects.get(0).getLocalities()[0];
+          const check = all.find(item => item.name == city);
+          if (check) setCurrentCity(check.id);
+          else {
+            const sartId = await start();
+            const city = all.find(city => city.id == sartId);
+            if (city) {
+              setCookie(city.id);
+              return setCurrentCity(city.id);
+            }
+          }
+        });
+      });
     });
   }
 
