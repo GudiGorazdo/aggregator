@@ -9,7 +9,7 @@
 
 @section('content')
     <section class="container login-form">
-        <form action="{{ $route }}" method="POST">
+        <form class="login-form_form" action="{{ $route }}" method="POST">
             @csrf
             <x-input
                 classNamesWrapper="mb-3"
@@ -25,6 +25,9 @@
                 label="Пароль"
                 type="password"
             />
+            @error('error')
+                <p class="invalid-feedback d-block">{{ $message }}</p>
+            @enderror
             <button type="submit" class="btn btn-primary">Войти</button>
         </form>
     </section>

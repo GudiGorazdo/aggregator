@@ -18,6 +18,9 @@
 </head>
 
 <body>
+    @auth("admin")
+        @include('layouts.admin.panel')
+    @endauth
     @include('layouts.header')
     <main id="main-content" class="main-content">@yield('content')</main>
     {{-- @include('layouts.similar') --}}

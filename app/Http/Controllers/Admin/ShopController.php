@@ -14,7 +14,8 @@ class ShopController extends Controller
      */
     public function index()
     {
-        //
+        dd('adsf');
+        return view('pages.admin.home');
     }
 
     /**

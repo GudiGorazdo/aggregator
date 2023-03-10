@@ -17,4 +17,11 @@ class AuthenticateAdmin
 
         return $next($request);
     }
+
+    // protected function redirectTo($request)
+    // {
+    //     if (! $request->expectsJson()) {
+    //         return route('admin.login');
+    //     }
+    // }
 }

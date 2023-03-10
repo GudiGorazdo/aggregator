@@ -25,7 +25,7 @@ class ShopController extends Controller
         return view('pages.home', compact('shops', 'title'));
     }
 
-    public function shop(Request $request, string $id): View|RedirectResponse
+    public function show(Request $request, string $id): View|RedirectResponse
     {
         $shop = Shop::getById(+$id)->get()->first();
         if (!$shop) return redirect()->route('undefined');

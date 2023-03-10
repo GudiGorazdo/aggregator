@@ -11,7 +11,6 @@
     @param $classNamesDescription      -- имена классов для поля с описанием
     @params $required                  -- required
 --}}
-
 <div {{ $classNamesWrapper ? 'class=' . $classNamesWrapper : '' }}>
     <label
         for="{{ $inputId }}"
@@ -19,7 +18,7 @@
     >{{ $label }}</label>
     <input
         id="{{ $inputId }}"
-        class="form-control {{ $classNamesInput ?? '' }} @error($name ?? 'error') is-invalid @enderror"
+        class="form-control {{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
         type="{{ $type }}"
         name="{{ $name }}"
         value="{{ old($name) }}"
@@ -33,9 +32,6 @@
         >{{ $description }}</div>
     @endif
     @error($name)
-        <p class="invalid-feedback">{{ $message }}</p>
-    @enderror
-    @error('error')
         <p class="invalid-feedback">{{ $message }}</p>
     @enderror
 </div>
