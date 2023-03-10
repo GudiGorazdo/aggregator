@@ -17,7 +17,7 @@
                         {{ +$service['rating'] }}
                     </p>
                     <div class="reviews_rating-count reviews_rating-count--desktop">
-                        <x-star-rating-display rating="{{ +$service['rating'] }}" />
+                        <x-star-rating-display rating="{{ +$service['rating'] }}" decimal='1'/>
                     </div>
                     <span class="reviews_count">({{ $service['comments_count_title'] }})</span>
                 </x-slot>
@@ -30,14 +30,10 @@
                         <li class="reviews_comment">
                             <div class="d-flex">
                                 <p class="reviews_name">{{ $comment->name }}</p>
-                                <p class="reviews_rating-count rating-count reviews_rating-count--mobile">
-                                    <i class="fa fa-star rating_star rating_star--gold"></i>
-                                    {{ +$comment->rating }}
-                                </p>
-                                <div class="reviews_rating-count reviews_rating-count--desktop">
-                                    <x-star-rating-display rating="{{ +$comment->rating }}" />
-                                </div>
                                 <p class="reviews_date">{{ $comment->date }}</p>
+                            </div>
+                            <div class="reviews_rating-count">
+                                <x-star-rating-display rating="{{ +$comment->rating }}" />
                             </div>
                             <p class="reviews_text">{{ $comment->text }}</p>
                             @if (!empty($comment->response))

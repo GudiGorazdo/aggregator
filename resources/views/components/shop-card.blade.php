@@ -6,7 +6,7 @@
             <div class="mt-1">
                 <h5 class="shop-card_title"><a href="{{ route('shop', ['id' => $shop->id]) }}">{{ $shop->name }}</a></h5>
                 <div class="d-flex flex-row">
-                   <x-star-rating-display rating="{{ $shop->average_rating }}"/>
+                   <x-star-rating-display rating="{{ $shop->average_rating }}" decimal="1"/>
                 </div>
                 <div class="mt-1 mb-1 spec-1">
                     <span>{{ $shop->address }}</span>

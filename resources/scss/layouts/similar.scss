@@ -23,10 +23,11 @@
   }
 
   .swiper-wrapper {
-    align-items: center;
+    align-items: stretch;
   }
 
   .swiper-slide {
+    height: auto;
     padding-right: 1px;
   }
 
@@ -39,5 +40,9 @@
   }
   &-swiper-button-next {
     right: -1.3em !important;
+  }
+
+  &-card {
+    height: 100%;
   }
 }

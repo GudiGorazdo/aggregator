@@ -10,15 +10,26 @@
   }
 
   &_close.button_close {
-    top: -1.7em;
-    right: -2em;
-    background-color: $light;
-    border-radius: 100%;
+    top: -2em;
+    right: -2.2em;
 
-    // span.close-icon::after,
-    // span.close-icon::before {
-    //   background-color: $light;
-    // }
+    span.close-icon::after,
+    span.close-icon::before {
+      background-color: $light;
+    }
+
+    &:hover {
+      span.close-icon::after,
+      span.close-icon::before {
+        background-color: $primary;
+      }
+    }
+    &:active {
+      span.close-icon::after,
+      span.close-icon::before {
+        background-color: var(--bs-link-hover-color);
+      }
+    }
   }
 
   &_message {

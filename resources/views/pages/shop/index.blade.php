@@ -54,7 +54,7 @@
                     <div class="rating">
                         <div class="rating_average">
                             <p class="rating_label">Общий рейтинг</p>
-                            <x-star-rating-display rating="{{ +$shop->average_rating }}" />
+                            <x-star-rating-display rating="{{ +$shop->average_rating }}" decimal='1'/>
                         </div>
                         <ul class="rating_list">
                             @foreach ($services as $service)
@@ -147,7 +147,7 @@
 
         <div class="categories-reviews-wrapper">
             @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'mobile'])
-            @include('pages.shop.comments-list', ['services' => $services])
+            @include('pages.shop.reviews-list', ['services' => $services])
         </div>
         @include('layouts.similar', ['similar' => $similar])
     </section>

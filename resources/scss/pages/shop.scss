@@ -495,14 +495,20 @@
     padding: 1em;
     border: 1px solid $secondary;
     border-radius: 1rem;
+    .reviews_rating-count {
+      margin-bottom: 1em;
+      display: block;
+    }
   }
 
   &_name,
   &_date {
+    margin-bottom: 0;
     font-weight: 600;
   }
 
   &_name {
+    margin-bottom: 0;
     margin-right: 1em;
   }
 

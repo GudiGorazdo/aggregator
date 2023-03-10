@@ -5,23 +5,26 @@
             <div class="mt-1">
                 <h5 class="similar-card_title">{{ $shop->name }}</h5>
                 <div class="d-flex flex-row">
-                   <x-star-rating-display rating="{{ $shop->average_rating }}"/>
+                   <x-star-rating-display rating="{{ $shop->average_rating }}" decimal='1'/>
                 </div>
                 <div class="mt-1 mb-1 spec-1 similar-card_address">
-                    <span>{{ $shop->address }}</span>
-                    <p class="similar-card_subways">
-                        @foreach($shop->subways as $subway)
-                            @if ($subway !== $shop->subways->last())
-                                {{ $subway->name }},
-                            @else
-                                {{ $subway->name }}.
-                            @endif
-                        @endforeach
-                    </p>
+                    <h6 class="mb-1">{{ $shop->address }}</h6>
+                    @if(!empty($shop->subways->toArray()))
+                        <h6 class="similar-card_subtitle mb-1">Ближашие станции метро:</h6>
+                        <p class="similar-card_subways mb-0">
+                            @foreach($shop->subways as $subway)
+                                @if ($subway !== $shop->subways->last())
+                                    {{ $subway->name }},
+                                @else
+                                    {{ $subway->name }}.
+                                @endif
+                            @endforeach
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
-        <p class="similar-card_categories">
+        <p class="similar-card_categories mb-0">
             @foreach($shop->categories as $category)
                 @if ($category !== $shop->categories->last())
                     {{ $category->name }},

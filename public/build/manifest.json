@@ -40,7 +40,7 @@
     "src": "resources/assets/images/starOn.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-16f62510.js",
+    "file": "assets/app-cb182832.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
@@ -57,12 +57,12 @@
     "css": [
       "assets/shop-1e0ee291.css"
     ],
-    "file": "assets/shop-6711466f.js",
+    "file": "assets/shop-dd4aee41.js",
     "isEntry": true,
     "src": "resources/js/scripts/pages/shop.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-cc774004.css",
+    "file": "assets/app-b599cdb6.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }

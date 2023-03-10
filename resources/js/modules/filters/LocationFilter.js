@@ -102,7 +102,9 @@ export default class LocationFilter {
     this.addAreaListeners();
     if (this.start) this.start = false;
 
-    if (this.city.current) this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
+    if (this.city.current && !this.cityCheckConfirm()) {
+      this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
+    }
   }
 
   popupClose = () => {
@@ -172,6 +174,7 @@ export default class LocationFilter {
     let resp = await fetch('/api/location_start');
     resp = await resp.text();
     return resp;
+
   }
 
   getCurrentCity = async (all) => {
@@ -216,7 +219,10 @@ export default class LocationFilter {
     // this.activeAreas = [];
     this.city.current = id;
     this.city.input.value = id;
-    if (!this.start && this.checkPath()) window.location.href = `/?city=${id}`;
+    if (!this.start && this.checkPath()) {
+      this.cityConfirm();
+      window.location.href = `/?city=${id}`;
+    }
   }
 
   setCityOptions = (cities) => {
