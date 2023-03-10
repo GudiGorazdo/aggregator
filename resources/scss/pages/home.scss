@@ -16,8 +16,10 @@
   }
   &-desktop {
     display: none;
+    margin: auto;
 
     &--lower {
+      margin-bottom: 3em;
       padding: 1em 2em;
       font-weight: 600;
       font-size: 1.2em;
@@ -25,7 +27,6 @@
 
     @media(min-width: 992px) {
       max-width: 70%;
-      margin: auto;
       display: block;
     }
   }

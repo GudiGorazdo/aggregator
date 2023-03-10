@@ -1,6 +1,6 @@
 <section class="similar">
     <div class="container">
-        <h3 class="title display-4 text-center">Похожие категории</h3>
+        <h3 class="title display-4 text-center">Похожие магазины</h3>
         <div class="similar-swiper-wrapper">
             <div class="swiper similar-swiper">
                 <div class="swiper-wrapper">
