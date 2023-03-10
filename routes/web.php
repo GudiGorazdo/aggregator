@@ -32,6 +32,7 @@ use \App\Http\Controllers\CookieController;
 Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
 Route::get('/shop/{id}', [App\Http\Controllers\ShopController::class, 'shop'])->name('shop');
 
+Route::get('/404', [App\Http\Controllers\UndefinedController::class, 'index'])->name('undefined');
 
 // Route::middleware("guest")->group(function () {
 //     Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');

@@ -10,6 +10,8 @@ use \App\Traits\GetDayTime;
 use \App\Traits\GetNumEndingTrait;
 use \App\Http\Controllers\CookieController;
 use App\Constants\CookieConstants;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class ShopController extends Controller
 {
@@ -23,9 +25,11 @@ class ShopController extends Controller
         return view('pages.home', compact('shops', 'title'));
     }
 
-    public function shop(Request $request, string $id): View
+    public function shop(Request $request, string $id): View|RedirectResponse
     {
         $shop = Shop::getById(+$id)->get()->first();
+        if (!$shop) return redirect()->route('undefined');
+        // dd($shop);
         $checkLocationCookie = CookieController::getCookie(CookieConstants::LOCATION) ?? false;
         if (!$checkLocationCookie) {
             CookieController::setCookie(CookieConstants::LOCATION, $shop->city_id, CookieController::getYears(1));
