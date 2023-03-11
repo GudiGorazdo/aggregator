@@ -30,3 +30,4 @@ Route::get('/location_cookie', [App\Http\Controllers\LocationController::class, 
 Route::get('/location_start', [App\Http\Controllers\LocationController::class, 'getStartCityId']);
 
 Route::get('/coords', [App\Http\Controllers\LocationController::class, 'getStartCityId']);
+// Route::get('/shops/update_photos', [\App\Http\Controllers\Admin\ShopController::class, 'updatePhotos']);

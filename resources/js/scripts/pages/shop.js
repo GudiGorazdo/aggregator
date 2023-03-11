@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const photos = new Swiper('.photos-swiper', photosParams);
 
   // photos add to modal  window
-  window.modalWindowPlugin.options.addOpenCallBack(() => {
+  $modal.options.addOpenCallBack(() => {
     photos.updateProgress();
     photos.update();
   });
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // photos slide to preview image
   document.querySelectorAll('[data-preview]').forEach(button => {
     button.addEventListener('click', (e) => {
-      photos.slideTo(+e.target.dataset.preview, 0, false);
+      photos.slideTo(+e.target.dataset.preview, 1, false);
     });
   });
 

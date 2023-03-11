@@ -5,7 +5,6 @@
 @endsection
 
 @section('styles')
-    <link rel="preload" href="{{ asset('assets/images/Loading_black.gif') }}" as="image">
 @endsection
 
 @php
@@ -33,23 +32,22 @@
                 {{-- bodyClassName="reviews_body" --}}
                 {{-- bodyId="reviews_body_{{ $service['id'] }}" --}}
                 collapse="shop_photos_inner"
-                title="Все фотографии"
             >
+                <x-slot name="title">
+                    Все фотографии 
+                    <span id="shop_photos_count">( {{ count($photos) }} )</span>
+                </x-slot>
                 <form id="shop_photos_form" class="shop-photos_form" action="#">
-                    @csrf
                     <input type="hidden" value="{{ $shop->id}}" name="id">
                     <ul id="shop_photos_list" class="shop-photos_list d-flex">
-                        @foreach ($photos as $photo)
-                            <li class="shop-photos_item">
-                                <label class="shop-photos_label">
-                                    <img class="preview_img" src="{{ $photo . '/id/' . rand(10, 100) }}/150/150" alt="фото компании {{ $shop->name }}">
-                                    <input type="checkbox" class="shop-photos_input" checked name=remove_photos[] value="{{ $photo }}">
-                                </label>
-                            </li>
-                        @endforeach
+                       @include('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])
                     </ul>
-                    <x-button-site id="shop_photos_remove" type="submit">Удалить выделенные</x-button-site>
                 </form>
+                <x-button-site id="shop_photos_remove"
+                    data-modal-path="site-confirm"
+                    data-confirm="Удалить выбранные фото?"
+                    {{-- data-alert="Этот функционал временно не доступен." --}}
+                >Удалить выделенные</x-button-site>
             </x-accordion-item>
         </x-accordion>
         <div class="shop-sides">

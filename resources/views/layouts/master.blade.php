@@ -29,6 +29,7 @@
         @include('layouts.aside')
         @include('layouts.nav-bar')
         @include('layouts.alert')
+        @include('layouts.confirm')
         @yield('modal')
     </div>
 

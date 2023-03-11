@@ -4,27 +4,62 @@ import './scripts/burger';
 import ModalWindow from './plugins/modal/ModalWindow';
 
 /**
+ * МОДАЛЬНЫЕ ОКНА, АЛЕРТЫ, ОКНА ПОДТВЕРЖДЕНИЯ ДЕЙСТВИЯ
+ *
  * @param modalCallbackOnOpen         --  Массив колбэк функций, которые выполняются в момент открытия модального окна,
- *                                        чтобы добавить функцию необходимо воспользоваться методом window.modalWindowPlugin.options.addOpenCallBack(function)
+ *                                        чтобы добавить функцию необходимо воспользоваться методом $modal.options.addOpenCallBack(function)
  *
  * @param modalCallbackOnClose        --  Массив колбэк функций, которые выполняются в момент закрытия модального окна,
- *                                        чтобы добавить функцию необходимо воспользоваться методом window.modalWindowPlugin.options.addCloseCallBack(function)
+ *                                        чтобы добавить функцию необходимо воспользоваться методом $modal.options.addCloseCallBack(function)
+ *
+ *
+ *
+ * ОКНО ПОДТВЕРЖДЕНИЯ
+ * чтобы вызвать необходимо добавить кнопку:
+ * <button id="confirm_button"
+ *    data-modal-path="site-confirm"     -- путь выбора модального окна, чтобы показать окно подтверждения, обязательный параметр
+ *    data-confirm="Сделать что-то?"     -- текст в окне подтверждения
+ * >confirm button text</button>
+ *
+ * для того, чтобы совершить действие если пользователь подтвердил,
+ * необходимо передать плагину функцию, которая выполнится после подтверждения,
+ * это делается методом плагина $modal.options.setConfirm(function), который надо
+ * выполнить в момент вызова, для этого надо повесить слушатель
+ * на кнопку, чтобы по клику передавать в плагин нужную функцию
+ *
+ * function afterConfirm() {
+ *   // действие после подтверждения
+ * }
+ *
+ * function addAfterConfirmFunction() {
+ *    $modal.options.setConfirm(() => afterConfirm());
+ *  },
+ * document.getElementById('confirm_button').addEventListener('click', addAfterConfirmFunction);
  */
-
 
 const modalCallbackOnOpen = [];
 const modalCallbackOnClose = [];
-window.modalWindowPlugin = new ModalWindow({
+let confirm = null;
+window.$modal = new ModalWindow({
   isOpen: (instance, e) => {
     modalCallbackOnOpen.forEach(callback => callback());
     if (e.target.dataset.alert) {
       instance.modal.querySelector('#site-alert_message').textContent = e.target.dataset.alert;
     }
+    if (e.target.dataset.confirm) {
+      instance.modal.querySelector('#site_confirm_message').textContent = e.target.dataset.confirm;
+      document.getElementById('site_confirm_true').addEventListener('click', confirm);
+    }
   },
   isClose: (instance, e) => {
     modalCallbackOnClose.forEach(callback => callback());
-    if (e.target.dataset.alert) {
+    if (instance.modalContainer.id == 'site-alert') {
       instance.modal.querySelector('#site-alert_message').textContent = '';
+    }
+    if (instance.modalContainer.id == 'site-confirm') {
+      instance.modal.querySelector('#site_confirm_message').textContent = '';
+      document.getElementById('site_confirm_true').removeEventListener('click', confirm);
+      confirm = null;
     }
   },
 
@@ -34,5 +69,9 @@ window.modalWindowPlugin = new ModalWindow({
 
   addCloseCallBack(func) {
     modalCallbackOnClose.push(func);
+  },
+
+  setConfirm(func) {
+    confirm = func;
   }
 });

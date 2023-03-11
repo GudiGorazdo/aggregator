@@ -48,17 +48,6 @@ class ShopController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -82,7 +71,15 @@ class ShopController extends Controller
 
     public function updatePhotos(Request $request)
     {
-       \App\Helpers::log($request->all(), __DIR__);
+        $shop = Shop::getById((int)$request->input('id'))->get()->first();
+        $photos = $request->input('update_photos');
+        $shop->photos = json_encode($photos);
+        $shop->save();
+        $content = view('pages.admin.shop.photos', ['photos' => $photos, 'shop' => $shop])->render();
+
+        return response(['ok' => true, 'count' => count($photos), 'items' => $content], 200, [
+            'Content-Type' => 'application/json'
+        ]);
     }
 
     /**
