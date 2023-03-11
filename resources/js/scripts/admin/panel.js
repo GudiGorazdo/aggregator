@@ -70,9 +70,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
     },
 
     checkMiss(e) {
-      if (!this.list.contains(e.target) && e.target.id != 'search') {
-        this.hide();
-      }
+      if (this.list.contains(e.target)) return;
+      if (e.target == this.input) return;
+      this.hide();
     },
 
     show() {

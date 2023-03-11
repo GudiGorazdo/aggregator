@@ -1,9 +1,9 @@
 <?php
-namespace App\Traits;
+namespace App\Services;
 
-trait GetNumEndingTrait
+class GetNumEndingService
 {
-    private static function getNumEnding(int $number, array $endingArray): string
+    public static function getNumEnding(int $number, array $endingArray): string
     {
         $number = $number % 100;
         if ($number>=11 && $number<=19) {

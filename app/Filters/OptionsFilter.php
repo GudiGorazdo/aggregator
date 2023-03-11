@@ -3,18 +3,15 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
+use \App\Services\GetDayTime;
 use \App\Filters\BaseFilter;
 use \App\Http\Controllers\CookieController;
 use \App\Constants\CookieConstants;
-use \App\Traits\GetDayTime;
 use \App\Models\City;
 
 
 class OptionsFilter extends BaseFilter
 {
-
-    use GetDayTime;
 
     /**
      * @param $items = [
@@ -42,15 +39,15 @@ class OptionsFilter extends BaseFilter
     public function workNow(Builder $query): Builder
     {
         $query = $query->whereHas('workingMode', function (Builder $query) {
-            return $query->where('day_of_week', self::getNowDayNum($this->timezone))
+            return $query->where('day_of_week', GetDayTime::getNowDayNum($this->timezone))
                 ->where('is_open', 1)
                 ->where(function (Builder $query) {
-                        $query->whereTime('open_time', '<', self::getTime($this->timezone))
+                        $query->whereTime('open_time', '<', GetDayTime::getTime($this->timezone))
                             ->orWhereNull('open_time')
                     ;
                 })
                 ->where(function (Builder $query) {
-                        $query->whereTime('close_time', '>', self::getTime($this->timezone))
+                        $query->whereTime('close_time', '>', GetDayTime::getTime($this->timezone))
                             ->orWhereNull('close_time')
                     ;
                 })

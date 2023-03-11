@@ -45,7 +45,7 @@
     "src": "resources/js/app.js"
   },
   "resources/js/scripts/admin/panel.js": {
-    "file": "assets/panel-edee98e9.js",
+    "file": "assets/panel-4b3d1705.js",
     "isEntry": true,
     "src": "resources/js/scripts/admin/panel.js"
   },
@@ -62,7 +62,7 @@
     "css": [
       "assets/shop-1e0ee291.css"
     ],
-    "file": "assets/shop-dd4aee41.js",
+    "file": "assets/shop-415189dd.js",
     "isEntry": true,
     "src": "resources/js/scripts/pages/shop.js"
   },

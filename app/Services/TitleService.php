@@ -12,14 +12,11 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\SubCategory;
 use App\Models\Subway;
-use App\Traits\GetNumEndingTrait;
-use \App\Traits\GetDayTime;
+use \App\Services\GetDayTimeService;
+use \App\Services\GetNumEndingService;
 
 class TitleService
 {
-    use GetNumEndingTrait;
-    use GetDayTime;
-
     static function getHomePage(Request $request, Collection $shops): string
     {
         $categories = self::getCategories($request);
@@ -118,9 +115,9 @@ class TitleService
 
     public static function getTimeBeforeClose(Model $shop): string
     {
-        $now = mb_strtolower(self::getFullTime($shop->city->timezone));
+        $now = mb_strtolower(GetDayTimeService::getFullTime($shop->city->timezone));
         $nowData = explode(' ', $now);
-        $dayNum = self::getDayNumByName($nowData[0]);
+        $dayNum = GetDayTimeService::getDayNumByName($nowData[0]);
         $shopOpen = $shop->workingMode[(int)$dayNum - 1]['open_time'];
         $shopClose = $shop->workingMode[(int)$dayNum - 1]['close_time'];
         $shopIsOpen = $shop->workingMode[(int)$dayNum - 1]['is_open'];
@@ -155,19 +152,17 @@ class TitleService
         //     return 'Магазин открыт каждый день круглосуточно';
         // }
 
-        // dd($closeTime->lessThan($openTime));
-
         if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '
-                . self::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
+                . GetNumEndingService::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
                 . ' '
                 . $timeBeforeClose[1]
                 . ' '
-                . self::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
+                . GetNumEndingService::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
          } else if (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
             return 'Магазин открыт круглосуточно';
@@ -215,13 +210,13 @@ class TitleService
         $day = 1;
         $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
         $data = explode(' ', $next);
-        $dayNum = self::getDayNumByName($data[0]);
+        $dayNum = GetDayTimeService::getDayNumByName($data[0]);
         while(!$shop->workingMode[$dayNum - 1]['is_open']) {
             if ($day == 8 ) return false;
             $day++;
             $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
             $data = explode(' ', $next);
-            $dayNum = self::getDayNumByName($data[0]);
+            $dayNum = GetDayTimeService::getDayNumByName($data[0]);
         }
         return [
             'day' => $data[0],
@@ -235,13 +230,13 @@ class TitleService
         $day = 1;
         $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
         $data = explode(' ', $next);
-        $dayNum = self::getDayNumByName($data[0]);
+        $dayNum = GetDayTimeService::getDayNumByName($data[0]);
         while(!$shop->workingMode[$dayNum - 1]['is_open'] || is_null($shop->workingMode[$dayNum - 1]['close_time'])) {
             if ($day == 8 ) return false;
             $day++;
             $next = mb_strtolower(Carbon::parse($date)->addDays($day)->format('l d.m.Y H:i:s'));
             $data = explode(' ', $next);
-            $dayNum = self::getDayNumByName($data[0]);
+            $dayNum = GetDayTimeService::getDayNumByName($data[0]);
         }
         return [
             'day' => $data[0],

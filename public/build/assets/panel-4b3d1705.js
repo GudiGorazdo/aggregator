@@ -6,4 +6,4 @@ document.addEventListener("DOMContentLoaded",n=>{({input:document.getElementById
           <li class="admin-panel-search_item">
             <a class="admin-panel-search_link" href="/shop/${t.id}">${t.name}</a>
           </li>
-        `})},checkMiss(t){this.list.contains(t.target)||t.target.id=="search"||this.hide()},show(){this.list.removeAttribute("hidden")},hide(){this.list.setAttribute("hidden",!0)},showLoader(){this.loader.removeAttribute("hidden")},hideLoader(){this.loader.setAttribute("hidden",!0)}}).init()});
+        `})},checkMiss(t){this.list.contains(t.target)||t.target!=this.input&&this.hide()},show(){this.list.removeAttribute("hidden")},hide(){this.list.setAttribute("hidden",!0)},showLoader(){this.loader.removeAttribute("hidden")},hideLoader(){this.loader.setAttribute("hidden",!0)}}).init()});

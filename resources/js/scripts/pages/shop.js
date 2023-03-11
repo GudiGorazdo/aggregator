@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     init() {
       this.enters.forEach(button => button.addEventListener('click', this.enterFullscreen.bind(this)));
+      this.exitFullscreen = this.exitFullscreen.bind(this);
     },
 
     enterFullscreen() {
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         } else if (this.modal.msRequestFullscreen) {
           this.modal.msRequestFullscreen();
         }
-        this.exit.addEventListener('click', this.exitFullscreen.bind(this));
+        this.exit.addEventListener('click', this.exitFullscreen);
       }
     },
 

@@ -4,9 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\FilterService;
-use App\View\Components\Checkbox;
 use Illuminate\Support\Facades\Blade;
-use App\Constants\CookieConstants;
 
 class AppServiceProvider extends ServiceProvider
 {

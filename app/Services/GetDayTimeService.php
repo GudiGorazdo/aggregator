@@ -1,45 +1,45 @@
 <?php
-namespace App\Traits;
+namespace App\Services;
 use Illuminate\Support\Carbon;
 
-trait GetDayTime
+class GetDayTimeService
 {
-    private static function getTimezone(int $timezone)
+    public static function getTimezone(int $timezone)
     {
         return -(3 + $timezone);
     }
 
-    private static function getNowDayName(int $timezone): string
+    public static function getNowDayName(int $timezone): string
     {
        return strtolower(Carbon::now()->subHours(self::getTimezone($timezone))->isoFormat('dddd'));
     }
 
-    private static function getNowDayNum(int $timezone): string
+    public static function getNowDayNum(int $timezone): string
     {
         return self::getDayNumByName(self::getNowDayName($timezone));
     }
 
-    private static function getDayNumByName(string $name): string
+    public static function getDayNumByName(string $name): string
     {
         switch ($name) {
-            case 'monday' || 'понедельник':
+            case 'monday':
                 return 1;
-            case 'tuesday' || 'вторник':
+            case 'tuesday':
                 return 2;
-            case 'wednesday' || 'среда':
+            case 'wednesday':
                 return 3;
-            case 'thursday' || 'четверг':
+            case 'thursday':
                 return 4;
-            case 'friday' || 'пятница':
+            case 'friday':
                 return 5;
-            case 'saturday' || 'суббота':
+            case 'saturday':
                 return 6;
-            case 'sunday' || 'воскресенье':
+            case 'sunday':
                 return 7;
         }
     }
 
-    private static function getDayByNum(int $num): string
+    public static function getDayByNum(int $num): string
     {
         switch ($num) {
             case 1:
@@ -59,12 +59,12 @@ trait GetDayTime
         }
     }
 
-    private static function getTime(int $timezone): string
+    public static function getTime(int $timezone): string
     {
         return Carbon::now()->subHours(self::getTimezone($timezone))->format('H:i');
     }
 
-    private static function getFullTime(int $timezone): string
+    public static function getFullTime(int $timezone): string
     {
         return Carbon::now()->subHours(self::getTimezone($timezone))->format('l Y-m-d H:i');
     }
