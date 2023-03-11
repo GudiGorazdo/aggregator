@@ -24,7 +24,7 @@
         type="{{ $type }}"
         name="{{ $name }}"
         value="{{ old($name) }}"
-        placeholder="{{ $placeholder }}"
+        placeholder="{{ $placeholder ?? '' }}"
         {{ isset($description) ? 'aria-describedby=' . $description : '' }}
         {{ isset($required) ? "required" : "" }}
     >
