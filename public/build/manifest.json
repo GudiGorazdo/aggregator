@@ -44,6 +44,11 @@
     "isEntry": true,
     "src": "resources/js/app.js"
   },
+  "resources/js/scripts/admin/panel.js": {
+    "file": "assets/panel-edee98e9.js",
+    "isEntry": true,
+    "src": "resources/js/scripts/admin/panel.js"
+  },
   "resources/js/scripts/pages/home.js": {
     "file": "assets/home-366c69ab.js",
     "isEntry": true,
@@ -62,7 +67,7 @@
     "src": "resources/js/scripts/pages/shop.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-18fba46e.css",
+    "file": "assets/app-ba0e407a.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }
