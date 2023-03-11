@@ -28,7 +28,7 @@ class AuthController extends Controller
         ]);
 
         if (auth()->guard('admin')->attempt($data)) {
-            return redirect(route('admin.shops.index'));
+            return redirect(route('home'));
         }
         return redirect(route('admin.login'))->withErrors(['error' => 'Имя пользователя не найдено или пароль не верный'])->withInput();
     }
