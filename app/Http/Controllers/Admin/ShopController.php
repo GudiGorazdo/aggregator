@@ -8,6 +8,8 @@ use App\Models\Shop;
 
 class ShopController extends Controller
 {
+    use \App\Http\Controllers\Traits\ShopTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -62,9 +64,25 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(string $id)
     {
-        //
+        $shop = Shop::getById((int)$id)->get()->first();
+        if (!$shop) return redirect()->route('undefined');
+        $data = $this->getShopData($shop);
+
+        return view('pages.admin.shop.edit', [
+            'shop' => $shop,
+            'photos' => $data['photos'],
+            'services' => $data['services'],
+            'workingMode' => $data['workingMode'],
+            'prices' => $data['prices'],
+            'additionalPhones' => $data['additionalPhones'],
+        ]);
+    }
+
+    public function updatePhotos(Request $request)
+    {
+       \App\Helpers::log($request->all(), __DIR__);
     }
 
     /**

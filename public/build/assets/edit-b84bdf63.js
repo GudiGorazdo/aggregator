@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{({delete:document.getElementById("shop_photos_remove"),formDelete:document.getElementById("shop_photos_form"),init(){this.formDelete.addEventListener("submit",async e=>{e.preventDefault(),new FormData(this.formDelete),await fetch("/admin/shops/update_photos?id=asdf")})}}).init()});

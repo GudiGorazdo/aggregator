@@ -21,7 +21,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/scripts/pages/home.js',
                 'resources/js/scripts/pages/shop.js',
-                'resources/js/scripts/admin/panel.js'
+                'resources/js/scripts/admin/panel.js',
+                'resources/js/scripts/admin/edit.js'
             ],
             refresh: true,
         }),

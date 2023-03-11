@@ -15,8 +15,9 @@ class AuthController extends Controller
         return redirect(route('admin.login'));
     }
 
-    public function showLoginForm(): View
+    public function showLoginForm(): View|RedirectResponse
     {
+        if (Auth::guard('admin')->check()) return redirect(route('home'));
         return view('auth.login', ['route' => route('admin.login')]);
     }
 

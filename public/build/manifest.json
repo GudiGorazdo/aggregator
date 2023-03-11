@@ -44,6 +44,11 @@
     "isEntry": true,
     "src": "resources/js/app.js"
   },
+  "resources/js/scripts/admin/edit.js": {
+    "file": "assets/edit-b84bdf63.js",
+    "isEntry": true,
+    "src": "resources/js/scripts/admin/edit.js"
+  },
   "resources/js/scripts/admin/panel.js": {
     "file": "assets/panel-4b3d1705.js",
     "isEntry": true,
