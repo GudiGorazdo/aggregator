@@ -32,8 +32,11 @@
         @yield('modal')
     </div>
 
-    @vite([ 'resources/js/app.js' ])
     @yield('afterFooter')
+    @vite([ 'resources/js/app.js' ])
+    @auth("admin")
+        @vite([ 'resources/js/scripts/admin/panel.js' ])
+    @endauth
 </body>
 
 </html>

@@ -10,18 +10,21 @@
     @param $descriprionId              -- ид блока с описанием
     @param $classNamesDescription      -- имена классов для поля с описанием
     @params $required                  -- required
+    @params $placeholder               -- placeholder
 --}}
 <div {{ $classNamesWrapper ? 'class=' . $classNamesWrapper : '' }}>
     <label
         for="{{ $inputId }}"
         class="form-label {{ $classNamesLabel ?? '' }}"
-    >{{ $label }}</label>
+        {{ !isset($label) ? "hidden" : '' }}
+    >{{ $label ?? '' }}</label>
     <input
         id="{{ $inputId }}"
         class="form-control {{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
         type="{{ $type }}"
         name="{{ $name }}"
         value="{{ old($name) }}"
+        placeholder="{{ $placeholder }}"
         {{ isset($description) ? 'aria-describedby=' . $description : '' }}
         {{ isset($required) ? "required" : "" }}
     >

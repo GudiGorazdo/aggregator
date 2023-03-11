@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::get('/location/{id}', 'App\Http\Controllers\LocationController@location');
 // Route::get('/cities', 'App\Http\Controllers\LocationController@cities');
 // Route::get('/location_cookie', 'App\Http\Controllers\LocationController@locationCookie');
+
+Route::get('/shops', [ \App\Http\Controllers\Admin\ShopController::class, 'getNames']);
 
 Route::get('/location/{id}', [App\Http\Controllers\LocationController::class, 'location']);
 Route::get('/cities', [App\Http\Controllers\LocationController::class, 'cities']);

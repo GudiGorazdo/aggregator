@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Shop;
 
 class ShopController extends Controller
 {
@@ -14,8 +15,13 @@ class ShopController extends Controller
      */
     public function index()
     {
-        dd('adsf');
-        return view('pages.admin.home');
+        return redirect()->route('home');
+    }
+
+    public function getNames(Request $request)
+    {
+        $shops = Shop::getByName($request->input('title'))->get()->toArray();
+        return response()->json(['ok' => true, 'shops' => $shops]);
     }
 
     /**

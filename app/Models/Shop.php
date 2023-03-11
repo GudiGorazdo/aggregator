@@ -59,6 +59,13 @@ class Shop extends Model
         ;
     }
 
+    public function scopeGetByName(Builder $query, string $name): Builder
+    {
+        return $query->select('name', 'id')
+            ->where('name', 'LIKE', '%'.$name.'%')
+        ;
+    }
+
     public function working(): belongsTo
     {
         return $this->belongsTo(\App\Models\City::class);

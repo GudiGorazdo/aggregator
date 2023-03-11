@@ -20,7 +20,8 @@ export default defineConfig({
                 'resources/scss/app.scss',
                 'resources/js/app.js',
                 'resources/js/scripts/pages/home.js',
-                'resources/js/scripts/pages/shop.js'
+                'resources/js/scripts/pages/shop.js',
+                'resources/js/scripts/admin/panel.js'
             ],
             refresh: true,
         }),

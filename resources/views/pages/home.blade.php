@@ -9,10 +9,6 @@
 
 @section('content')
     <section class="home container">
-        @auth("admin")
-            {{ Auth::guard('admin')->check() }}
-            <h1>sdkjf;alksdf;aklsjdf;klasjdf;aklj</h1>
-        @endauth
         <h2 class="title display-3 text-center mb-3"> {{ $title }}</h2>
         <div class="descrtiption text-center mb-4">
             <div class="descrtiption-mobile">
