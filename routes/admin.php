@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::middleware('guest.admin')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\AuthController::class, 'index'])->name('home');
+    // Route::get('/', [\App\Http\Controllers\Admin\AuthController::class, 'index'])->name('home');
     Route::get('login', [\App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login_process');
     // Route::any('{all}', function () {
