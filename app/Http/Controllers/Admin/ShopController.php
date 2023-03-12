@@ -92,11 +92,12 @@ class ShopController extends Controller
     public function update(Request $request, $id)
     {
         // \App\Helpers::log($_FILES['photos'], __DIR__);
-        \App\Helpers::log(var_dump($_FILES), __DIR__);
+        // \App\Helpers::log(var_dump($_FILES), __DIR__);
         \App\Helpers::log($request->all(), __DIR__);
-        \App\Helpers::log($request->file('photo'), __DIR__);
+        // \App\Helpers::log($request->input('asdf'), __DIR__);
+        // \App\Helpers::log($request->file('photo'), __DIR__);
         \App\Helpers::log($request->allFiles(), __DIR__);
-        \App\Helpers::log($id, __DIR__);
+        // \App\Helpers::log($id, __DIR__);
     }
 
     /**

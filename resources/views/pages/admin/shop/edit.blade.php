@@ -54,9 +54,7 @@
         <div class="shop-add-photos-wrapper">
             <form action="#" id="shop_add_photos" class="shop-add-photos dropzone"></form>
         </div>
-        <form id="shop-main-form" action="#" method="POST" data-id="{{ $shop->id}}">
-            @csrf
-            @method('PATCH')
+        <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
             <button>SUBMIT!!!</button>
         </form>
         <div class="shop-sides">

@@ -50,20 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async submit(e) {
       e.preventDefault();
-      this.data.delete('photos[]');
-      this.photos.forEach(photo => this.data.append('photo', photo));
-      // this.el.submit();
-      console.log(this.data.get('photo'))
-      const resp = await fetch(`/admin/shop/${this.el.dataset.id}?asdf=asdf`, {
-        method: 'PUT',
+      this.data.delete('photo[]');
+      this.photos.forEach(photo => this.data.append('photos[]', photo));
+      this.data.append('_method', 'PATCH');
+      const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
+        method: 'POST',
         headers: {
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Content-Type': 'multipart/form-data',
         },
         body: this.data,
       });
-      console.log(resp);
-      console.log(Array.from(this.data));
+      const result = await resp.json();
+      console.log(result);
     },
   }
   mainForm.init();
