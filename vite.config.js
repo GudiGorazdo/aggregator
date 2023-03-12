@@ -18,6 +18,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/scss/app.scss',
+                'resources/scss/admin.scss',
                 'resources/js/app.js',
                 'resources/js/scripts/pages/home.js',
                 'resources/js/scripts/pages/shop.js',

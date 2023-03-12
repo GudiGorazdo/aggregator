@@ -5,6 +5,7 @@
 @endsection
 
 @section('styles')
+    @vite([ 'resources/scss/admin.scss' ])
 @endsection
 
 @php
@@ -50,6 +51,14 @@
                 >Удалить выделенные</x-button-site>
             </x-accordion-item>
         </x-accordion>
+        <div class="shop-add-photos-wrapper">
+            <form action="#" id="shop_add_photos" class="shop-add-photos dropzone"></form>
+        </div>
+        <form id="shop-main-form" action="#" method="POST" data-id="{{ $shop->id}}">
+            @csrf
+            @method('PATCH')
+            <button>SUBMIT!!!</button>
+        </form>
         <div class="shop-sides">
             <div class="shop-left">
                 <div class="work-rating-socials-wrapper">

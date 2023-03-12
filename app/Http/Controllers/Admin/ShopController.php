@@ -53,7 +53,7 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
         $shop = Shop::getById((int)$id)->get()->first();
         if (!$shop) return redirect()->route('undefined');
@@ -91,7 +91,12 @@ class ShopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // \App\Helpers::log($_FILES['photos'], __DIR__);
+        \App\Helpers::log(var_dump($_FILES), __DIR__);
+        \App\Helpers::log($request->all(), __DIR__);
+        \App\Helpers::log($request->file('photo'), __DIR__);
+        \App\Helpers::log($request->allFiles(), __DIR__);
+        \App\Helpers::log($id, __DIR__);
     }
 
     /**

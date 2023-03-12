@@ -79,6 +79,8 @@ export default class LocationFilter {
     }
 
     this.initialize();
+
+    this.start = false;
   }
 
   checkPath = () => {
@@ -92,15 +94,14 @@ export default class LocationFilter {
     this.setCityOptions(this.city.all);
     this.city.select = new Chooser(this.city.options);
 
-    if (!this.query?.city) await this.getCurrentCity(this.city.all);
+    const city = this.city.all.find(item => item.id === this.query.city);
+    if (city) this.setCurrentCity(city.id);
     else {
-      const city = this.city.all.find(item => item.index == this.query.city);
-      if (city) this.setCurrentCity(city.id);
-      else await this.getCurrentCity(this.city.all);
+      await this.getCurrentCity(this.city.all);
+      if (this.city.current) this.setCurrentCity(this.city.current);
     }
 
     this.addAreaListeners();
-    if (this.start) this.start = false;
 
     if (this.city.current && !this.cityCheckConfirm()) {
       this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
@@ -114,7 +115,7 @@ export default class LocationFilter {
   cityConfirm = () => {
     const date = new Date();
     date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
-    document.cookie = `LOCATION_CONFIRM=1; expires=${date.toUTCString()}; path=/; SameSite=None;`;
+    document.cookie = `LOCATION_CONFIRM=1; expires=${date.toUTCString()}; path=/; SameSite=Strict`;
     this.popupClose();
 
   }
@@ -179,13 +180,13 @@ export default class LocationFilter {
 
   getCurrentCity = async (all) => {
     if (!this.checkPath()) return;
+    this.start = true;
     if (this.city.saved) {
-      return this.setCurrentCity(this.city.saved);
+      return this.city.current = this.city.saved;
     }
 
     const start = () => this.getStartId();
     const setCookie = (id) => this.setCookie(id);
-    const setCurrentCity = (id) => this.setCurrentCity(id);
 
     ymaps.ready(async function () {
       ymaps.geolocation.get({}).then(function (result) {
@@ -195,13 +196,13 @@ export default class LocationFilter {
         }).then(async function (res) {
           const city = res.geoObjects.get(0).getLocalities()[0];
           const check = all.find(item => item.name == city);
-          if (check) setCurrentCity(check.id);
+          if (check) this.city.current = check.id;
           else {
             const sartId = await start();
             const city = all.find(city => city.id == sartId);
             if (city) {
               setCookie(city.id);
-              return setCurrentCity(city.id);
+              return this.city.current = city.id;
             }
           }
         });
@@ -232,7 +233,7 @@ export default class LocationFilter {
         index: city.id,
         attr: {
           'val': city.id
-        }
+        },
       });
     });
     this.city.options.onSelect = (item) => {

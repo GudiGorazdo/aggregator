@@ -10,7 +10,7 @@ class RedirectIfAdmin
     public function handle($request, Closure $next)
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.shops.index');
+            // return redirect()->route('admin.shops.index');
         }
 
         return $next($request);
