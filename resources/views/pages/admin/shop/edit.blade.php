@@ -52,12 +52,14 @@
             </x-accordion-item>
         </x-accordion>
         <div class="shop-add-photos-wrapper">
-            <form action="#" id="shop_add_photos" class="shop-add-photos dropzone"></form>
+            <form action="{{ route('admin.shop.update', ["shop" => $shop->id]) }}" id="shop_add_photos" class="shop-add-photos dropzone">
+                @method('PATCH')
+            </form>
         </div>
         <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
             <button>SUBMIT!!!</button>
         </form>
-        <img src="{{ asset('storage/uploads/images/asdf.jpg') }}" alt="My Image">
+        {{-- <img src="{{ asset('storage/uploads/images/asdf.jpg') }}" alt="My Image"> --}}
         <div class="shop-sides">
             <div class="shop-left">
                 <div class="work-rating-socials-wrapper">

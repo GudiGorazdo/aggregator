@@ -45,8 +45,6 @@ class ImageService
                     $imageJpg = Image::make($image)->encode('jpg', 80);
                 }
 
-                \App\Helpers::log(!is_null($size), __DIR__);
-
                 if (!is_null($size) && !($width <= self::SIZES['sm'])) {
                     if ($width > $size) {
                         $imageOriginal->widen($size);

@@ -102,15 +102,15 @@ class ShopController extends Controller
             'uploaded' => [],
             'errors' => []
         ];
-        foreach($photos as $photo) {
-            // \App\Helpers::log($photo->getClientOriginalName(), __DIR__);
-            $name = ImageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
-            if ($name) {
-                $arrPhotos['uploaded'][] = $name;
-            } else {
-                $arrPhotos['errors'][] = $photo->getClientOriginalName();
-            }
-        }
+        // foreach($photos as $photo) {
+        //     // \App\Helpers::log($photo->getClientOriginalName(), __DIR__);
+        //     $name = ImageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
+        //     if ($name) {
+        //         $arrPhotos['uploaded'][] = $name;
+        //     } else {
+        //         $arrPhotos['errors'][] = $photo->getClientOriginalName();
+        //     }
+        // }
 
         return response(['ok' => $arrPhotos]);
     }
