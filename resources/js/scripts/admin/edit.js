@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async submit(e) {
       e.preventDefault();
-      this.data.delete('photo[]');
+      this.data.delete('photos[]');
       this.photos.forEach(photo => this.data.append('photos[]', photo));
       this.data.append('_method', 'PATCH');
       const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {

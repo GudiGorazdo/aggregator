@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Shop;
+// use Intervention\Image\Facades\Image;
+use Intervention\Image\Facades\Image;
+use App\Services\ImageService;
+
 
 class ShopController extends Controller
 {
     use \App\Http\Controllers\Traits\ShopTrait;
+
+    private const PHOTOS_PATH = 'app/public/uploads/images/shops/';
 
     /**
      * Display a listing of the resource.
@@ -91,13 +97,22 @@ class ShopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // \App\Helpers::log($_FILES['photos'], __DIR__);
-        // \App\Helpers::log(var_dump($_FILES), __DIR__);
-        \App\Helpers::log($request->all(), __DIR__);
-        // \App\Helpers::log($request->input('asdf'), __DIR__);
-        // \App\Helpers::log($request->file('photo'), __DIR__);
-        \App\Helpers::log($request->allFiles(), __DIR__);
-        // \App\Helpers::log($id, __DIR__);
+        $photos = $request->file('photos');
+        $arrPhotos = [
+            'uploaded' => [],
+            'errors' => []
+        ];
+        foreach($photos as $photo) {
+            // \App\Helpers::log($photo->getClientOriginalName(), __DIR__);
+            $name = ImageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
+            if ($name) {
+                $arrPhotos['uploaded'][] = $name;
+            } else {
+                $arrPhotos['errors'][] = $photo->getClientOriginalName();
+            }
+        }
+
+        return response(['ok' => $arrPhotos]);
     }
 
     /**

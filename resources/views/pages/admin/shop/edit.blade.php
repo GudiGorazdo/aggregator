@@ -57,6 +57,7 @@
         <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
             <button>SUBMIT!!!</button>
         </form>
+        <img src="{{ asset('storage/uploads/images/asdf.jpg') }}" alt="My Image">
         <div class="shop-sides">
             <div class="shop-left">
                 <div class="work-rating-socials-wrapper">
