@@ -45,7 +45,7 @@ class ImageService
                     $imageJpg = Image::make($image)->encode('jpg', 80);
                 }
 
-                if (!is_null($size) && !($width <= self::SIZES['sm'])) {
+                if ($size !== self::SIZES['lg'] && !($width <= self::SIZES['sm'])) {
                     if ($width > $size) {
                         $imageOriginal->widen($size);
                         if (isset($imageWebp)) $imageWebp->widen($size);
