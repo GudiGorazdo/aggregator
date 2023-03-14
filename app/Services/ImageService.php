@@ -25,70 +25,21 @@ class ImageService
         try {
             $name = hash('sha256', (string)microtime(true));
             $image = Image::make($image);
-            $width = +$image->width();
-
-            $nameOriginal = $name . '.' . self::EXTENTIONS[$image->mime()];
-            if (self::EXTENTIONS[$image->mime()] != 'webp') {
-                $nameWebp = $name . '.webp';
-            } else {
-                $nameJpg = $name . '.jpg';
-            }
-
-            foreach (self::SIZES as $sizeName => $size) {
-                if ($width <= self::SIZES['sm'] && $size !== self::SIZES['lg']) continue;
-
-                $imageOriginal = Image::make($image);
-
-                if ($nameWebp) {
-                    $imageWebp = Image::make($image)->encode('webp', 80);
-                } else {
-                    $imageJpg = Image::make($image)->encode('jpg', 80);
-                }
-
-                if ($size !== self::SIZES['lg'] && !($width <= self::SIZES['sm'])) {
-                    if ($width > $size) {
-                        $imageOriginal->widen($size);
-                        if (isset($imageWebp)) $imageWebp->widen($size);
-                        else $imageJpg->widen($size);
-                    } else {
-                        continue;
-                    }
-                }
-
-                $path = $folderPath . '/' . $sizeName . '/';
-
-                if (!file_exists($path)) mkdir($path, 0755, true);
-                $imagePathOriginal = $path . $nameOriginal;
-
-                if (isset($nameWebp)) {
-                    $imagePathWebp = $path . $nameWebp;
-                } else {
-                    $imagePathJpg = $path . $nameJpg;
-                }
-
-                $imageOriginal->save($imagePathOriginal, 80);
-                if (isset($imagePathWebp)) {
-                    $imageWebp->save($imagePathWebp);
-                } else {
-                    $imageJpg->save($imagePathJpg);
-                }
-            }
+            $extention = self::EXTENTIONS[$image->mime()];
+            $additionalType = $extention != 'webp' ? 'webp' : 'jpg';
+            self::createWidthSet($image, $name, $folderPath, $additionalType);
 
             return $name;
 
         } catch (Exception $error) {
 
             foreach (self::SIZES as $sizeName => $size) {
-                $path = $folderPath . '/' . $sizeName . '/';
-
-                if (file_exists($path . $nameOriginal)) {
-                    unlink($path . $nameOriginal);
+                $path = $folderPath . '/' . $sizeName . '/' . $name . '.';
+                if (file_exists($path . $extention)) {
+                    unlink($path . $extention);
                 }
-                if (isset($nameWebp) && file_exists($path . $nameWebp)) {
-                    unlink($path . $nameWebp);
-                }
-                if (isset($nameJpg) && file_exists($path . $nameJpg)) {
-                    unlink($path . $nameJpg);
+                if (file_exists($path . $additionalType)) {
+                    unlink($path . $additionalType);
                 }
             }
 
@@ -96,5 +47,35 @@ class ImageService
         }
 
         return false;
+    }
+
+    private static function createWidthSet($image, string $name, string $folderPath, string $additionalType)
+    {
+        $nameOriginal = $name . '.' . self::EXTENTIONS[$image->mime()];
+        $nameAdditional = $name . '.' . $additionalType;
+        $width = +$image->width();
+
+        foreach (self::SIZES as $sizeName => $size) {
+            if ($width <= self::SIZES['sm'] && $size !== self::SIZES['lg']) continue;
+
+            $imageOriginal = Image::make($image);
+            $imageAdditional = Image::make($image)->encode($additionalType, 80);
+
+            if ($size !== self::SIZES['lg'] && !($width <= self::SIZES['sm'])) {
+                if (!($width > $size)) continue;
+
+                $imageOriginal->widen($size);
+                $imageAdditional->widen($size);
+            }
+
+            $path = $folderPath . '/' . $sizeName . '/';
+
+            if (!file_exists($path)) mkdir($path, 0755, true);
+            $imagePathOriginal = $path . $nameOriginal;
+            $imagePathAdditional = $path . $nameAdditional;
+
+            $imageOriginal->save($imagePathOriginal, 80);
+            $imageAdditional->save($imagePathAdditional);
+        }
     }
 }

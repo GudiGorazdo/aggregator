@@ -29,7 +29,8 @@ class ShopController extends Controller
     public function getNames(Request $request)
     {
         $shops = Shop::getByName($request->input('title'))->get()->toArray();
-        return response()->json(['ok' => true, 'shops' => $shops]);
+        if ($shops) return response()->json(['ok' => true, 'shops' => $shops]);
+        else return response([ 'ok' => false ]);
     }
 
     /**
@@ -95,20 +96,22 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ImageService $imageService, $id)
     {
         $photos = $request->file('photos');
         $arrPhotos = [
             'uploaded' => [],
             'errors' => []
         ];
-        foreach($photos as $photo) {
-            // \App\Helpers::log($photo->getClientOriginalName(), __DIR__);
-            $name = ImageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
-            if ($name) {
-                $arrPhotos['uploaded'][] = $name;
-            } else {
-                $arrPhotos['errors'][] = $photo->getClientOriginalName();
+        if ($photos) {
+            foreach($photos as $photo) {
+                // \App\Helpers::log($photo->getClientOriginalName(), __DIR__);
+                $name = $imageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
+                if ($name) {
+                    $arrPhotos['uploaded'][] = $name;
+                } else {
+                    $arrPhotos['errors'][] = $photo->getClientOriginalName();
+                }
             }
         }
 
