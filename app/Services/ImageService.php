@@ -30,9 +30,7 @@ class ImageService
 
             self::saveImage(Image::make($image), $name, $folderPath . '/', $extention);
             self::saveImage(Image::make($image)->encode($additionalType), $name, $folderPath . '/', $additionalType);
-
             self::createWidthSet($image, $name, $folderPath, $additionalType);
-
 
             return $extention != 'webp'
                 ? $name . '.' . $extention
@@ -57,14 +55,19 @@ class ImageService
         return false;
     }
 
-    private static function createWidthSet($image, string $name, string $folderPath, string $additionalType)
+    private static function createWidthSet($image, string $name, string $folderPath)
     {
         $width = +$image->width();
 
         foreach (self::SIZES as $sizeName => $size) {
             if (!($width > $size)) continue;
             $path = $folderPath . '/' . $sizeName . '/';
-            self::saveImage(Image::make($image)->encode("webp")->widen($size), $name, $path, self::EXTENTIONS[$image->mime()]);
+            self::saveImage(
+                Image::make($image)->encode("webp")->widen($size),
+                $name,
+                $path,
+                self::EXTENTIONS[$image->mime()]
+            );
         }
     }
 
