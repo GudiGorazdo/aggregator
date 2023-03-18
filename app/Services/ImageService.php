@@ -20,27 +20,32 @@ class ImageService
         'sm' => 576,
     ];
 
-    public static function saveToStorage($image, string $folderPath): string|bool
+    // public static function saveToStorage($image, string $folderPath): string|bool
+    public static function saveToStorage($image, string $folderPath): array|bool
     {
         try {
             $name = hash('sha256', (string)microtime(true));
             $image = Image::make($image);
             $extention = self::EXTENTIONS[$image->mime()];
             $additionalType = $extention != 'webp' ? 'webp' : 'jpg';
+
             self::createWidthSet($image, $name, $folderPath, $additionalType);
 
-            return $name;
+            self::saveImage(Image::make($image), $name, $folderPath . '/', $extention);
+            self::saveImage(Image::make($image)->encode($additionalType), $name, $folderPath . '/', $additionalType);
+
+            return [$name . '.' . $extention, $name . '.' . $additionalType];
 
         } catch (Exception $error) {
+            $path = $folderPath . '/' . $name . '.';
+
+            self::removeImage($path . $extention);
+            self::removeImage($path . $additionalType);
 
             foreach (self::SIZES as $sizeName => $size) {
                 $path = $folderPath . '/' . $sizeName . '/' . $name . '.';
-                if (file_exists($path . $extention)) {
-                    unlink($path . $extention);
-                }
-                if (file_exists($path . $additionalType)) {
-                    unlink($path . $additionalType);
-                }
+                self::removeImage($path . $extention);
+                self::removeImage($path . $additionalType);
             }
 
             \App\Helpers::log($error->getMessage(), __DIR__ . '/ImageServiceErrors');
@@ -51,31 +56,28 @@ class ImageService
 
     private static function createWidthSet($image, string $name, string $folderPath, string $additionalType)
     {
-        $nameOriginal = $name . '.' . self::EXTENTIONS[$image->mime()];
-        $nameAdditional = $name . '.' . $additionalType;
         $width = +$image->width();
 
         foreach (self::SIZES as $sizeName => $size) {
-            if ($width <= self::SIZES['sm'] && $size !== self::SIZES['lg']) continue;
-
-            $imageOriginal = Image::make($image);
-            $imageAdditional = Image::make($image)->encode($additionalType, 80);
-
-            if ($size !== self::SIZES['lg'] && !($width <= self::SIZES['sm'])) {
-                if (!($width > $size)) continue;
-
-                $imageOriginal->widen($size);
-                $imageAdditional->widen($size);
-            }
-
+            if (!($width > $size)) continue;
             $path = $folderPath . '/' . $sizeName . '/';
+            self::saveImage(Image::make($image)->widen($size), $name, $path, self::EXTENTIONS[$image->mime()]);
+            self::saveImage(Image::make($image)->encode($additionalType)->widen($size), $name, $path, self::EXTENTIONS[$image->mime()]);
+        }
+    }
 
-            if (!file_exists($path)) mkdir($path, 0755, true);
-            $imagePathOriginal = $path . $nameOriginal;
-            $imagePathAdditional = $path . $nameAdditional;
+    private static function saveImage($image, string $name, string $path, string $type)
+    {
+        $fullName = $name . '.' . $type;
+        if (!file_exists($path)) mkdir($path, 0755, true);
+        $imagePath = $path . $fullName;
+        $image->save($imagePath, 80);
+    }
 
-            $imageOriginal->save($imagePathOriginal, 80);
-            $imageAdditional->save($imagePathAdditional);
+    private static function removeImage(string $path)
+    {
+        if (file_exists($path)) {
+            unlink($path);
         }
     }
 }

@@ -29,7 +29,6 @@ class ShopController extends Controller
     // public function getShopsByName(Request $request)
     public function getShopsByName(string $name)
     {
-        \App\Helpers::log($name, __DIR__);
         $shops = Shop::getByName($name)->get()->toArray();
         // $shops = Shop::getByName($request->input('title'))->get()->toArray();
         if ($shops) return response()->json(['ok' => true, 'shops' => $shops]);
@@ -111,7 +110,8 @@ class ShopController extends Controller
                 // \App\Helpers::log($photo->getClientOriginalName(), __DIR__);
                 $name = $imageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
                 if ($name) {
-                    $arrPhotos['uploaded'][] = $name;
+                    $arrPhotos['uploaded'] = [ ... $name ];
+                    // $arrPhotos['uploaded'][] = $name;
                 } else {
                     $arrPhotos['errors'][] = $photo->getClientOriginalName();
                 }
