@@ -20,8 +20,7 @@ class ImageService
         'sm' => 576,
     ];
 
-    // public static function saveToStorage($image, string $folderPath): string|bool
-    public static function saveToStorage($image, string $folderPath): array|bool
+    public static function saveToStorage($image, string $folderPath): string|bool
     {
         try {
             $name = hash('sha256', (string)microtime(true));
@@ -35,7 +34,10 @@ class ImageService
             self::createWidthSet($image, $name, $folderPath, $additionalType);
 
 
-            return [$name . '.' . $extention, $name . '.' . $additionalType];
+            return $extention != 'webp'
+                ? $name . '.' . $extention
+                : $name . '.' . $additionalType
+            ;
 
         } catch (Exception $error) {
             $path = $folderPath . '/' . $name . '.';
@@ -62,7 +64,6 @@ class ImageService
         foreach (self::SIZES as $sizeName => $size) {
             if (!($width > $size)) continue;
             $path = $folderPath . '/' . $sizeName . '/';
-            // self::saveImage(Image::make($image)->widen($size), $name, $path, self::EXTENTIONS[$image->mime()]);
             self::saveImage(Image::make($image)->encode("webp")->widen($size), $name, $path, self::EXTENTIONS[$image->mime()]);
         }
     }
