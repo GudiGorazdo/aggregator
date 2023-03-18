@@ -8,6 +8,14 @@
                 loading="lazy"
             >
         @endforeach
+        @foreach($sizes as $size)
+            <source
+                media="(max-width: {{ \App\Services\ImageService::SIZES[$size] }}px)"
+                srcset="{{ asset($path . $size . '/' . $name) }}"
+                type={{ \App\Services\ImageService::MIMES[explode('.', $name)[1]] }}
+                loading="lazy"
+            >
+        @endforeach
     @endif
     <source srcset="{{ asset($path . explode('.', $name)[0] . '.webp') }}" type="image/webp" loading="lazy">
     <source srcset="{{ asset($path . $name ) }}" type="image/jpeg" loading="lazy">

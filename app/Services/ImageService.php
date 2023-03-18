@@ -14,6 +14,13 @@ class ImageService
         "image/webp" => 'webp'
     ];
 
+    public const MIMES = [
+        'png' => "image/png",
+        'jpeg' => "image/jpeg",
+        'jpg' => "image/jpg",
+        'webp' => "image/webp"
+    ];
+
     public const SIZES = [
         'sm' => 576,
         'md' => 992,
@@ -29,13 +36,13 @@ class ImageService
             $additionalType = $extention != 'webp' ? 'webp' : 'jpg';
 
             self::saveImage(clone $image, $name, $folderPath . '/', $extention);
-            self::saveImage(( clone $image )->encode($additionalType), $name, $folderPath . '/', $additionalType);
+            self::saveImage((clone $image)->encode($additionalType), $name, $folderPath . '/', $additionalType);
             $sizes = self::createWidthSet(clone $image, $name, $folderPath, $additionalType);
 
-            return [ 'name' => $extention != 'webp' ? $name . '.' . $extention : $name . '.' . $additionalType,
+            return [
+                'name' => $extention != 'webp' ? $name . '.' . $extention : $name . '.' . $additionalType,
                 'sizes' => $sizes
             ];
-
         } catch (Exception $error) {
             $path = $folderPath . '/' . $name . '.';
 
@@ -65,14 +72,14 @@ class ImageService
             $path = $folderPath . '/' . $sizeName;
 
             self::saveImage(
-                ( clone $image )->widen($size),
+                (clone $image)->widen($size),
                 $name,
                 $path,
                 self::EXTENTIONS[$image->mime()]
             );
 
             self::saveImage(
-                ( clone $image )->encode($additionalType)->widen($size),
+                (clone $image)->encode($additionalType)->widen($size),
                 $name,
                 $path,
                 $additionalType
@@ -88,7 +95,16 @@ class ImageService
         $fullName = $name . '.' . $type;
         if (!file_exists($path)) mkdir($path, 0755, true);
         $imagePath = $path . '/' . $fullName;
-        $image->interlace(true)->save($imagePath, 80);
+        $image->encode($type, 70);
+        if ($type == 'jpg') $image->interlace(true);
+        $image->save($imagePath);
+        // if ($type == 'jpg') {
+        //     $image->interlace(true)->save($imagePath, 70);
+        // } else if ($type == 'png') {
+        //     $image->save($imagePath, 50);
+        // } else {
+        //     $image->save($imagePath, 70);
+        // }
     }
 
     private static function removeImage(string $path): void
