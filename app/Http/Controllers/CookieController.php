@@ -7,9 +7,17 @@ use Illuminate\Support\Carbon;
 
 class CookieController extends Controller
 {
-    static public function setCookie(string $cookie, string $value, int|string $time): void
-    {
-        Cookie::queue($cookie, $value, $time);
+    static public function setCookie(
+        string $cookie,
+        string $value,
+        int|string $time,
+        string $path = '/',
+        string|null $domain = null,
+        bool $secure = true,
+        bool $httpOnly = true,
+        string $sameSite = 'Strict'
+    ): void{
+        Cookie::queue($cookie, $value, $time, $path, $domain, $secure, $httpOnly, $sameSite);
     }
 
     static public function getCookie(string $coockie): string|null

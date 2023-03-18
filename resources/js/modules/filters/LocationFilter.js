@@ -89,14 +89,15 @@ export default class LocationFilter {
     this.city.saved = await this.getCookie();
     this.city.all = await this.getAllCities();
 
+
+
     this.setCityOptions(this.city.all);
     this.city.select = new Chooser(this.city.options);
 
-    const city = this.city.all.find(item => item.id === this.query.city);
+    const city = this.city.all.find(item => item.id === +this.query.city);
     if (city) this.setCurrentCity(city.id);
     else {
       await this.getCurrentCity(this.city.all);
-      if (this.city.current) this.setCurrentCity(this.city.current);
     }
 
     this.addAreaListeners();
@@ -133,7 +134,7 @@ export default class LocationFilter {
   }
 
   setCookie = (value) => {
-    document.cookie = `LOCATION=${value}`;
+    document.cookie = `LOCATION=${value}; path=/; SameSite=Strict`;
   }
 
   getBody = async (url) => {
@@ -152,15 +153,15 @@ export default class LocationFilter {
     return false;
   }
 
-  addLocationFilters = async (city) => {
-    const areas = await this.addFilter(`/api/location/${city}${window.location.search}`);
-    if (areas) {
-      if (this.start) this.start = false;
-      else this.resetAreasAndSubways();
-      this.showFilter();
-      this.addAreaListeners();
-    }
-  }
+  // addLocationFilters = async (city) => {
+  //   const areas = await this.addFilter(`/api/location/${city}${window.location.search}`);
+  //   if (areas) {
+  //     if (this.start) this.start = false;
+  //     else this.resetAreasAndSubways();
+  //     this.showFilter();
+  //     this.addAreaListeners();
+  //   }
+  // }
 
   showFilter = () => {
     for (let key in this.collapse) {
@@ -180,29 +181,34 @@ export default class LocationFilter {
 
   getCurrentCity = async (all) => {
     if (!this.checkPath()) return;
-    this.start = true;
+
     if (this.city.saved) {
-      return this.city.current = this.city.saved;
+      return this.setCurrentCity(this.city.saved);
     }
 
     const start = () => this.getStartId();
     const setCookie = (id) => this.setCookie(id);
+    const setCity = (id) => this.setCurrentCity(id);
 
-    ymaps.ready(async function () {
-      ymaps.geolocation.get({}).then(function (result) {
+    await ymaps.ready(async function () {
+      await ymaps.geolocation.get({}).then(async function (result) {
         const userLocation = result.geoObjects.get(0).geometry.getCoordinates();
-        ymaps.geocode(userLocation, {
+        await ymaps.geocode(userLocation, {
           kind: 'locality'
         }).then(async function (res) {
           const city = res.geoObjects.get(0).getLocalities()[0];
           const check = all.find(item => item.name == city);
-          if (check) this.city.current = check.id;
+          if (check) {
+            // setCity(city.id);
+            window.location.href = `/?city=${city.id}`;
+          }
           else {
             const sartId = await start();
             const city = all.find(city => city.id == sartId);
             if (city) {
               setCookie(city.id);
-              return this.city.current = city.id;
+              // setCity(city.id);
+              window.location.href = `/?city=${city.id}`;
             }
           }
         });
