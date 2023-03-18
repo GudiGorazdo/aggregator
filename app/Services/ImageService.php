@@ -7,20 +7,20 @@ use Intervention\Image\Facades\Image;
 
 class ImageService
 {
-    private const EXTENTIONS = [
+    public const EXTENTIONS = [
         "image/png" => 'png',
         "image/jpeg" => 'jpg',
         "image/jpg" => 'jpg',
         "image/webp" => 'webp'
     ];
 
-    private const SIZES = [
-        'lg' => 1200,
-        'md' => 992,
+    public const SIZES = [
         'sm' => 576,
+        'md' => 992,
+        'lg' => 1200,
     ];
 
-    public static function saveToStorage($image, string $folderPath): string|bool
+    public static function saveToStorage($image, string $folderPath): array|bool
     {
         try {
             $name = hash('sha256', (string)microtime(true));
@@ -28,14 +28,13 @@ class ImageService
             $extention = self::EXTENTIONS[$image->mime()];
             $additionalType = $extention != 'webp' ? 'webp' : 'jpg';
 
-            self::saveImage(Image::make($image), $name, $folderPath . '/', $extention);
-            self::saveImage(Image::make($image)->encode($additionalType), $name, $folderPath . '/', $additionalType);
-            self::createWidthSet($image, $name, $folderPath, $additionalType);
+            self::saveImage(clone $image, $name, $folderPath . '/', $extention);
+            self::saveImage(( clone $image )->encode($additionalType), $name, $folderPath . '/', $additionalType);
+            $sizes = self::createWidthSet(clone $image, $name, $folderPath, $additionalType);
 
-            return $extention != 'webp'
-                ? $name . '.' . $extention
-                : $name . '.' . $additionalType
-            ;
+            return [ 'name' => $extention != 'webp' ? $name . '.' . $extention : $name . '.' . $additionalType,
+                'sizes' => $sizes
+            ];
 
         } catch (Exception $error) {
             $path = $folderPath . '/' . $name . '.';
@@ -55,28 +54,41 @@ class ImageService
         return false;
     }
 
-    private static function createWidthSet($image, string $name, string $folderPath): void
+    private static function createWidthSet($image, string $name, string $folderPath, string $additionalType): array
     {
+
         $width = +$image->width();
 
+        $sizesArr = [];
         foreach (self::SIZES as $sizeName => $size) {
             if (!($width > $size)) continue;
-            $path = $folderPath . '/' . $sizeName . '/';
+            $path = $folderPath . '/' . $sizeName;
+
             self::saveImage(
-                Image::make($image)->encode("webp")->widen($size),
+                ( clone $image )->widen($size),
                 $name,
                 $path,
                 self::EXTENTIONS[$image->mime()]
             );
+
+            self::saveImage(
+                ( clone $image )->encode($additionalType)->widen($size),
+                $name,
+                $path,
+                $additionalType
+            );
+            $sizesArr[] = $sizeName;
         }
+
+        return $sizesArr;
     }
 
     private static function saveImage($image, string $name, string $path, string $type): void
     {
         $fullName = $name . '.' . $type;
         if (!file_exists($path)) mkdir($path, 0755, true);
-        $imagePath = $path . $fullName;
-        $image->save($imagePath, 80);
+        $imagePath = $path . '/' . $fullName;
+        $image->interlace(true)->save($imagePath, 80);
     }
 
     private static function removeImage(string $path): void

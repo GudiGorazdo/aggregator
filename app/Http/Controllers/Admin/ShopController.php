@@ -14,7 +14,7 @@ class ShopController extends Controller
 {
     use \App\Http\Controllers\Traits\ShopTrait;
 
-    private const PHOTOS_PATH = 'app/public/uploads/images/shops/';
+    public const PHOTOS_PATH = 'app/public/uploads/images/shops/';
 
     /**
      * Display a listing of the resource.
@@ -84,7 +84,7 @@ class ShopController extends Controller
         $photos = $request->input('update_photos');
         $shop->photos = json_encode($photos);
         $shop->save();
-        $content = view('pages.admin.shop.photos', ['photos' => $photos, 'shop' => $shop])->render();
+        $content = view('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
 
         return response(['ok' => true, 'count' => count($photos), 'items' => $content], 200, [
             'Content-Type' => 'application/json'
@@ -116,7 +116,10 @@ class ShopController extends Controller
             }
         }
 
-        return response(['ok' => $arrPhotos]);
+        $shop = Shop::getById((int)$id)->get()->first();
+        $shop->photos = json_encode(array_merge(json_decode($shop->photos), $arrPhotos['uploaded']));
+        $shop->save();
+        return response(['ok' => true, $arrPhotos['uploaded']]);
     }
 
     /**

@@ -158,9 +158,9 @@ class GenerateRandomData
             ));
 
             $photos = [];
-            for($i = 0; $i < rand(10, 30); $i++) {
-                $photos[] = 'https://picsum.photos/';
-            }
+            // for($i = 0; $i < rand(10, 30); $i++) {
+            //     $photos[] = ['name' => 'https://picsum.photos/', 'sizes' => []];
+            // }
 
             $shop->photos = json_encode($photos);
 

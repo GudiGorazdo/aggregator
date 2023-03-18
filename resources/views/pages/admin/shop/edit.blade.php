@@ -59,7 +59,7 @@
         <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
             <button>SUBMIT!!!</button>
         </form>
-        {{-- <img src="{{ asset('storage/uploads/images/asdf.jpg') }}" alt="My Image"> --}}
+        <img src="{{ asset('storage/uploads/images/shops/4/sm/806de76aa39a2f5f3466154747b252bf0768cc89404116a0199b169ad2fc2902.webp') }}" alt="My Image">
         <div class="shop-sides">
             <div class="shop-left">
                 <div class="work-rating-socials-wrapper">
