@@ -28,7 +28,10 @@
     });
 
     this.button.addEventListener('click', this.toggle.bind(this));
-    this.addMap(this.shopsData);
+    const addMap = () => this.addMap(this.shopsData);
+    window.onload = function() {
+      addMap();
+    };
   }
 
   addMarkCollection(collection) {

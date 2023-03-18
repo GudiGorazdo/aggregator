@@ -27,6 +27,8 @@ class ImageService
         'lg' => 1200,
     ];
 
+    public const MAX_WIDTH = 1920;
+
     public static function saveToStorage($image, string $folderPath): array|bool
     {
         try {
@@ -92,6 +94,9 @@ class ImageService
 
     private static function saveImage($image, string $name, string $path, string $type): void
     {
+        if (+$image->width() > self::MAX_WIDTH) {
+            $image->widen(self::MAX_WIDTH);
+        }
         $fullName = $name . '.' . $type;
         if (!file_exists($path)) mkdir($path, 0755, true);
         $imagePath = $path . '/' . $fullName;
