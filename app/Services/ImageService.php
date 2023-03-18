@@ -98,13 +98,6 @@ class ImageService
         $image->encode($type, 70);
         if ($type == 'jpg') $image->interlace(true);
         $image->save($imagePath);
-        // if ($type == 'jpg') {
-        //     $image->interlace(true)->save($imagePath, 70);
-        // } else if ($type == 'png') {
-        //     $image->save($imagePath, 50);
-        // } else {
-        //     $image->save($imagePath, 70);
-        // }
     }
 
     private static function removeImage(string $path): void
