@@ -55,7 +55,7 @@ class ImageService
         return false;
     }
 
-    private static function createWidthSet($image, string $name, string $folderPath)
+    private static function createWidthSet($image, string $name, string $folderPath): void
     {
         $width = +$image->width();
 
@@ -71,7 +71,7 @@ class ImageService
         }
     }
 
-    private static function saveImage($image, string $name, string $path, string $type)
+    private static function saveImage($image, string $name, string $path, string $type): void
     {
         $fullName = $name . '.' . $type;
         if (!file_exists($path)) mkdir($path, 0755, true);
@@ -79,7 +79,7 @@ class ImageService
         $image->save($imagePath, 80);
     }
 
-    private static function removeImage(string $path)
+    private static function removeImage(string $path): void
     {
         if (file_exists($path)) {
             unlink($path);
