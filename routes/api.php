@@ -22,3 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/data/cities', [App\Http\Controllers\LocationController::class, 'cities']);
 Route::get('/data/location_start', [App\Http\Controllers\LocationController::class, 'getStartCityId']);
 Route::get('/data/location_cookie', [App\Http\Controllers\LocationController::class, 'locationCookie']);
+
+Route::middleware('auth.admin')->group(function () {
+    // search shop
+});

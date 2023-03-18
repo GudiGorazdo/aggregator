@@ -15,7 +15,7 @@ Route::middleware('auth.admin')->group(function () {
     Route::post('/shop/update_photos', [\App\Http\Controllers\Admin\ShopController::class, 'updatePhotos']);
 
     // search shop
-    Route::get('/shops', [ \App\Http\Controllers\Admin\ShopController::class, 'getShopsByName']);
+    Route::get('/shops/{name}', [ \App\Http\Controllers\Admin\ShopController::class, 'getShopsByName']);
 });
 
 if (!Auth::guard('admin')->check()) {
