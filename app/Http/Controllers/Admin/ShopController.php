@@ -26,7 +26,7 @@ class ShopController extends Controller
         return redirect()->route('home');
     }
 
-    public function getNames(Request $request)
+    public function getShopsByName(Request $request)
     {
         $shops = Shop::getByName($request->input('title'))->get()->toArray();
         if ($shops) return response()->json(['ok' => true, 'shops' => $shops]);

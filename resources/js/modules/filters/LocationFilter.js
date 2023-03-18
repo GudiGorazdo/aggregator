@@ -128,7 +128,7 @@ export default class LocationFilter {
   }
 
   getCookie = async () => {
-    let resp = await fetch('/api/location_cookie');
+    let resp = await fetch('/api/data/location_cookie');
     resp = await resp.text();
     return resp;
   }
@@ -173,7 +173,7 @@ export default class LocationFilter {
   }
 
   getStartId = async () => {
-    let resp = await fetch('/api/location_start');
+    let resp = await fetch('/api/data/location_start');
     resp = await resp.text();
     return resp;
 
@@ -303,7 +303,7 @@ export default class LocationFilter {
   };
 
   getAllCities = async () => {
-    let resp = await fetch('/api/cities');
+    let resp = await fetch(`/api/data/cities`,);
     resp = await resp.json();
     return resp;
   }

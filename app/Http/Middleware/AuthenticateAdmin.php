@@ -12,7 +12,8 @@ class AuthenticateAdmin
     {
         // Проверяем, аутентифицирован ли пользователь с помощью охранника "admin"
         if (!Auth::guard('admin')->check()) {
-            throw new AuthenticationException('Unauthenticated.', ['admin']);
+            return redirect(route('admin.login'));
+            // throw new AuthenticationException('Unauthenticated.', ['admin']);
         }
 
         return $next($request);

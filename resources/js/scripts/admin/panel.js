@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     async search() {
       if (this.input.value.length > 2) {
         this.showLoader();
-        const resp = await fetch(`/api/shops?title=${this.input.value}`);
+        const resp = await fetch(`/admin/shops?title=${this.input.value}`);
         const result = await resp.json();
         if (result.ok) {
           this.items = result.shops.length > 0 ? result.shops : [{ error: true, message: 'Ничего не найдено'}];
