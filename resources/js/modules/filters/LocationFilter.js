@@ -79,8 +79,6 @@ export default class LocationFilter {
     }
 
     this.initialize();
-
-    this.start = false;
   }
 
   checkPath = () => {
@@ -106,6 +104,8 @@ export default class LocationFilter {
     if (this.city.current && !this.cityCheckConfirm()) {
       this.popup.wrapper.classList.remove(this.popup.HIDDEN_CLASS);
     }
+
+    this.start = false;
   }
 
   popupClose = () => {
