@@ -29,6 +29,20 @@ class ImageService
 
     public const MAX_WIDTH = 1920;
 
+    public static function deleteByName(string $name, string $path)
+    {
+        $mainName = explode('.', $name)[0]; 
+        $extention = explode('.', $name)[1] == 'webp' ? 'jpg' : 'webp';
+        self::removeImage($path . '/' . $mainName . '.' . $extention);
+        self::removeImage($path . '/' . $name);
+        
+        foreach(self::SIZES as $sizeName => $size) {
+            $sPath = $path . '/' . $sizeName . '/'; 
+            self::removeImage($sPath . $mainName . '.' . $extention);
+            self::removeImage($sPath . $name);
+        }
+    }
+
     public static function saveToStorage($image, string $folderPath): array|bool
     {
         try {
@@ -46,17 +60,7 @@ class ImageService
                 'sizes' => $sizes
             ];
         } catch (Exception $error) {
-            $path = $folderPath . '/' . $name . '.';
-
-            self::removeImage($path . $extention);
-            self::removeImage($path . $additionalType);
-
-            foreach (self::SIZES as $sizeName => $size) {
-                $path = $folderPath . '/' . $sizeName . '/' . $name . '.';
-                self::removeImage($path . $extention);
-                self::removeImage($path . $additionalType);
-            }
-
+            self::deleteByName($name . '.' . $extention, $folderPath);
             \App\Helpers::log($error->getMessage(), __DIR__ . '/ImageServiceErrors');
         }
 

@@ -36,7 +36,8 @@
             >
                 <x-slot name="title">
                     Все фотографии 
-                    <span id="shop_photos_count">( {{ count($photos) }} )</span>
+                    {{--{{ dd($photos) }}--}}
+                    <span id="shop_photos_count">( {{ count((array)$photos) }} )</span>
                 </x-slot>
                 <form id="shop_photos_form" class="shop-photos_form" action="#">
                     <input type="hidden" value="{{ $shop->id}}" name="id">
@@ -44,11 +45,11 @@
                        @include('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])
                     </ul>
                 </form>
-                <x-button-site id="shop_photos_remove"
-                    data-modal-path="site-confirm"
-                    data-confirm="Удалить выбранные фото?"
+                {{--<x-button-site id="shop_photos_remove"--}}
+                    {{--data-modal-path="site-confirm"--}}
+                    {{--data-confirm="Удалить выбранные фото?"--}}
                     {{-- data-alert="Этот функционал временно не доступен." --}}
-                >Удалить выделенные</x-button-site>
+                {{-->Удалить выделенные</x-button-site>--}}
             </x-accordion-item>
         </x-accordion>
         <div class="shop-add-photos-wrapper">

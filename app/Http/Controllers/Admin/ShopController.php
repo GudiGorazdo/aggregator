@@ -78,17 +78,23 @@ class ShopController extends Controller
         ]);
     }
 
-    public function updatePhotos(Request $request)
+    public function deletePhotos(Request $request)
     {
         $shop = Shop::getById((int)$request->input('id'))->get()->first();
-        $photos = $request->input('update_photos');
+        $photos = $request->input('delete_photos');
         $shop->photos = json_encode($photos);
         $shop->save();
         $content = view('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
 
-        return response(['ok' => true, 'count' => count($photos), 'items' => $content], 200, [
-            'Content-Type' => 'application/json'
-        ]);
+        return response(
+            [
+              'ok' => true, 
+              'count' => count($photos), 
+              'items' => $content
+            ], 
+            200, 
+            [ 'Content-Type' => 'application/json' ]
+        );
     }
 
     /**
@@ -96,20 +102,19 @@ class ShopController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ImageService $imageService, $id)
+     * @return \Illuminate\Http\Response */ public function update(Request $request, ImageService $imageService, $id)
     {
         $photos = $request->file('photos');
+        $photosToDelete = $request->input('delete_photos') ?? [];
         $arrPhotos = [
             'uploaded' => [],
             'errors' => []
         ];
         if ($photos) {
             foreach($photos as $photo) {
-                $name = $imageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
-                if ($name) {
-                    $arrPhotos['uploaded'][] = $name;
+                $imgData = $imageService::saveToStorage($photo, storage_path(self::PHOTOS_PATH) . $id);
+                if ($imgData) {
+                    $arrPhotos['uploaded'][$imgData['name']] = $imgData['sizes'];
                 } else {
                     $arrPhotos['errors'][] = $photo->getClientOriginalName();
                 }
@@ -117,9 +122,26 @@ class ShopController extends Controller
         }
 
         $shop = Shop::getById((int)$id)->get()->first();
-        $shop->photos = json_encode(array_merge(json_decode($shop->photos), $arrPhotos['uploaded']));
+        $oldPhotos = $shop->photos ? (array)json_decode($shop->photos) : [];
+        if (!empty($photosToDelete)) {
+          foreach ($photosToDelete as $deletePhoto) {
+            unset($oldPhotos[$deletePhoto]);
+            $imageService::deleteByName($deletePhoto, storage_path(self::PHOTOS_PATH) . $id);
+          }
+        }
+        $photos = array_merge($oldPhotos, $arrPhotos['uploaded']);
+        $shop->photos = json_encode($photos);
         $shop->save();
-        return response(['ok' => true, $arrPhotos['uploaded']]);
+        $content = view('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
+        return response(
+            [
+              'ok' => true, 
+              'count' => count($photos), 
+              'items' => $content
+            ], 
+            200, 
+            [ 'Content-Type' => 'application/json' ]
+        );
     }
 
     /**

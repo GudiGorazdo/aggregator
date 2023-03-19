@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     count: document.getElementById('shop_photos_count'),
 
     init() {
-      this.deleteButton.addEventListener('click', this.confirm);
+      //this.deleteButton.addEventListener('click', this.confirm);
     },
 
     confirm() {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async delete() {
       const data = new FormData(this.formDelete);
-      const resp = await fetch('/admin/shop/update_photos', {
+      const resp = await fetch('/admin/shop/delete_photos', {
         method: 'POST',
         headers: {
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -35,23 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
       this.list.innerHTML = items;
       this.count.innerHTML = count;
     },
-  }
+  };
   oldPhotos.init();
 
   const mainForm = {
     el: document.getElementById('shop-main-form'),
+    formDelete: document.getElementById('shop_photos_form'),
     photos: [],
     data: null,
 
     init() {
-      this.data = new FormData(this.el);
       this.el.addEventListener('submit', this.submit.bind(this));
     },
 
     async submit(e) {
       e.preventDefault();
-      this.data.delete('photos[]');
+      this.data = new FormData(this.formDelete);
       this.photos.forEach(photo => this.data.append('photos[]', photo));
+      console.log(this.data);
       this.data.append('_method', 'PATCH');
       const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
         method: 'POST',
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await resp.json();
       console.log(result);
     },
-  }
+  };
   mainForm.init();
 
   let myDropzone = new Dropzone("#shop_add_photos", {
