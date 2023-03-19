@@ -20,17 +20,16 @@ class CityFilter extends BaseFilter
     public function apply(Builder $query): Builder
     {
         $value = $this->request[$this->name] ?? false;
-        if (!$value) {
-            $value = CookieController::getCookie(CookieConstants::LOCATION) ?? false;
-        }
-        if ($value) {
-            CookieController::setCookie(CookieConstants::LOCATION, $value, CookieController::getYears(1));
-            return $query->where($this->field, $value);
-        }
+        if (!$value) $value = $this->getCurrentCityId();
+        return $query->where($this->field, $value);;
+    }
 
-        $value = City::START_CITY;
+    private function getCurrentCityId(): int
+    {
+        $value = CookieController::getCookie(CookieConstants::LOCATION) ?? false;
+        if (!$value) $value = City::START_CITY;
         CookieController::setCookie(CookieConstants::LOCATION, $value, CookieController::getYears(1));
 
-        return $query->where($this->field, $value);;
+        return +$value;
     }
 }
