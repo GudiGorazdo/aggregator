@@ -1,42 +1,42 @@
 import Dropzone from "dropzone";
 
 document.addEventListener('DOMContentLoaded', () => {
-  const oldPhotos = {
-    deleteButton: document.getElementById('shop_photos_remove'),
-    formDelete: document.getElementById('shop_photos_form'),
-    list: document.getElementById('shop_photos_list'),
-    count: document.getElementById('shop_photos_count'),
+  /*const oldPhotos = {*/
+    /*deleteButton: document.getElementById('shop_photos_remove'),*/
+    /*formDelete: document.getElementById('shop_photos_form'),*/
+    /*list: document.getElementById('shop_photos_list'),*/
+    /*count: document.getElementById('shop_photos_count'),*/
 
-    init() {
-      //this.deleteButton.addEventListener('click', this.confirm);
-    },
+    /*init() {*/
+      /*//this.deleteButton.addEventListener('click', this.confirm);*/
+    /*},*/
 
-    confirm() {
-      $modal.options.setConfirm(() => oldPhotos.delete());
-    },
+    /*confirm() {*/
+      /*$modal.options.setConfirm(() => oldPhotos.delete());*/
+    /*},*/
 
-    async delete() {
-      const data = new FormData(this.formDelete);
-      const resp = await fetch('/admin/shop/delete_photos', {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: data
+    /*async delete() {*/
+      /*const data = new FormData(this.formDelete);*/
+      /*const resp = await fetch('/admin/shop/delete_photos', {*/
+        /*method: 'POST',*/
+        /*headers: {*/
+          /*'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),*/
+        /*},*/
+        /*body: data*/
 
-      });
-      const result = await resp.json();
-      if (result.ok) {
-        this.updateList(result.items, result.count);
-      }
-    },
+      /*});*/
+      /*const result = await resp.json();*/
+      /*if (result.ok) {*/
+        /*this.updateList(result.items, result.count);*/
+      /*}*/
+    /*},*/
 
-    updateList(items, count) {
-      this.list.innerHTML = items;
-      this.count.innerHTML = count;
-    },
-  };
-  oldPhotos.init();
+    /*updateList(items, count) {*/
+      /*this.list.innerHTML = items;*/
+      /*this.count.innerHTML = count;*/
+    /*},*/
+  /*};*/
+  /*oldPhotos.init();*/
 
   const mainForm = {
     el: document.getElementById('shop-main-form'),
@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       this.data = new FormData(this.formDelete);
       this.photos.forEach(photo => this.data.append('photos[]', photo));
-      console.log(this.data);
       this.data.append('_method', 'PATCH');
       const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
         method: 'POST',
