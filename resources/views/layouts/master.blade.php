@@ -11,9 +11,8 @@
     <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
 
     @yield('title')
-
+    @yield('links_scripts')
     @vite([ 'resources/scss/app.scss' ])
-
     @yield('styles')
 </head>
 
