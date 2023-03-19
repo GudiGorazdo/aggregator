@@ -42,17 +42,17 @@ const modalCallbackOnOpen = [];
 const modalCallbackOnClose = [];
 let confirm = null;
 window.$modal = new ModalWindow({
-  isOpen: (instance, e) => {
+  isOpen: (instance, event) => {
     modalCallbackOnOpen.forEach(callback => callback());
-    if (e.target.dataset.alert) {
-      instance.modal.querySelector('#site-alert_message').textContent = e.target.dataset.alert;
+    if (event.target.dataset.alert) {
+      instance.modal.querySelector('#site-alert_message').textContent = event.target.dataset.alert;
     }
-    if (e.target.dataset.confirm) {
-      instance.modal.querySelector('#site_confirm_message').textContent = e.target.dataset.confirm;
+    if (event.target.dataset.confirm) {
+      instance.modal.querySelector('#site_confirm_message').textContent = event.target.dataset.confirm;
       document.getElementById('site_confirm_true').addEventListener('click', confirm);
     }
   },
-  isClose: (instance, e) => {
+  isClose: (instance, event) => {
     modalCallbackOnClose.forEach(callback => callback());
     if (instance.modalContainer.id == 'site-alert') {
       instance.modal.querySelector('#site-alert_message').textContent = '';

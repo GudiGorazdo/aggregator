@@ -24,7 +24,7 @@
       return {
         path: item.dataset.shopPath,
         coords: JSON.parse(item.value)
-      }
+      };
     });
 
     this.button.addEventListener('click', this.toggle.bind(this));
@@ -49,7 +49,7 @@
     return {
       lat: sumLat / this.shopsData.length,
       long: sumLong / this.shopsData.length
-    }
+    };
   }
 
   scrollToShop(id) {
@@ -91,7 +91,7 @@
               placemark.options.set('iconColor', '#6c757d');
             });
             mark.options.set('iconColor', '#1eafed');
-          }
+          };
         })(shopsData[i]));
         markCollection.add(mark);
       }
@@ -125,8 +125,8 @@
 
   showShop(shopData) {
     const target = document.querySelector(`[data-shop-target="${shopData.path}"]`);
-    target.classList.remove(this.classes.hide)
-    target.classList.add(this.classes.show)
+    target.classList.remove(this.classes.hide);
+    target.classList.add(this.classes.show);
   }
 
   hideAllItems() {
