@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class City extends Model
 {
+    public const START_CITY = 1;
+
     protected $fillable = ['name'];
     public $timestamps = false;
 

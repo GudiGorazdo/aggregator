@@ -128,9 +128,9 @@ export default class LocationFilter {
   }
 
   getCookie = async () => {
-    let resp = await fetch('/api/data/location_cookie');
-    resp = await resp.text();
-    return resp;
+    const cookies = document.cookie.split('; ');
+    const city = cookies.find(cookie => cookie.startsWith('LOCATION='));
+    if (city) return city.split('=')[1];
   }
 
   setCookie = (value) => {
@@ -172,12 +172,12 @@ export default class LocationFilter {
     }
   }
 
-  getStartId = async () => {
-    let resp = await fetch('/api/data/location_start');
-    resp = await resp.text();
-    return resp;
+  // getStartId = async () => {
+  //   let resp = await fetch('/api/data/location_start');
+  //   resp = await resp.text();
+  //   return resp;
 
-  }
+  // }
 
   getCurrentCity = async (all) => {
     if (!this.checkPath()) return;
@@ -186,34 +186,34 @@ export default class LocationFilter {
       return this.setCurrentCity(this.city.saved);
     }
 
-    const start = () => this.getStartId();
-    const setCookie = (id) => this.setCookie(id);
-    const setCity = (id) => this.setCurrentCity(id);
+    // const start = () => this.getStartId();
+    // const setCookie = (id) => this.setCookie(id);
+    // const setCity = (id) => this.setCurrentCity(id);
 
-    await ymaps.ready(async function () {
-      await ymaps.geolocation.get({}).then(async function (result) {
-        const userLocation = result.geoObjects.get(0).geometry.getCoordinates();
-        await ymaps.geocode(userLocation, {
-          kind: 'locality'
-        }).then(async function (res) {
-          const city = res.geoObjects.get(0).getLocalities()[0];
-          const check = all.find(item => item.name == city);
-          if (check) {
-            // setCity(city.id);
-            window.location.href = `/?city=${city.id}`;
-          }
-          else {
-            const sartId = await start();
-            const city = all.find(city => city.id == sartId);
-            if (city) {
-              setCookie(city.id);
-              // setCity(city.id);
-              window.location.href = `/?city=${city.id}`;
-            }
-          }
-        });
-      });
-    });
+    // await ymaps.ready(async function () {
+    //   await ymaps.geolocation.get({}).then(async function (result) {
+    //     const userLocation = result.geoObjects.get(0).geometry.getCoordinates();
+    //     await ymaps.geocode(userLocation, {
+    //       kind: 'locality'
+    //     }).then(async function (res) {
+    //       const city = res.geoObjects.get(0).getLocalities()[0];
+    //       const check = all.find(item => item.name == city);
+    //       if (check) {
+    //         // setCity(city.id);
+    //         window.location.href = `/?city=${city.id}`;
+    //       }
+    //       else {
+    //         const sartId = await start();
+    //         const city = all.find(city => city.id == sartId);
+    //         if (city) {
+    //           setCookie(city.id);
+    //           // setCity(city.id);
+    //           window.location.href = `/?city=${city.id}`;
+    //         }
+    //       }
+    //     });
+    //   });
+    // });
   }
 
   setCurrentCity(current) {

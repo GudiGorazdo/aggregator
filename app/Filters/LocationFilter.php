@@ -11,6 +11,7 @@ use App\Http\Controllers\CookieController;
 use App\Constants\CookieConstants;
 use App\Filters\BaseFilter;
 use App\Models\Area;
+use App\Models\City;
 
 class LocationFilter extends BaseFilter
 {
@@ -50,6 +51,10 @@ class LocationFilter extends BaseFilter
     public function render(int|null $city_id = null): View|Factory|Application
     {
         if (!$city_id) $city_id = $request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION) ?? null;
+        if (!$city_id) {
+            $city_id = City::START_CITY;
+            CookieController::setCookie(CookieConstants::LOCATION, $city_id, CookieController::getYears(1));
+        }
         $items = $this->getItems(+$city_id);
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id, 'items'=> $items]);
     }

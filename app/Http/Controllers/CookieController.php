@@ -13,8 +13,8 @@ class CookieController extends Controller
         int|string $time,
         string $path = '/',
         string|null $domain = null,
-        bool $secure = true,
-        bool $httpOnly = true,
+        bool $secure = false,
+        bool $httpOnly = false,
         string $sameSite = 'Strict'
     ): void{
         Cookie::queue($cookie, $value, $time, $path, $domain, $secure, $httpOnly, $sameSite);

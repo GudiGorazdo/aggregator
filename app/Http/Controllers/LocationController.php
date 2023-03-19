@@ -29,11 +29,10 @@ class LocationController extends Controller
     public function locationCookie(): Response
     {
         $city = CookieController::getCookie(CookieConstants::LOCATION) ?? null;
+        if (!$city) {
+            $city = City::START_CITY;
+            CookieController::setCookie(CookieConstants::LOCATION, $city, CookieController::getYears(1));
+        }
         return response($city);
-    }
-
-    public static function getStartCityId(): string
-    {
-        return '2';
     }
 }
