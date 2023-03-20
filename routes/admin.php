@@ -12,7 +12,6 @@ Route::middleware('auth.admin')->group(function () {
     Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 
     Route::resource('/shop', \App\Http\Controllers\Admin\ShopController::class);
-    Route::post('/shop/delete_photos', [\App\Http\Controllers\Admin\ShopController::class, 'deletePhotos']);
 
     // search shop
     Route::get('/shops/{name}', [ \App\Http\Controllers\Admin\ShopController::class, 'getShopsByName']);

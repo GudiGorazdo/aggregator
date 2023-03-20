@@ -8,15 +8,6 @@
     @vite([ 'resources/scss/admin.scss' ])
 @endsection
 
-@php
-    $f = [];
-    for ($i = 0; $i < 4; $i++) {
-        $f[] = rand(10, 100);
-    }
-    $i = 0;
-
-@endphp
-
 @section('content')
     <section class="shop container">
         <section class="head d-flex justify-content-center">

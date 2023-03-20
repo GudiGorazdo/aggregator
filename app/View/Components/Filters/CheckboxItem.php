@@ -6,6 +6,7 @@ use Illuminate\View\Component;
 
 class CheckboxItem extends Component
 {
+    use \App\Traits\DataSet;
     /*
         @param string $label                -- лэйбл чекбокса;
         @param string $id                   -- ид инпута;
@@ -44,8 +45,9 @@ class CheckboxItem extends Component
         $this->value = $item->id;
         $this->active = isset($request[$this->filter]) && in_array($item->id, $request[$this->filter]);
         $this->groups = $groups;
+        // var_dump($this->groups);
         if (count($this->groups) > 0) {
-            $this->dataset = \App\Helpers::getDataSetString($groups, $item[$groupfield]);
+            $this->dataset = $this->getDataSet($groups, $item[$groupfield]);
         }
     }
 
