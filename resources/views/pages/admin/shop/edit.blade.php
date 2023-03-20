@@ -17,7 +17,24 @@
                 <p>"{{ $shop->name }}"</p>
             </h2>
         </section>
-        <input id="shop_coord" value="{{ $shop->coord }}">
+        {{--<input id="shop_coord" value="{{ $shop->coord }}">--}}
+        <x-input
+            classNamesWrapper="mb-3"
+            inputId="lat"
+            name="lat"
+            label="Долгота (Latitude)"
+            type="text"
+            value="{{ $coord['lat'] }}"
+        />
+        <x-input
+            classNamesWrapper="mb-3"
+            inputId="long"
+            name="long"
+            label="Широта (Longitude)"
+            type="text"
+            value="{{ $coord['long'] }}"
+        />
+
         <x-accordion className="shop-photos" id="shop_photos">
             <x-accordion-item
                 className="shop-photos_inner"
@@ -51,7 +68,6 @@
         <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
             <button>SUBMIT!!!</button>
         </form>
-        <img src="{{ asset('storage/uploads/images/shops/4/sm/806de76aa39a2f5f3466154747b252bf0768cc89404116a0199b169ad2fc2902.webp') }}" alt="My Image">
         <div class="shop-sides">
             <div class="shop-left">
                 <div class="work-rating-socials-wrapper">
@@ -64,7 +80,15 @@
                             @foreach ($services as $service)
                                 <li class="rating_item">
                                     <p class="rating_label">{{ $service['name'] }}</p>
-                                    <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i>{{ +$service['rating'] }}</p>
+                                    <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i></p>
+                                    <x-input
+                                        classNamesWrapper="mb-3"
+                                        inputId="sevice_{{ $service['id'] }}"
+                                        name="{{ $service['id'] }}"
+                                        label=""
+                                        type="text"
+                                        value="{{ +$service['rating'] }}"
+                                    />
                                     <a id="anchor_reviews_{{ $service['id'] }}"
                                         class="rating_comments-count"
                                         href="#reviews_item_{{ $service['id'] }}"
@@ -83,11 +107,13 @@
                         tg="{{ $shop->telegram }}"
                         whatsapp="{{ $shop->whatsapp }}"
                         phone="{{ $shop->phone }}"
+                        edit="{{ true }}"
                     />
                 </div>
                 <section id="description_desktop" class="description description--desktop">
                     <h3 class="shop_subtitle">Описание</h3>
-                    <p class="description_text description_text--desktop">{{ $shop->description }}</p>
+                    {{--<p class="description_text description_text--desktop">{{ $shop->description }}</p>--}}
+                    <textarea id="descriotion" name="description">{{ $shop->description }}</textarea>
                 </section>
                 @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'desktop'])
             </div>
@@ -97,19 +123,44 @@
                         <h4 class="shop_subtitle">Телефон:</h4>
                         <ul class="contacts_list">
                             <li class="contacts_item">
-                                <a class="contacts_link" href="tel:{{ $shop->phone }}">{{ $shop->phone }}</a>
+                                {{--<a class="contacts_link" href="tel:{{ $shop->phone }}">{{ $shop->phone }}</a>--}}
+                                Основной
+                                <x-input
+                                    classNamesWrapper="mb-3"
+                                    inputId="phone_main"
+                                    name="phone_main"
+                                    label=""
+                                    type="text"
+                                    value="{{ $shop->phone }}"
+                                />
                             </li>
-                            @foreach ($additionalPhones as $phone)
+                            @foreach ($additionalPhones as $index => $phone)
                                 <li class="contacts_item">
-                                    <a class="contacts_link" href="tel:{{ $phone }}">{{ $phone }}</a>
+                                    {{--<a class="contacts_link" href="tel:{{ $phone }}">{{ $phone }}</a>--}}
+                                    <x-input
+                                        classNamesWrapper="mb-3"
+                                        inputId="phone_additional_{{ $index }}"
+                                        name="phone_additional[]"
+                                        label=""
+                                        type="text"
+                                        value="{{ $phone }}"
+                                    />
                                 </li>
                             @endforeach
                         </ul>
                         <h4 class="shop_subtitle">Вебсайт:</h4>
                         <ul class="contacts_list">
-                            @foreach (json_decode($shop->web) as $web)
+                            @foreach (json_decode($shop->web) as $index => $web)
                                 <li class="contacts_item">
-                                    <a class="contacts_link" href="https://{{ $web }}">{{ $web }}</a>
+                                    {{--<a class="contacts_link" href="https://{{ $web }}">{{ $web }}</a>--}}
+                                    <x-input
+                                        classNamesWrapper="mb-3"
+                                        inputId="web_{{ $index }}"
+                                        name="web[]"
+                                        label=""
+                                        type="text"
+                                        value="{{ $web }}"
+                                    />
                                 </li>
                             @endforeach
                         </ul>

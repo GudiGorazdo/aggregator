@@ -49,6 +49,7 @@ trait ShopTrait
         }
 
         return [
+            'coord' => (array)json_decode($shop->coord),
             'photos' => $photos,
             'services' => $services,
             'workingMode' => $workingMode,
@@ -64,3 +65,4 @@ trait ShopTrait
         return Shop::similarFilter(+$shop->city_id, +$shop->id, $shopSubCategories)->get();
     }
 }
+

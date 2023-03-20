@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Shop;
-// use Intervention\Image\Facades\Image;
-use Intervention\Image\Facades\Image;
 use App\Services\ImageService;
 
 
@@ -69,6 +67,7 @@ class ShopController extends Controller
         $data = $this->getShopData($shop);
 
         return view('pages.admin.shop.edit', [
+            'coord' => $data['coord'],
             'shop' => $shop,
             'photos' => $data['photos'],
             'services' => $data['services'],
@@ -77,26 +76,6 @@ class ShopController extends Controller
             'additionalPhones' => $data['additionalPhones'],
         ]);
     }
-
-/*    public function deletePhotos(Request $request)*/
-    /*{*/
-        /*$shop = Shop::getById((int)$request->input('id'))->get()->first();*/
-        /*$photos = $request->input('delete_photos');*/
-        /*$shop->photos = json_encode($photos);*/
-        /*$shop->save();*/
-        /*$content = view('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();*/
-
-        /*return response(*/
-            /*[*/
-              /*'ok' => true, */
-              /*'count' => count($photos), */
-              /*'items' => $content*/
-            /*], */
-            /*200, */
-            /*[ 'Content-Type' => 'application/json' ]*/
-        /*);*/
-    /*}*/
-
 
     private function syncPhotos(Request $request, ImageService $imageService, array $oldPhotos, int $shop_id)
     {

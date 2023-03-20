@@ -23,7 +23,7 @@
         class="form-control {{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
         type="{{ $type }}"
         name="{{ $name }}"
-        value="{{ old($name) }}"
+        value="{{ old($name) ?? ($value ?? '') }}"
         placeholder="{{ $placeholder ?? '' }}"
         {{ isset($description) ? 'aria-describedby=' . $description : '' }}
         {{ isset($required) ? "required" : "" }}
