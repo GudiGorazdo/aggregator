@@ -21,7 +21,7 @@ class GetDayTimeService
 
     public static function getDayNumByName(string $name): string
     {
-        switch ($name) {
+        switch (strtolower($name)) {
             case 'monday':
                 return 1;
             case 'tuesday':
@@ -35,6 +35,26 @@ class GetDayTimeService
             case 'saturday':
                 return 6;
             case 'sunday':
+                return 7;
+        }
+   }
+
+   public static function getDayNumByRuName(string $name): string
+   {
+        switch (strtolower($name)) {
+            case 'понедельник':
+                return 1;
+            case 'вторник':
+                return 2;
+            case 'среда':
+                return 3;
+            case 'четверг':
+                return 4;
+            case 'пятница':
+                return 5;
+            case 'суббота':
+                return 6;
+            case 'воскресенье':
                 return 7;
         }
     }

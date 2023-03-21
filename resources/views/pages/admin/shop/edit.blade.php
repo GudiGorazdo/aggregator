@@ -175,8 +175,24 @@
                                         <td>выходной</td>
                                     @else
                                         <td>
-                                            {{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : 'с 00:00 ' }}
-                                            {{ $day['close'] > '' ? 'до ' . $day['close'] : 'до 00:00' }}
+                                            <x-input
+                                                classNamesWrapper="mb-3"
+                                                inputId="open_day_{{ $day['day_id'] }}"
+                                                name="{{ $day['day_id'] }}"
+                                                label="с"
+                                                type="text"
+                                                value="{{ $day['open'] }}"
+                                            />
+                                            <x-input
+                                                classNamesWrapper="mb-3"
+                                                inputId="close_day_{{ $day['day_id'] }}"
+                                                name="{{ $day['day_id'] }}"
+                                                label="до"
+                                                type="text"
+                                                value="{{ $day['close'] }}"
+                                            />
+                                            {{--{{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : 'с 00:00 ' }}--}}
+                                            {{--{{ $day['close'] > '' ? 'до ' . $day['close'] : 'до 00:00' }}--}}
                                         </td>
                                     @endif
                                 </tr>
@@ -187,6 +203,14 @@
                 <section class="location">
                     <h4 class="shop_subtitle">Адрес:</h4>
                     <address class="location_address">{{ $shop->address }}</address>
+                        <x-input
+                            classNamesWrapper="mb-3"
+                            inputId="address"
+                            name="address"
+                            label=""
+                            type="text"
+                            value="{{ $shop->address }}"
+                        />
                     <div id="shop-map" class="location_map"></div>
                 </section>
             </div>

@@ -50,12 +50,10 @@ class LocationFilter extends BaseFilter
     // Отрисовка фильтра
     public function render(int|null $city_id = null): View|Factory|Application
     {
-        if (!$city_id) $city_id = $request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION) ?? null;
-        if (!$city_id) {
-            $city_id = City::START_CITY;
-            CookieController::setCookie(CookieConstants::LOCATION, $city_id, CookieController::getYears(1));
-        }
+        if (!$city_id) $city_id = $this->request['city'] ?? (CookieController::getCookie(CookieConstants::LOCATION) ?? null);
+        if (!$city_id) $city_id = City::START_CITY;
         $items = $this->getItems(+$city_id);
+        CookieController::setCookie(CookieConstants::LOCATION, $city_id, CookieController::getYears(1));
         return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id, 'items'=> $items]);
     }
 

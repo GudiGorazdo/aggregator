@@ -30,6 +30,7 @@ trait ShopTrait
         foreach ($shop->workingMode->toArray() as $day) {
             $workingMode[] = [
                 'day' => GetDayTimeService::getDayByNum((int) $day['day_of_week']),
+                'day_id' => (int) $day['day_of_week'],
                 'is_open' => $day['is_open'],
                 'open' => substr($day['open_time'], 0, -3),
                 'close' => substr($day['close_time'], 0, -3)
