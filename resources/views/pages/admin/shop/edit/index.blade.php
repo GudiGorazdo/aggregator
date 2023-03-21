@@ -50,7 +50,7 @@
                 <form id="shop_photos_form" class="shop-photos_form" action="#">
                     <input type="hidden" value="{{ $shop->id}}" name="id">
                     <ul id="shop_photos_list" class="shop-photos_list d-flex">
-                       @include('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])
+                       @include('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])
                     </ul>
                 </form>
                 {{--<x-button-site id="shop_photos_remove"--}}
@@ -115,7 +115,7 @@
                     {{--<p class="description_text description_text--desktop">{{ $shop->description }}</p>--}}
                     <textarea id="descriotion" name="description">{{ $shop->description }}</textarea>
                 </section>
-                @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'desktop'])
+                @include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'desktop'])
             </div>
             <div class="shop-right">
                 <div class="contacts-working-mode-wrapper">
@@ -225,7 +225,7 @@
         </section>
 
         <div class="categories-reviews-wrapper">
-            @include('pages.shop.categories', ['prices' => $prices, 'mod' => 'mobile'])
+            {{--@include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'mobile'])--}}
             @include('pages.shop.reviews-list', ['services' => $services])
         </div>
     </section>

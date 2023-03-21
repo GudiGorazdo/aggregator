@@ -39,9 +39,10 @@ trait ShopTrait
         foreach ($shop->categories as $key => $category) {
             $subCategories = $shop->subCategories->where('category_id', $category->id);
             foreach ($subCategories as $k => $subCategory) {
-                $prices[$key]['data'][$k] = [
+                $prices[$key]['data'][] = [
                     'name' => $subCategory->name,
-                    'price' => $shop->prices->where('sub_category_id', $subCategory->id)->first()->price ?? null
+                    'price' => $shop->prices->where('sub_category_id', $subCategory->id)->first()->price ?? null,
+                    'sub_category_id' => $subCategory->id,
                 ];
             }
             $prices[$key]['name'] =  $category->name;

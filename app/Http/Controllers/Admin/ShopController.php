@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Shop;
-use App\Services\ImageSetService;
+use \App\Http\Controllers\Controller;
+use \App\Models\Shop;
+use \App\Services\ImageSetService;
+use \App\Models\Category;
 
 class ShopController extends Controller
 {
@@ -64,8 +65,19 @@ class ShopController extends Controller
         $shop = Shop::getById((int)$id)->get()->first();
         if (!$shop) return redirect()->route('undefined');
         $data = $this->getShopData($shop);
+        $categories = Category::with('subCategories')->get()->toArray();
+        foreach($categories as $ind => $category) {
+            $key = array_search((int)$category['id'], array_column($data['prices'], 'category_id'));
+            if (!$key && $key !== 0) continue; 
+            foreach($category['sub_categories'] as $index => $subCategory) {
+                $sKey = array_search((int)$subCategory['id'], array_column($data['prices'][$key]['data'], 'sub_category_id'));
+                if (!$sKey && $sKey !== 0) continue; 
+                $categories[$ind]['sub_categories'][$index]['active'] = true;
+                $categories[$ind]['sub_categories'][$index]['price'] = $data['prices'][$key]['data'][$sKey]['price'];
+            }
+        }
 
-        return view('pages.admin.shop.edit', [
+        return view('pages.admin.shop.edit.index', [
             'coord' => $data['coord'],
             'shop' => $shop,
             'photos' => $data['photos'],
@@ -73,6 +85,7 @@ class ShopController extends Controller
             'workingMode' => $data['workingMode'],
             'prices' => $data['prices'],
             'additionalPhones' => $data['additionalPhones'],
+            'categories' => $categories
         ]);
     }
 
@@ -110,7 +123,7 @@ class ShopController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response */ 
+     * @return \Illuminate\Http\Response */
     public function update(Request $request, ImageSetService $imageService, $id)
     {
         $shop = Shop::getById((int)$id)->get()->first();
@@ -125,11 +138,11 @@ class ShopController extends Controller
         $content = view('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
         return response(
             [
-              'ok' => true, 
-              'count' => count($photos), 
+              'ok' => true,
+              'count' => count($photos),
               'items' => $content
-            ], 
-            200, 
+            ],
+            200,
             [ 'Content-Type' => 'application/json' ]
         );
     }
