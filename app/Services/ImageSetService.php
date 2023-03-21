@@ -4,32 +4,11 @@ namespace App\Services;
 
 use Exception;
 use Intervention\Image\Facades\Image;
+use \App\Contracts\ImageContract;
 
-class ImageService
+class ImageSetService implements ImageContract
 {
-    public const EXTENTIONS = [
-        "image/png" => 'png',
-        "image/jpeg" => 'jpg',
-        "image/jpg" => 'jpg',
-        "image/webp" => 'webp'
-    ];
-
-    public const MIMES = [
-        'png' => "image/png",
-        'jpeg' => "image/jpeg",
-        'jpg' => "image/jpg",
-        'webp' => "image/webp"
-    ];
-
-    public const SIZES = [
-        'sm' => 576,
-        'md' => 992,
-        'lg' => 1200,
-    ];
-
-    public const MAX_WIDTH = 1920;
-
-    public static function deleteByName(string $name, string $path)
+    public static function removeByName(string $name, string $path): void
     {
         $mainName = explode('.', $name)[0]; 
         $extention = explode('.', $name)[1] == 'webp' ? 'jpg' : 'webp';
@@ -60,7 +39,7 @@ class ImageService
                 'sizes' => $sizes
             ];
         } catch (Exception $error) {
-            self::deleteByName($name . '.' . $extention, $folderPath);
+            self::removeByName($name . '.' . $extention, $folderPath);
             \App\Helpers::log($error->getMessage(), __DIR__ . '/ImageServiceErrors');
         }
 

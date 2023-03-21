@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Shop;
-use App\Services\ImageService;
-
+use App\Services\ImageSetService;
 
 class ShopController extends Controller
 {
@@ -77,7 +76,7 @@ class ShopController extends Controller
         ]);
     }
 
-    private function syncPhotos(Request $request, ImageService $imageService, array $oldPhotos, int $shop_id)
+    private function syncPhotos(Request $request, ImageSetService $imageService, array $oldPhotos, int $shop_id)
     {
         $photos = $request->file('photos');
         $photosToDelete = $request->input('delete_photos') ?? [];
@@ -98,7 +97,7 @@ class ShopController extends Controller
         if (!empty($photosToDelete)) {
           foreach ($photosToDelete as $deletePhoto) {
             unset($oldPhotos[$deletePhoto]);
-            $imageService::deleteByName($deletePhoto, storage_path(self::PHOTOS_PATH) . $shop_id);
+            $imageService::removeByName($deletePhoto, storage_path(self::PHOTOS_PATH) . $shop_id);
           }
         }
         $photos = array_merge($oldPhotos, $arrPhotos['uploaded']);
@@ -112,7 +111,7 @@ class ShopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response */ 
-    public function update(Request $request, ImageService $imageService, $id)
+    public function update(Request $request, ImageSetService $imageService, $id)
     {
         $shop = Shop::getById((int)$id)->get()->first();
         $photos = $this->syncPhotos(
