@@ -135,7 +135,7 @@ class ShopController extends Controller
         );
         $shop->photos = json_encode($photos);
         $shop->save();
-        $content = view('pages.admin.shop.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
+        $content = view('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
         return response(
             [
               'ok' => true,

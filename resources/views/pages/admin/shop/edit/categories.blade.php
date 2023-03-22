@@ -14,7 +14,7 @@
                         active="{{ isset($item['active']) ?  true : false }}"
                         id="sub_category_{{ $item['id'] }}"
                         value="{{ $item['id']}}"
-                        name="sub_category_{{ $item['id']  }}"
+                        name="sub_category[]"
                     >
                         {{ $item['name'] }}
                     </x-checkbox>

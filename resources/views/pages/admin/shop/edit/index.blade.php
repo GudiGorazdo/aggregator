@@ -53,11 +53,6 @@
                        @include('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])
                     </ul>
                 </form>
-                {{--<x-button-site id="shop_photos_remove"--}}
-                    {{--data-modal-path="site-confirm"--}}
-                    {{--data-confirm="Удалить выбранные фото?"--}}
-                    {{-- data-alert="Этот функционал временно не доступен." --}}
-                {{-->Удалить выделенные</x-button-site>--}}
             </x-accordion-item>
         </x-accordion>
         <div class="shop-add-photos-wrapper">
@@ -65,9 +60,6 @@
                 @method('PATCH')
             </form>
         </div>
-        <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
-            <button>SUBMIT!!!</button>
-        </form>
         <div class="shop-sides">
             <div class="shop-left">
                 <div class="work-rating-socials-wrapper">
@@ -83,7 +75,7 @@
                                     <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i></p>
                                     <x-input
                                         classNamesWrapper="mb-3"
-                                        inputId="sevice_{{ $service['id'] }}"
+                                        inputId="service_{{ $service['id'] }}"
                                         name="{{ $service['id'] }}"
                                         label=""
                                         type="text"
@@ -113,7 +105,7 @@
                 <section id="description_desktop" class="description description--desktop">
                     <h3 class="shop_subtitle">Описание</h3>
                     {{--<p class="description_text description_text--desktop">{{ $shop->description }}</p>--}}
-                    <textarea id="descriotion" name="description">{{ $shop->description }}</textarea>
+                    <textarea id="descriotion_desktop" name="description">{{ $shop->description }}</textarea>
                 </section>
                 @include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'desktop'])
             </div>
@@ -218,7 +210,8 @@
         <section id="description_mobile" class="description description--mobile">
             <h4 class="shop_subtitle">Описание</h4>
             <div id="description_wrapper" class="description_wrapper close">
-                <p id="description_text" class="description_text description_text--mobile">{{ $shop->description }}</p>
+                {{--<p id="description_text" class="description_text description_text--mobile">{{ $shop->description }}</p>--}}
+                <textarea id="descriotion_mobile" name="description">{{ $shop->description }}</textarea>
             </div>
             <div id="description_ellipsis" class="ellipsis">...</div>
             <button id="description_more" class="description_more btn-link">Далее</button>
@@ -228,6 +221,13 @@
             {{--@include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'mobile'])--}}
             @include('pages.shop.reviews-list', ['services' => $services])
         </div>
+        <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
+            <x-button-site id="shop_photos_remove"
+                data-modal-path="site-confirm"
+                data-confirm="Сохранить данные?"
+            >SUBMIT!!!</x-button-site>
+        </form>
+
     </section>
 @endsection
 
