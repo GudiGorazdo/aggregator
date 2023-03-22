@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use \App\Http\Controllers\Controller;
 use \App\Models\Shop;
+use \App\Models\Service;
 use \App\Services\ImageSetService;
 use \App\Models\Category;
 
@@ -127,24 +128,54 @@ class ShopController extends Controller
     public function update(Request $request, ImageSetService $imageService, $id)
     {
         $shop = Shop::getById((int)$id)->get()->first();
-        $photos = $this->syncPhotos(
-            $request,
-            $imageService,
-            $shop->photos ? (array)json_decode($shop->photos) : [],
-            (int) $id
-        );
-        $shop->photos = json_encode($photos);
+        //\App\Helpers::log($shop->toArray(), __DIR__);
+        $data = $request->all();
+        $shop->description = $data['description'];
+        $shop->coord = json_encode([
+            'lat' => $data['latitude'],
+            'long' => $data['longitude']
+        ]);
+        $shop->address = $data['address'];
+        $shop->phone = $data['phone'];
+        $shop->additional_phones = json_encode($data['additional_phones']);
+        $shop->telegram = $data['telegram'];
+        $shop->whatsapp = $data['whatsapp'];
+        $shop->web = json_encode($data['web']);
+        $this->syncServicesInfo(json_decode($data['services']), (int)$id);
+
+        \App\Helpers::log($data, __DIR__);
         $shop->save();
-        $content = view('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
-        return response(
-            [
-              'ok' => true,
-              'count' => count($photos),
-              'items' => $content
-            ],
-            200,
-            [ 'Content-Type' => 'application/json' ]
-        );
+        return response(['ok' => true]);
+        //$photos = $this->syncPhotos(
+            //$request,
+            //$imageService,
+            //$shop->photos ? (array)json_decode($shop->photos) : [],
+            //(int) $id
+        //);
+        //$shop->photos = json_encode($photos);
+        //$content = view('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
+        //return response(
+            //[
+              //'ok' => true,
+              //'count' => count($photos),
+              //'items' => $content
+            //],
+            //200,
+            //[ 'Content-Type' => 'application/json' ]
+        //);
+    }
+
+    private function syncServicesInfo(array $services, int $shop_id): void
+    {
+        foreach($services as $service) {
+            $rec = \Illuminate\Support\Facades\DB::table('service_shop')
+                ->where('shop_id', $shop_id)
+                ->where('service_id', (int)$service->id)
+            ;
+            if ($rec->get()->first()) { 
+                $rec->update(['rating' => number_format($service->rating, 2)]); 
+            }
+        } 
     }
 
     /**

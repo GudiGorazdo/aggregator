@@ -1,43 +1,6 @@
 import Dropzone from "dropzone";
 
 document.addEventListener('DOMContentLoaded', () => {
-  /*const oldPhotos = {*/
-    /*deleteButton: document.getElementById('shop_photos_remove'),*/
-    /*formDelete: document.getElementById('shop_photos_form'),*/
-    /*list: document.getElementById('shop_photos_list'),*/
-    /*count: document.getElementById('shop_photos_count'),*/
-
-    /*init() {*/
-      /*//this.deleteButton.addEventListener('click', this.confirm);*/
-    /*},*/
-
-    /*confirm() {*/
-      /*$modal.options.setConfirm(() => oldPhotos.delete());*/
-    /*},*/
-
-    /*async delete() {*/
-      /*const data = new FormData(this.formDelete);*/
-      /*const resp = await fetch('/admin/shop/delete_photos', {*/
-        /*method: 'POST',*/
-        /*headers: {*/
-          /*'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),*/
-        /*},*/
-        /*body: data*/
-
-      /*});*/
-      /*const result = await resp.json();*/
-      /*if (result.ok) {*/
-        /*this.updateList(result.items, result.count);*/
-      /*}*/
-    /*},*/
-
-    /*updateList(items, count) {*/
-      /*this.list.innerHTML = items;*/
-      /*this.count.innerHTML = count;*/
-    /*},*/
-  /*};*/
-  /*oldPhotos.init();*/
-
   const mainForm = {
     el: document.getElementById('shop-main-form'),
     formDelete: document.getElementById('shop_photos_form'),
@@ -54,8 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     webs: document.querySelectorAll('[id^="web_"]'),
     open: document.querySelectorAll('[id^="open_day"]'),
     close: document.querySelectorAll('[id^="close_day"]'),
+    address: document.getElementById('address'),
 
     photos: [],
+    services: [],
     workMode: {
     1: {
         open: '',
@@ -87,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
 
     },
+
     data: null,
 
     init() {
@@ -100,42 +66,38 @@ document.addEventListener('DOMContentLoaded', () => {
       this.data.append('_method', 'PATCH');
       this.data.append('latitude', this.latitude.value);
       this.data.append('longitude', this.longitude.value);
-      this.rating.forEach(service => {
-        this.data.append('rating[]', `${service.name}^${service.value}`);
-      });
+      this.rating.forEach(service => this.services.push({
+        id: service.name, 
+        rating: service.value,
+      }));
+      this.data.append('services', JSON.stringify(this.services));
       this.data.append('telegram', this.telegram.value);
-      this.data.append('wahtsapp', this.whatsapp.value);
+      this.data.append('whatsapp', this.whatsapp.value);
       this.data.append('phone', this.phone.value);
+      this.data.append('phone', this.phone.value);
+      this.additionalPhones.forEach(phone => this.data.append('additional_phones[]', phone.value));
+      this.webs.forEach(web => this.data.append('web[]', web.value));
+      this.open.forEach(mode => this.workMode[parseInt(mode.name)]['open'] = mode.value);
+      this.close.forEach(mode => this.workMode[parseInt(mode.name)]['close'] = mode.value);
+      this.data.append('work_mode', JSON.stringify(this.workMode));
+      this.data.append('address', this.address.value);
       if (window.innerWidth > 768) {
         this.data.append('description', this.descriptionDesktop.value);
       } else {
         this.data.append('description', this.descriptionMobile.value);
       }
-      this.data.append('phone', this.phone.value);
-      this.additionalPhones.forEach(phone => {
-        this.data.append('additional_phones[]', phone.value);
+      const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: this.data,
       });
-      this.webs.forEach(web => {
-        this.data.append('web[]', web.value);
-      });
-      this.open.forEach(mode => {
-        this.workMode[parseInt(mode.name)]['open'] = mode.value;
-      });
-      this.close.forEach(mode => {
-        this.workMode[parseInt(mode.name)]['close'] = mode.value;
-      });
-      this.data.append('work_mode', JSON.stringify(this.workMode));
-      console.log(this.data);
-
-      //const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
-        //method: 'POST',
-        //headers: {
-          //'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        //},
-        //body: this.data,
-      //});
-      //const result = await resp.json();
-      //console.log(result);
+      const result = await resp.json();
+      console.log(result);
+      this.data = null;
+      this.photos = [];
+      this.services = [];
     },
   };
   mainForm.init();
@@ -151,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   myDropzone.on("addedfile", file => {
     mainForm.photos.push(file);
   });
-  myDropzone.on("removedfile", file => {
+  myDropzone.on("removedfile", file => { 
     mainForm.photos = mainForm.photos.filter(photo => photo !== file);
   });
 });
