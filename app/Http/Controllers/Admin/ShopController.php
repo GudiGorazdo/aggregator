@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use \App\Http\Controllers\Controller;
 use \App\Models\Shop;
 use \App\Models\Service;
@@ -71,7 +74,10 @@ class ShopController extends Controller
             $key = array_search((int)$category['id'], array_column($data['prices'], 'category_id'));
             if (!$key && $key !== 0) continue; 
             foreach($category['sub_categories'] as $index => $subCategory) {
-                $sKey = array_search((int)$subCategory['id'], array_column($data['prices'][$key]['data'], 'sub_category_id'));
+                $sKey = null;
+                if (isset($data['prices'][$key]['data'])) {
+                    $sKey = array_search((int)$subCategory['id'], array_column($data['prices'][$key]['data'], 'sub_category_id'));
+                }
                 if (!$sKey && $sKey !== 0) continue; 
                 $categories[$ind]['sub_categories'][$index]['active'] = true;
                 $categories[$ind]['sub_categories'][$index]['price'] = $data['prices'][$key]['data'][$sKey]['price'];
@@ -128,7 +134,6 @@ class ShopController extends Controller
     public function update(Request $request, ImageSetService $imageService, $id)
     {
         $shop = Shop::getById((int)$id)->get()->first();
-        //\App\Helpers::log($shop->toArray(), __DIR__);
         $data = $request->all();
         $shop->description = $data['description'];
         $shop->coord = json_encode([
@@ -141,7 +146,9 @@ class ShopController extends Controller
         $shop->telegram = $data['telegram'];
         $shop->whatsapp = $data['whatsapp'];
         $shop->web = json_encode($data['web']);
-        $this->syncServicesInfo(json_decode($data['services']), (int)$id);
+        $this->syncServicesInfo((array)json_decode($data['services']), (int)$id);
+        $this->syncWorkMode((array)json_decode($data['work_mode']), (int)$id);
+        $this->syncCategories((array)$data['sub_categories'], $shop);
 
         \App\Helpers::log($data, __DIR__);
         $shop->save();
@@ -164,6 +171,40 @@ class ShopController extends Controller
             //[ 'Content-Type' => 'application/json' ]
         //);
     }
+
+    public function syncCategories(array $categories, Shop $shop)
+    {
+        $shopCategories = $shop->subCategories->keyBy('id');
+        $categories = collect($categories)->keyBy(function($item) { return $item; });
+        $categoriesToPush = $categories->diffKeys($shopCategories);
+        $categoriesToDelete = $shopCategories->diffKeys($categories);
+
+        foreach($categoriesToPush as $category) {
+            $shop->subCategories()->attach($category);
+        }
+
+        foreach($categoriesToDelete as $category) {
+            $shop->subCategories()->detach($category);
+        }
+    }
+
+    private function syncWorkMode(array $modes, int $shop_id): void
+    {
+        foreach($modes as $day => $mode) {
+            $rec = \Illuminate\Support\Facades\DB::table('shop_working_modes')
+                ->where('shop_id', $shop_id)
+                ->where('day_of_week', (int)$day)
+            ;
+            if ($rec->get()->first()) { 
+                $rec->update([
+                    'is_open' => (int)$mode->is_open,
+                    'open_time' => $mode->open,
+                    'close_time' => $mode->close,
+                ]);
+            }
+        }
+    }
+
 
     private function syncServicesInfo(array $services, int $shop_id): void
     {

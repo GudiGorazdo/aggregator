@@ -29,7 +29,7 @@ trait ShopTrait
         }
         foreach ($shop->workingMode->toArray() as $day) {
             $workingMode[] = [
-                'day' => GetDayTimeService::getDayByNum((int) $day['day_of_week']),
+                'day' => GetDayTimeService::getRuDayByNum((int) $day['day_of_week']),
                 'day_id' => (int)$day['day_of_week'],
                 'is_open' => $day['is_open'],
                 'open' => substr($day['open_time'], 0, -3),
@@ -46,8 +46,10 @@ trait ShopTrait
                 ];
             }
             $prices[$key]['name'] =  $category->name;
-            $prices[$key]['max'] = max(array_column($prices[$key]['data'], 'price')) ?? null;
             $prices[$key]['category_id'] = $category->id;
+            if (isset($prices[$key]['data'])) {
+                $prices[$key]['max'] = max(array_column($prices[$key]['data'], 'price')) ?? null;
+            }
         }
 
         return [

@@ -1,6 +1,7 @@
 <?php
 namespace App\Traits;
 /*
+ * Получить строку для HTML атрибутов data-
 @param $arr = [
     [
         'name' => string,               -- required

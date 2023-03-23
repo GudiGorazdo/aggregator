@@ -15,9 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     phone: document.getElementById('phone_main'),
     additionalPhones: document.querySelectorAll('[id^="phone_additional"]'),
     webs: document.querySelectorAll('[id^="web_"]'),
+    isOpen: document.querySelectorAll('[id^=is_open]'),
     open: document.querySelectorAll('[id^="open_day"]'),
     close: document.querySelectorAll('[id^="close_day"]'),
     address: document.getElementById('address'),
+    categories: document.querySelectorAll('[name^="sub_category"]'),
 
     photos: [],
     services: [],
@@ -25,30 +27,37 @@ document.addEventListener('DOMContentLoaded', () => {
     1: {
         open: '',
         close: '',
+        is_open: '',
       },
     2: {
         open: '',
         close: '',
+        is_open: '',
       },
     3: {
         open: '',
         close: '',
+        is_open: '',
       },
     4: {
         open: '',
         close: '',
+        is_open: '',
       },
     5: {
         open: '',
         close: '',
+        is_open: '',
       },
     6: {
         open: '',
         close: '',
+        is_open: '',
       },
     7: {
         open: '',
         close: '',
+        is_open: '',
       },
 
     },
@@ -74,18 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
       this.data.append('telegram', this.telegram.value);
       this.data.append('whatsapp', this.whatsapp.value);
       this.data.append('phone', this.phone.value);
-      this.data.append('phone', this.phone.value);
       this.additionalPhones.forEach(phone => this.data.append('additional_phones[]', phone.value));
       this.webs.forEach(web => this.data.append('web[]', web.value));
       this.open.forEach(mode => this.workMode[parseInt(mode.name)]['open'] = mode.value);
       this.close.forEach(mode => this.workMode[parseInt(mode.name)]['close'] = mode.value);
+      this.isOpen.forEach(mode => this.workMode[parseInt(mode.name)]['is_open'] = mode.checked ? 1 : 0);
       this.data.append('work_mode', JSON.stringify(this.workMode));
       this.data.append('address', this.address.value);
+      this.categories.forEach(category => {
+        if (category.checked) this.data.append('sub_categories[]', category.value);
+      });
       if (window.innerWidth > 768) {
         this.data.append('description', this.descriptionDesktop.value);
       } else {
         this.data.append('description', this.descriptionMobile.value);
       }
+      //console.log(this.data);
       const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
         method: 'POST',
         headers: {

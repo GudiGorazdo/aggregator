@@ -163,30 +163,34 @@
                             @foreach ($workingMode as $day)
                                 <tr>
                                     <th>{{ $day['day'] }}</th>
-                                    @if (!$day['is_open'])
-                                        <td>выходной</td>
-                                    @else
                                         <td>
-                                            <x-input
-                                                classNamesWrapper="mb-3"
-                                                inputId="open_day_{{ $day['day_id'] }}"
-                                                name="{{ $day['day_id'] }}"
-                                                label="с"
-                                                type="text"
-                                                value="{{ $day['open'] }}"
-                                            />
-                                            <x-input
-                                                classNamesWrapper="mb-3"
-                                                inputId="close_day_{{ $day['day_id'] }}"
-                                                name="{{ $day['day_id'] }}"
-                                                label="до"
-                                                type="text"
-                                                value="{{ $day['close'] }}"
-                                            />
-                                            {{--{{ $day['open'] > '' ? 'с ' . $day['open'] . ' ' : 'с 00:00 ' }}--}}
-                                            {{--{{ $day['close'] > '' ? 'до ' . $day['close'] : 'до 00:00' }}--}}
-                                        </td>
-                                    @endif
+                                        <x-checkbox
+                                            :line="true"
+                                            :active="$day['is_open'] || false"
+                                            id="is_open_{{ $day['day_id'] }}"
+                                            value="1"
+                                            name="{{ $day['day_id'] }}"
+                                        >
+                                            Открыто
+                                        </x-checkbox>
+                                        <x-input
+                                            classNamesWrapper="mb-3"
+                                            inputId="open_day_{{ $day['day_id'] }}"
+                                            name="{{ $day['day_id'] }}"
+                                            label="с"
+                                            type="text"
+                                            value="{{ $day['open'] }}"
+                                        />
+                                        <x-input
+                                            classNamesWrapper="mb-3"
+                                            inputId="close_day_{{ $day['day_id'] }}"
+                                            name="{{ $day['day_id'] }}"
+                                            label="до"
+                                            type="text"
+                                            value="{{ $day['close'] }}"
+                                        />
+                                        <hr>
+                                    </td>
                                 </tr>
                             @endforeach
                         </table>
