@@ -96,7 +96,7 @@ class ShopController extends Controller
         ]);
     }
 
-    private function syncPhotos(Request $request, ImageSetService $imageService, array $oldPhotos, int $shop_id)
+    private function syncPhotos(Request $request, ImageSetService $imageService, array $oldPhotos, int $shop_id): array
     {
         $photos = $request->file('photos');
         $photosToDelete = $request->input('delete_photos') ?? [];
@@ -179,7 +179,7 @@ class ShopController extends Controller
         );
     }
 
-    public function syncCategories(array $categories, Shop $shop)
+    public function syncCategories(array $categories, Shop $shop): void
     {
         $shopCategories = $shop->subCategories->keyBy('id');
         $categories = collect($categories)->keyBy(function($item) { return $item; });

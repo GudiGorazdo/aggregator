@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     rating: document.querySelectorAll('[id^="service"]'),
     telegram: document.getElementById('tg_input'),
     whatsapp: document.getElementById('whatsapp_input'),
-    phone: document.getElementById('phone_input'),
     descriptionDesktop: document.getElementById('descriotion_desktop'),
     descriptionMobile: document.getElementById('descriotion_mobile'),
     phone: document.getElementById('phone_main'),
@@ -20,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
     close: document.querySelectorAll('[id^="close_day"]'),
     address: document.getElementById('address'),
     categories: document.querySelectorAll('[name^="sub_category"]'),
+
+    token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+
+    dropzone: "#shop_add_photos",
+    acceptedFiles: 'image/png, image/jpeg, image/jpg, image/webp',
 
     photos: [],
     services: [],
@@ -66,6 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init() {
       this.el.addEventListener('submit', this.submit.bind(this));
+      let myDropzone = new Dropzone(this.dropzone, {
+        addRemoveLinks: true,
+        acceptedFiles: this.acceptedFiles,
+        headers: {
+          'X-CSRF-TOKEN': this.token,
+        },
+      });
+
+      myDropzone.on("addedfile", file => {
+        mainForm.photos.push(file);
+      });
+      myDropzone.on("removedfile", file => { 
+        mainForm.photos = mainForm.photos.filter(photo => photo !== file);
+      });
     },
 
     async submit(e) {
@@ -102,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
         method: 'POST',
         headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'X-CSRF-TOKEN': this.token,
         },
         body: this.data,
       });
@@ -114,19 +132,4 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
   mainForm.init();
-
-  let myDropzone = new Dropzone("#shop_add_photos", {
-    addRemoveLinks: true,
-    acceptedFiles: 'image/png, image/jpeg, image/jpg, image/webp',
-    headers: {
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    },
-  });
-
-  myDropzone.on("addedfile", file => {
-    mainForm.photos.push(file);
-  });
-  myDropzone.on("removedfile", file => { 
-    mainForm.photos = mainForm.photos.filter(photo => photo !== file);
-  });
 });
