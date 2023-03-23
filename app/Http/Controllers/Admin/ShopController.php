@@ -71,16 +71,16 @@ class ShopController extends Controller
         $data = $this->getShopData($shop);
         $categories = Category::with('subCategories')->get()->toArray();
         foreach($categories as $ind => $category) {
-            $key = array_search((int)$category['id'], array_column($data['prices'], 'category_id'));
-            if (!$key && $key !== 0) continue; 
+            $categoryKey = array_search((int)$category['id'], array_column($data['prices'], 'category_id'));
+            if (!$categoryKey && $categoryKey !== 0) continue; 
             foreach($category['sub_categories'] as $index => $subCategory) {
-                $sKey = null;
-                if (isset($data['prices'][$key]['data'])) {
-                    $sKey = array_search((int)$subCategory['id'], array_column($data['prices'][$key]['data'], 'sub_category_id'));
+                $subCategoryKey = null;
+                if (isset($data['prices'][$categoryKey]['data'])) {
+                    $subCategoryKey = array_search((int)$subCategory['id'], array_column($data['prices'][$categoryKey]['data'], 'sub_category_id'));
                 }
-                if (!$sKey && $sKey !== 0) continue; 
+                if (!$subCategoryKey && $subCategoryKey !== 0) continue; 
                 $categories[$ind]['sub_categories'][$index]['active'] = true;
-                $categories[$ind]['sub_categories'][$index]['price'] = $data['prices'][$key]['data'][$sKey]['price'];
+                $categories[$ind]['sub_categories'][$index]['price'] = $data['prices'][$categoryKey]['data'][$subCategoryKey]['price'];
             }
         }
 
