@@ -135,6 +135,11 @@ class ShopController extends Controller
     {
         $shop = Shop::getById((int)$id)->get()->first();
         $data = $request->all();
+
+        //Если в запросе только файл и метод - значит что это предзагрузка фоток
+        //Если продолжить выполненин функции, то будет ошибка и в итоге фотки не загрузятся
+        if (isset($data['file']) && count($data) < 3) return;
+
         $shop->description = $data['description'];
         $shop->coord = json_encode([
             'lat' => $data['latitude'],
@@ -150,26 +155,28 @@ class ShopController extends Controller
         $this->syncWorkMode((array)json_decode($data['work_mode']), (int)$id);
         $this->syncCategories((array)$data['sub_categories'], $shop);
 
+        //return response(['ok' => true]);
         \App\Helpers::log($data, __DIR__);
+        $photos = $this->syncPhotos(
+            $request,
+            $imageService,
+            $shop->photos ? (array)json_decode($shop->photos) : [],
+            (int)$id
+        );
+        $shop->photos = json_encode($photos);
         $shop->save();
-        return response(['ok' => true]);
-        //$photos = $this->syncPhotos(
-            //$request,
-            //$imageService,
-            //$shop->photos ? (array)json_decode($shop->photos) : [],
-            //(int) $id
-        //);
-        //$shop->photos = json_encode($photos);
-        //$content = view('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
-        //return response(
-            //[
-              //'ok' => true,
-              //'count' => count($photos),
-              //'items' => $content
-            //],
-            //200,
-            //[ 'Content-Type' => 'application/json' ]
-        //);
+
+        $content = view('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])->render();
+
+        return response(
+           [
+              'ok' => true,
+              'count' => count($photos),
+              'items' => $content
+            ],
+            200,
+            [ 'Content-Type' => 'application/json' ]
+        );
     }
 
     public function syncCategories(array $categories, Shop $shop)
@@ -219,6 +226,11 @@ class ShopController extends Controller
         } 
     }
 
+    public function photosPreload()
+    {
+        \App\Helpers::log('asdkfasdf', __DIR__);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -227,6 +239,6 @@ class ShopController extends Controller
      */
     public function destroy($id)
     {
-        //
+          //
     }
 }

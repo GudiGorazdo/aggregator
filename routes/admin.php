@@ -15,6 +15,9 @@ Route::middleware('auth.admin')->group(function () {
 
     // search shop
     Route::get('/shops/{name}', [ \App\Http\Controllers\Admin\ShopController::class, 'getShopsByName']);
+    
+    // photos preload
+    Route::post('/shop/preload', [ \App\Http\Controllers\Admin\ShopController::class, 'photosPreload'])->name('preload');
 });
 
 if (!Auth::guard('admin')->check()) {

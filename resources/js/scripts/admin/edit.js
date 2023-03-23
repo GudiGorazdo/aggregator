@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         this.data.append('description', this.descriptionMobile.value);
       }
-      //console.log(this.data);
+      console.log(this.data);
       const resp = await fetch(`/admin/shop/${this.el.dataset.id}`, {
         method: 'POST',
         headers: {
