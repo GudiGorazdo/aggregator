@@ -58,19 +58,19 @@ class OptionsFilter extends BaseFilter
 
     public function apply(Builder $query): Builder
     {
-
         foreach ($this->getItems() as $filter) {
             $value = $this->request[$filter['name']] ?? false;
-            if ($value) {
-                if ($filter['name'] == 'work_now') {
-                    $this->city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
-                    $this->timezone = City::getById($this->city_id)['timezone'];
-                    $this->workNow($query);
-                    continue;
-                }
-                $query = $query->where($filter['name'], 1);
+            if (!$value) continue;
+            if ($filter['name'] == 'work_now') {
+                $this->city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
+                $this->timezone = City::getById($this->city_id)['timezone'];
+                $this->workNow($query);
+                continue;
             }
+            $query = $query->where($filter['name'], 1);
         }
         return $query;
     }
 }
+
+

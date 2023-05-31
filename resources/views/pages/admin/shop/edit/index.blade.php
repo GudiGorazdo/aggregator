@@ -265,3 +265,4 @@
 @section('afterFooter')
     @vite(['resources/js/scripts/admin/edit.js'])
 @endsection
+
