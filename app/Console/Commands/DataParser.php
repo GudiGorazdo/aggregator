@@ -31,50 +31,50 @@ class DataParser extends Command
     *
     * @var string
     */
-    protected $tableFileName = 'data.xlsx';
+    protected string $tableFileName = 'data.xlsx';
 
     /**
      * Путь к папке(относительно корня проекта) с данными из сервисов
      *
      * @var string
      */
-    protected $dataPath = '/data';
+    protected string $dataPath = '/data';
 
     /**
      * Список полей в таблице
      * Порядок важен (!) он соответствует порядку столбцов в файле таблицы.
      *
-     * @var array
+     * @var string[]
      */
 
-    protected $cells = [
-        'link',
-        'id',
-        'branches',
-        'name',
-        'description',
-        'activity',
-        'region',
-        'city',
-        'municipality',
-        'area',
-        'address',
-        'zip',
-        'nearest_metro',
-        'nearest_stops',
-        'coordinates',
-        'phones',
-        'web',
-        'whatsapp',
-        'telegram',
-        'vk',
-        'add_socials',
-        'mail',
-        'working_mode',
-        'logo',
-        'photos',
-        'rating',
-        'respones',
+    protected array $cells = [
+        'A' => 'link',
+        'B' => 'id',
+        'C' => 'branches',
+        'D' => 'name',
+        'E' => 'description',
+        'F' => 'activity',
+        'G' => 'region',
+        'H' => 'city',
+        'I' => 'municipality',
+        'J' => 'area',
+        'K' => 'address',
+        'L' => 'zip',
+        'M' => 'nearest_metro',
+        'N' => 'nearest_stops',
+        'O' => 'coordinates',
+        'P' => 'phones',
+        'Q' => 'web',
+        'R' => 'whatsapp',
+        'S' => 'telegram',
+        'T' => 'vk',
+        'U' => 'add_socials',
+        'V' => 'mail',
+        'W' => 'working_mode',
+        'X' => 'logo',
+        'Y' => 'photos',
+        'Z' => 'rating',
+        'AA' => 'respones',
     ];
 
     /**
@@ -99,9 +99,12 @@ class DataParser extends Command
 
             $spreadsheet = IOFactory::load($tableFile);
             $worksheet = $spreadsheet->getActiveSheet();
-            $data = $this->getFileData($worksheet);
+            $fileData = $this->getFileData($worksheet);
+            //$data = $this->createDataArray($fileData);
 
-            dump($data[1]);
+
+            dump($fileData[1]);
+            //dump($data[1]);
             //dump(scandir($serviceFolder));
 
             //fclose($spreadsheet->getStream());
@@ -112,22 +115,34 @@ class DataParser extends Command
         return Command::SUCCESS;
     }
 
+    private function createDataArray(array $fileData): array
+    {
+        $data = [];
+        foreach ($fileData as $row) {
+            //$rowData =
+            foreach($row as $ind => $cell) {
+                dd($row[$ind]);
+            }
+        }
+        return $data;
+    }
+
     private function getRowData(Row $row): array
     {
         $rowData = [];
-        foreach ($row->getCellIterator() as $cell) {
+        foreach ($row->getCellIterator() as $ind => $cell) {
             $cellValue = $cell->getValue();
             if (!($cellValue instanceof RichText)) {
-                $rowData[] = $cellValue;
+                $rowData[$this->cells[$ind]] = $cellValue;
                 continue;
             }
 
             $richTextElements = $cellValue->getRichTextElements();
 
             if (!empty($richTextElements)) {
-                $rowData[] = $richTextElements[0]->getText();
+                $rowData[$this->cells[$ind]] = $richTextElements[0]->getText();
             } else {
-                $rowData[] = null;
+                $rowData[$this->cells[$ind]] = null;
             }
         }
 
@@ -137,7 +152,8 @@ class DataParser extends Command
     private function getFileData(Worksheet $worksheet): array
     {
         $data = [];
-        foreach ($worksheet->getRowIterator() as $row) {
+        foreach ($worksheet->getRowIterator() as $ind => $row) {
+            if ($ind === 1 ) continue;
             $rowData = $this->getRowData($row);
             $data[] = $rowData;
         }
