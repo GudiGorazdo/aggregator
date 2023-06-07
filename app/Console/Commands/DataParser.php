@@ -68,7 +68,7 @@ class DataParser extends Command
         'K' => 'address',
         'L' => 'zip',
         'M' => 'subways',
-        'N' => 'nearest_stops',
+        'N' => 'transportation',
         'O' => 'coordinates',
         'P' => 'phones',
         'Q' => 'web',
@@ -83,15 +83,15 @@ class DataParser extends Command
         'Z' => 'rating',
         'AA' => 'respones',
         'subtables' => [
-            'C' => 'getBranchesData',
-            'M' => 'getSubwaysData',
+            'C',
+            'M',
             'N',
             'P',
-            'Q',
-            'U',
-            'V',
-            'W',
-            'AA'
+            //'Q',
+            //'U',
+            //'V',
+            //'W',
+            //'AA'
         ],
     ];
 
@@ -111,6 +111,33 @@ class DataParser extends Command
         'A' => 'name',
         'B' => 'distance',
         'C' => 'line_name',
+    ];
+
+    /**
+     * Список полей в таблице c ближайшими
+     *
+     * остановками общественного транспорта
+     * @var string[]
+     */
+    protected array $cellsTransportationTable = [
+        'A' => 'name',
+        'B' => 'distance',
+    ];
+
+    /**
+     * Список полей в таблице телефонов
+     *
+     * @var string[]
+     */
+    protected array $cellsPhonesTable = [ 'A' => 'array.phone' ];
+
+    /**
+     * Таблицы без заголовков
+     *
+     * @var string[]
+     */
+    protected array $tablesWithoutHeaders = [
+        'phones'
     ];
 
     /**
@@ -138,21 +165,7 @@ class DataParser extends Command
         return Command::SUCCESS;
     }
 
-    private function getBranchesData(string $filePath): array
-    {
-        if (!$filePath) return [];
-        return $this->getFileData($filePath, 'branches');
-
-    }
-
-    private function getSubwaysData(string $filePath): array
-    {
-        //if (!$filePath) return [];
-        //return $this->getFileData($filePath, 'branches');
-        return [];
-    }
-
-    private function getRowData(Row $row, string $type): array|string|int
+    private function getRowData(Row $row, string $type)
     {
         $cellsMap = $this->getCellsMap($type);
         $rowData = [];
@@ -180,10 +193,8 @@ class DataParser extends Command
             }
 
             $text = $richTextElements[0]->getText();
-            if (isset($cellsMap['subtables']) && isset($cellsMap['subtables'][$ind])) {
+            if (isset($cellsMap['subtables']) && in_array($ind, $cellsMap['subtables'])) {
                 $subTablePath = $this->getSubTableFilePath($text);
-                $method = $cellsMap['subtables'][$ind];
-                //$rowData[$cellName] = $this->{ $method }($subTablePath);
                 $rowData[$cellName] = $this->getFileData($subTablePath, $cellName);
                 continue;
             }
@@ -206,7 +217,7 @@ class DataParser extends Command
         $spreadsheet = IOFactory::load($filePath);
         $worksheet = $spreadsheet->getActiveSheet();
         foreach ($worksheet->getRowIterator() as $ind => $row) {
-            if ($ind === 1 ) continue;
+            if ($ind === 1 && !in_array($type, $this->tablesWithoutHeaders)) continue;
             $rowData = $this->getRowData($row, $type);
             $data[] = $rowData;
         }
@@ -219,11 +230,15 @@ class DataParser extends Command
     {
         switch ($type) {
             case 'main':
-                return $cellsMap = $this->cellsMainTable;
+                return $this->cellsMainTable;
             case 'branches':
-                return $cellsMap = $this->cellsBranchesTable;
+                return $this->cellsBranchesTable;
             case 'subways':
-                return $cellsMap = $this->cellsSubwaysTable;
+                return $this->cellsSubwaysTable;
+            case 'transportation':
+                return $this->cellsTransportationTable;
+            case 'phones':
+                return $this->cellsPhonesTable;
         }
     }
 
