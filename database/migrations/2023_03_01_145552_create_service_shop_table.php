@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('service_shop', function (Blueprint $table) {
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('shop_service_id');
             $table->decimal('rating', 10, 2);
             $table->text('link');
             $table->text('comments');
@@ -35,3 +36,4 @@ return new class extends Migration
         Schema::dropIfExists('shop_services');
     }
 };
+

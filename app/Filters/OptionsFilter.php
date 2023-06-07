@@ -14,7 +14,7 @@ class OptionsFilter extends BaseFilter
 {
 
     /**
-     * @param $items = [
+     * $items = [
      *   [
      *      'name' => string,                      -- имя переменной в запросе, желательно соответствие названию скоупа
      *      'label' => string                      -- заголовок для отображения
