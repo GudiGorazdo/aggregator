@@ -67,7 +67,7 @@ class DataParser extends Command
         'J' => 'area',
         'K' => 'address',
         'L' => 'zip',
-        'M' => 'nearest_metro',
+        'M' => 'subways',
         'N' => 'nearest_stops',
         'O' => 'coordinates',
         'P' => 'phones',
@@ -84,7 +84,7 @@ class DataParser extends Command
         'AA' => 'respones',
         'subtables' => [
             'C' => 'getBranchesData',
-            'M',
+            'M' => 'getSubwaysData',
             'N',
             'P',
             'Q',
@@ -97,11 +97,21 @@ class DataParser extends Command
 
     /**
      * Список полей в таблице филиалов
-     * Порядок важен (!) он соответствует порядку столбцов в файле таблицы.
      *
      * @var string[]
      */
     protected array $cellsBranchesTable = [ 'A' => 'array.link' ];
+
+    /**
+     * Список полей в таблице c ближайшими станциями метро
+     *
+     * @var string[]
+     */
+    protected array $cellsSubwaysTable = [
+        'A' => 'name',
+        'B' => 'distance',
+        'C' => 'line_name',
+    ];
 
     /**
      * Execute the console command.
@@ -122,7 +132,7 @@ class DataParser extends Command
             $fileData = $this->getFileData($tableFile);
 
 
-            dump($fileData[2]);
+            dump($fileData[1]);
         }
 
         return Command::SUCCESS;
@@ -133,6 +143,13 @@ class DataParser extends Command
         if (!$filePath) return [];
         return $this->getFileData($filePath, 'branches');
 
+    }
+
+    private function getSubwaysData(string $filePath): array
+    {
+        //if (!$filePath) return [];
+        //return $this->getFileData($filePath, 'branches');
+        return [];
     }
 
     private function getRowData(Row $row, string $type): array|string|int
@@ -166,7 +183,8 @@ class DataParser extends Command
             if (isset($cellsMap['subtables']) && isset($cellsMap['subtables'][$ind])) {
                 $subTablePath = $this->getSubTableFilePath($text);
                 $method = $cellsMap['subtables'][$ind];
-                $rowData[$cellName] = $this->{ $method }($subTablePath);
+                //$rowData[$cellName] = $this->{ $method }($subTablePath);
+                $rowData[$cellName] = $this->getFileData($subTablePath, $cellName);
                 continue;
             }
 
@@ -204,6 +222,8 @@ class DataParser extends Command
                 return $cellsMap = $this->cellsMainTable;
             case 'branches':
                 return $cellsMap = $this->cellsBranchesTable;
+            case 'subways':
+                return $cellsMap = $this->cellsSubwaysTable;
         }
     }
 
