@@ -101,7 +101,7 @@ class DataParser extends Command
      *
      * @var string[]
      */
-    protected array $cellsBranchesTable = [ 'A' => 'link' ];
+    protected array $cellsBranchesTable = [ 'A' => 'array.link' ];
 
     /**
      * Execute the console command.
@@ -122,7 +122,7 @@ class DataParser extends Command
             $fileData = $this->getFileData($tableFile);
 
 
-            dump($fileData[1]);
+            dump($fileData[2]);
         }
 
         return Command::SUCCESS;
@@ -130,29 +130,35 @@ class DataParser extends Command
 
     private function getBranchesData(string $filePath): array
     {
-        $data = [];
-        if (!$filePath) return $data;
-
+        if (!$filePath) return [];
         return $this->getFileData($filePath, 'branches');
 
     }
 
-    private function getRowData(Row $row, string $type): array
+    private function getRowData(Row $row, string $type): array|string|int
     {
         $cellsMap = $this->getCellsMap($type);
         $rowData = [];
         foreach ($row->getCellIterator() as $ind => $cell) {
+            $cellArray = false;
             $cellValue = $cell->getValue();
             $cellName = $cellsMap[$ind];
+            if (strpos($cellName, "array.") !== false) {
+                $cellName = preg_replace("/array./", "", $cellName);
+                $cellArray = true;
+            }
+
             if (!($cellValue instanceof RichText)) {
-                $rowData[$cellName] = $cellValue;
+                if ($cellArray) $rowData = $cellValue;
+                else $rowData[$cellName] = $cellValue;
                 continue;
             }
 
             $richTextElements = $cellValue->getRichTextElements();
 
             if (empty($richTextElements)) {
-                $rowData[$cellName] = null;
+                if ($cellArray) $rowData = null;
+                else $rowData[$cellName] = null;
                 continue;
             }
 
@@ -164,7 +170,8 @@ class DataParser extends Command
                 continue;
             }
 
-            $rowData[$cellName] = $text;
+            if ($cellArray) $rowData = $text;
+            else $rowData[$cellName] = $text;
         }
 
         return $rowData;
