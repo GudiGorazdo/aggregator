@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('chains', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name')->nullable();
         });
     }
 
@@ -29,3 +29,5 @@ return new class extends Migration
         Schema::dropIfExists('chains');
     }
 };
+
+
