@@ -82,17 +82,7 @@ class DataParser extends Command
         'Y' => 'photos',
         'Z' => 'rating',
         'AA' => 'reviews',
-        'subtables' => [
-            'C',
-            'M',
-            'N',
-            'P',
-            'Q',
-            'U',
-            'V',
-            'W',
-            'AA'
-        ],
+        'subtables' => [ 'C', 'M', 'N', 'P', 'Q', 'U', 'V', 'W', 'AA' ],
     ];
 
     /**
@@ -193,14 +183,19 @@ class DataParser extends Command
     public function handle()
     {
         foreach (Service::all() as $service) {
+            // получаем путь до папки с данными
             $this->serviceFolder = $this->getServiceFolderPath($service->name);
+
+            // получаем пути до основного файла-таблицы
             $tableFile = $this->getTableFilePath();
 
+            // проверяем что папка с данными существует
             if (!is_dir($this->serviceFolder)) {
                 echo "Произошла ошибка: папки $this->serviceFolder не существует" . PHP_EOL;
                 return Command::SUCCESS;
             }
 
+            // получаем данные из основного файла-таблицы, записываем их в массив
             $fileData = $this->getFileData($tableFile);
 
 
@@ -209,6 +204,17 @@ class DataParser extends Command
 
         return Command::SUCCESS;
     }
+
+    /**
+     * Получает данные из строки файла
+     *
+     * @param $row объект класса use PhpOffice\PhpSpreadsheet\Worksheet\Row
+     *             строка из файла для получения данных
+     *
+     * @param $type название ячейки, необходимо для получения списка
+     *              полей в подтаблице, если она есть
+     *              (когда в главной таблице вместо данных ссылка на файл с данными)
+     */
 
     private function getRowData(Row $row, string $type)
     {
@@ -253,6 +259,16 @@ class DataParser extends Command
 
         return $rowData;
     }
+
+    /**
+    * открывает файл и читает его построчно, записывает данные в массив
+    *
+    * @param $filePath путь до файла
+    *
+    * @param $type название ячейки, необходимо для получения списка
+    *              полей в подтаблице, если она есть
+    *              (когда в главной таблице вместо данных ссылка на файл с данными)
+    */
 
     private function getFileData(string $filePath, string $type = 'main'): array|false
     {
