@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('municipals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('region_id');
+            $table->unsignedBigInteger('city_id');
             $table->text('name');
-            $table->text('name_for_title')->nullable();
-            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
         });
     }
 
@@ -29,7 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('municipals');
     }
 };
 

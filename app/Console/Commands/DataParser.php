@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Row;
 use \App\Models\Service;
+use \App\Models\City;
 
 class DataParser extends Command
 {
@@ -48,9 +49,9 @@ class DataParser extends Command
     protected string $dataPath = '/data';
 
     /**
-     * Список полей в основной таблице
-     * В поле subtables лежат ссылки на методы,
-     * которые получают данные из ссылок на файлы
+     * Список полей в основной таблице.
+     * В поле subtables список полей, в которых
+     * не данные, а ссылки на файлы с данными
      *
      * @var string[]
      */
@@ -198,11 +199,24 @@ class DataParser extends Command
             // получаем данные из основного файла-таблицы, записываем их в массив
             $fileData = $this->getFileData($tableFile);
 
-
-            dump($fileData[6]);
+            // записываем данные в базу данных
+            $this->saveToDB($fileData);
         }
 
         return Command::SUCCESS;
+    }
+
+    private function saveToDB(array $data): bool
+    {
+        dump($data[5]);
+        return true;
+    }
+
+    private function getCityID(string $name): int
+    {
+        return City::firstOrCreate([
+
+        ]);
     }
 
     /**

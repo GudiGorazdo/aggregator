@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('shop_service_id');
             $table->decimal('rating', 10, 2);
             $table->text('link');
-            $table->text('comments');
+            $table->text('reviews');
             $table->primary(['shop_id', 'service_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
@@ -36,4 +36,5 @@ return new class extends Migration
         Schema::dropIfExists('shop_services');
     }
 };
+
 
