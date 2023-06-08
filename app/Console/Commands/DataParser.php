@@ -75,23 +75,23 @@ class DataParser extends Command
         'R' => 'whatsapp',
         'S' => 'telegram',
         'T' => 'vk',
-        'U' => 'add_socials',
+        'U' => 'additional_socials',
         'V' => 'mail',
         'W' => 'working_mode',
         'X' => 'logo',
         'Y' => 'photos',
         'Z' => 'rating',
-        'AA' => 'respones',
+        'AA' => 'reviews',
         'subtables' => [
             'C',
             'M',
             'N',
             'P',
-            //'Q',
-            //'U',
-            //'V',
-            //'W',
-            //'AA'
+            'Q',
+            'U',
+            'V',
+            'W',
+            'AA'
         ],
     ];
 
@@ -132,13 +132,58 @@ class DataParser extends Command
     protected array $cellsPhonesTable = [ 'A' => 'array.phone' ];
 
     /**
+     * Список полей в таблице сайтов
+     *
+     * @var string[]
+     */
+    protected array $cellsWebsTable = [ 'A' => 'array.web' ];
+
+    /**
+     * Список полей в таблице дополнительных ссылок
+     * на социальные сети
+     *
+     * @var string[]
+     */
+    protected array $cellsAdditionalSocialsTable = [ 'A' => 'array.additional_socials' ];
+
+    /**
+     * Список полей в таблице адресов почты
+     *
+     * @var string[]
+     */
+    protected array $cellsMailTable = [ 'A' => 'array.mail' ];
+
+    /**
+     * Список полей в таблице графика работы
+     *
+     * @var string[]
+     */
+    protected array $cellsWorkingModeTable = [
+        'A' => 'day',
+        'B' => 'start',
+        'C' => 'end',
+    ];
+
+    /**
+     * Список полей в таблице отзывов
+     *
+     * @var string[]
+     */
+    protected array $cellsReviewsTable = [
+        'A' => 'date',
+        'B' => 'rating',
+        'C' => 'user_name',
+        'D' => 'text',
+        'E' => 'response_date',
+        'F' => 'response_text',
+    ];
+
+    /**
      * Таблицы без заголовков
      *
      * @var string[]
      */
-    protected array $tablesWithoutHeaders = [
-        'phones'
-    ];
+    protected array $tablesWithoutHeaders = [ 'phones', 'web', 'additional_socials', 'mail' ];
 
     /**
      * Execute the console command.
@@ -159,7 +204,7 @@ class DataParser extends Command
             $fileData = $this->getFileData($tableFile);
 
 
-            dump($fileData[1]);
+            dump($fileData[6]);
         }
 
         return Command::SUCCESS;
@@ -196,6 +241,9 @@ class DataParser extends Command
             if (isset($cellsMap['subtables']) && in_array($ind, $cellsMap['subtables'])) {
                 $subTablePath = $this->getSubTableFilePath($text);
                 $rowData[$cellName] = $this->getFileData($subTablePath, $cellName);
+                if (is_array($rowData[$cellName])) {
+                    $rowData[$cellName] = $this->removeNullEl($rowData[$cellName]);
+                }
                 continue;
             }
 
@@ -239,6 +287,16 @@ class DataParser extends Command
                 return $this->cellsTransportationTable;
             case 'phones':
                 return $this->cellsPhonesTable;
+            case 'web':
+                return $this->cellsWebsTable;
+            case 'additional_socials':
+                return $this->cellsAdditionalSocialsTable;
+            case 'mail':
+                return $this->cellsMailTable;
+            case 'working_mode':
+                return $this->cellsWorkingModeTable;
+            case 'reviews':
+                return $this->cellsReviewsTable;
         }
     }
 
@@ -255,6 +313,13 @@ class DataParser extends Command
     private function getSubTableFilePath(string $subTableFile): string
     {
         return $this->serviceFolder . '/' . $subTableFile;
+    }
+
+    private function removeNullEl(array $array): array
+    {
+        return array_filter($array, function ($value) {
+            return $value !== null;
+        });
     }
 }
 
