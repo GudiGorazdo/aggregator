@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\FilterService;
 use Illuminate\Support\Facades\Blade;
+use \App\Services\FilterService;
+use \App\Services\ImportDataService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(FilterService::class);
+        $this->app->bind(ImportDataService::class, function ($app) {
+            return new ImportDataService();
+        });
     }
 
     /**
@@ -56,3 +60,5 @@ class AppServiceProvider extends ServiceProvider
         ]);
     }
 }
+
+
