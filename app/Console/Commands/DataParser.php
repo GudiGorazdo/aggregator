@@ -12,14 +12,14 @@ class DataParser extends Command
      *
      * @var string
      */
-    protected $signature = 'aggregator:import-data { --cityID= : city ID }';
+    protected $signature = 'aggregator:import-data { --regionID= : region ID }';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create database fom data folder. Requirement option --cityID';
+    protected $description = 'Create database fom data folder. Requirement option --regionID';
 
     /**
      * Execute the console command.
@@ -28,8 +28,8 @@ class DataParser extends Command
      */
     public function handle(ImportDataService $importDataService)
     {
-        $cityID = (int)$this->option('cityID');
-        $importDataService->import($cityID);
+        $regionID = (int)$this->option('regionID');
+        $importDataService->import($regionID);
         return Command::SUCCESS;
     }
 }

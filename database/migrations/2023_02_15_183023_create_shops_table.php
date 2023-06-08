@@ -49,6 +49,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('area_id')->references('id')->on('areas');
+            $table->index('city_id');
+            $table->index('area_id');
         });
     }
 
@@ -62,3 +64,4 @@ return new class extends Migration
         Schema::dropIfExists('shops');
     }
 };
+

@@ -7,9 +7,24 @@ use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Row;
 use \App\Models\Service;
+use \App\Models\City;
+use \App\Models\Area;
+
+/**
+ * Класс импортирует данные из таблицы xcel и папок
+ * Для успешной работы необходимо
+ * сохранять структуру таблицы и папок
+ */
 
 class ImportDataService
 {
+    /**
+    * Ид региона
+    *
+    * @var string
+    */
+    protected int $regionID = 0;
+
     /**
     * Путь до папки сервиса
     *
@@ -164,8 +179,9 @@ class ImportDataService
      *
      * @return int
      */
-    public function import(int $cityID)
+    public function import(int $regionID)
     {
+        $this->regionID = $regionID;
         foreach (Service::all() as $service) {
             // получаем путь до папки с данными
             $this->serviceFolder = $this->getServiceFolderPath($service->name);
@@ -183,20 +199,33 @@ class ImportDataService
             $fileData = $this->getFileData($tableFile);
 
             // записываем данные в базу данных
-            $this->saveToDB($fileData);
+            $this->saveToDB($fileData, $regionID);
         }
     }
 
     private function saveToDB(array $data): bool
     {
+        foreach ($data as $shopData) {
+            $city = $this->getCity($shopData['city']);
+        }
+
         dump($data[5]);
         return true;
     }
 
-    private function getCityID(string $name): int
+    private function getArea(City $city, string $name): Area
+    {
+        return Area::firstOrCreate([
+            'city_id' => $this->regionID,
+            'name' => $name,
+        ]);
+    }
+
+    private function getCity(string $name): City
     {
         return City::firstOrCreate([
-
+            'region_id' => $this->regionID,
+            'name' => $name,
         ]);
     }
 

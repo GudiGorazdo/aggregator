@@ -19,6 +19,8 @@ return new class extends Migration
             $table->primary(['shop_id', 'sub_category_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
+            $table->index('shop_id');
+            $table->index('sub_category_id');
         });
     }
 
@@ -32,3 +34,4 @@ return new class extends Migration
         Schema::dropIfExists('sub_category_shop');
     }
 };
+

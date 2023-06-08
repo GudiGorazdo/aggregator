@@ -19,6 +19,8 @@ return new class extends Migration
             $table->primary(['shop_id', 'chain_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('chain_id')->references('id')->on('chains')->onDelete('cascade');
+            $table->index('shop_id');
+            $table->index('chain_id');
         });
     }
 

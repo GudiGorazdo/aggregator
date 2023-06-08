@@ -11,7 +11,7 @@ class City extends Model
 {
     public const START_CITY = 1;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'region_id', 'name_for_title'];
     public $timestamps = false;
 
     public function scopeGetAll(Builder $query, array $order = ['by' => 'name', 'sort'=>'desc'])

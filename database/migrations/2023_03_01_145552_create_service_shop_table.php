@@ -23,6 +23,8 @@ return new class extends Migration
             $table->primary(['shop_id', 'service_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
+            $table->index('shop_id');
+            $table->index('service_id');
         });
     }
 

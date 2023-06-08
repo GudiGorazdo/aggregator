@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id');
             $table->text('name');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->index('city_id');
         });
     }
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->string('name', 255);
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->index('category_id');
         });
     }
 
@@ -31,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('sub_categories');
     }
 };
+

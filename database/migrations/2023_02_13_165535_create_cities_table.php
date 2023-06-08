@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('name');
             $table->text('name_for_title')->nullable();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
+            $table->index('region_id');
         });
     }
 

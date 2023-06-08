@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
             $table->foreign('shop_id')->references('id')->on('shops');
+            $table->index('shop_id');
         });
     }
 
@@ -34,3 +35,4 @@ return new class extends Migration
         Schema::dropIfExists('working_modes');
     }
 };
+

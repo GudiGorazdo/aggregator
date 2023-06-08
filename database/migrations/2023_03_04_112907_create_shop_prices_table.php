@@ -22,6 +22,9 @@ return new class extends Migration
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
+            $table->index('shop_id');
+            $table->index('category_id');
+            $table->index('sub_category_id');
         });
     }
 
@@ -35,3 +38,4 @@ return new class extends Migration
         Schema::dropIfExists('shop_prices');
     }
 };
+

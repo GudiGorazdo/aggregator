@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('city_id');
             $table->text('name');
-            $table->text('name_for_title');
+            $table->text('name_for_title')->nullable();
             $table->foreign('city_id')->references('id')->on('cities');
+            $table->index('city_id');
         });
     }
 
@@ -32,3 +33,5 @@ return new class extends Migration
         Schema::dropIfExists('areas');
     }
 };
+
+
