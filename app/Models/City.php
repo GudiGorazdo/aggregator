@@ -32,7 +32,7 @@ class City extends Model
 
     public function municipals(): HasMany
     {
-        return $this->HasMany(\App\Models\Municipal::class);
+        return $this->HasMany(\App\Models\Municipality::class);
     }
 
     public function shops(): HasMany

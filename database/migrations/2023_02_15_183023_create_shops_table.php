@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('region_id');
             $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('municipality_id')->nullable();
             $table->unsignedBigInteger('area_id')->nullable();
             $table->text('logo')->nullable();
             $table->text('photos')->nullable();
@@ -47,8 +49,12 @@ return new class extends Migration
             // $table->text('avito_comments')->nullable();
             $table->boolean('show')->default(true);
             $table->timestamps();
+            $table->foreign('region_id')->references('id')->on('regions');
             $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('municipality_id')->references('id')->on('municipalities');
             $table->foreign('area_id')->references('id')->on('areas');
+            $table->index('region_id');
+            $table->index('municipality_id');
             $table->index('city_id');
             $table->index('area_id');
         });
@@ -64,4 +70,5 @@ return new class extends Migration
         Schema::dropIfExists('shops');
     }
 };
+
 

@@ -9,6 +9,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Row;
 use \App\Models\Service;
 use \App\Models\City;
 use \App\Models\Area;
+use \App\Models\Municipality;
+use \App\Models\Shop;
 
 /**
  * Класс импортирует данные из таблицы xcel и папок
@@ -207,16 +209,95 @@ class ImportDataService
     {
         foreach ($data as $shopData) {
             $city = $this->getCity($shopData['city']);
+            $municipality = $this->getMunicipal($city->id, $shopData['municipality']);
+            $area = $this->getArea($city->id, $shopData['area']);
+            $shop = $this->createShop($shopData, $city->id, $municipality->id ?? null, $area->id ?? null);
         }
 
         dump($data[5]);
         return true;
     }
 
-    private function getArea(City $city, string $name): Area
+    private function createShop(array $shopData, int $cityID, int|null $municipalityID, int|null $areaID): Shop|false
     {
+        if ($shop = $this->checkShopByCoord($shopData)) {
+            return $shop;
+        } else {
+            return Shop::create([
+                'region_id' => $this->regionID,
+                'city_id' => $cityID,
+                'municipality_id' => $municipalityID,
+                'area_id' => $areaID,
+                'logo' => '',
+                'photos' => '',
+                'title' => '',
+                'name' => $shopData['name'],
+                'description' => $shopData['description'],
+                'zip' => $shopData['zip'],
+                'coord' => $shopData['coordinates'],
+                'address' => $shopData['address'],
+                'phone' => $shopData['phones'][0] ?? null,
+                'additional_phones' => is_array($shopData['phones'])
+                    ? json_encode( array_slice($shopData['phones'], 1) )
+                    : null,
+                'whatsapp' => $shopData['whatsapp'],
+                'telegram' => $shopData['telegram'],
+                'vk' => $shopData['vk'],
+                'web' => json_encode($shopData['web']),
+                'more_socials' => json_encode($shopData['additional_socials']),
+                'emails' => json_encode($shopData['mail']),
+            ]);
+        }
+    }
+
+    private function checkShopByCoord(array $shopData): Shop|null
+    {
+        if (is_null($shopData['coordinates'])) return null;
+
+        [ $latitude, $longitude ] = explode(',', $shopData['coordinates']);
+        $radius = 1;
+
+        return Shop::select('*')
+            ->selectRaw(
+                "(6371000 * acos(cos(radians(?)) * cos(radians(SUBSTRING_INDEX(coord, ',', 1))) *
+                cos(radians(SUBSTRING_INDEX(coord, ',', -1)) - radians(?)) +
+                sin(radians(?)) * sin(radians(SUBSTRING_INDEX(coord, ',', 1))))) AS distance",
+                [$latitude, $longitude, $latitude]
+            )
+            ->whereJsonContains('additional_phones', $shopData['phones'])
+            ->orWhere('phone', $shopData['phones'][0] ?? null)
+            //->orWhere('whatsapp', $shopData['whatsapp'])
+            //->orWhere('telegram', $shopData['telegram'])
+            //->orWhere('vk', $shopData['vk'])
+            //->whereJsonContains('emails', $shopData['mail'])
+            //->whereJsonContains('web', $shopData['web'])
+            ->having('distance', '<=', $radius)
+            ->orderBy('distance')
+            ->get()
+            ->first()
+        ;
+    }
+
+    private function getMunicipal(int $cityID, string|null $name): Municipality|false
+    {
+        if (!$name) return false;
+        return Municipality::firstOrCreate([
+            'region_id' => $this->regionID,
+            'city_id' => $cityID,
+            'name' => $name,
+        ]);
+    }
+
+    private function getArea(int $cityID, string|null $name): Area|false
+    {
+        if (!$name) return false;
+        if (strpos($name, " район") !== false) {
+            $name = preg_replace("/ район/", "", $name);
+        }
+
         return Area::firstOrCreate([
-            'city_id' => $this->regionID,
+            'region_id' => $this->regionID,
+            'city_id' => $cityID,
             'name' => $name,
         ]);
     }

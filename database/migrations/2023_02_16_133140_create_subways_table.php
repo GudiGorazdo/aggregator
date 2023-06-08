@@ -17,11 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('area_id');
+            $table->unsignedBigInteger('region_id');
             $table->text('name');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('area_id')->references('id')->on('areas');
+            $table->foreign('region_id')->references('id')->on('cities');
             $table->index('city_id');
             $table->index('area_id');
+            $table->index('region_id');
         });
     }
 
@@ -35,4 +38,5 @@ return new class extends Migration
         Schema::dropIfExists('subways');
     }
 };
+
 

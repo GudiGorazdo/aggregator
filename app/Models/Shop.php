@@ -13,6 +13,8 @@ use App\Filters\SimilarCategoriesFilter;
 
 class Shop extends Model
 {
+    public $guarded = [];
+
     public function getRouteKey()
     {
         return 'id';
@@ -114,3 +116,4 @@ class Shop extends Model
         ;
     }
 }
+

@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Municipal extends Model
+class Municipality extends Model
 {
     public $timestamps = false;
+    public $guarded = [];
 
     public function city(): BelongsTo
     {

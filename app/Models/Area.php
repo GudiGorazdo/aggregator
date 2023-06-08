@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Area extends Model
 {
-    protected $fillable = ['name'];
+    protected $guarded = [];
     public $timestamps = false;
 
     public function scopeGetByCityId($query, int $id): Builder
@@ -37,3 +37,4 @@ class Area extends Model
         return $this->hasMany(\App\Models\Subway::class);
     }
 }
+
