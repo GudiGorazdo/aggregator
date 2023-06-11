@@ -194,7 +194,7 @@ class ImportDataService
             // проверяем что папка с данными существует
             if (!is_dir($this->serviceFolder)) {
                 echo "Произошла ошибка: папки $this->serviceFolder не существует" . PHP_EOL;
-                return Command::SUCCESS;
+                die();
             }
 
             // получаем данные из основного файла-таблицы, записываем их в массив
