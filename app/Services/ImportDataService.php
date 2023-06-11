@@ -4,7 +4,7 @@ namespace App\Services;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+/* use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet; */
 use PhpOffice\PhpSpreadsheet\Worksheet\Row;
 use \App\Models\Service;
 use \App\Models\City;
@@ -26,6 +26,13 @@ class ImportDataService
     * @var string
     */
     protected int $regionID = 0;
+
+    /**
+    * Название обрабатываемого сервиса
+    *
+    * @var string
+    */
+    protected string $serviceName = '';
 
     /**
     * Путь до папки сервиса
@@ -179,14 +186,15 @@ class ImportDataService
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
-    public function import(int $regionID)
+    public function import(int $regionID): void
     {
         $this->regionID = $regionID;
         foreach (Service::all() as $service) {
             // получаем путь до папки с данными
             $this->serviceFolder = $this->getServiceFolderPath($service->name);
+            $this->serviceName = $service->name;
 
             // получаем пути до основного файла-таблицы
             $tableFile = $this->getTableFilePath();
@@ -201,6 +209,7 @@ class ImportDataService
             $fileData = $this->getFileData($tableFile);
 
             // записываем данные в базу данных
+            echo 'Запись данных...' . PHP_EOL;
             $this->saveToDB($fileData, $regionID);
         }
     }
@@ -211,15 +220,33 @@ class ImportDataService
             $city = $this->getCity($shopData['city']);
             $municipality = $this->getMunicipal($city->id, $shopData['municipality']);
             $area = $this->getArea($city->id, $shopData['area']);
-            $shop = $this->createShop($shopData, $city->id, $municipality->id ?? null, $area->id ?? null);
+            $shop = $this->createShop(
+                $shopData,
+                $city->id,
+                $municipality->id ?? null,
+                $area->id ?? null
+            );
         }
 
         dump($data[5]);
         return true;
     }
 
-    private function createShop(array $shopData, int $cityID, int|null $municipalityID, int|null $areaID): Shop|false
-    {
+    /*
+     * Записывает данные о маганизине в таблицу
+     *
+     * @param array $shopData           -- массив с данными о магазине
+     * @param int $cityID               -- Ид города
+     * @param int|null $manicipalityID  -- Ид муниципалитета, если есть
+     * @param int|null $areaID          -- Ид района города, если есть
+     */
+
+    private function createShop(
+        array $shopData,
+        int $cityID,
+        int|null $municipalityID,
+        int|null $areaID
+    ): Shop|false {
         if ($shop = $this->checkShopByCoord($shopData)) {
             return $shop;
         } else {
@@ -249,6 +276,13 @@ class ImportDataService
             ]);
         }
     }
+
+    /*
+     * Проверяет по координатам, названию и нескольким контактам
+     * существование похожей записи в бд
+     *
+     * @param array $shopData  -- массив с данными магазина
+     */
 
     private function checkShopByCoord(array $shopData): Shop|null
     {
@@ -319,9 +353,11 @@ class ImportDataService
      * @param $type название ячейки, необходимо для получения списка
      *              полей в подтаблице, если она есть
      *              (когда в главной таблице вместо данных ссылка на файл с данными)
+     *
+     *  @return array[string] | string | null
      */
 
-    private function getRowData(Row $row, string $type)
+    private function getRowData(Row $row, string $type): array|string|null
     {
         $cellsMap = $this->getCellsMap($type);
         $rowData = [];
@@ -372,7 +408,11 @@ class ImportDataService
     *
     * @param $type название ячейки, необходимо для получения списка
     *              полей в подтаблице, если она есть
-    *              (когда в главной таблице вместо данных ссылка на файл с данными)
+    *              (когда в главной таблице вместо данных ссылка на файл с данными)o
+    *
+    * @return  array[
+    *      string => string | array[string => string]
+    *  ] | false
     */
 
     private function getFileData(string $filePath, string $type = 'main'): array|false
@@ -394,6 +434,16 @@ class ImportDataService
         unset($spreadsheet);
         return $data;
     }
+
+    /*
+     * Возвращает карту полей в xcel файле, в которой столбец
+     * из файла (название, например, a, b, c ...) соответствует
+     * названию поля в массиве с данными, который формируется при
+     * получении данных из файлов.
+     *
+     * @param string $type  -- тип файла
+     * @return array[string => string]
+     */
 
     private function getCellsMap(string $type): array
     {
@@ -436,6 +486,11 @@ class ImportDataService
         return $this->serviceFolder . '/' . $subTableFile;
     }
 
+    /*
+     * Удаляет из массива все элементы, значение которых === null
+     *
+     * @param array[string] $array   -- массив для преобразования
+     */
     private function removeNullEl(array $array): array
     {
         return array_filter($array, function ($value) {
