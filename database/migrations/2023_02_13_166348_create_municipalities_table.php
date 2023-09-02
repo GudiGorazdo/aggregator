@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('region_id');
             $table->text('name');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
-            $table->foreign('region_id')->references('id')->on('cities');
+            $table->foreign('region_id')->references('id')->on('regions');
             $table->index('city_id');
             $table->index('region_id');
         });

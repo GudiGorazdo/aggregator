@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('name');
             $table->text('name_for_title')->nullable();
             $table->foreign('city_id')->references('id')->on('cities');
-            $table->foreign('region_id')->references('id')->on('cities');
+            $table->foreign('region_id')->references('id')->on('regions');
             $table->index('city_id');
             $table->index('region_id');
         });

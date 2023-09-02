@@ -82,14 +82,15 @@ class ImportDataService
         'Q' => 'web',
         'R' => 'whatsapp',
         'S' => 'telegram',
-        'T' => 'vk',
-        'U' => 'additional_socials',
-        'V' => 'mail',
-        'W' => 'working_mode',
-        'X' => 'logo',
-        'Y' => 'photos',
-        'Z' => 'rating',
-        'AA' => 'reviews',
+        'T' => 'viber',
+        'U' => 'vk',
+        'V' => 'additional_socials',
+        'W' => 'mail',
+        'X' => 'working_mode',
+        'Y' => 'logo',
+        'Z' => 'photos',
+        'AA' => 'rating',
+        'AB' => 'reviews',
         'subtables' => [ 'C', 'M', 'N', 'P', 'Q', 'U', 'V', 'W', 'AA' ],
     ];
 
@@ -217,7 +218,7 @@ class ImportDataService
     private function saveToDB(array $data): bool
     {
         foreach ($data as $shopData) {
-            $city = $this->getCity($shopData['city']);
+            $city = $this->getCity($shopData['city'] ?? '');
             $municipality = $this->getMunicipal($city->id, $shopData['municipality']);
             $area = $this->getArea($city->id, $shopData['area']);
             $shop = $this->createShop(
@@ -437,7 +438,7 @@ class ImportDataService
 
     /*
      * Возвращает карту полей в xcel файле, в которой столбец
-     * из файла (название, например, a, b, c ...) соответствует
+     * из файла (название, например: A, B, C ...) соответствует
      * названию поля в массиве с данными, который формируется при
      * получении данных из файлов.
      *
@@ -498,5 +499,4 @@ class ImportDataService
         });
     }
 }
-
 
