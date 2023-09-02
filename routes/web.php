@@ -23,3 +23,5 @@ Route::middleware("guest")->group(function () {
 //     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 //     Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login_process');
 // });
+
+

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('region_id');
+            $table->text('coord');
             $table->text('name');
             $table->text('name_for_title')->nullable();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');

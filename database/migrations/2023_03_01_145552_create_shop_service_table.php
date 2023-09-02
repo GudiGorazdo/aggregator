@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_shop', function (Blueprint $table) {
+        Schema::create('shop_service', function (Blueprint $table) {
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('service_id');
-            $table->unsignedBigInteger('shop_service_id');
+            $table->text('service_shop_id');
             $table->decimal('rating', 10, 2);
             $table->text('link');
-            $table->text('reviews');
+            $table->text('comments');
             $table->primary(['shop_id', 'service_id']);
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');

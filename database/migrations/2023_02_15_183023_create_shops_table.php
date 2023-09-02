@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('region_id');
             $table->unsignedBigInteger('city_id');
-            $table->unsignedBigInteger('municipality_id')->nullable();
             $table->unsignedBigInteger('area_id')->nullable();
+            $table->unsignedBigInteger('municipality_id')->nullable();
             $table->text('logo')->nullable();
             $table->text('photos')->nullable();
             $table->text('title')->nullable();

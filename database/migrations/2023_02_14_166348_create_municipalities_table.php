@@ -17,11 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('region_id');
+            $table->unsignedBigInteger('area_id');
             $table->text('name');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('region_id')->references('id')->on('regions');
+            $table->foreign('area_id')->references('id')->on('areas');
             $table->index('city_id');
             $table->index('region_id');
+            $table->index('area_id');
         });
     }
 
