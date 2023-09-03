@@ -19,7 +19,7 @@
                     <div id="city_confirm_popup" class="header-city-popup hidden">
                         <x-close-btn id="city_popup_close" class="header-city-popup_close" />
                         <p class="header-city-popup_label">Это ваш город?</p>
-                        <button id="city_confirm_true" class="btn site-btn header-city-popup_confirm">Подтвердить</button>
+                        <button id="city_confirm_true" class="btn header-city-popup_confirm">Подтвердить</button>
                     </div>
                 </div>
                 @endif

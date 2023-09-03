@@ -1,3 +1,6 @@
+.header-city {
+  position: relative;
+}
 .filters-city__label {
 
 }
@@ -90,13 +93,13 @@
 }
 .header-city-popup {
   position: absolute;
-  bottom: -9.5em;
-  right: 2em;
+  bottom: -13.5em;
+  right: 0em;
   padding: 1em;
   padding-top: 2.5em;
-  border: 1px solid $secondary;
+  border: 1px solid #ccc;
   border-radius: 1em;
-  background-color: $light;
+  background-color: #fff;
   opacity: 1;
   visibility: visible;
   pointer-events: all;
@@ -106,11 +109,11 @@
   position: absolute;
   right: 26px;
   top: -9px;
-  width: 1em;
-  height: 1em;
-  border-bottom: 1px solid $secondary;
-  border-left: 1px solid $secondary;
-  background-color: $light;
+  width: 2em;
+  height: 2em;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  background-color: #fff;
   transform: rotate(135deg);
 }
 .header-city-popup.hidden {
@@ -123,7 +126,17 @@
   right: 0;
 }
 .header-city-popup_label {
+  margin-bottom: 1em;
+}
+.header-city-popup_confirm {
+  padding: 1rem 2rem;
+  background: #b4e040;
+}
+.header-city-popup_confirm,
+.header-city-popup_label {
+  font-size: 2em;
   white-space: nowrap;
 }
+
 
 

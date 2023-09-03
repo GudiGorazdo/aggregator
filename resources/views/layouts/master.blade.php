@@ -13,10 +13,10 @@
     @yield('title')
     @vite([ 'resources/vendors/normalize.min.css' ])
     @vite([ 'resources/js/plugins/chooser/chooser.css' ])
-    @vite([ 'resources/css/layouts/headerSelectCity.css' ])
     @vite([ 'resources/css/bundle.min.css' ])
     @vite([ 'resources/css/style.css' ])
     @vite([ 'resources/css/queries.css' ])
+    @vite([ 'resources/css/layouts/headerSelectCity.css' ])
     @yield('styles')
     @yield('links_scripts')
 </head>
