@@ -16,9 +16,7 @@
 @section('content')
 <section class="hero-section container--wide mb-45">
     <div class="hero-section-content flex-ctr">
-        <h1 class="hero-section-title">
-            Скупки ноутбуков в Московском районе
-        </h1>
+        <h1 class="hero-section-title">{{ $title }}</h1>
         <div class="hero-section-text-box">
             <p class="hero-section-text">
                 Срочный выкуп ноутбуков, телефонов, планшетов, фотоаппаратов в

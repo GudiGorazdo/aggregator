@@ -36,7 +36,7 @@ class GenerateRandomData
             $m = new \App\Models\City();
             $m->name = 'Город' . '_' . ($i + 1) . '_' . $regionName;
             $m->region_id = $regionID;
-            $m->name_for_title = 'Город' . '_' . ($i + 1);
+            $m->name_for_title = 'Городе' . '_' . ($i + 1);
             $m->coord = json_encode(array(
                 'lat' => $faker->latitude(47, 65),
                 'long' => $faker->longitude(30, 100)

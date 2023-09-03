@@ -15,7 +15,7 @@
     @param string $name = имякартинки.jpg
 --}}
 
-<picture>
+<picture{{ isset($classname) ? ' class=' . $classname : '' }}>
     @if(!empty($sizes))
         @foreach($sizes as $size)
             <source
@@ -46,3 +46,5 @@
     >
     <img src="{{ asset($path . $name ) }}" alt="{{ $alt }}" loading="lazy">
 </picture>
+
+

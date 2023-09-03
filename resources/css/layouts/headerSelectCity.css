@@ -1,12 +1,8 @@
 .header-city {
   position: relative;
 }
-.filters-city__label {
-
-}
-.itc-select__toggle {
-
-}
+.filters-city__label {}
+.itc-select__toggle {}
 .filters-city__current {
   position: relative;
   display: -webkit-box;

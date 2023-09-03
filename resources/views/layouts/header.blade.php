@@ -5,8 +5,8 @@
                 <x-icon-burger />
             </button>
             <a class="header__logo ml-4" href="/">
-                <img src="{{ asset('assets/img/logo.webp') }}" alt="RentSell logo" />
-                <img class="header__top-logo--text" src="{{ asset('assets/img/textlogo.png') }}" alt="RentSell logo" />
+                <x-picture name="logo.png" path='assets/img/' alt=''/>
+                <x-picture classname="header__top-logo--text" name="textlogo.png" path='assets/img/' alt='RentSell logo'/>
             </a>
             <p class="header__top-text mr-auto">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
