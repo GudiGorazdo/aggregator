@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use Faker\Factory;
@@ -320,7 +319,7 @@ class GenerateRandomData
     private static function generateSubCategories($category_id)
     {
         $arr = [];
-        for ($i = 0; $i < rand(3, 9); $i++) {
+        for ($i = 0; $i < rand(10, 20); $i++) {
             $sub_category = new \App\Models\SubCategory();
             $sub_category->name = ($i + 1) . '_подкатегория';
             $sub_category->category_id = $category_id;
@@ -415,7 +414,7 @@ class GenerateRandomData
         foreach ($regions as $region) {
             self::generateCity($region->id, $region->name, $faker);
         }
-        self::generate(5, \App\Models\Category::class, 'Категория', 'категории');
+        self::generate(15, \App\Models\Category::class, 'Категория', 'категории');
 
         $cities = \App\Models\City::all();
         $b = 0;

@@ -54,8 +54,8 @@ export default class LocationFilter {
   ) {
     this.queryData();
 
-    this.parent = document.getElementById(parentId);
-    this.parent.addEventListener('click', this.toggleOpen.bind(this));
+    // this.parent = document.getElementById(parentId);
+    // this.parent.addEventListener('click', this.toggleOpen.bind(this));
 
     this.buttons.area = areaButtonId;
     this.buttons.subway = subwayButtonId;
@@ -77,6 +77,8 @@ export default class LocationFilter {
         this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
       }
     }
+
+    console.log(this.popup);
 
     this.initialize();
   }
@@ -225,9 +227,12 @@ export default class LocationFilter {
     // // this.addLocationFilters(id);
     // this.activeAreas = [];
     this.city.current = id;
-    this.city.input.value = id;
+    if (this.city?.input?.value) {
+      this.city.input.value = id;
+    }
     if (!this.start && this.checkPath()) {
       this.cityConfirm();
+      this.setCookie(id);
       window.location.href = `/?city=${id}`;
     }
   }
@@ -320,3 +325,5 @@ export default class LocationFilter {
     } while (!param.done)
   }
 }
+
+

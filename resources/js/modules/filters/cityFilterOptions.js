@@ -4,11 +4,12 @@ const optionsCity = {
   placeholder: 'Выберите город',
   data: [],
   classList: {
-    label: `filters-city_label`,
-    wrapper: `filters-city_wrapper`,
-    current: `filters-city_button`,
-    list: `filters-city_list`,
-    item: `filters-city_item`,
+    label: `filters-city__label`,
+    wrapper: `filters-city__wrapper`,
+    current: `filters-city__current`,
+    list: `filters-city__list`,
+    item: `filters-city__item`,
+    icon: `filters-city__icon`,
   },
 }
 

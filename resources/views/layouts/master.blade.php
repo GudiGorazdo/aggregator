@@ -11,9 +11,14 @@
     <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
 
     @yield('title')
-    @yield('links_scripts')
-    @vite([ 'resources/scss/app.scss' ])
+    @vite([ 'resources/vendors/normalize.min.css' ])
+    @vite([ 'resources/js/plugins/chooser/chooser.css' ])
+    @vite([ 'resources/css/layouts/headerSelectCity.css' ])
+    @vite([ 'resources/css/bundle.min.css' ])
+    @vite([ 'resources/css/style.css' ])
+    @vite([ 'resources/css/queries.css' ])
     @yield('styles')
+    @yield('links_scripts')
 </head>
 
 <body>
@@ -24,18 +29,24 @@
     <main id="main-content" class="main-content">@yield('content')</main>
     {{-- @include('layouts.similar') --}}
     @include('layouts.footer')
-    <div class="modal-window">
-        @include('layouts.aside')
-        @include('layouts.nav-bar')
-        @include('layouts.alert')
-        @include('layouts.confirm')
-        @yield('modal')
-    </div>
+    {{-- <div class="modal-window"> --}}
+    {{--     @include('layouts.aside') --}}
+    {{--     @include('layouts.nav-bar') --}}
+    {{--     @include('layouts.alert') --}}
+    {{--     @include('layouts.confirm') --}}
+    {{--     @yield('modal') --}}
+    {{-- </div> --}}
 
     @yield('afterFooter')
-    @vite([ 'resources/js/app.js' ])
+    @vite([ 'resources/js/scripts/locationFilter.js' ])
+    {{-- @vite([ 'resources/js/app.js' ]) --}}
+    {{-- @vite([ 'resources/js/star-rating.min.js' ]) --}}
+    {{-- @vite([ 'resources/js/bundle.js' ]) --}}
+    {{-- @vite([ 'resources/js/item-page.js' ]) --}}
+    {{-- @vite([ 'resources/js/libs.js' ]) --}}
+    @vite([ 'resources/js/style.js' ])
     @auth("admin")
-        @vite([ 'resources/js/scripts/admin/panel.js' ])
+        {{-- @vite([ 'resources/js/scripts/admin/panel.js' ]) --}}
     @endauth
 </body>
 
