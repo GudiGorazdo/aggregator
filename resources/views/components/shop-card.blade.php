@@ -1,35 +1,42 @@
-<x-card className="shop-card">
-    <input type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
-    <div class="p-2 bg-white rounded mt-2">
-        <div class="mt-1 d-flex">
-            <img class="shop-card_img img-fluid img-responsive rounded product-image me-3" src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="логотип магазина {{ $shop->name }}">
-            <div class="mt-1">
-                <h5 class="shop-card_title"><a href="{{ route('shop', ['id' => $shop->id]) }}">{{ $shop->name }}</a></h5>
-                <div class="d-flex flex-row">
-                   <x-star-rating-display rating="{{ $shop->average_rating }}" decimal="1"/>
+<div class="filter__cart-item">
+    <div class="filter__item-content">
+        <div class="filter__top-wrapper">
+            <div class="filter__top-img">
+                <img src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="filter img" />
+            </div>
+            <div class="filter__top-info">
+                <h4 class="filter__top-title">
+                    <a href="{{ route('shop', ['id' => $shop->id]) }}">{{ $shop->name }}</a>
+                </h4>
+                <div class="filter__top-rating">
+                  <p class="filter__top-num">{{ $shop->average_rating }}</p>
+                  <x-star-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" />
                 </div>
-                <div class="mt-1 mb-1 spec-1">
-                    <span>{{ $shop->address }}</span>
-                    <span class="dot"></span>
+                <div class="filter__top-adress--wrapper">
+                    <p class="filter__top-time">Работает до 19:00</p>
+                    <a class="filter__top-adress" href="#">{{ $shop->address }}</a>
                 </div>
             </div>
         </div>
-        <div class="mt-1">
-            <div class="mt-1 mb-1 spec-1">
-                {{ $shop->description }}
-                <span class="dot"><br></span>
-            </div>
-        </div>
-        <div class="d-flex align-items-center mt-4">
-            <x-socials-list
-                classNameList="shop-card-socials"
-                classNameItem="shop-card-socials_item"
-                tg="{{ $shop->telegram }}"
-                whatsapp="{{ $shop->whatsapp }}"
-                phone="{{ $shop->phone }}"
-            />
-            <x-button-primary-link class="btn-sm p-2 ms-2" href="#">Отправить заявку</x-button-primary-link>
-            <a class="more-details" href="{{ route('shop', ['id' => $shop->id]) }}">Детальнее &#8594;</a>
+        <div class="filter__bottom-wrapper">
+            <p class="filter__bottom-text">{{ $shop->description }}</p>
+            <a class="filter__bottom-btn" href="#">Отправить заявку</a>
         </div>
     </div>
-</x-card>
+    <div class="filter__item-contacts">
+        <a class="btn filter__item-contact filter__item-contact--mobile-btn" href="#">
+            Заявка
+        </a>
+        <x-social-item className="filter__item-contact filter__item-contact--telegram">
+            <x-icon-telegram-icon />
+        </x-social-item>
+        <x-social-item className="filter__item-contact filter__item-contact--whatsapp">
+            <x-icon-whatsapp-icon />
+        </x-social-item>
+        <x-social-item className="filter__item-contact filter__item-contact--tel">
+            <x-icon-tel-icon />
+        </x-social-item>
+    </div>
+</div>
+
+

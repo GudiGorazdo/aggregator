@@ -12,25 +12,30 @@ class LocationController extends Controller
     public $errors = [];
     public $response;
 
+    private function getCityId(): int
+    {
+        $city = CookieController::getCookie(CookieConstants::LOCATION) ?? null;
+        if (!$city) $city = City::START_CITY;
+        CookieController::setCookie(CookieConstants::LOCATION, $city, CookieController::getYears(1));
+        return $city;
+    }
+
     public function cities(): Response
     {
         return response(City::getAll()->get());
     }
 
-    public function location(int $id): Response
+    public function location(): Response
     {
-        $filter = app(\App\Services\FilterService::class)->getFilterByName('LocationFilter');
-        if ($filter) {
-            return $filter->responseRender($id);
-        }
-        return response(false);
+        $filter = app(\App\Services\FilterService::class)->getFilterByName('location');
+        return response($filter->getItems($this->getCityId()));
     }
 
     public function locationCookie(): Response
     {
-        $city = CookieController::getCookie(CookieConstants::LOCATION) ?? null;
-        if (!$city) $city = City::START_CITY;
-        CookieController::setCookie(CookieConstants::LOCATION, $city, CookieController::getYears(1));
-        return response($city);
+        return response($this->getCityId());
     }
+
 }
+
+

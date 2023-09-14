@@ -1,10 +1,3 @@
-import { StarRating } from './star-rating.min';
-
-var starRatingControl = new StarRating(".star-rating", {
-  maxStars: 5,
-  tooltip: false,
-});
-
 /******/ (() => {
   // webpackBootstrap
   /******/ var __webpack_modules__ = {
@@ -208,10 +201,10 @@ var starRatingControl = new StarRating(".star-rating", {
           }
         }
         ItcCustomSelect.hideOpenSelect();
-        const citySelect = new ItcCustomSelect("#citySelect");
-        const filterSelect1 = new ItcCustomSelect("#filter-select-1");
-        const filterSelect2 = new ItcCustomSelect("#filter-select-2");
-        const filterSelect3 = new ItcCustomSelect("#filter-select-3");
+        // const citySelect = new ItcCustomSelect("#citySelect");
+        // const filterSelect1 = new ItcCustomSelect("#filter-select-1");
+        // const filterSelect2 = new ItcCustomSelect("#filter-select-2");
+        // const filterSelect3 = new ItcCustomSelect("#filter-select-3");
         // menu
 
         const bodyEl = document.querySelector("body");

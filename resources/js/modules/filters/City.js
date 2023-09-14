@@ -1,6 +1,7 @@
 import Chooser from '../../plugins/chooser';
+import optionsCity from './options/city';
 
-export default class LocationFilter {
+export default class City {
   start = true;
 
   popup = {
@@ -18,7 +19,7 @@ export default class LocationFilter {
     current: null,
     select: null,
     saved: null,
-    options: {},
+    options: optionsCity,
   };
 
   parent = null;
@@ -34,12 +35,6 @@ export default class LocationFilter {
   };
 
   query = {};
-
-  collapse = {
-    area: null,
-    subway: null,
-  };
-
   activeAreas = [];
 
   constructor(
@@ -47,8 +42,6 @@ export default class LocationFilter {
     areaButtonId,
     subwayButtonId,
     cityInputId,
-    cityOptions,
-    collapse,
     cityStorageMark = 'city',
     startCity = null,
   ) {
@@ -61,10 +54,6 @@ export default class LocationFilter {
     this.buttons.subway = subwayButtonId;
     this.city.input = document.getElementById(cityInputId);
 
-    this.collapse.area = collapse.area;
-    this.collapse.subway = collapse.subway;
-
-    this.city.options = cityOptions;
     this.city.storageMark = cityStorageMark;
 
     if (this.checkPath()) {
@@ -78,8 +67,6 @@ export default class LocationFilter {
       }
     }
 
-    console.log(this.popup);
-
     this.initialize();
   }
 
@@ -90,8 +77,6 @@ export default class LocationFilter {
   initialize = async () => {
     this.city.saved = await this.getCookie();
     this.city.all = await this.getAllCities();
-
-
 
     this.setCityOptions(this.city.all);
     this.city.select = new Chooser(this.city.options);
@@ -122,6 +107,7 @@ export default class LocationFilter {
     this.popupClose();
 
   }
+
   cityCheckConfirm = () => {
     const cookies = document.cookie.split('; ');
     const confirm = cookies.find(cookie => cookie.startsWith('LOCATION_CONFIRM='));
@@ -160,19 +146,9 @@ export default class LocationFilter {
   //   if (areas) {
   //     if (this.start) this.start = false;
   //     else this.resetAreasAndSubways();
-  //     this.showFilter();
   //     this.addAreaListeners();
   //   }
   // }
-
-  showFilter = () => {
-    for (let key in this.collapse) {
-      if (this.open[key]) {
-        document.getElementById(this.collapse[key]).classList.add('show');
-        document.getElementById(this.buttons[key]).setAttribute('aria-expanded', true);
-      }
-    }
-  }
 
   // getStartId = async () => {
   //   let resp = await fetch('/api/data/location_start');

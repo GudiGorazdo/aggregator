@@ -46,4 +46,8 @@
   opacity: 0;
 }
 
+.chooser__icon {
+  pointer-events: none;
+}
+
 

@@ -66,3 +66,5 @@ class LocationFilter extends BaseFilter
         return $query;
     }
 }
+
+

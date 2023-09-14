@@ -15,7 +15,7 @@
             <div class="itc-select mr-15" id="citySelect">
                 @if (Illuminate\Support\Facades\Request::path() == '/')
                 <div class="header-city">
-                    {{ app(\App\Services\FilterService::class)->getFilterByName('CityFilterHeader')->render(null, false) }}
+                    {{ app(\App\Services\FilterService::class)->getFilterByName('city')->render(null, false) }}
                     <div id="city_confirm_popup" class="header-city-popup hidden">
                         <x-close-btn id="city_popup_close" class="header-city-popup_close" />
                         <p class="header-city-popup_label">Это ваш город?</p>

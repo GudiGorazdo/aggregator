@@ -19,10 +19,11 @@
     @yield('title')
     @vite([ 'resources/vendors/normalize.min.css' ])
     @vite([ 'resources/js/plugins/chooser/chooser.css' ])
+    @vite([ 'resources/css/star-rating.scss' ])
     @vite([ 'resources/css/bundle.min.css' ])
     @vite([ 'resources/css/style.css' ])
     @vite([ 'resources/css/queries.css' ])
-    @vite([ 'resources/css/layouts/headerSelectCity.css' ])
+    @vite([ 'resources/css/layouts/selectMenu.css' ])
     @yield('styles')
     @yield('links_scripts')
 </head>
@@ -44,7 +45,7 @@
     {{-- </div> --}}
 
     @yield('afterFooter')
-    @vite([ 'resources/js/scripts/locationFilter.js' ])
+    @vite([ 'resources/js/scripts/cityFilter.js' ])
     {{-- @vite([ 'resources/js/app.js' ]) --}}
     {{-- @vite([ 'resources/js/star-rating.min.js' ]) --}}
     {{-- @vite([ 'resources/js/bundle.js' ]) --}}

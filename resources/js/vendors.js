@@ -32,7 +32,7 @@ __webpack_require__.r(__webpack_exports__);
  * Better handling for window object in SSR environment
  * https://github.com/nolimits4web/ssr-window
  *
- * Copyright 2021, Vladimir Kharlampidi
+u * Copyright 2021, Vladimir Kharlampidi
  *
  * Licensed under MIT
  *
