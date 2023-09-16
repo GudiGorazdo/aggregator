@@ -32,7 +32,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('working_modes');
+        Schema::dropIfExists('shop_working_modes');
     }
 };
+
 

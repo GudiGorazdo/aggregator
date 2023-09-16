@@ -1,4 +1,5 @@
-<div class="filter__cart-item">
+<div class="filter__cart-item" data-shop-target={{ $shop->id }}>
+    <input type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
     <div class="filter__item-content">
         <div class="filter__top-wrapper">
             <div class="filter__top-img">
@@ -36,6 +37,7 @@
         <x-social-item className="filter__item-contact filter__item-contact--tel">
             <x-icon-tel-icon />
         </x-social-item>
+        <button class="filter__item-location" data-shop-view="{{ $shop->id }}"><x-icon-location-icon /></button>
     </div>
 </div>
 

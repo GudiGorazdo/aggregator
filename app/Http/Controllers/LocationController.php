@@ -12,7 +12,7 @@ class LocationController extends Controller
     public $errors = [];
     public $response;
 
-    private function getCityId(): int
+    public static function getCityID(): int
     {
         $city = CookieController::getCookie(CookieConstants::LOCATION) ?? null;
         if (!$city) $city = City::START_CITY;
@@ -28,14 +28,8 @@ class LocationController extends Controller
     public function location(): Response
     {
         $filter = app(\App\Services\FilterService::class)->getFilterByName('location');
-        return response($filter->getItems($this->getCityId()));
+        return response($filter->getItems(self::getCityID()));
     }
-
-    public function locationCookie(): Response
-    {
-        return response($this->getCityId());
-    }
-
 }
 
 

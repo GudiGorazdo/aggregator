@@ -27,6 +27,7 @@ class Shop extends Model
                 ->with('workingMode')
                 ->with('area')
                 ->with('city')
+                ->with('region')
                 ->with('subways')
                 ->with('subCategories')
             ;
@@ -39,6 +40,7 @@ class Shop extends Model
             $query = (new SimilarCategoriesFilter())->apply($query, $subCategories)
                 ->with('area')
                 ->with('city')
+                ->with('region')
                 ->with('categories')
                 ->with('subCategories')
                 ->with('subways')
@@ -48,12 +50,13 @@ class Shop extends Model
         return $query;
     }
 
-    public function scopeGetById(Builder $query, string|int $id): Builder
+    public function scopeGetByID(Builder $query, string|int $id): Builder
     {
         return $query->where('id', $id)
             ->with('workingMode')
             ->with('area')
             ->with('city')
+            ->with('region')
             ->with('categories')
             ->with('subCategories')
             ->with('services')
@@ -78,6 +81,11 @@ class Shop extends Model
         return $this->belongsTo(\App\Models\City::class);
     }
 
+    public function region(): belongsTo
+    {
+        return $this->belongsTo(\App\Models\Region::class);
+    }
+
     public function area(): belongsTo
     {
         return $this->belongsTo(\App\Models\Area::class);
@@ -90,7 +98,7 @@ class Shop extends Model
 
     public function categories(): belongsToMany
     {
-        return $this->belongsToMany(\App\Models\Category::class);
+        return $this->belongsToMany(\App\Models\Category::class, 'shop_category');
     }
 
     public function subCategories(): belongsToMany
@@ -110,10 +118,11 @@ class Shop extends Model
 
     public function services(): belongsToMany
     {
-        return $this->belongsToMany(\App\Models\Service::class)
+        return $this->belongsToMany(\App\Models\Service::class, 'shop_service')
             ->withPivot('rating')
             ->withPivot('comments')
         ;
     }
 }
+
 

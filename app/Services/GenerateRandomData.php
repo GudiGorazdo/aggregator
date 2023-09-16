@@ -181,9 +181,9 @@ class GenerateRandomData
             ));
 
             $photos = [];
-            // for($i = 0; $i < rand(10, 30); $i++) {
-            //     $photos[] = ['name' => 'https://picsum.photos/', 'sizes' => []];
-            // }
+            for($i = 0; $i < rand(10, 30); $i++) {
+                $photos[] = ['name' => 'https://picsum.photos/', 'sizes' => []];
+            }
 
             $shop->photos = json_encode($photos);
 
@@ -443,7 +443,7 @@ class GenerateRandomData
                 if (rand(0, 3) > 0) {
                     self::generateShopSubCategory($c->id, $shop->id);
                     $category = $categories->find($c->category_id);
-                    \Illuminate\Support\Facades\DB::table('category_shop')->updateOrInsert([
+                    \Illuminate\Support\Facades\DB::table('shop_category')->updateOrInsert([
                         'category_id' => $category->id,
                         'shop_id' => $shop->id
                     ]);

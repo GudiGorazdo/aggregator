@@ -255,7 +255,7 @@
 
         const placesItems = document.querySelector(".filter__content");
         const placesBtn = document.querySelector(".filter__content-more");
-        placesBtn.addEventListener("click", () => {
+        placesBtn && placesBtn.addEventListener("click", () => {
           placesItems.classList.toggle("expanded");
           placesBtn.classList.toggle("expanded");
         });
@@ -812,10 +812,10 @@ checkboxCrumble.forEach(element => {
 });
 
 let buttonShowMore = document.querySelector('.filter__content-more');
-let textButton = buttonShowMore.querySelector('span');
+let textButton = buttonShowMore && buttonShowMore.querySelector('span');
 let flexWrapper = document.querySelector('[data-correct]');
 
-buttonShowMore.addEventListener('click', () => {
+buttonShowMore && buttonShowMore.addEventListener('click', () => {
 
   if (buttonShowMore.dataset.state == 'close') {
     buttonShowMore.dataset.state = 'open';

@@ -68,9 +68,9 @@ class TitleService
         $city = array_values($city->unique()->toArray());
 
         if (count($city) < 1) {
-            $city_id = $request->get('city') ?? CookieController::getCookie(CookieConstants::LOCATION) ?? false;
-            if ($city_id) {
-                $city = City::where('id', $city_id)->get()->first();
+            $cityID = $request->get('city') ?? CookieController::getCookie(CookieConstants::LOCATION) ?? false;
+            if ($cityID) {
+                $city = City::where('id', $cityID)->get()->first();
                 if ($city) $city = [$city['name_for_title']];
                 else $city = [];
             } else {
@@ -115,7 +115,7 @@ class TitleService
 
     public static function getTimeBeforeClose(Model $shop): string
     {
-        $now = mb_strtolower(GetDayTimeService::getFullTime($shop->city->timezone));
+        $now = mb_strtolower(GetDayTimeService::getFullTime($shop->region->timezone));
         $nowData = explode(' ', $now);
         $dayNum = GetDayTimeService::getDayNumByName($nowData[0]);
         $shopOpen = $shop->workingMode[(int)$dayNum - 1]['open_time'];
@@ -284,3 +284,5 @@ class TitleService
         }
     }
 }
+
+

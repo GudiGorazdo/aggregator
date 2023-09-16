@@ -12,7 +12,7 @@ class Area extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function scopeGetByCityId($query, int $id): Builder
+    public function scopeGetByCityID($query, int $id): Builder
     {
         return $query->where('city_id', $id);
     }
@@ -37,4 +37,5 @@ class Area extends Model
         return $this->hasMany(\App\Models\Subway::class);
     }
 }
+
 

@@ -1,36 +1,65 @@
-<section class="similar">
+<section class="categories-section">
     <div class="container">
-        <h3 class="title display-4 text-center">Похожие магазины</h3>
-        <div class="similar-swiper-wrapper">
-            <div class="swiper similar-swiper">
-                <div class="swiper-wrapper">
-                    @foreach ($similar as $shop)
-                        <div class="swiper-slide">
-                            <x-similar-card :shop="$shop"/>
-                        </div>
+        <h2 class="categories__title">Похожие категории</h2>
+
+        <div class="categories__inner">
+            <div>
+                <div class="categories__items">
+                    <a href="#">
+                        <x-icon-categories-page.1 />
+                        <h3>Телефоны</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.2 />
+                        <h3>Фотоаппараты</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.3 />
+                        <h3>Ноутбуки</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.4 />
+                        <h3>Телевизоры</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.5 />
+                        <h3>Персональные ПК</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.2 />
+                        <h3>Телефоны</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.1 />
+                        <h3>Телефоны</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.1 />
+                        <h3>Телефоны</h3>
+                    </a>
+                    <a href="#">
+                        <x-icon-categories-page.1 />
+                        <h3>Телефоны</h3>
+                    </a>
+                </div>
+
+                <button class="btn categories__item-btn categories__expand" data-button="moreactive">
+                    Показать все
+                </button>
+            </div>
+
+            <div class="categories__regions">
+                <div class="categories__regions-list">
+                    @foreach (\App\Models\Area::getByCityID($cityID)->get() as $area)
+                        <a href="#">{{ $area->name }}</a>
                     @endforeach
                 </div>
+                <button class="btn categories__item-btn regions__expand" data-button="district">
+                    Показать все
+                </button>
             </div>
-            <div class="swiper-button-prev similar-swiper-button-prev"></div>
-            <div class="swiper-button-next similar-swiper-button-next"></div>
         </div>
-        {{-- <div class="similar_content mb-3">
-            <div class="similar_categories">
-                <h4 class="">скупка категорий техники:</h4>
-                <ul>
-                    <li>Скупка телефонов</li>
-                    <li>Скупка планшетов</li>
-                    <li>Скупка фотоаппаратов</li>
-                </ul>
-            </div>
-            <div class="similar_areas">
-                <h4 class="">скупка в других районах:</h4>
-                <ul>
-                    <li>Скупка в Центральном районе</li>
-                    <li>Скупка Ленинском районе</li>
-                    <li>Скупка Калининском районе</li>
-                </ul>
-            </div>
-        </div> --}}
     </div>
 </section>
+
+

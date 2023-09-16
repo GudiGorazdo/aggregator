@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use \App\Models\Shop;
 use \App\Services\TitleService;
 use \App\Http\Controllers\CookieController;
+use \App\Http\Controllers\LocationController;
 use \App\Constants\CookieConstants;
 
 class ShopController extends Controller
@@ -18,12 +19,13 @@ class ShopController extends Controller
     {
         $shops = Shop::filter()->get();
         $title = TitleService::getHomePage($request, $shops);
-        return view('pages.home', compact('shops', 'title'));
+        $cityID = LocationController::getCityID();
+        return view('pages.home', compact('shops', 'title', 'cityID'));
     }
 
     public function show(string $id): View|RedirectResponse
     {
-        $shop = Shop::getById((int)$id)->get()->first();
+        $shop = Shop::getByID((int)$id)->get()->first();
         if (!$shop) return redirect()->route('undefined');
         CookieController::setCookie(CookieConstants::LOCATION, $shop->city_id, CookieController::getYears(1));
         $data = $this->getShopData($shop);
@@ -40,3 +42,5 @@ class ShopController extends Controller
         ]);
     }
 }
+
+

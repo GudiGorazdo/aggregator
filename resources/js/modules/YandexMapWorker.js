@@ -16,10 +16,10 @@
   mapAdd = false;
 
   constructor() {
-    this.button = document.getElementById('change-display');
+    this.button = document.querySelector('.mobile-toggle-btn--map');
     this.items = document.querySelectorAll('[data-shop-target]');
-    this.mapWrapper = document.getElementById('shops-map');
-    this.shopList = document.getElementById('shop_list');
+    this.mapWrapper = document.getElementById('filter-map');
+    this.shopList = document.getElementById('shop-list');
     this.shopsData = Array.from(document.querySelectorAll('input[name="shop_coord"]')).map(item => {
       return {
         path: item.dataset.shopPath,
@@ -53,7 +53,7 @@
   }
 
   scrollToShop(id) {
-    const shopItem = document.getElementById(`anchor_${id}`);
+    const shopItem = document.querySelector(`[data-shop-target="${id}"]`);
     const offsetTop = shopItem.offsetTop - this.shopList.offsetTop;
     this.shopList.scrollTo({
       top: offsetTop,
@@ -69,7 +69,7 @@
     const scroll = this.scrollToShop.bind(this);
     const shops = this.items;
     ymaps.ready(function () {
-      var myMap = new ymaps.Map("shops-map", {
+      var myMap = new ymaps.Map("filter-map", {
         center: [average.lat, average.long],
         zoom: 10
       }, {
@@ -90,21 +90,26 @@
             markCollection.each(function (placemark) {
               placemark.options.set('iconColor', '#6c757d');
             });
-            mark.options.set('iconColor', '#1eafed');
+            mark.options.set('iconColor', '#3d39fc');
           };
         })(shopsData[i]));
         markCollection.add(mark);
       }
 
-      shops.forEach(shop => shop.addEventListener('click', (e) => {
-        shops.forEach(shop => shop.classList.remove('show'));
+      document.querySelectorAll('[data-shop-view]').forEach(shop => shop.addEventListener('click', (e) => {
+         shops.forEach(shop => {
+           shop.classList.remove('show');
+           if (e.target.dataset.shopView == shop.dataset.shopTarget) {
+             shop.classList.add('show');
+           }
+         });
         markCollection.each(function (mark) {
           mark.options.set('iconColor', '#6c757d');
-          if (e.target.dataset.shopTarget == mark.properties.get('path')) {
+          if (e.target.dataset.shopView == mark.properties.get('path')) {
             e.target.classList.add('show');
             myMap.setCenter(mark.geometry.getCoordinates());
             // myMap.setZoom(15);
-            mark.options.set('iconColor', '#1eafed');
+            mark.options.set('iconColor', '#3d39fc');
           }
         });
       }));
@@ -150,4 +155,5 @@
     return this.showAllItems();
   }
 }
+
 
