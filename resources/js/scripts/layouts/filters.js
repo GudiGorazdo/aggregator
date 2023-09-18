@@ -98,14 +98,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     })
   });
 
-  // let labelCat = document.querySelectorAll('.accordion__header--categories');
-  // labelCat.forEach(element => {
-  //   element.addEventListener('click', (e) => {
-  //     e.preventDefault();
-  //     element.classList.toggle('cat-active');
-  //   })
-  // });
-
   let brandsList = document.querySelectorAll('.brands-list__item');
   if (brandsList != undefined || brandsList != null) {
     brandsList.forEach(element => {
