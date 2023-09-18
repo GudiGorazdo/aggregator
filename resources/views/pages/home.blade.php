@@ -11,7 +11,7 @@
 @endsection
 
 @section('styles')
-    @vite([ 'resources/js/plugins/star-rating/star-rating.min.css' ])
+    @vite([ 'resources/css/pages/home.scss' ])
 @endsection
 
 @section('content')
@@ -43,8 +43,10 @@
 <script defer src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU" type="text/javascript" crossorigin="anonymous"></script>
 <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 {{-- @vite([ 'resources/js/scripts/pages/home.js' ]) --}}
-@vite([ 'resources/js/scripts/yandexMapWorker.js' ])
-@vite([ 'resources/js/scripts/locationFilter.js' ])
+{{-- @vite([ 'resources/js/bundle.js' ]) --}}
+@vite([ 'resources/js/scripts/pages/home.js' ])
+{{-- @vite([ 'resources/js/scripts/yandexMapWorker.js' ]) --}}
+{{-- @vite([ 'resources/js/scripts/locationFilter.js' ]) --}}
 {{-- @vite([ 'resources/js/scripts/starRating.js' ]) --}}
 @endsection
 

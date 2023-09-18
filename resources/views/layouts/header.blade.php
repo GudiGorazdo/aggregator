@@ -1,7 +1,7 @@
 <header class="header">
-    <div class="container--wide">
+    <div class="container-wide">
         <div class="header__top flex-btw">
-            <button class="btn header__menu-btn">
+            <button id="burger" class="btn header__menu-btn">
                 <x-icon-burger />
             </button>
             <a class="header__logo ml-4" href="/">
@@ -12,19 +12,15 @@
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
             </p>
 
-            <div class="itc-select mr-15" id="citySelect">
-                @if (Illuminate\Support\Facades\Request::path() == '/')
-                <div class="header-city">
-                    {{ app(\App\Services\FilterService::class)->getFilterByName('city')->render(null, false) }}
-                    <div id="city_confirm_popup" class="header-city-popup hidden">
-                        <x-close-btn id="city_popup_close" class="header-city-popup_close" />
-                        <p class="header-city-popup_label">Это ваш город?</p>
-                        <button id="city_confirm_true" class="btn header-city-popup_confirm">Подтвердить</button>
-                    </div>
+            <div class="header-city mr-15">
+                {{ app(\App\Services\FilterService::class)->getFilterByName('city')->render(null, false) }}
+                <div id="city_confirm_popup" class="header-city-popup hidden">
+                    <x-close-btn id="city_popup_close" class="header-city-popup__close" />
+                    <p class="header-city-popup__label">Это ваш город?</p>
+                    <button id="city_confirm_true" class="btn btn--primary header-city-popup__confirm">Подтвердить</button>
                 </div>
-                @endif
             </div>
-            <a class="btn header__top-link" href="#">Добавить организацию</a>
+            <a class="btn btn--primary header__top-link" href="#">Добавить организацию</a>
             <button class="btn header__map-btn">
                 <x-icon-location-icon />
             </button>

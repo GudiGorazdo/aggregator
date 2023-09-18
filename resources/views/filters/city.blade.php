@@ -1,3 +1,3 @@
-<div class="filters-city" id="{{ $filter->getAttribute('id') }}"></div>
+<div class="select-menu" id="{{ $filter->getAttribute('id') }}"></div>
 
 

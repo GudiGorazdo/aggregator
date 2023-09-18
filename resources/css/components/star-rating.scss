@@ -1,0 +1,87 @@
+.star-rating {
+  $widthStep: 3.2em;
+  $width: $widthStep * 5;
+  $heght: 2em;
+  $backgroundSize: 3.5em;
+
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  &_caption {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &_group {
+    position: relative;
+    width: $width;
+    height: $heght;
+    background-image: url('/resources/assets/svg/star-empty.svg');
+    background-size: $backgroundSize;
+    background-repeat: repeat-x;
+    z-index: 0;
+  }
+
+  // &_group:hover {
+  //   background-image: none;
+  // }
+
+  &_radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: $heght;
+    margin: 0;
+    padding: 0;
+    background-size: $backgroundSize;
+    background-repeat: repeat-x;
+    appearance: none;
+    font-size: inherit;
+    cursor: pointer;
+  }
+
+
+  // &_radio:not(:last-child) {
+  //   margin-left: 10px;
+  // }
+
+  $z: 6;
+  @for $i from 1 through 5 {
+    &_radio:nth-of-type(#{$i}) {
+      width: ($i * $widthStep);
+      z-index: $z - $i;
+    }
+  }
+
+  &_radio:checked,
+  &_radio:hover {
+    background-image: url('/resources/assets/svg/star-full.svg');
+  }
+
+  &_radio:hover ~ &_radio {
+    background-image: none;
+  }
+}
+
+.display-rating {
+  display: flex;
+  margin-bottom: 0.5rem;
+
+  &__count {
+    margin-right: 1rem;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: $colorMainBackground;
+  }
+}
+
+
+

@@ -232,14 +232,14 @@
           heroTextBtn.classList.toggle("active");
         });
 
-        const categoriesItems = document.querySelector(".categories__items");
-        const categoriesBtn = document.querySelector(".categories__expand");
+        const categoriesItems = document.querySelector(".similar-categories");
+        const categoriesBtn = document.querySelector(".similar__expand");
         categoriesBtn.addEventListener("click", () => {
           categoriesItems.classList.toggle("active");
           categoriesBtn.classList.toggle("active");
         });
 
-        const regionsItems = document.querySelector(".categories__regions");
+        const regionsItems = document.querySelector(".similar-regions");
         const regionsBtn = document.querySelector(".regions__expand");
         regionsBtn.addEventListener("click", () => {
           regionsItems.classList.toggle("active");
@@ -253,15 +253,15 @@
           filterTextBtn.classList.toggle("active");
         });
 
-        const placesItems = document.querySelector(".filter__content");
-        const placesBtn = document.querySelector(".filter__content-more");
+        const placesItems = document.querySelector(".shop-list");
+        const placesBtn = document.querySelector(".shop-list-more");
         placesBtn && placesBtn.addEventListener("click", () => {
           placesItems.classList.toggle("expanded");
           placesBtn.classList.toggle("expanded");
         });
 
         const filterWrapper = document.querySelector(".filter__wrapper");
-        const filterBtn = document.querySelector(".filter__aside-btn");
+        const filterBtn = document.querySelector(".aside-btn");
 
 
         filterBtn.addEventListener("click", () => {
@@ -299,11 +299,11 @@
 
         const searchFilterBtn = document.querySelector(".categories-select");
         const searchFilterEl = document.querySelector(
-          ".search-section--filter"
+          ".search--filter"
         );
 
         let searchFilterCtrlBtns = document.querySelectorAll(
-          ".search-section__mobile-btn"
+          ".search__mobile-btn"
         );
 
         function myFunction(x) {
@@ -811,7 +811,7 @@ checkboxCrumble.forEach(element => {
   });
 });
 
-let buttonShowMore = document.querySelector('.filter__content-more');
+let buttonShowMore = document.querySelector('.shop-list-more');
 let textButton = buttonShowMore && buttonShowMore.querySelector('span');
 let flexWrapper = document.querySelector('[data-correct]');
 

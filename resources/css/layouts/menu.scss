@@ -1,0 +1,104 @@
+ .menu {
+    height: 70rem;
+    width: 100%;
+    background: $colorSecondaryBackground;
+    position: absolute;
+    top: 10rem;
+    transition: all 0.5s;
+    z-index: 122;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+
+   &__inner {
+     height: 100%;
+     padding-bottom: 2rem;
+     display: flex;
+     justify-content: space-between;
+   }
+
+   &__inner>*+* {
+     margin-left: 2.5rem;
+   }
+
+   &__categories-wrapper {
+     background-color: $colorWhite;
+     flex: 1;
+     padding: 3.2rem 2.5rem;
+     width: 50%;
+     height: 100%;
+   }
+
+   &__title {
+     font-size: 2.7rem;
+     font-weight: 600;
+   }
+
+   &__categories-wrapper .categories-list {
+     flex-wrap: wrap;
+     height: 53.5rem;
+   }
+
+   &__categories-wrapper li {
+     width: 50%;
+   }
+
+   &__categories-wrapper li:nth-child(10n) {
+     margin-top: 0;
+   }
+
+   /* LIST OF REGIONS */
+   &__regions-wrapper {
+     padding-top: 3.2rem;
+     padding-left: 1.4rem;
+     width: 25%;
+   }
+
+   .regions-list a:link,
+   .regions-list a:visited {
+     font-size: 1.5rem;
+     font-weight: 500;
+     color: inherit;
+   }
+
+   .regions-list>*+* {
+     margin-top: 2.8rem;
+   }
+
+   /* PROMOS LIST */
+   &__promos {
+     width: 25%;
+   }
+
+   &__promos>*+* {
+     margin-top: 2.5rem;
+   }
+
+   &__promos li {
+     width: 31rem;
+     height: 14.6rem;
+   }
+
+   &__promos a:link,
+   &__promos a:visited {
+     display: block;
+     width: 100%;
+     height: 100%;
+     overflow: hidden;
+   }
+
+   &__promos img {
+     object-fit: cover;
+     border: 1px solid $colorBlackOpacity;
+   }
+
+   &.active {
+     visibility: visible;
+     pointer-events: all;
+     opacity: 1;
+   }
+}
+
+

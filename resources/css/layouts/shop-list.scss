@@ -1,0 +1,36 @@
+@import './shop-card.scss';
+
+.shop-list {
+  width: 100%;
+  max-width: 60rem;
+  height: 77rem;
+  position: relative;
+  overflow-y: auto;
+  transition: height 0.5s;
+}
+
+.shop-list.expanded {
+  height: 216rem;
+}
+
+.active .shop-list {
+  display: none;
+}
+
+.active .shop-list-more {
+  display: none;
+}
+.shop-list-more>span{
+  transition: all 0.3s ease-in;
+}
+
+.expanded.shop-list-more>span::before{
+  display: none;
+}
+
+.expanded.shop-list-more>span{
+  margin-right: 3rem;
+}
+
+
+

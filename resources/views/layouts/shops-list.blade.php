@@ -1,9 +1,8 @@
-<div id="shop-list" class="filter__content">
+<div id="shop-list" class="shop-list">
     @foreach($shops as $shop)
-        {{-- @php dd($shop->toArray()) @endphp --}}
         <x-shop-card :shop="$shop" />
     @endforeach
-    {{-- <button class="filter__row-action-btn filter__content-more" data-state="close"> --}}
+    {{-- <button class="filter__row-action-btn shop-list-more" data-state="close"> --}}
     {{--     <span>Показать еще</span> --}}
     {{-- </button> --}}
 </div>

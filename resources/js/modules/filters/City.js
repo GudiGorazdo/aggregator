@@ -37,41 +37,19 @@ export default class City {
   query = {};
   activeAreas = [];
 
-  constructor(
-    parentId,
-    areaButtonId,
-    subwayButtonId,
-    cityInputId,
-    cityStorageMark = 'city',
-    startCity = null,
-  ) {
+  constructor(cityStorageMark = 'city') {
     this.queryData();
-
-    // this.parent = document.getElementById(parentId);
-    // this.parent.addEventListener('click', this.toggleOpen.bind(this));
-
-    this.buttons.area = areaButtonId;
-    this.buttons.subway = subwayButtonId;
-    this.city.input = document.getElementById(cityInputId);
-
     this.city.storageMark = cityStorageMark;
+    this.popup.wrapper = document.getElementById('city_confirm_popup');
+    this.popup.close = document.getElementById('city_popup_close');
+    this.popup.button = document.getElementById('city_confirm_true');
 
-    if (this.checkPath()) {
-      this.popup.wrapper = document.getElementById('city_confirm_popup');
-      this.popup.close = document.getElementById('city_popup_close');
-      this.popup.button = document.getElementById('city_confirm_true');
-
-      if (!this.cityCheckConfirm()) {
-        this.popup.close.addEventListener('click', this.popupClose.bind(this));
-        this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
-      }
+    if (!this.cityCheckConfirm()) {
+      this.popup.close.addEventListener('click', this.popupClose.bind(this));
+      this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
     }
 
     this.initialize();
-  }
-
-  checkPath = () => {
-    return window.location.pathname == '/';
   }
 
   initialize = async () => {
@@ -141,57 +119,10 @@ export default class City {
     return false;
   }
 
-  // addLocationFilters = async (city) => {
-  //   const areas = await this.addFilter(`/api/location/${city}${window.location.search}`);
-  //   if (areas) {
-  //     if (this.start) this.start = false;
-  //     else this.resetAreasAndSubways();
-  //     this.addAreaListeners();
-  //   }
-  // }
-
-  // getStartId = async () => {
-  //   let resp = await fetch('/api/data/location_start');
-  //   resp = await resp.text();
-  //   return resp;
-
-  // }
-
   getCurrentCity = async (all) => {
-    if (!this.checkPath()) return;
-
     if (this.city.saved) {
       return this.setCurrentCity(this.city.saved);
     }
-
-    // const start = () => this.getStartId();
-    // const setCookie = (id) => this.setCookie(id);
-    // const setCity = (id) => this.setCurrentCity(id);
-
-    // await ymaps.ready(async function () {
-    //   await ymaps.geolocation.get({}).then(async function (result) {
-    //     const userLocation = result.geoObjects.get(0).geometry.getCoordinates();
-    //     await ymaps.geocode(userLocation, {
-    //       kind: 'locality'
-    //     }).then(async function (res) {
-    //       const city = res.geoObjects.get(0).getLocalities()[0];
-    //       const check = all.find(item => item.name == city);
-    //       if (check) {
-    //         // setCity(city.id);
-    //         window.location.href = `/?city=${city.id}`;
-    //       }
-    //       else {
-    //         const sartId = await start();
-    //         const city = all.find(city => city.id == sartId);
-    //         if (city) {
-    //           setCookie(city.id);
-    //           // setCity(city.id);
-    //           window.location.href = `/?city=${city.id}`;
-    //         }
-    //       }
-    //     });
-    //   });
-    // });
   }
 
   setCurrentCity(current) {
@@ -199,14 +130,8 @@ export default class City {
   }
 
   onSelectCity = (id) => {
-    // localStorage.setItem(this.city.storageMark, id);
-    // // this.addLocationFilters(id);
-    // this.activeAreas = [];
     this.city.current = id;
-    if (this.city?.input?.value) {
-      this.city.input.value = id;
-    }
-    if (!this.start && this.checkPath()) {
+    if (!this.start) {
       this.cityConfirm();
       this.setCookie(id);
       window.location.href = `/?city=${id}`;
@@ -218,9 +143,9 @@ export default class City {
       this.city.options.data.push({
         value: city.name,
         index: city.id,
-        attr: {
-          'val': city.id
-        },
+        // attr: {
+        //   'val': city.id
+        // },
       });
     });
     this.city.options.onSelect = (item) => {

@@ -1,0 +1,43 @@
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &>*+* {
+    margin-top: 1.8rem;
+  }
+
+  &>li {
+    min-height: 4rem;
+    padding-right: 2rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: $colorMainBackground;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+  }
+
+  & a:link,
+  & a:visited {
+    color: inherit;
+    display: flex;
+    align-items: center;
+    word-break: break-word;
+  }
+
+  &__icon {
+    width: 4rem;
+    height: 4rem;
+    margin-right: 2rem;
+    padding: 0.6rem;
+    background: $colorSecondary;
+    border-radius: 1rem;
+    -o-object-fit: cover;
+    object-fit: cover;
+    transition: all 0.3s;
+  }
+}
+
+
+

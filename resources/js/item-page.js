@@ -5,7 +5,7 @@ var starRatingControl = new StarRating(".star-rating", {
 
 
 
-//добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы 
+//добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы
 let listSimilar = document.querySelector('#scroll-list');
 listSimilar.addEventListener('wheel', function (event) {
   event.preventDefault();
@@ -267,14 +267,14 @@ window.onload = function () {
           // for (i = 0; )
         });
 
-        const categoriesItems = document.querySelector(".categories__items");
-        const categoriesBtn = document.querySelector(".categories__expand");
+        const categoriesItems = document.querySelector(".similar-categories");
+        const categoriesBtn = document.querySelector(".similar__expand");
         categoriesBtn.addEventListener("click", () => {
           categoriesItems.classList.toggle("active");
           categoriesBtn.classList.toggle("active");
         });
 
-        const regionsItems = document.querySelector(".categories__regions");
+        const regionsItems = document.querySelector(".similar-regions");
         const regionsBtn = document.querySelector(".regions__expand");
         regionsBtn.addEventListener("click", () => {
           regionsItems.classList.toggle("active");
@@ -357,7 +357,7 @@ window.onload = function () {
         x.addListener(myFunction);
 
 
-        //добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы 
+        //добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы
         let menuListActive = document.querySelector('.menu-list');
         // console.log(menuListActive);
         if (screen.width >= 900) {

@@ -1,43 +1,43 @@
-<div class="filter__cart-item" data-shop-target={{ $shop->id }}>
+<div class="shop-card" data-shop-target={{ $shop->id }}>
     <input type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
-    <div class="filter__item-content">
-        <div class="filter__top-wrapper">
-            <div class="filter__top-img">
+    <div class="shop-card__content">
+        <div class="shop-card__header">
+            <div class="shop-card__logo">
                 <img src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="filter img" />
             </div>
-            <div class="filter__top-info">
-                <h4 class="filter__top-title">
+            <div class="shop-card__info">
+                <h4 class="shop-card__title">
                     <a href="{{ route('shop', ['id' => $shop->id]) }}">{{ $shop->name }}</a>
                 </h4>
-                <div class="filter__top-rating">
-                  <p class="filter__top-num">{{ $shop->average_rating }}</p>
+                <div class="display-rating">
+                  <p class="display-rating__count">{{ $shop->average_rating }}</p>
                   <x-star-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" />
                 </div>
-                <div class="filter__top-adress--wrapper">
-                    <p class="filter__top-time">Работает до 19:00</p>
-                    <a class="filter__top-adress" href="#">{{ $shop->address }}</a>
+                <div class="shop-card__data">
+                    <p class="shop-card__time">Работает до 19:00</p>
+                    <a class="shop-card__address" href="#">{{ $shop->address }}</a>
                 </div>
             </div>
         </div>
-        <div class="filter__bottom-wrapper">
-            <p class="filter__bottom-text">{{ $shop->description }}</p>
-            <a class="filter__bottom-btn" href="#">Отправить заявку</a>
+        <div class="shop-card__footer">
+            <p class="shop-card__description">{{ $shop->description }}</p>
+            <a class="btn btn--secondary shop-card__action" href="#">Отправить заявку</a>
         </div>
     </div>
-    <div class="filter__item-contacts">
-        <a class="btn filter__item-contact filter__item-contact--mobile-btn" href="#">
+    <div class="shop-card__contacts">
+        <a class="btn shop-card__contact shop-card__contact--mobile-btn" href="#">
             Заявка
         </a>
-        <x-social-item className="filter__item-contact filter__item-contact--telegram">
+        <x-social-item className="shop-card__contact shop-card__contact--telegram">
             <x-icon-telegram-icon />
         </x-social-item>
-        <x-social-item className="filter__item-contact filter__item-contact--whatsapp">
+        <x-social-item className="shop-card__contact shop-card__contact--whatsapp">
             <x-icon-whatsapp-icon />
         </x-social-item>
-        <x-social-item className="filter__item-contact filter__item-contact--tel">
+        <x-social-item className="shop-card__contact shop-card__contact--tel">
             <x-icon-tel-icon />
         </x-social-item>
-        <button class="filter__item-location" data-shop-view="{{ $shop->id }}"><x-icon-location-icon /></button>
+        <button class="btn shop-card__show-location" data-shop-view="{{ $shop->id }}"><x-icon-location-icon /></button>
     </div>
 </div>
 

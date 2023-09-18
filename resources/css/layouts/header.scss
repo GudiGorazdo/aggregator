@@ -1,0 +1,143 @@
+.header {
+  position: fixed;
+  width: 100vw;
+  background: $colorSecondaryBackground;
+  z-index: 100;
+
+  &__top {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    padding-right: 6rem;
+  }
+
+  &__menu-btn,
+  &__map-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &__menu-btn {
+    > svg > path {
+      transition: all 0.3s linear;
+    }
+  }
+
+  .active__cross {
+    > svg > path {
+      &:nth-child(2) {
+        display: none;
+      }
+      &:nth-child(1) {
+        transform: rotate(45deg) translateY(-1px) translateX(1px);
+      }
+      &:nth-child(3) {
+        transform: rotate(-45deg) translateY(-3px) translateX(-9px);
+      }
+    }
+  }
+
+  &__map-btn {
+    display: none;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+
+    img {
+      max-height: 5rem;
+      width: auto;
+    }
+
+    > * + * {
+      margin-left: 3rem;
+    }
+  }
+
+  &__top-text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+    margin-left: 2.4rem;
+  }
+
+  &__top-link {
+    &:link,
+    &:visited {
+      font-size: 1.5rem;
+      line-height: 1.4rem;
+      font-weight: 600;
+      padding: 1.3rem 1.8rem 1.3rem 4rem;
+      white-space: pre;
+      max-width: 24rem;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        background-image: url("/resources/assets/svg/add-icon.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+.header-city {
+  position: relative;
+  min-width: 21rem;
+}
+
+.header-city-popup {
+  position: absolute;
+  bottom: -13.5em;
+  right: 0em;
+  padding: 1em;
+  padding-top: 2.5em;
+  border: 1px solid $color_4;
+  border-radius: 1em;
+  background-color: $colorWhite;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: 26px;
+    top: -9px;
+    width: 2em;
+    height: 2em;
+    border-bottom: 1px solid $color_4;
+    border-left: 1px solid $color_4;
+    background-color: $colorWhite;
+    transform: rotate(135deg);
+  }
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  &__close {
+    top: 0;
+    right: 0;
+  }
+  &__label {
+    margin-bottom: 1em;
+  }
+  &__confirm {
+    padding: 1rem 2rem;
+  }
+  &__confirm,
+  &__label {
+    font-size: 2em;
+    white-space: nowrap;
+  }
+}
+
+

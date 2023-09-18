@@ -6,28 +6,26 @@
 
 @section('styles')
 <link rel="preload" href="{{ asset('assets/images/Loading_black.gif') }}" as="image">
+@vite([ 'resources/css/pages/shop.css' ])
 @endsection
 
 @section('content')
 <section class="carousel-section">
-    <div class="carousel">
-        <a href="#after-slides" class="skip"> Skip Slides </a>
-        <div class="carousel__container" tabindex="0">
-            <ul class="slides">
-                @foreach ($photos as $photo)
-                <li class="slide">
-                    <img class="preview_img" src="{{ $photo->name . '/id/' . rand(10, 100) }}/150/150" alt="фото компании {{ $shop->name }}" />
-                </li>
-                @endforeach
-            </ul>
+    <div class="preview carousel swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            @foreach ($photos as $photo)
+            <div class="preview__slide swiper-slide">
+                <img class="preview__img" src="{{ $photo->name . '/id/' . rand(10, 100) }}/240/240" alt="фото компании {{ $shop->name }}" />
+            </div>
+            @endforeach
         </div>
+
         <div class="actions">
-            <button type="button" class="btn previous" aria-label="Previous slide">
-                <img src="img/icon/slider-arrow-left.svg" alt="Вперед" />
-            </button>
-            <button type="button" class="btn forwards" aria-label="Next slide">
-                <img src="img/icon/slider-arrow-right.svg" alt="Вперед" />
-            </button>
+            <!-- If we need navigation buttons -->
+            <div class="btn previous preview__prev"><x-icon-slider-arrow-left /></div>
+            <div class="btn forwards preview__next"><x-icon-slider-arrow-right /></div>
         </div>
     </div>
 </section>
@@ -375,7 +373,7 @@
 </section>
 
 <section class="brands-section">
-    <div class="brands__container container--wide">
+    <div class="brands__container container-wide">
         <div class="brands__content">
             <h2 class="brands__heading">Можно продать</h2>
 
@@ -3415,13 +3413,13 @@
     </ul>
 </section>
 
-<section class="categories-section">
+<section class="similar">
     <div class="container">
-        <h2 class="categories__title">Похожие категории</h2>
+        <h2 class="similar__title">Похожие категории</h2>
 
-        <div class="categories__inner">
+        <div class="similar__inner">
             <div>
-                <div class="categories__items">
+                <div class="similar-categories">
                     <a href="#">
                         <img src="img/categories/categories-page/1.svg" alt="" />
                         <h3>Телефоны</h3>
@@ -3460,13 +3458,13 @@
                     </a>
                 </div>
 
-                <button class="btn categories__item-btn categories__expand" data-button="moreactive">
+                <button class="btn similar__more-btn similar__expand" data-button="moreactive">
                     Показать все
                 </button>
             </div>
 
-            <div class="categories__regions">
-                <div class="categories__regions-list">
+            <div class="similar-regions">
+                <div class="similar-regions__list">
                     <a href="#">Центральный район</a>
                     <a href="#">Ленинский район</a>
                     <a href="#">Свердловский район</a>
@@ -3479,7 +3477,7 @@
                     <a href="#">Южный район</a>
                 </div>
                 <!-- <a href="#">Скупка в других районах</a> -->
-                <button class="btn categories__item-btn regions__expand" data-button="district">
+                <button class="btn similar__more-btn regions__expand" data-button="district">
                     Показать все
                 </button>
             </div>

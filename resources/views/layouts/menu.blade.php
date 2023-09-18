@@ -1,12 +1,12 @@
-<div class="menu-list">
-    <div class="menu-list__inner container--wide">
-        <div class="menu-list__categories-wrapper">
-            <h2 class="menu-list__title mb-2">Категории</h2>
+<div class="menu">
+    <div class="menu__inner container-wide">
+        <div class="menu__categories-wrapper">
+            <h2 class="menu__title mb-2">Категории</h2>
             <ul class="categories-list">
                 @foreach($categories as $category)
                 <li>
                     <a href="#">
-                        <x-icon-pc-icon />
+                        <x-icon-pc-icon class="categories-list__icon" />
                         {{ $category->name }}
                     </a>
                 </li>
@@ -14,8 +14,8 @@
             </ul>
         </div>
 
-        <section class="search-section search-section--menu">
-            <div class="search-section__form">
+        <section class="search search--menu">
+            <div class="search__form">
                 <form onsubmit="event.preventDefault();" role="search">
                     <input id="search" type="search" placeholder="Поиск" autofocus required />
                     <button type="submit">
@@ -28,7 +28,7 @@
                 @foreach($categories as $category)
                 <li>
                     <a href="#">
-                        <x-icon-pc-icon />
+                        <x-icon-pc-icon class="categories-list__icon" />
                         {{ $category->name }}
                     </a>
                 </li>
@@ -36,8 +36,8 @@
             </ul>
         </section>
 
-        <div class="menu-list__regions-wrapper">
-            <h2 class="menu-list__title mb-2">Регионы</h2>
+        <div class="menu__regions-wrapper">
+            <h2 class="menu__title mb-2">Регионы</h2>
             <ul class="regions-list">
                 @foreach($areas as $area)
                 <li>
@@ -49,7 +49,7 @@
             </ul>
         </div>
 
-        <ul class="menu-list__promos">
+        <ul class="menu__promos">
             @for($i=0; $i<3; $i++)
                 <li>
                     <a href="#">

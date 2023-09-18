@@ -1,16 +1,11 @@
-<fieldset class="filter__aside-toggles">
+<fieldset class="aside-toggles">
     @foreach ($filter->getItems() as $f)
-        <x-checkbox-slider
-            id="{{ $f['name'] }}"
-            name="{{ $f['name'] }}"
-            value="1"
-            line="{{ true }}"
-            active="{{ $request[$f['name']] ?? false }}"
-            poslabel="before"
-        >
+    <div class="aside-toggle-box flex-btw {{ $classNamesWrapper ?? '' }}">
+        <span class="aside-toggle-label">
             {{ $f['label'] }}
-        </x-checkbox-slider>
+        </span>
+        <x-checkbox-switch id="{{ $f['name'] }}" name="{{ $f['name'] }}" />
+    </div>
     @endforeach
 </fieldset>
-
 

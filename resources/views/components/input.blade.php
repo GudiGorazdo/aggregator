@@ -15,12 +15,12 @@
 <div {{ $classNamesWrapper ? 'class=' . $classNamesWrapper : '' }}>
     <label
         for="{{ $inputId }}"
-        class="form-label {{ $classNamesLabel ?? '' }}"
+        class="{{ $classNamesLabel ?? '' }}"
         {{ !isset($label) ? "hidden" : '' }}
     >{{ $label ?? '' }}</label>
     <input
         id="{{ $inputId }}"
-        class="form-control {{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
+        class="{{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
         type="{{ $type }}"
         name="{{ $name }}"
         value="{{ old($name) ?? ($value ?? '') }}"
@@ -30,7 +30,7 @@
     >
     @if (isset($description))
         <div
-            class="form-text {{ $classNamesDescription ?? '' }}"
+            class="{{ $classNamesDescription ?? '' }}"
             {{ $descriprionId ? "id=" . $descriprionId : ""}}
         >{{ $description }}</div>
     @endif
@@ -38,3 +38,4 @@
         <p class="invalid-feedback">{{ $message }}</p>
     @enderror
 </div>
+

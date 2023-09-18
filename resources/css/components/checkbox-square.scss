@@ -1,0 +1,38 @@
+.checkbox-square {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  display: flex;
+  align-items: center;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &__icon {
+    $size: 4rem;
+    width: $size;
+    height: $size;
+    margin-right: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    background-color: $colorSecondary;
+    flex-shrink: 0;
+    transition: all 0.2s linear;
+  }
+
+  &__input:checked ~ &__icon {
+    background-color: $colorPrimary;
+  }
+}
+
+
+

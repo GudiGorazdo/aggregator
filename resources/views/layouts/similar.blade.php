@@ -1,10 +1,10 @@
-<section class="categories-section">
+<section class="similar">
     <div class="container">
-        <h2 class="categories__title">Похожие категории</h2>
+        <h2 class="similar__title">Похожие категории</h2>
 
-        <div class="categories__inner">
+        <div class="similar__inner">
             <div>
-                <div class="categories__items">
+                <div class="similar-categories">
                     <a href="#">
                         <x-icon-categories-page.1 />
                         <h3>Телефоны</h3>
@@ -43,18 +43,18 @@
                     </a>
                 </div>
 
-                <button class="btn categories__item-btn categories__expand" data-button="moreactive">
+                <button class="btn similar__more-btn similar__expand" data-button="moreactive">
                     Показать все
                 </button>
             </div>
 
-            <div class="categories__regions">
-                <div class="categories__regions-list">
+            <div class="similar-regions">
+                <div class="similar-regions__list">
                     @foreach (\App\Models\Area::getByCityID($cityID)->get() as $area)
                         <a href="#">{{ $area->name }}</a>
                     @endforeach
                 </div>
-                <button class="btn categories__item-btn regions__expand" data-button="district">
+                <button class="btn similar__more-btn regions__expand" data-button="district">
                     Показать все
                 </button>
             </div>
