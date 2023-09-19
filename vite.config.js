@@ -18,8 +18,10 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
-        'resources/scss/app.scss',
-        'resources/js/app.js',
+        // 'resources/scss/app.scss',
+        'resources/css/pages/home.scss',
+        'resources/css/app.scss',
+        // 'resources/js/app.js',
         'resources/js/scripts/pages/home.js',
         'resources/js/scripts/pages/shop.js',
       ],

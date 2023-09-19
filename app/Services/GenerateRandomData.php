@@ -402,10 +402,16 @@ class GenerateRandomData
     {
         $faker = Factory::create();
 
-        $services = ['Яндекс карты', 'Google maps', '2Gis', 'Авито'];
+        $services = [
+            ['Яндекс карты', 'yandex-logo.svg'],
+            ['Google maps', 'google-maps-logo.svg'],
+            ['2Gis', '2gis-logo.svg'],
+            ['Авито', 'avito-logo.svg']
+        ];
         foreach ($services as $s) {
             \Illuminate\Support\Facades\DB::table('services')->insert([
-                'name' => $s,
+                'name' => $s[0],
+                'logo' => $s[1],
             ]);
         }
 

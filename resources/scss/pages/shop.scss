@@ -602,7 +602,7 @@
   }
 }
 
-.photos_close.button_close {
+.photos_close.button-close {
   top: 0em;
   right: 0.3em;
   width: 3em;
@@ -610,8 +610,8 @@
   z-index: 2;
 }
 
-.photos_close.button_close span.close-icon::after,
-.photos_close.button_close span.close-icon::before {
+.photos_close.button-close span.close-icon::after,
+.photos_close.button-close span.close-icon::before {
   background-color: $light;
   height: 3px;
 }

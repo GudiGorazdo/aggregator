@@ -14,13 +14,13 @@
     pointer-events: none;
   }
 
-  &_caption {
+  &__caption {
     position: absolute;
     opacity: 0;
     visibility: hidden;
   }
 
-  &_group {
+  &__group {
     position: relative;
     width: $width;
     height: $heght;
@@ -30,11 +30,7 @@
     z-index: 0;
   }
 
-  // &_group:hover {
-  //   background-image: none;
-  // }
-
-  &_radio {
+  &__radio {
     position: absolute;
     top: 0;
     left: 0;
@@ -48,40 +44,50 @@
     cursor: pointer;
   }
 
-
-  // &_radio:not(:last-child) {
-  //   margin-left: 10px;
-  // }
-
   $z: 6;
   @for $i from 1 through 5 {
-    &_radio:nth-of-type(#{$i}) {
+    &__radio:nth-of-type(#{$i}) {
       width: ($i * $widthStep);
       z-index: $z - $i;
     }
   }
 
-  &_radio:checked,
-  &_radio:hover {
+  &__radio:checked,
+  &__radio:hover {
     background-image: url('/resources/assets/svg/star-full.svg');
   }
 
-  &_radio:hover ~ &_radio {
+  &__radio:hover ~ &__radio {
     background-image: none;
   }
-}
 
-.display-rating {
-  display: flex;
-  margin-bottom: 0.5rem;
+  // SIZE 25
+  $widthStep_25: 4.92em;
+  $width_25: $widthStep_25 * 5;
+  $heght_25: 2.5em;
+  $backgroundSize_25: 5.5em;
 
-  &__count {
-    margin-right: 1rem;
-    font-size: 3.6rem;
-    font-weight: 700;
-    color: $colorMainBackground;
+  &--25  &__group {
+      width: $width_25;
+      height: $heght_25;
+      background-size: $backgroundSize_25;
+  }
+
+
+  &--25  &__radio {
+    height: $heght_25;
+    background-size: $backgroundSize_25;
+  }
+
+  $z: 6;
+  @for $i from 1 through 5 {
+    &--25  &__radio:nth-of-type(#{$i}) {
+      width: ($i * $widthStep_25);
+      z-index: $z - $i;
+    }
   }
 }
+
 
 
 

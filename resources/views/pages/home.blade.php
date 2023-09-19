@@ -15,9 +15,31 @@
 @endsection
 
 @section('content')
-@include('layouts.hero', ['title' => $title])
+<section class="hero container-wide mb-45">
+    <div class="hero-content flex-ctr">
+        <h1 class="hero-title">{{ $title }}</h1>
+        <div class="hero-text-box">
+            <p class="hero-text">
+                Срочный выкуп ноутбуков, телефонов, планшетов, фотоаппаратов в
+                любом состоянии.
+            </p>
+            <p class="hero-text">
+                Срочный выкуп ноутбуков, телефонов, планшетов, фотоаппаратов в
+                любом состоянии.
+            </p>
+            <p class="hero-text">
+                Срочный выкуп ноутбуков, телефонов, планшетов, фотоаппаратов в
+                любом состоянии.
+            </p>
+            <button class="btn hero-text-expand-btn"></button>
+        </div>
+        <a class="btn btn--primary hero-btn" href="#">Отправить заявку всем</a>
+    </div>
+</section>
+
 @include('layouts.filter', ['shops' => $shops])
 @include('layouts.similar', ['cityID' => $cityID])
+
 <section class="mobile-nav-section">
     <div class="mobile-nav-section__box">
         <button class="btn mobile-filter-toggle-btn">

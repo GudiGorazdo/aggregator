@@ -6,143 +6,78 @@
 
 @section('styles')
 <link rel="preload" href="{{ asset('assets/images/Loading_black.gif') }}" as="image">
-@vite([ 'resources/css/pages/shop.css' ])
+@vite([ 'resources/css/pages/shop.scss' ])
 @endsection
 
 @section('content')
+<input id="shop_coord" type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
 <section class="carousel-section">
-    <div class="preview carousel swiper">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-            <!-- Slides -->
-            @foreach ($photos as $photo)
-            <div class="preview__slide swiper-slide">
-                <img class="preview__img" src="{{ $photo->name . '/id/' . rand(10, 100) }}/240/240" alt="фото компании {{ $shop->name }}" />
+    <x-carousel
+        className='preview carousel'
+        classNameSlide="preview__slide"
+        classNameImage="preview__img"
+        :items="json_decode($shop->photos)"
+        alt="фото компании {{ $shop->name }}"
+    >
+        <x-slot name="navigation">
+            <div class="actions">
+                <div class="btn previous"><x-icon-slider-arrow-left /></div>
+                <div class="btn forwards"><x-icon-slider-arrow-right /></div>
             </div>
-            @endforeach
-        </div>
-
-        <div class="actions">
-            <!-- If we need navigation buttons -->
-            <div class="btn previous preview__prev"><x-icon-slider-arrow-left /></div>
-            <div class="btn forwards preview__next"><x-icon-slider-arrow-right /></div>
-        </div>
-    </div>
+        </x-slot>
+    </x-carousel>
 </section>
 
 <section class="item-header-section">
     <div class="container">
         <div class="item-header-section__inner">
             <h1 class="item-title">
-                Комиссионный магазин<br />Вселенское счастье
+                {{ $shop->name }}
             </h1>
             <a href="#" class="btn btn--apply">Заявка на оценку</a>
         </div>
     </div>
 
-    <a href="#" class="btn item-header-section__back-btn"><img src="img/icon/slider-arrow-left.svg" alt="Назад" /></a>
+    <a href="#" class="btn item-header-section__back-btn"><x-icon-slider-arrow-left /></a>
 </section>
 
 <section class="item-body-section">
     <div class="item-info container">
         <div class="item-info__left-col">
             <div class="item-info__address-box">
-                <img src="img/item/location.svg" width="40" height="40" alt="Адрес" class="item-info__address-icon" />
-                <span class="item-info__address-text">Санкт-Петербург, ул. Ленина, д. 100</span>
+                <x-icon-location class="item-info__address-icon"/>
+                <span class="item-info__address-text">{{ $shop->address }}</span>
             </div>
 
             <div class="item-info__links-box">
-                <a href="lombard.ru" class="item-info__link item-info__link--site">www.lombard.ru</a>
-                <a href="vk.com/friday_ru" class="item-info__link item-info__link--vk">vk.com/friday_ru</a>
+                @if (!is_null($web))
+                    <a href="{{ $web[0] }}" class="item-info__link item-info__link--site">{{ $web[0] }}</a>
+                @endif
+                @if (!is_null($shop->vk))
+                    <a href="vk.com/{{ $shop->vk[0] }}" class="item-info__link item-info__link--vk">vk.com/{{ $shop->vk }}</a>
+                @endif
             </div>
 
             <div class="item-info__rating-box">
                 <h2 class="item-info__heading mb-12">Общий рейтинг</h2>
-                <div class="item-info__rating">
-                    <p class="item-info__rating-num">3.0</p>
-                    <select class="star-rating">
-                        <option value="">Выберите рейтинг</option>
-                        <option value="5">Отлично</option>
-                        <option value="4">Очень хорошо</option>
-                        <option value="3">Удовлетворительно</option>
-                        <option value="2">Плохо</option>
-                        <option value="1">Ужасно</option>
-                    </select>
-                </div>
-
+                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" size="25"/>
                 <table class="item-info__rating-table">
+                    @foreach($shop->services as $service)
                     <tr>
                         <th class="item-info__rating-table--logo-box">
-                            <img src="img/item/yandex-logo.svg" alt="Яндекс Карты" />
+                            <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         </th>
                         <td>
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
-                                <select class="star-rating">
-                                    <option value="">Выберите рейтинг</option>
-                                    <option value="5">Отлично</option>
-                                    <option value="4">Очень хорошо</option>
-                                    <option value="3">Удовлетворительно</option>
-                                    <option value="2">Плохо</option>
-                                    <option value="1">Ужасно</option>
-                                </select>
-                            </div>
+                            <x-display-rating
+                                rating="{{ $service->pivot->rating }}"
+                                disabled={{true}}
+                                shopID="{{ $shop->id }}"
+                                classNameCount="item-info__rating-table--rating-num"
+                                className="item-info__rating-table--rating"
+                            />
                         </td>
                     </tr>
-                    <tr>
-                        <th class="item-info__rating-table--logo-box">
-                            <img src="img/item/google-maps-logo.svg" alt="Яндекс Карты" />
-                        </th>
-                        <td>
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
-                                <select class="star-rating">
-                                    <option value="">Выберите рейтинг</option>
-                                    <option value="5">Отлично</option>
-                                    <option value="4">Очень хорошо</option>
-                                    <option value="3">Удовлетворительно</option>
-                                    <option value="2">Плохо</option>
-                                    <option value="1">Ужасно</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="item-info__rating-table--logo-box">
-                            <img src="img/item/2gis-logo.svg" alt="Яндекс Карты" />
-                        </th>
-                        <td>
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
-                                <select class="star-rating">
-                                    <option value="">Выберите рейтинг</option>
-                                    <option value="5">Отлично</option>
-                                    <option value="4">Очень хорошо</option>
-                                    <option value="3">Удовлетворительно</option>
-                                    <option value="2">Плохо</option>
-                                    <option value="1">Ужасно</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="item-info__rating-table--logo-box">
-                            <img src="img/item/avito-logo.svg" alt="Яндекс Карты" />
-                        </th>
-                        <td>
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
-                                <select class="star-rating">
-                                    <option value="">Выберите рейтинг</option>
-                                    <option value="5">Отлично</option>
-                                    <option value="4">Очень хорошо</option>
-                                    <option value="3">Удовлетворительно</option>
-                                    <option value="2">Плохо</option>
-                                    <option value="1">Ужасно</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
+                @endforeach
                 </table>
             </div>
 
@@ -167,205 +102,53 @@
             <div class="item-info__right-col-box">
                 <div class="item-info__right-info-box">
                     <div class="item-info__address-box">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" class="item-info__address-icon" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="40" height="40" rx="12" fill="#B4E040" />
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.9519 11.8336C14.5929 11.0366 14.2155 11.0183 13.875 11.0092C13.5988 11 13.2767 11 12.9546 11C12.6324 11 12.117 11.1191 11.6752 11.5954C11.2334 12.0718 10 13.226 10 15.5802C10 17.9253 11.7212 20.1971 11.9605 20.5177C12.1998 20.8384 15.2832 25.8125 20.1522 27.727C24.2021 29.3209 25.0305 29.0003 25.9049 28.9179C26.7793 28.8354 28.7398 27.7637 29.1448 26.6461C29.5405 25.5285 29.5405 24.5758 29.4209 24.3743C29.3012 24.1728 28.9791 24.0537 28.5005 23.8155C28.0219 23.5773 25.6656 22.4231 25.2238 22.2582C24.782 22.1025 24.4598 22.0201 24.1469 22.4964C23.8247 22.9727 22.9043 24.0445 22.6282 24.3651C22.3521 24.6858 22.0667 24.7224 21.5881 24.4842C21.1095 24.246 19.5632 23.7422 17.7315 22.1117C16.3049 20.8475 15.3384 19.2811 15.0623 18.8047C14.7862 18.3284 15.0347 18.0719 15.274 17.8337C15.4857 17.623 15.7526 17.2749 15.9919 17.0001C16.2313 16.7253 16.3141 16.5238 16.4706 16.2032C16.627 15.8825 16.5534 15.6077 16.4337 15.3695C16.3141 15.1405 15.3753 12.7771 14.9519 11.8336Z" fill="#25313A" />
-                        </svg>
+                        <x-icon-contacts class="item-info__address-icon" />
                         <span class="item-info__address-text item-info__contacts-text">Контакты</span>
                     </div>
 
                     <div class="item-info__contacts-box">
                         <div class="item-info__phones-box">
-                            <a href="tel:+70000000000" class="item-info__phone">+ 7 (000) 000-00-00
-                            </a>
-                            <a href="tel:+70000000000" class="item-info__phone">+ 7 (000) 000-00-00
-                            </a>
+                            <a href="tel:{{ $shop->phone }}" class="item-info__phone">{{ $shop->phone }}</a>
+                            @if (!is_null($additionalPhones))
+                                @foreach($additionalPhones as $phone)
+                                    <a href="tel:{{ $phone }}" class="item-info__phone">{{ $phone }}</a>
+                                @endforeach
+                            @endif
                         </div>
 
                         <div class="item-info__socials-box">
-                            <a href="#" class="btn item-info__social-link">
-                                <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.05368 20.2889C14.8841 17.7487 18.7719 16.074 20.7172 15.2649C26.2715 12.9547 27.4256 12.5534 28.1778 12.5402C28.3433 12.5373 28.7132 12.5783 28.9528 12.7727C29.1551 12.9369 29.2108 13.1587 29.2375 13.3143C29.2641 13.47 29.2973 13.8246 29.2709 14.1017C28.9699 17.2641 27.6676 24.9386 27.005 28.4806C26.7246 29.9794 26.1726 30.4819 25.6382 30.5311C24.4767 30.638 23.5948 29.7635 22.4699 29.0261C20.7096 27.8723 19.7152 27.154 18.0066 26.028C16.0319 24.7268 17.312 24.0116 18.4373 22.8428C18.7318 22.5369 23.8492 17.8823 23.9482 17.46C23.9606 17.4072 23.9721 17.2104 23.8551 17.1065C23.7382 17.0025 23.5656 17.0381 23.4411 17.0663C23.2645 17.1064 20.4525 18.965 15.0049 22.6423C14.2067 23.1904 13.4838 23.4574 12.836 23.4434C12.1219 23.428 10.7483 23.0397 9.72709 22.7077C8.47459 22.3006 7.47913 22.0853 7.56581 21.3939C7.61096 21.0337 8.10692 20.6654 9.05368 20.2889Z" fill="white" />
-                                </svg>
-                            </a>
-                            <a href="#" class="btn item-info__social-link">
-                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 22L1.55492 16.3536C0.5936 14.6963 0.0893027 12.8194 0.0945558 10.9007C0.0945558 4.88831 5.01146 0 11.0473 0C13.9785 0 16.7311 1.13451 18.7956 3.19439C20.8653 5.25428 22.0052 7.99382 22 10.9059C22 16.9183 17.0831 21.8066 11.042 21.8066H11.0368C9.20343 21.8066 7.40162 21.3465 5.79942 20.4786L0 22ZM6.07784 18.5076L6.40878 18.7063C7.80611 19.5323 9.4083 19.9663 11.042 19.9715H11.0473C16.064 19.9715 20.1509 15.9092 20.1509 10.9111C20.1509 8.49049 19.2053 6.21625 17.4876 4.50143C15.7698 2.7866 13.4795 1.84553 11.0473 1.84553C6.03056 1.8403 1.94365 5.90257 1.94365 10.9007C1.94365 12.6103 2.42168 14.278 3.33572 15.721L3.5511 16.0661L2.6318 19.4068L6.07784 18.5076Z" fill="white" />
-                                    <path d="M0 22L1.55492 16.3536C0.5936 14.6963 0.0893027 12.8194 0.0945558 10.9007C0.0945558 4.88831 5.01146 0 11.0473 0C13.9785 0 16.7311 1.13451 18.7956 3.19439C20.8653 5.25428 22.0052 7.99382 22 10.9059C22 16.9183 17.0831 21.8066 11.042 21.8066H11.0368C9.20343 21.8066 7.40162 21.3465 5.79942 20.4786L0 22ZM6.07784 18.5076L6.40878 18.7063C7.80611 19.5323 9.4083 19.9663 11.042 19.9715H11.0473C16.064 19.9715 20.1509 15.9092 20.1509 10.9111C20.1509 8.49049 19.2053 6.21625 17.4876 4.50143C15.7698 2.7866 13.4795 1.84553 11.0473 1.84553C6.03056 1.8403 1.94365 5.90257 1.94365 10.9007C1.94365 12.6103 2.42168 14.278 3.33572 15.721L3.5511 16.0661L2.6318 19.4068L6.07784 18.5076Z" fill="url(#paint0_linear_227_6653)" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.31005 6.34173C8.10518 5.88688 7.88981 5.87642 7.69544 5.8712C7.53785 5.86597 7.35399 5.86597 7.17013 5.86597C6.98627 5.86597 6.6921 5.93393 6.43995 6.2058C6.1878 6.47766 5.48389 7.1364 5.48389 8.48004C5.48389 9.81844 6.46622 11.115 6.6028 11.298C6.73938 11.481 8.49917 14.3199 11.2781 15.4125C13.5894 16.3222 14.0622 16.1393 14.5612 16.0922C15.0603 16.0451 16.1792 15.4335 16.4103 14.7956C16.6362 14.1578 16.6362 13.6141 16.5679 13.499C16.4996 13.384 16.3158 13.3161 16.0426 13.1801C15.7695 13.0442 14.4247 12.3855 14.1725 12.2913C13.9204 12.2025 13.7365 12.1554 13.5579 12.4273C13.374 12.6991 12.8487 13.3108 12.6911 13.4938C12.5335 13.6768 12.3707 13.6977 12.0975 13.5618C11.8244 13.4259 10.9419 13.1383 9.89649 12.2077C9.08226 11.4862 8.53068 10.5922 8.37309 10.3203C8.2155 10.0485 8.35733 9.90209 8.49391 9.76616C8.61473 9.64591 8.76707 9.44724 8.90365 9.2904C9.04024 9.13355 9.08751 9.01853 9.17682 8.83555C9.26612 8.65256 9.22409 8.49572 9.1558 8.35979C9.08751 8.22908 8.5517 6.88023 8.31005 6.34173Z" fill="white" />
-                                    <defs>
-                                        <linearGradient id="paint0_linear_227_6653" x1="11.0021" y1="21.9979" x2="11.0021" y2="0" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#F9F9F9" />
-                                            <stop offset="1" stop-color="white" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </a>
-                            <a href="#" class="btn item-info__social-link"> </a>
+                            @if(!is_null($shop->whatsapp))
+                                <a href="whatsapp:{{ $shop->whatsapp }}" class="btn item-info__social-link"><x-icon-whatsapp-icon /></a>
+                            @endif
+                            @if(!is_null($shop->telegram))
+                                <a href="telegram:{{ $shop->telegram }}"
+                                    class="btn item-info__social-link"
+                                ><x-icon-telegram-icon width="25" height="24" viewBox="2 -0 24 24"/></a>
+                            @endif
                         </div>
                     </div>
                 </div>
 
                 <div class="item-info__working-hours-box">
                     <p class="item-info__working-hours-text">
-                        До закрытия 5 часов 13 минут
+                        {{ \App\Services\TitleService::getTimeBeforeClose($shop) }}
                     </p>
 
-                    <table class="item-info__working-hours-table">
-                        <thead>
-                            <tr>
-                                <th>ПН</th>
-                                <th>ВТ</th>
-                                <th>СР</th>
-                                <th>ЧТ</th>
-                                <th>ПТ</th>
-                                <th class="item-info__working-hours-table--mobile--weekend">
-                                    СБ
-                                </th>
-                                <th class="item-info__working-hours-table--mobile--weekend">
-                                    ВС
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="item-info__working-hours-dot item-info__working-hours-dot--active">
-                                        &nbsp;
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td>09:00</td>
-                                <td>09:00</td>
-                                <td>09:00</td>
-                                <td>09:00</td>
-                                <td>09:00</td>
-                                <td>09:00</td>
-                                <td style="color: #eb423e">Выходной</td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td>21:00</td>
-                                <td>21:00</td>
-                                <td>21:00</td>
-                                <td>21:00</td>
-                                <td>21:00</td>
-                                <td>21:00</td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td>
-                                    <div class="item-info__working-hours-dot">&nbsp;</div>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <table class="item-info__working-hours-table--mobile">
-                        <tbody>
-                            <tr>
-                                <th>ПН</th>
-                                <td>09:00 - 21:00</td>
-                            </tr>
-                            <tr>
-                                <th>ВТ</th>
-                                <td>09:00 - 21:00</td>
-                            </tr>
-                            <tr>
-                                <th>СР</th>
-                                <td>09:00 - 21:00</td>
-                            </tr>
-                            <tr>
-                                <th>ЧТ</th>
-                                <td>09:00 - 21:00</td>
-                            </tr>
-                            <tr>
-                                <th>ПТ</th>
-                                <td>09:00 - 21:00</td>
-                            </tr>
-                            <tr class="item-info__working-hours-table--mobile--weekend">
-                                <th>СБ</th>
-                                <td style="color: #25313a !important">09:00 - 21:00</td>
-                            </tr>
-                            <tr class="item-info__working-hours-table--mobile--weekend">
-                                <th>ВС</th>
-                                <td>Выходной</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <x-working-mode :workingMode="$workingMode"/>
                 </div>
             </div>
 
             <div class="item-info__map-box">
-                <div class="item-info__map-box--inner">
-                    <iframe class="filter__inf" src="https://yandex.ru/map-widget/v1/?um=constructor%3A79bc0a58a97b7cf713db850b13b423ef96beefd9d1d9b66a4b0007bdd77d18f9&amp;source=constructor" width="100%" height="360" frameborder="0"></iframe>
-                    <div class="item-info__map-overlay">
-                        <button href="#" class="btn item-info__map-btn item-info__map-btn--primary">
-                            <img src="img/icon/add-icon.svg" alt="" />
-                            <span>Построить маршрут</span>
-                        </button>
-                        <button href="#" class="btn item-info__map-btn item-info__map-btn--location">
-                            <img src="img/icon/location-icon.svg" alt="" />
-                            <span>Санкт-Петербург, ул. Ленина, д. 100</span>
-                        </button>
-                    </div>
+                <div id='map'></div>
+                <div class="item-info__map-overlay">
+                    <button href="#" class="btn item-info__map-btn item-info__map-btn--primary">
+                        <img src="img/icon/add-icon.svg" alt="" />
+                        <span>Построить маршрут</span>
+                    </button>
+                    <button href="#" class="btn item-info__map-btn item-info__map-btn--location">
+                        <img src="img/icon/location-icon.svg" alt="" />
+                        <span>Санкт-Петербург, ул. Ленина, д. 100</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -376,1168 +159,60 @@
     <div class="brands__container container-wide">
         <div class="brands__content">
             <h2 class="brands__heading">Можно продать</h2>
-
+            {{-- {{ dd($categories[0]->toArray()) }} --}}
+            {{-- {{ dd($shop->toArray()) }} --}}
+            {{-- {{ dd($prices) }} --}}
             <ul class="accordion accordion--brands">
-                <li class="accordion__item accordion__item--brands">
-                    <input type="checkbox" id="accordion-item-1" class="accordion__checkbox" checked />
-                    <label for="accordion-item-1" class="accordion__header accordion__header--brands" role="button">
-                        <span class="brands-accordion__title">Телефоны </span>
-                        <span class="brands-accordion__price-range">до 100 000 руб.</span>
-                    </label>
-                    <div class="accordion__body accordion__body--brands">
-                        <div class="accordion__body-inner accordion__body-inner--brands">
-                            <div class="accordion__body-content accordion__body-content--brands">
-                                <ul class="brands-list brands-list--main">
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item brands-list__item--main">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="accordion__body-inner--brands-2">
-                                <ul class="accordion__breadcrumbs">
-                                    <li>
-                                        <button class="btn accordion__breadcrumbs-btn">
-                                            Стиральные машины (60)
-                                        </button>
-                                    </li>
-                                </ul>
-                                <ul class="brands-list">
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Еще пункт</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пример</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пример</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Пример</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                        </div>
-                                    </li>
-                                </ul>
+                @foreach($categories as $category)
+                    <li class="accordion__item accordion__item--brands">
+                        <input type="checkbox" id="accordion-item-{{ $category->id }}" class="accordion__checkbox" checked />
+                        <label for="accordion-item-{{ $category->id }}" class="accordion__header accordion__header--brands" role="button">
+                            <span class="brands-accordion__title">{{ $category->name }}</span>
+                            @if($prices[$category->id]['max'])
+                                <span class="brands-accordion__price-range">до {{ $prices[$category->id]['max'] }} руб.</span>
+                            @endif
+                        </label>
+                        <div class="accordion__body accordion__body--brands">
+                            <div class="accordion__body-inner accordion__body-inner--brands">
+                                <div class="accordion__body-content accordion__body-content--brands">
+                                    <ul class="brands-list brands-list--main">
+                                        @foreach ($category->subCategories as $subCategory)
+                                            <li class="brands-list__item brands-list__item--main">
+                                                <div class="brands-list__icon"></div>
+                                                <div class="brands-list__info">
+                                                    <p class="brands-list__brand">{{ $subCategory->name }}</p>
+                                                    @if(isset($prices[$category->id]['items'][$subCategory->id]))
+                                                        <p class="brands-list__price">от {{ $prices[$category->id]['items'][$subCategory->id]->price }} руб.</p>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="accordion__body-inner--brands-2">
+                                    <ul class="accordion__breadcrumbs">
+                                        <li>
+                                            <button class="btn accordion__breadcrumbs-btn">
+                                                Стиральные машины (60)
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <ul class="brands-list">
+                                        @for($i=0; $i<20;$i++)
+                                            <li class="brands-list__item">
+                                                <div class="brands-list__icon"></div>
+                                                <div class="brands-list__info">
+                                                    <p class="brands-list__brand">Пункт</p>
+                                                    <!-- <p class="brands-list__price">от 500 руб.</p> -->
+                                                </div>
+                                            </li>
+                                        @endfor
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li class="accordion__item accordion__item--brands">
-                    <input type="checkbox" id="accordion-item-2" class="accordion__checkbox" />
-                    <label for="accordion-item-2" class="accordion__header accordion__header--brands" role="button">
-                        <span class="brands-accordion__title">Ноутбуки </span>
-                        <span class="brands-accordion__price-range">до 100 000 руб.</span>
-                    </label>
-                    <div class="accordion__body accordion__body--brands">
-                        <div class="accordion__body-inner accordion__body-inner--brands">
-                            <div class="accordion__body-content accordion__body-content--brands">
-                                <ul class="brands-list">
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="accordion__item accordion__item--brands">
-                    <input type="checkbox" id="accordion-item-3" class="accordion__checkbox" />
-                    <label for="accordion-item-3" class="accordion__header accordion__header--brands" role="button">
-                        <span class="brands-accordion__title">Фотоаппараты </span>
-                        <span class="brands-accordion__price-range">до 100 000 руб.</span>
-                    </label>
-                    <div class="accordion__body accordion__body--brands">
-                        <div class="accordion__body-inner accordion__body-inner--brands">
-                            <div class="accordion__body-content accordion__body-content--brands">
-                                <ul class="brands-list">
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="accordion__item accordion__item--brands">
-                    <input type="checkbox" id="accordion-item-2" class="accordion__checkbox" />
-                    <label for="accordion-item-2" class="accordion__header accordion__header--brands" role="button">
-                        <span class="brands-accordion__title">Ноутбуки </span>
-                        <span class="brands-accordion__price-range">до 100 000 руб.</span>
-                    </label>
-                    <div class="accordion__body accordion__body--brands">
-                        <div class="accordion__body-inner accordion__body-inner--brands">
-                            <div class="accordion__body-content accordion__body-content--brands">
-                                <ul class="brands-list">
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="accordion__item accordion__item--brands">
-                    <input type="checkbox" id="accordion-item-3" class="accordion__checkbox" />
-                    <label for="accordion-item-3" class="accordion__header accordion__header--brands" role="button">
-                        <span class="brands-accordion__title">Фотоаппараты </span>
-                        <span class="brands-accordion__price-range">до 100 000 руб.</span>
-                    </label>
-                    <div class="accordion__body accordion__body--brands">
-                        <div class="accordion__body-inner accordion__body-inner--brands">
-                            <div class="accordion__body-content accordion__body-content--brands">
-                                <ul class="brands-list">
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Samsung</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">iPhone</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">HTC</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">TECNO</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                    <li class="brands-list__item">
-                                        <div class="brands-list__icon"></div>
-                                        <div class="brands-list__info">
-                                            <p class="brands-list__brand">Honor</p>
-                                            <p class="brands-list__price">от 500 руб.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                @endforeach
             </ul>
 
             <button class="btn brands-list__more-btn">Показать все</button>

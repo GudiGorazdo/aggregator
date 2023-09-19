@@ -1,6 +1,15 @@
+@import "../variables.scss";
+@import "../components/display-rating.scss";
+
 .preview__slide img {
   /* width: max-content; */
   pointer-events: none;
+}
+
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 

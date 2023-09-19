@@ -9,12 +9,9 @@
                 <h4 class="shop-card__title">
                     <a href="{{ route('shop', ['id' => $shop->id]) }}">{{ $shop->name }}</a>
                 </h4>
-                <div class="display-rating">
-                  <p class="display-rating__count">{{ $shop->average_rating }}</p>
-                  <x-star-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" />
-                </div>
+                <x-display-rating rating="{{ $shop->average_rating }}"/>
                 <div class="shop-card__data">
-                    <p class="shop-card__time">Работает до 19:00</p>
+                    <p class="shop-card__time">{{ \App\Services\TitleService::getTimeBeforeClose($shop) }}</p>
                     <a class="shop-card__address" href="#">{{ $shop->address }}</a>
                 </div>
             </div>

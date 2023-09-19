@@ -1,0 +1,18 @@
+.display-rating {
+  display: flex;
+  margin-bottom: 0.5rem;
+
+  &__count {
+    margin-right: 1rem;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: $colorMainBackground;
+  }
+
+  &--25 &__count {
+    margin-right: 2rem;
+    font-size: 5.6rem;
+  }
+}
+
+
