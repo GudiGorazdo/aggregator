@@ -9,7 +9,14 @@
   background-position: 50%;
   z-index: 0;
 
- &-content {
+  @media only screen and (max-width: $pointMD) {
+    height: auto;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem;
+    background-image: none;
+  }
+
+ &__content {
    width: 100%;
    height: 100%;
    padding: 3rem;
@@ -19,26 +26,44 @@
    position: relative;
    flex-direction: column;
    align-items: center;
- }
 
- &-title {
+    @media only screen and (max-width: $pointMD) {
+      padding: 0;
+      z-index: 0;
+    }
+  }
+
+ &__title {
    margin-bottom: 1.8rem;
    font-size: 4.9rem;
    color: $colorMainBackground;
+
+    @media only screen and (max-width: $pointMD) {
+      font-size: 3rem;
+      font-weight: 600;
+    }
  }
 
- &-text-box {
+ &__text-box {
    position: relative;
    height: 2.4rem;
    overflow: hidden;
    transition: height 0.5s;
+
+    @media only screen and (max-width: $pointMD) {
+      height: 2.4rem;
+    }
+
+    &.active {
+      height: 7rem;
+
+      @media only screen and (max-width: $pointMD) {
+        height: 18rem;
+      }
+    }
  }
 
- &-text-box.active {
-   height: 7rem;
- }
-
- &-text-expand-btn {
+ &__text-expand-btn {
    position: absolute;
    width: 2rem;
    height: 2rem;
@@ -49,13 +74,19 @@
    bottom: 0.2rem;
    transition: all 0.5s;
    z-index: 50;
+
+    @media only screen and (max-width: $pointMD) {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    }
+
+    &.active {
+      transform: rotate(180deg);
+    }
  }
 
- &-text-expand-btn.active {
-   transform: rotate(180deg);
- }
-
- &-text {
+ &__text {
    font-size: 2rem;
    line-height: 2.4rem;
    text-align: center;
@@ -64,9 +95,20 @@
    position: relative;
    display: block;
    width: fit-content;
+
+    @media only screen and (max-width: $pointMD) {
+      padding: 0;
+      height: 0rem;
+      overflow: hidden;
+
+      .active & {
+        height: fit-content;
+      }
+    }
+
  }
 
- &-btn {
+ &__btn {
    min-width: 38rem;
    padding: 2.5rem 3.6rem 2.5rem 6rem;
    font-size: 2.4rem;
@@ -75,19 +117,23 @@
    bottom: 0;
    left: 50%;
    transform: translate(-50%, 50%);
- }
 
- &-btn::before {
-   content: "";
-   width: 2rem;
-   height: 2rem;
-   position: absolute;
-   background-image: url("/resources/assets/svg/message-text.svg");
-   background-size: contain;
-   background-repeat: no-repeat;
-   top: 50%;
-   transform: translateY(-50%);
-   left: 3.5rem;
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+      width: 2rem;
+      height: 2rem;
+      position: absolute;
+      background-image: url("/resources/assets/svg/message-text.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 3.5rem;
+    }
  }
 }
 

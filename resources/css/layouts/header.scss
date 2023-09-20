@@ -62,6 +62,10 @@
       margin-left: 3rem;
     }
 
+    @media only screen and (max-width: $pointXL) {
+      margin-right: auto;
+    }
+
     @media only screen and (max-width: $pointMD) {
       max-width: 114px;
       min-width: 114px;
@@ -85,10 +89,6 @@
     margin-left: 2.4rem;
 
     @media only screen and (max-width: $pointXL) {
-      opacity: 0;
-    }
-
-    @media only screen and (max-width: $pointMD) {
       display: none;
     }
   }
