@@ -1,0 +1,39 @@
+.similar-categories {
+  & {
+    flex-basis: 60%;
+    margin-bottom: 3rem;
+    height: 16.7rem;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    transition: all 0.5s;
+  }
+
+  & a:link,
+  & a:visited {
+    padding: 1.8rem 3.5rem 1.8rem 2rem;
+    background-color: $colorWhite;
+    display: flex;
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+    color: inherit;
+  }
+
+  & img {
+    height: 4rem;
+    width: auto;
+  }
+
+  & h3 {
+    margin-left: 2rem;
+    font-size: 1.7rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  &.active {
+    height: max-content;
+  }
+
+}

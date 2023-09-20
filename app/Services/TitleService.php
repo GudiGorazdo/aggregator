@@ -113,7 +113,7 @@ class TitleService
         return $string;
     }
 
-    public static function getTimeBeforeClose(Model $shop): string
+    public static function getTimeBeforeClose(Model $shop, bool $justTime = false): string
     {
         $now = mb_strtolower(GetDayTimeService::getFullTime($shop->region->timezone));
         $nowData = explode(' ', $now);
@@ -155,6 +155,9 @@ class TitleService
         if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
+            if ($justTime) {
+                return "Работает до " . $shopClose;
+            }
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '

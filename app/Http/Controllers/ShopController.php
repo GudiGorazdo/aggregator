@@ -45,6 +45,7 @@ class ShopController extends Controller
                     'items' => $categoryGroup->keyBy('sub_category_id')
                 ];
             }),
+            'similars' => $this->getShopSimilars($shop),
         ]);
     }
 

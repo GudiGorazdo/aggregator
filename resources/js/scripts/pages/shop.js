@@ -2,6 +2,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Swiper, { Navigation, Pagination } from 'swiper';
+import '../layouts/similar-companies.js';
+import '../layouts/similar.js';
 
 document.addEventListener('DOMContentLoaded', (e) => {
   // COURUSEL

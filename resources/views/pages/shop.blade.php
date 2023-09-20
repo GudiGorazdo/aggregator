@@ -1230,79 +1230,8 @@
     </div>
 </section>
 
-@include('layouts.similar-companies', [ 'items' ])
-
-<section class="similar">
-    <div class="container">
-        <h2 class="similar__title">Похожие категории</h2>
-
-        <div class="similar__inner">
-            <div>
-                <div class="similar-categories">
-                    <a href="#">
-                        <img src="img/categories/categories-page/1.svg" alt="" />
-                        <h3>Телефоны</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/2.svg" alt="" />
-                        <h3>Фотоаппараты</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/3.svg" alt="" />
-                        <h3>Ноутбуки</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/4.svg" alt="" />
-                        <h3>Телевизоры</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/5.svg" alt="" />
-                        <h3>Персональные ПК</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/2.svg" alt="" />
-                        <h3>Телефоны</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/1.svg" alt="" />
-                        <h3>Телефоны</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/1.svg" alt="" />
-                        <h3>Телефоны</h3>
-                    </a>
-                    <a href="#">
-                        <img src="img/categories/categories-page/1.svg" alt="" />
-                        <h3>Телефоны</h3>
-                    </a>
-                </div>
-
-                <button class="btn similar__more-btn similar__expand" data-button="moreactive">
-                    Показать все
-                </button>
-            </div>
-
-            <div class="similar-regions">
-                <div class="similar-regions__list">
-                    <a href="#">Центральный район</a>
-                    <a href="#">Ленинский район</a>
-                    <a href="#">Свердловский район</a>
-                    <a href="#">Одинцвоский район</a>
-                    <a href="#">Южный район</a>
-                    <a href="#">Ленинский район</a>
-                    <a href="#">Ленинский район</a>
-                    <a href="#">Свердловский район</a>
-                    <a href="#">Одинцвоский район</a>
-                    <a href="#">Южный район</a>
-                </div>
-                <!-- <a href="#">Скупка в других районах</a> -->
-                <button class="btn similar__more-btn regions__expand" data-button="district">
-                    Показать все
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
+@include('layouts.similar-companies', [ 'similars' => $similars ])
+@include('layouts.similar-categories', ['cityID' => $shop->city_id])
 
 <section class="mobile-nav-section">
     <div class="mobile-nav-section__box">

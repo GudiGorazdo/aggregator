@@ -1,3 +1,6 @@
+@import './similar-categories.scss';
+@import './similar-location.scss';
+
 .similar {
   padding: 6rem 0;
   background: $colorPrimary;
@@ -17,39 +20,6 @@
   &__inner {
     display: flex;
     justify-content: space-between;
-  }
-
-  &-categories {
-    flex-basis: 60%;
-    margin-bottom: 3rem;
-    height: 16.7rem;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    transition: all 0.5s;
-  }
-
-  &-categories a:link,
-  &-categories a:visited {
-    padding: 1.8rem 3.5rem 1.8rem 2rem;
-    background-color: $colorWhite;
-    display: flex;
-    margin-right: 1.5rem;
-    margin-bottom: 1.5rem;
-    align-items: center;
-    color: inherit;
-  }
-
-  &-categories img {
-    height: 4rem;
-    width: auto;
-  }
-
-  &-categories h3 {
-    margin-left: 2rem;
-    font-size: 1.7rem;
-    line-height: 1.4;
-    font-weight: 600;
   }
 
   &__more-btn {
@@ -74,54 +44,8 @@
     transition: all 0.5s;
   }
 
-  &-categories.active {
-    height: max-content;
-  }
-
   &__more-btn.active::before {
     transform: translateY(-50%) rotate(-180deg);
-  }
-
-  /* REGIONS */
-  &-regions {
-    max-width: 50em;
-    flex-shrink: 0;
-  }
-
-  &-regions>a:link,
-  &-regions>a:visited {
-    margin-bottom: 2rem;
-  }
-
-  &-regions a:link {
-    font-family: "Inter", sans-serif;
-    display: flex;
-    align-items: center;
-    align-self: start;
-    font-size: 1.3rem;
-    line-height: 1;
-    font-weight: 500;
-    color: inherit;
-    padding: 1.1rem 1.4rem;
-    background-color: $colorWhite;
-    width: min-content;
-  }
-  &-regions a:visited {
-    color: inherit;
-  }
-  &-regions__list {
-    margin-bottom: 1.8rem;
-    height: 12.1rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.8rem;
-    column-gap: 1.8rem;
-    overflow: hidden;
-    transition: height 0.5s;
-  }
-
-  .active &-regions__list {
-    height: max-content;
   }
 }
 

@@ -1,0 +1,44 @@
+.similar-regions {
+  & {
+    max-width: 50em;
+    flex-shrink: 0;
+  }
+
+  & > a:link,
+  & > a:visited {
+    margin-bottom: 2rem;
+  }
+
+  & a:link {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    align-items: center;
+    align-self: start;
+    font-size: 1.3rem;
+    line-height: 1;
+    font-weight: 500;
+    color: inherit;
+    padding: 1.1rem 1.4rem;
+    background-color: $colorWhite;
+    width: min-content;
+  }
+  & a:visited {
+    color: inherit;
+  }
+  &__list {
+    margin-bottom: 1.8rem;
+    height: 12.1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.8rem;
+    column-gap: 1.8rem;
+    overflow: hidden;
+    transition: height 0.5s;
+  }
+
+  .active &__list {
+    height: max-content;
+  }
+}
+
+
