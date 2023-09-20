@@ -6,6 +6,36 @@
   margin-right: 1rem;
   background: #fff5ec;
 
+  @media only screen and (max-width: $pointMD) {
+    position: fixed;
+    z-index: 1500;
+    top: 7rem;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 7rem);
+    min-height: -webkit-fill-available;
+    display: none;
+    overflow-y: scroll;
+  }
+
+  .active & {
+    width: 26rem;
+    max-height: 80rem;
+  }
+
+  .active &--collapsed {
+    display: none;
+  }
+
+  .active &--expanded {
+    display: block;
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
+      min-height: 100vh;
+    }
+  }
+
   &__collapse-btn {
     position: relative;
     min-height: 2.8rem;
@@ -14,6 +44,13 @@
     background-color: #25313a;
     font-size: 1.3rem;
     color: #fff;
+
+    @media only screen and (max-width: $pointMD) {
+      background-color: transparent;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: inherit;
+    }
   }
 
   &__collapse-btn::before {
@@ -55,6 +92,10 @@
     font-size: 1.5rem;
     font-weight: 600;
     display: none;
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
+    }
   }
 
   &__category-btn {
@@ -106,11 +147,16 @@
 
   &__toggles {
     border: none;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-bottom: 10rem;
+    }
+
+    >*+* {
+      margin-top: 2rem;
+    }
   }
 
-  &__toggles>*+* {
-    margin-top: 2rem;
-  }
 
   &__toggle-box {
     min-height: 1.8rem;
@@ -160,22 +206,11 @@
     font-size: 3.6rem;
     font-weight: 700;
   }
-
-  .active & {
-    width: 26rem;
-    max-height: 80rem;
-  }
-
-  .active &--collapsed {
-    display: none;
-  }
-
-  .active &--expanded {
-    display: block;
-  }
 }
 
 #filter_area_button,
 #filter_subway_button {
   text-align: left;
 }
+
+

@@ -10,10 +10,6 @@
     flex-direction: column;
   }
 
-  & .categories-list {
-    padding: 2rem 1rem;
-  }
-
   &__form form {
     position: relative;
     width: 100%;
@@ -55,10 +51,10 @@
     cursor: pointer;
   }
 
-  &--filter__main {
-    max-height: min-content;
-    overflow: auto;
-  }
+  // &--filter__main {
+  //   max-height: min-content;
+  //   overflow: auto;
+  // }
 
   /* MOBILE BUTTONS */
   &__mobile-btns {
@@ -105,3 +101,5 @@
     background-repeat: no-repeat;
   }
 }
+
+

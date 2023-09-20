@@ -140,11 +140,13 @@
   position: absolute;
   top: 0em;
   left: -18.5em;
-  padding: 1.5em;
-  padding-top: 2.5em;
+  padding: 2em;
+  padding-top: 3.5em;
   border: 1px solid $color_4;
   border-radius: 1em;
+  border-top-right-radius: 0;
   background-color: $colorWhite;
+  font-size: 1.2rem;
   opacity: 1;
   visibility: visible;
   pointer-events: all;
@@ -153,7 +155,7 @@
   &::before {
     content: '';
     position: absolute;
-    top: 17px;
+    top: 3px;
     right: -11px;
     width: 2em;
     height: 2em;
@@ -170,8 +172,9 @@
   }
 
   &__close {
-    top: 0.5rem;
-    right: 0.5rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 
   &__label {
@@ -188,3 +191,5 @@
     white-space: nowrap;
   }
 }
+
+

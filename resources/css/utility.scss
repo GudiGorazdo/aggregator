@@ -19,6 +19,22 @@
 .flex-ctr {
   display: flex;
   justify-content: center;
+
+  @media only screen and (min-width: $pointXL) {
+    max-height: 813px;
+  }
+
+  @media only screen and (max-width: $pointXL) {
+    max-height: 732px;
+  }
+
+  @media only screen and (max-width: $pointLG) {
+    max-height: 617px;
+  }
+
+  @media only screen and (max-width: $pointMD) {
+    max-height: none;
+  }
 }
 
 .h-100 {
