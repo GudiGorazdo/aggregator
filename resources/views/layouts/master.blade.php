@@ -18,8 +18,8 @@
 
     @yield('title')
     {{-- @vite([ 'resources/css/bundle.min.css' ]) --}}
-    {{-- @vite([ 'resources/css/style.css' ])
-    @vite([ 'resources/css/queries.css' ]) --}}
+    {{-- @vite([ 'resources/css/style.css' ]) --}}
+    {{-- @vite([ 'resources/css/queries.css' ]) --}} --}}
     @vite([ 'resources/css/app.scss' ])
     @yield('styles')
     @yield('links_scripts')

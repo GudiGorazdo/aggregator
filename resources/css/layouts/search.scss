@@ -51,10 +51,9 @@
     cursor: pointer;
   }
 
-  // &--filter__main {
-  //   max-height: min-content;
-  //   overflow: auto;
-  // }
+  &--filter__main {
+    overflow-y: auto;
+  }
 
   /* MOBILE BUTTONS */
   &__mobile-btns {
