@@ -4,8 +4,8 @@
     flex-shrink: 0;
   }
 
-  & > a:link,
-  & > a:visited {
+  &>a:link,
+  &>a:visited {
     margin-bottom: 2rem;
   }
 
@@ -22,9 +22,11 @@
     background-color: $colorWhite;
     width: min-content;
   }
+
   & a:visited {
     color: inherit;
   }
+
   &__list {
     margin-bottom: 1.8rem;
     height: 12.1rem;
@@ -40,5 +42,3 @@
     height: max-content;
   }
 }
-
-

@@ -13,7 +13,7 @@
    opacity: 0;
 
    @media only screen and (max-width: $pointMD) {
-   top: $mainSectionPaddingMD;
+     top: $mainSectionPaddingMD;
    }
 
    &__inner {
@@ -22,7 +22,7 @@
      display: flex;
      justify-content: space-between;
 
-     > * + * {
+     >*+* {
        margin-left: 2.5rem;
      }
 
@@ -73,7 +73,9 @@
      padding-left: 1.4rem;
      width: 25%;
    }
+
    .regions-list {
+
      a:link,
      a:visited {
        font-size: 1.5rem;
@@ -81,7 +83,7 @@
        color: inherit;
      }
 
-     > * + * {
+     >*+* {
        margin-top: 2.8rem;
      }
    }
@@ -94,7 +96,7 @@
        display: none;
      }
 
-     > * + * {
+     >*+* {
        margin-top: 2.5rem;
      }
 
@@ -143,10 +145,8 @@
        padding-bottom: 0;
      }
 
-      @media only screen and (max-width: $pointMD) {
-        display: block;
-      }
+     @media only screen and (max-width: $pointMD) {
+       display: block;
+     }
    }
  }
-
-

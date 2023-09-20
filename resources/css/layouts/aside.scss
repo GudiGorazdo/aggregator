@@ -108,7 +108,7 @@
     border: none;
   }
 
-  &__toggles > * + * {
+  &__toggles>*+* {
     margin-top: 2rem;
   }
 
@@ -179,6 +179,3 @@
 #filter_subway_button {
   text-align: left;
 }
-
-
-

@@ -21,19 +21,21 @@
   }
 
   &__menu-btn {
-    > svg > path {
+    >svg>path {
       transition: all 0.3s linear;
     }
   }
 
   .active__cross {
-    > svg > path {
+    >svg>path {
       &:nth-child(2) {
         display: none;
       }
+
       &:nth-child(1) {
         transform: rotate(45deg) translateY(-1px) translateX(1px);
       }
+
       &:nth-child(3) {
         transform: rotate(-45deg) translateY(-3px) translateX(-9px);
       }
@@ -58,7 +60,7 @@
       width: auto;
     }
 
-    > * + * {
+    >*+* {
       margin-left: 3rem;
     }
 
@@ -75,7 +77,7 @@
         max-height: 2.2rem;
       }
 
-      > * + * {
+      >*+* {
         margin-left: 0.6rem;
       }
     }
@@ -94,6 +96,7 @@
   }
 
   &__top-link {
+
     &:link,
     &:visited {
       font-size: 1.5rem;
@@ -159,26 +162,29 @@
     background-color: $colorWhite;
     transform: rotate(225deg);
   }
+
   &.hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
   }
+
   &__close {
     top: 0.5rem;
     right: 0.5rem;
   }
+
   &__label {
     margin-bottom: 1em;
   }
+
   &__confirm {
     padding: 1rem 2rem;
   }
+
   &__confirm,
   &__label {
     font-size: 1.5em;
     white-space: nowrap;
   }
 }
-
-

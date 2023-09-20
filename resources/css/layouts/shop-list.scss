@@ -16,17 +16,15 @@
     display: none;
   }
 
-  &-more > span{
+  &-more>span {
     transition: all 0.3s ease-in;
 
-    .expanded > span::before{
+    .expanded>span::before {
       display: none;
     }
 
-    .expanded > span {
+    .expanded>span {
       margin-right: 3rem;
     }
   }
 }
-
-
