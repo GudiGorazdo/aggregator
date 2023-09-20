@@ -45,25 +45,25 @@ class GenerateRandomData
         }
     }
 
-    private static function generateMunicipalities($regionID, $cityID, $area_id)
+    private static function generateMunicipalities($regionID, $cityID, $areaID)
     {
         for ($i = 0; $i < rand(1, 10); $i++) {
             $m = new \App\Models\Municipality();
             $m->name = 'Муниципальный округ' . '_' . ($i + 1);
             $m->region_id = $regionID;
             $m->city_id = $cityID;
-            $m->area_id = $area_id;
+            $m->area_id = $areaID;
             $m->save();
         }
     }
 
-    private static function generateArea($city_id, $region_id)
+    private static function generateArea($cityID, $region_id)
     {
         for ($i = 0; $i < rand(5, 15); $i++) {
             $area = new \App\Models\Area();
             $area->name = ($i + 1) . '_Район';
             $area->name_for_title =   ($i + 1) . 'м';
-            $area->city_id = $city_id;
+            $area->city_id = $cityID;
             $area->region_id = $region_id;
             try {
                 $area->save();
@@ -74,17 +74,17 @@ class GenerateRandomData
         }
     }
 
-    private static function generateSubway($city_id, $area_id)
+    private static function generateSubway($cityID, $areaID)
     {
         $r = rand(0, 7);
 
         $arr = [];
         for ($i = 0; $i < $r; $i++) {
             $subway = new \App\Models\Subway();
-            $area = \App\Models\Area::where('id', $area_id)->first();
+            $area = \App\Models\Area::where('id', $areaID)->first();
             $subway->name = ($i + 1) . '_Метро__' . $area->name;
-            $subway->city_id = $city_id;
-            $subway->area_id = $area_id;
+            $subway->city_id = $cityID;
+            $subway->area_id = $areaID;
             $subway->save();
             $arr[] = $subway->id;
         }
@@ -154,15 +154,15 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShop($n, $city_id, $region_id, $area_id, $municipalities, $faker, $city_coord)
+    private static function generateShop($n, $cityID, $region_id, $areaID, $municipalities, $faker, $city_coord)
     {
         $arr = [];
 
         for ($i = 0; $i < $n; $i++) {
             $shop = new \App\Models\Shop();
-            $shop->city_id = $city_id;
+            $shop->city_id = $cityID;
             $shop->region_id = $region_id;
-            $shop->area_id = $area_id;
+            $shop->area_id = $areaID;
             $shop->municipality_id = $municipalities[rand(0, count($municipalities) - 1)]->id;
             $shop->logo =  'https://picsum.photos/';
             $shop->title = 'Title_' . rand(100000, 999999);
@@ -246,11 +246,11 @@ class GenerateRandomData
                     $comments[$s][$i]['rating'] = rand(11, 50) / 10;
                     $comments[$s][$i]['text'] = implode('', $faker->paragraphs());
                     $comments[$s][$i]['response'] = [];
-                    for ($k = 0; $k < rand(1, 7); $k++) {
-                        $comments[$s][$i]['response'][$k]['name'] = 'name_' . ($k + 1);
-                        $comments[$s][$i]['response'][$k]['date'] = date('Y-m-d', mt_rand(1, time()));
-                        $comments[$s][$i]['response'][$k]['rating'] = rand(11, 50) / 10;
-                        $comments[$s][$i]['response'][$k]['text'] = implode('', $faker->paragraphs());
+                    if (rand(0, 1) > 0) {
+                        $comments[$s][$i]['response']['name'] = 'name';
+                        $comments[$s][$i]['response']['date'] = date('Y-m-d', mt_rand(1, time()));
+                        $comments[$s][$i]['response']['rating'] = rand(11, 50) / 10;
+                        $comments[$s][$i]['response']['text'] = implode('', $faker->paragraphs());
                     }
                 }
             }
@@ -266,6 +266,7 @@ class GenerateRandomData
                     'service_id' => $i + 1,
                     'service_shop_id' => $faker->uuid(),
                     'rating' => $ratingArray[$i],
+                    'rating_count' => rand(10, 100),
                     'link' => '#',
                     'comments' => json_encode($comments[$services[$i]]),
                 ]);
@@ -337,16 +338,16 @@ class GenerateRandomData
         ]);
     }
 
-    private static function generateShopsWithSubways($city_id, $region_id, $areas, $b, $faker, $city_coord)
+    private static function generateShopsWithSubways($cityID, $region_id, $areas, $b, $faker, $city_coord)
     {
         foreach ($areas as $area) {
-            self::generateMunicipalities($region_id, $city_id, $area->id);
+            self::generateMunicipalities($region_id, $cityID, $area->id);
             $municipalities = \App\Models\Municipality::where('area_id', $area->id)->get();
-            $shop_ids = self::generateShop(rand(1, 5), $city_id, $region_id, $area->id, $municipalities, $faker, $city_coord);
+            $shop_ids = self::generateShop(rand(1, 5), $cityID, $region_id, $area->id, $municipalities, $faker, $city_coord);
             if ($b < 5) {
-                $subway_ids = self::generateSubway($city_id, $area->id);
+                $subwayIDs = self::generateSubway($cityID, $area->id);
                 foreach ($shop_ids as $shop) {
-                    self::generateShopSubways($shop, $subway_ids);
+                    self::generateShopSubways($shop, $subwayIDs);
                 }
             }
         }
@@ -367,7 +368,7 @@ class GenerateRandomData
                 'shop_id' => $shop_id,
                 'category_id' => $category_id,
                 'sub_category_id' => $sub_category_id,
-                'price' => rand(10, 500) . '000',
+                'price' => rand(10, 50) . '000',
             ]);
         }
     }

@@ -41,20 +41,20 @@ class LocationFilter extends BaseFilter
         $this->area = $this->request['area'] ?? false;
     }
 
-    public function getItems(int $city_id): Collection
+    public function getItems(int $cityID): Collection
     {
-        if (!$city_id) return new  Collection([]);
-        return Area::getByCityIdWithSubways($city_id)->get();
+        if (!$cityID) return new  Collection([]);
+        return Area::getByCityIdWithSubways($cityID)->get();
     }
 
     // Отрисовка фильтра
-    public function render(int|null $city_id = null): View|Factory|Application
+    public function render(int|null $cityID = null): View|Factory|Application
     {
-        if (!$city_id) $city_id = $this->request['city'] ?? (CookieController::getCookie(CookieConstants::LOCATION) ?? null);
-        if (!$city_id) $city_id = City::START_CITY;
-        $items = $this->getItems(+$city_id);
-        CookieController::setCookie(CookieConstants::LOCATION, $city_id, CookieController::getYears(1));
-        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id, 'items'=> $items]);
+        if (!$cityID) $cityID = $this->request['city'] ?? (CookieController::getCookie(CookieConstants::LOCATION) ?? null);
+        if (!$cityID) $cityID = City::START_CITY;
+        $items = $this->getItems(+$cityID);
+        CookieController::setCookie(CookieConstants::LOCATION, $cityID, CookieController::getYears(1));
+        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'cityID' => $cityID, 'items'=> $items]);
     }
 
     public function apply(Builder $query): Builder

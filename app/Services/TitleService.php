@@ -13,7 +13,7 @@ use App\Models\City;
 use App\Models\SubCategory;
 use App\Models\Subway;
 use \App\Services\GetDayTimeService;
-use \App\Services\GetNumEndingService;
+use \App\Helpers;
 
 class TitleService
 {
@@ -44,8 +44,8 @@ class TitleService
         });
         $areasTitles = $areasTitles->toArray();
 
-        $subway_ids = $request->get('subway') ?? [];
-        $subways = Subway::with('area')->whereIn('id', $subway_ids)->get();
+        $subwayIDs = $request->get('subway') ?? [];
+        $subways = Subway::with('area')->whereIn('id', $subwayIDs)->get();
         $subwaysAreas = $subways->map(function ($subway, $key) {
             return $subway->area->name_for_title;
         });
@@ -158,11 +158,11 @@ class TitleService
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '
-                . GetNumEndingService::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
+                . Helpers::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
                 . ' '
                 . $timeBeforeClose[1]
                 . ' '
-                . GetNumEndingService::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
+                . Helpers::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
          } else if (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
             return 'Магазин открыт круглосуточно';

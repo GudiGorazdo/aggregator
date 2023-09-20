@@ -22,7 +22,7 @@ class OptionsFilter extends BaseFilter
      * ];
      */
     private $items = [];
-    private $city_id = null;
+    private $cityID = null;
     private $timezone = null;
 
     public function __construct(array $items, string $name = 'options', $label = 'Опции')

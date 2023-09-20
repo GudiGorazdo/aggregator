@@ -38,7 +38,7 @@
 </section>
 
 @include('layouts.filter', ['shops' => $shops])
-@include('layouts.similar', ['cityID' => $cityID])
+@include('layouts.similar-categories', ['cityID' => $cityID])
 
 <section class="mobile-nav-section">
     <div class="mobile-nav-section__box">

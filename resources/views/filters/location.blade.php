@@ -5,7 +5,7 @@
         'items' => $items,
         'name' => 'area',
         'label' => 'Район',
-        'city_id' => $city_id,
+        'cityID' => $cityID,
         'request' => $request,
         'filterID' => $filter->getAttribute('area_id'),
     ])
@@ -16,7 +16,7 @@
         'items' => $items->pluck('subways')->flatten()->all(),
         'name' => 'subway',
         'label' => 'Метро',
-        'city_id' => $city_id,
+        'cityID' => $cityID,
         'request' => $request,
         'groupField' => 'area_id',
         'filterID' => $filter->getAttribute('subway_id'),
@@ -27,4 +27,5 @@
         ]]
     ])
 </div>
+
 

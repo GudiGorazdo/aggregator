@@ -71,7 +71,6 @@
                             <x-display-rating
                                 rating="{{ $service->pivot->rating }}"
                                 disabled={{true}}
-                                shopID="{{ $shop->id }}"
                                 classNameCount="item-info__rating-table--rating-num"
                                 className="item-info__rating-table--rating"
                             />
@@ -159,9 +158,6 @@
     <div class="brands__container container-wide">
         <div class="brands__content">
             <h2 class="brands__heading">Можно продать</h2>
-            {{-- {{ dd($categories[0]->toArray()) }} --}}
-            {{-- {{ dd($shop->toArray()) }} --}}
-            {{-- {{ dd($prices) }} --}}
             <ul class="accordion accordion--brands">
                 @foreach($categories as $category)
                     <li class="accordion__item accordion__item--brands">
@@ -224,17 +220,12 @@
     <div class="container testimonials__inner">
         <div class="testimonials__heading-box">
             <h2 class="testimonials__heading">Отзывы</h2>
-            <div class="testimonials__main-rating">
-                <span class="testimonials__main-num">3.2</span>
-                <select class="star-rating">
-                    <option value="">Выберите рейтинг</option>
-                    <option value="5">Отлично</option>
-                    <option value="4">Очень хорошо</option>
-                    <option value="3">Удовлетворительно</option>
-                    <option value="2">Плохо</option>
-                    <option value="1">Ужасно</option>
-                </select>
-            </div>
+            <x-display-rating
+                rating="{{ $shop->average_rating }}"
+                disabled={{true}}
+                className="testimonials__main-rating"
+                classNameCount="testimonials__main-num"
+            />
         </div>
 
         <p class="testimonials__text">
@@ -243,832 +234,85 @@
         </p>
 
         <div class="tabset">
-            <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" />
-            <label for="tab1">
-                <img src="img/item/yandex-logo.svg" alt="Яндекс Карты" />
-                <span class="btn testimonials__number">100 оценок</span>
-                <div class="item-info__rating-table--rating">
-                    <p class="item-info__rating-table--rating-num">3.2</p>
-                    <select class="star-rating">
-                        <option value="">Выберите рейтинг</option>
-                        <option value="5">Отлично</option>
-                        <option value="4">Очень хорошо</option>
-                        <option value="3">Удовлетворительно</option>
-                        <option value="2">Плохо</option>
-                        <option value="1">Ужасно</option>
-                    </select>
-                </div>
-            </label>
-            <!-- Tab 2 -->
-            <input type="radio" name="tabset" id="tab2" checked />
-            <label for="tab2">
-                <img src="img/item/google-maps-logo.svg" alt="Google Maps" />
-                <span class="btn testimonials__number">100</span>
-                <div class="item-info__rating-table--rating">
-                    <p class="item-info__rating-table--rating-num">3.2</p>
-                    <select class="star-rating">
-                        <option value="">Выберите рейтинг</option>
-                        <option value="5">Отлично</option>
-                        <option value="4">Очень хорошо</option>
-                        <option value="3">Удовлетворительно</option>
-                        <option value="2">Плохо</option>
-                        <option value="1">Ужасно</option>
-                    </select>
-                </div>
-            </label>
-            <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" />
-            <label for="tab3">
-                <img src="img/item/2gis-logo.svg" alt="2gis" />
-                <span class="btn testimonials__number">100</span>
-                <div class="item-info__rating-table--rating">
-                    <p class="item-info__rating-table--rating-num">3.2</p>
-                    <select class="star-rating">
-                        <option value="">Выберите рейтинг</option>
-                        <option value="5">Отлично</option>
-                        <option value="4">Очень хорошо</option>
-                        <option value="3">Удовлетворительно</option>
-                        <option value="2">Плохо</option>
-                        <option value="1">Ужасно</option>
-                    </select>
-                </div>
-            </label>
-            <!-- Tab 4 -->
-            <input type="radio" name="tabset" id="tab4" />
-            <label for="tab4">
-                <img src="img/item/avito-logo.svg" alt="Avito" />
-                <span class="btn testimonials__number">100</span>
-                <div class="item-info__rating-table--rating">
-                    <p class="item-info__rating-table--rating-num">3.2</p>
-                    <select class="star-rating">
-                        <option value="">Выберите рейтинг</option>
-                        <option value="5">Отлично</option>
-                        <option value="4">Очень хорошо</option>
-                        <option value="3">Удовлетворительно</option>
-                        <option value="2">Плохо</option>
-                        <option value="1">Ужасно</option>
-                    </select>
-                </div>
-            </label>
+            @foreach($shop->services as $service)
+                <input type="radio" name="tabset" id="tab-{{ $service->id }}" />
+                <label for="tab-{{ $service->id }}">
+                    <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
+                    <span class="btn testimonials__number">{{ $service->pivot->rating_count }} {{ \App\Helpers::getNumEnding((int)$service->rating_count, array('оценка', 'оценки', 'оценок')) }}</span>
+                    <x-display-rating
+                        rating="{{ $service->pivot->rating }}"
+                        disabled={{true}}
+                        className="item-info__rating-table--rating"
+                        classNameCount="item-info__rating-table--rating-num"
+                    />
+                </label>
+            @endforeach
 
             <div class="tab-panels">
-                <section id="yandex-maps" class="tab-panel">
-                    <div class="testimonials__tab-header">
-                        <div class="testimonials__tab-select">
-                            <div class="itc-select" id="googleSelect">
-                                <!-- Кнопка для открытия выпадающего списка -->
-                                <button type="button" class="itc-select__toggle" name="googleFilter" value="newest" data-select="toggle" data-index="0">
-                                    Сначала новые
-                                </button>
-                                <!-- Выпадающий список -->
-                                <div class="itc-select__dropdown">
-                                    <ul class="itc-select__options">
-                                        <li class="itc-select__option itc-select__option_selected" data-select="option" data-value="newest" data-index="0">
-                                            Сначала новые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="oldest" data-index="1">
-                                            Сначала старые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="best" data-index="2">
-                                            Сначала положительные
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="worst" data-index="3">
-                                            Сначала негативные
-                                        </li>
-                                    </ul>
+                @foreach($shop->services as $service)
+                    <section id="service-responses-{{ $service->id }}" class="tab-panel">
+                        <div class="testimonials__tab-header">
+                            <div class="testimonials__tab-select">
+                                <div class="itc-select" id="googleSelect">
+                                    <!-- Кнопка для открытия выпадающего списка -->
+                                    <button type="button" class="itc-select__toggle" name="googleFilter" value="newest" data-select="toggle" data-index="0">
+                                        Сначала новые
+                                    </button>
+                                    <!-- Выпадающий список -->
+                                    <div class="itc-select__dropdown">
+                                        <ul class="itc-select__options">
+                                            <li class="itc-select__option itc-select__option_selected" data-select="option" data-value="newest" data-index="0">
+                                                Сначала новые
+                                            </li>
+                                            <li class="itc-select__option" data-select="option" data-value="oldest" data-index="1">
+                                                Сначала старые
+                                            </li>
+                                            <li class="itc-select__option" data-select="option" data-value="best" data-index="2">
+                                                Сначала положительные
+                                            </li>
+                                            <li class="itc-select__option" data-select="option" data-value="worst" data-index="3">
+                                                Сначала негативные
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <a href="#" class="btn item-info__link item-info__link--site testimonials__tab-link">Перейти в карточку организации</a>
-                    </div>
-                    <div class="testimonials__tab-body-container">
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
+                            <a href="{{ $service->link }}" class="btn item-info__link item-info__link--site testimonials__tab-link">Перейти в карточку организации</a>
+                        </div>
+                        <div class="testimonials__tab-body-container">
+                            @foreach(json_decode($service->pivot->comments) as $comment)
+                                {{-- {{ dd($comment->response) }} --}}
+                                <div class="testimonials__tab-item">
+                                    <div class="testimonials__tab-item--header">
+                                        <div class="testimonials__tab-item--photo">
+                                            <img src="{{ asset('assets/img/item/customer-photo.jpg') }}" alt="Фото автора отзыва" />
+                                        </div>
+                                        <div class="testimonials__tab-item--user-info">
+                                            <p class="testimonials__tab-item--user-name">{{ $comment->name }}</p>
+                                            <p class="testimonials__tab-item--testimonial-date">
+                                                {{ $comment->date }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p class="testimonials__tab-item--text">
+                                        {{ $comment->text }}
                                     </p>
+                                    @if($comment->response > [])
+                                        <div class="testimonials__tab-item--reply-box">
+                                            <p class="testimonials__tab-item--reply-date">
+                                                Ответ от {{ $comment->response->date }}
+                                            </p>
+                                            <p class="testimonials__tab-item--reply-text">
+                                                {{ $comment->response->text }}
+                                            </p>
+                                        </div>
+                                    @endif
                                 </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
+                            @endforeach
                         </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="google-maps" class="tab-panel">
-                    <div class="testimonials__tab-header">
-                        <div class="testimonials__tab-select">
-                            <div class="itc-select" id="googleSelect">
-                                <!-- Кнопка для открытия выпадающего списка -->
-                                <button type="button" class="itc-select__toggle" name="googleFilter" value="newest" data-select="toggle" data-index="0">
-                                    Сначала новые
-                                </button>
-                                <!-- Выпадающий список -->
-                                <div class="itc-select__dropdown">
-                                    <ul class="itc-select__options">
-                                        <li class="itc-select__option itc-select__option_selected" data-select="option" data-value="newest" data-index="0">
-                                            Сначала новые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="oldest" data-index="1">
-                                            Сначала старые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="best" data-index="2">
-                                            Сначала положительные
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="worst" data-index="3">
-                                            Сначала негативные
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn item-info__link item-info__link--site testimonials__tab-link">Перейти в карточку организации</a>
-                    </div>
-                    <div class="testimonials__tab-body-container">
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="2gis" class="tab-panel">
-                    <div class="testimonials__tab-header">
-                        <div class="testimonials__tab-select">
-                            <div class="itc-select" id="googleSelect">
-                                <!-- Кнопка для открытия выпадающего списка -->
-                                <button type="button" class="itc-select__toggle" name="googleFilter" value="newest" data-select="toggle" data-index="0">
-                                    Сначала новые
-                                </button>
-                                <!-- Выпадающий список -->
-                                <div class="itc-select__dropdown">
-                                    <ul class="itc-select__options">
-                                        <li class="itc-select__option itc-select__option_selected" data-select="option" data-value="newest" data-index="0">
-                                            Сначала новые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="oldest" data-index="1">
-                                            Сначала старые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="best" data-index="2">
-                                            Сначала положительные
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="worst" data-index="3">
-                                            Сначала негативные
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn item-info__link item-info__link--site testimonials__tab-link">Перейти в карточку организации</a>
-                    </div>
-                    <div class="testimonials__tab-body-container">
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="avito" class="tab-panel">
-                    <div class="testimonials__tab-header">
-                        <div class="testimonials__tab-select">
-                            <div class="itc-select" id="googleSelect">
-                                <!-- Кнопка для открытия выпадающего списка -->
-                                <button type="button" class="itc-select__toggle" name="googleFilter" value="newest" data-select="toggle" data-index="0">
-                                    Сначала новые
-                                </button>
-                                <!-- Выпадающий список -->
-                                <div class="itc-select__dropdown">
-                                    <ul class="itc-select__options">
-                                        <li class="itc-select__option itc-select__option_selected" data-select="option" data-value="newest" data-index="0">
-                                            Сначала новые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="oldest" data-index="1">
-                                            Сначала старые
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="best" data-index="2">
-                                            Сначала положительные
-                                        </li>
-                                        <li class="itc-select__option" data-select="option" data-value="worst" data-index="3">
-                                            Сначала негативные
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn item-info__link item-info__link--site testimonials__tab-link">Перейти в карточку организации</a>
-                    </div>
-                    <div class="testimonials__tab-body-container">
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="testimonials__tab-item">
-                            <div class="testimonials__tab-item--header">
-                                <div class="testimonials__tab-item--photo">
-                                    <img src="img/item/customer-photo.jpg" alt="Фото автора отзыва" />
-                                </div>
-                                <div class="testimonials__tab-item--user-info">
-                                    <p class="testimonials__tab-item--user-name">User</p>
-                                    <p class="testimonials__tab-item--testimonial-date">
-                                        00.00.000
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonials__tab-item--text">
-                                Lorem ipsum dolor sit amet,
-                            </p>
-                            <div class="testimonials__tab-item--reply-box">
-                                <p class="testimonials__tab-item--reply-date">
-                                    Ответ от 00.00.000
-                                </p>
-                                <p class="testimonials__tab-item--reply-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                    sed do eiusmod tempor incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                @endforeach
             </div>
         </div>
 
@@ -1986,107 +1230,7 @@
     </div>
 </section>
 
-<section class="similar-section container">
-    <h2 class="similar-heading">Похожие компании</h2>
-
-    <ul class="similar-list" id="scroll-list">
-        <li class="similar-list__item">
-            <div class="similar-list__card">
-                <div class="similar-list__img-box">
-                    <img src="img/item/card-photo.jpg" alt="Фото компании" />
-                </div>
-                <div class="similar-list__info-box">
-                    <h3 class="similar-list__title">Вселенское счастье</h3>
-                    <div class="similar-list__rating">
-                        <span class="similar-list__num">3.2</span>
-                        <select class="star-rating">
-                            <option value="">Выберите рейтинг</option>
-                            <option value="5">Отлично</option>
-                            <option value="4">Очень хорошо</option>
-                            <option value="3">Удовлетворительно</option>
-                            <option value="2">Плохо</option>
-                            <option value="1">Ужасно</option>
-                        </select>
-                    </div>
-                    <p class="similar-list__open-status">Работает до 19:00</p>
-                    <p class="similar-list__address">ул. Ленина, д.100</p>
-                </div>
-            </div>
-        </li>
-
-        <li class="similar-list__item">
-            <div class="similar-list__card">
-                <div class="similar-list__img-box">
-                    <img src="img/item/card-photo.jpg" alt="Фото компании" />
-                </div>
-                <div class="similar-list__info-box">
-                    <h3 class="similar-list__title">Вселенское счастье</h3>
-                    <div class="similar-list__rating">
-                        <span class="similar-list__num">3.2</span>
-                        <select class="star-rating">
-                            <option value="">Выберите рейтинг</option>
-                            <option value="5">Отлично</option>
-                            <option value="4">Очень хорошо</option>
-                            <option value="3">Удовлетворительно</option>
-                            <option value="2">Плохо</option>
-                            <option value="1">Ужасно</option>
-                        </select>
-                    </div>
-                    <p class="similar-list__open-status">Работает до 19:00</p>
-                    <p class="similar-list__address">ул. Ленина, д.100</p>
-                </div>
-            </div>
-        </li>
-
-        <li class="similar-list__item">
-            <div class="similar-list__card">
-                <div class="similar-list__img-box">
-                    <img src="img/item/card-photo.jpg" alt="Фото компании" />
-                </div>
-                <div class="similar-list__info-box">
-                    <h3 class="similar-list__title">Вселенское счастье</h3>
-                    <div class="similar-list__rating">
-                        <span class="similar-list__num">3.2</span>
-                        <select class="star-rating">
-                            <option value="">Выберите рейтинг</option>
-                            <option value="5">Отлично</option>
-                            <option value="4">Очень хорошо</option>
-                            <option value="3">Удовлетворительно</option>
-                            <option value="2">Плохо</option>
-                            <option value="1">Ужасно</option>
-                        </select>
-                    </div>
-                    <p class="similar-list__open-status">Работает до 19:00</p>
-                    <p class="similar-list__address">ул. Ленина, д.100</p>
-                </div>
-            </div>
-        </li>
-
-        <li class="similar-list__item">
-            <div class="similar-list__card">
-                <div class="similar-list__img-box">
-                    <img src="img/item/card-photo.jpg" alt="Фото компании" />
-                </div>
-                <div class="similar-list__info-box">
-                    <h3 class="similar-list__title">Вселенское счастье</h3>
-                    <div class="similar-list__rating">
-                        <span class="similar-list__num">3.2</span>
-                        <select class="star-rating">
-                            <option value="">Выберите рейтинг</option>
-                            <option value="5">Отлично</option>
-                            <option value="4">Очень хорошо</option>
-                            <option value="3">Удовлетворительно</option>
-                            <option value="2">Плохо</option>
-                            <option value="1">Ужасно</option>
-                        </select>
-                    </div>
-                    <p class="similar-list__open-status">Работает до 19:00</p>
-                    <p class="similar-list__address">ул. Ленина, д.100</p>
-                </div>
-            </div>
-        </li>
-    </ul>
-</section>
+@include('layouts.similar-companies', [ 'items' ])
 
 <section class="similar">
     <div class="container">

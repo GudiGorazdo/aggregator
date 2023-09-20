@@ -11,9 +11,9 @@ use App\Models\City;
 class CityFilter extends BaseFilter
 {
     // Отрисовка фильтра
-    public function render(int|null $city_id = null, $group = true)
+    public function render(int|null $cityID = null, $group = true)
     {
-        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
+        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $cityID]);
     }
 
     // Фильтрация

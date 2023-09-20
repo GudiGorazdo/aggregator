@@ -35,7 +35,7 @@ class Shop extends Model
         return $query;
     }
 
-    public function scopeSimilarFilter(Builder $query, int $city_id, int $shop_id, array $subCategories = []): Builder
+    public function scopeSimilarFilter(Builder $query, int $cityID, int $shop_id, array $subCategories = []): Builder
     {
             $query = (new SimilarCategoriesFilter())->apply($query, $subCategories)
                 ->with('area')
@@ -45,7 +45,7 @@ class Shop extends Model
                 ->with('subCategories')
                 ->with('subways')
                 ->where('id', '!=',  $shop_id)
-                ->where('city_id',  $city_id)
+                ->where('city_id',  $cityID)
             ;
         return $query;
     }
@@ -120,6 +120,7 @@ class Shop extends Model
     {
         return $this->belongsToMany(\App\Models\Service::class, 'shop_service')
             ->withPivot('rating')
+            ->withPivot('rating_count')
             ->withPivot('comments')
         ;
     }

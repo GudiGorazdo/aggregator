@@ -55,9 +55,9 @@ abstract class BaseFilter
     }
 
     // Отрисовка фильтра
-    public function render(int|null $city_id = null)
+    public function render(int|null $cityID = null)
     {
-        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $city_id]);
+        return view('filters.' . $this->getName(), ['filter' => $this, 'request' => $this->request, 'city_id' => $cityID]);
     }
 
     // Ответ сервера в формате tex/html. Возвращается вёрстка.
