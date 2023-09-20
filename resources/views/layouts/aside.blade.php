@@ -1,44 +1,44 @@
 <aside class="aside">
     <div class="aside--collapsed">
-        <button class="btn aside-btn">
+        <button class="btn aside__btn">
             <x-icon-filter-icon />
         </button>
-        <button class="btn aside-btn">
+        <button class="btn aside__btn">
             <x-icon-places-icon />
-            <span class="aside-btn--span">5</span>
+            <span class="aside__btn--span">5</span>
         </button>
-        <button class="btn aside-btn">
-            <x-icon-location-icon />
-            <span class="aside-btn--span">5</span>
+        <button class="btn aside__btn">
+            <x-icon-location-icon width="30" height="30"/>
+            <span class="aside__btn--span">5</span>
         </button>
-        <button class="btn aside-btn">
+        <button class="btn aside__btn">
             <x-icon-metro-icon />
-            <span class="aside-btn--span">5</span>
+            <span class="aside__btn--span">5</span>
         </button>
-        <div class="aside-ratig">
+        <div class="aside__rating">
             <x-icon-star-full width="18" height="18" viewBox="0 0 18 18"/>
             <p>3.0</p>
         </div>
-        <button class="btn aside-btn"><x-icon-clock-icon /></button>
-        <button class="btn aside-btn"><x-icon-calculator-icon /></button>
+        <button class="btn aside__btn"><x-icon-clock-icon width="30" height="30"/></button>
+        <button class="btn aside__btn"><x-icon-calculator-icon width="30" height="30"/></button>
     </div>
 
     <div class="aside--expanded">
         <div class="flex-btw">
-            <button class="btn filter__collapse-btn">
+            <button class="btn aside__collapse-btn">
                 <span> Фильтр </span>
             </button>
 
-            <button class="btn aside-clear-btn">
+            <button class="btn aside__clear-btn">
                 <x-icon-trash />
                 <span>Очистить</span>
             </button>
         </div>
 
         <div class="mb-3">
-            <p class="aside-label mt-3 mb-15">Категории</p>
-            <div class="itc-select" id="filter-select-1">
-                <button type="button" class="itc-select__toggle categories-select categories-select-right" name="city" value="spb" data-select="toggle" data-index="0">
+            <p class="aside__label mt-3 mb-15">Категории</p>
+            <div id="filter-select-1">
+                <button id="toggle-category" type="button" class="btn aside__category-btn" name="city" value="spb" data-select="toggle" data-index="0">
                     Категории
                 </button>
             </div>

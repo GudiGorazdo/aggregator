@@ -19,7 +19,7 @@
                 <form onsubmit="event.preventDefault();" role="search">
                     <input id="search" type="search" placeholder="Поиск" autofocus required />
                     <button type="submit">
-                        <img src="img/icon/search-icon.svg" width="20" height="20" alt="Поиск" />
+                        <x-icon-search-icon />
                     </button>
                 </form>
             </div>

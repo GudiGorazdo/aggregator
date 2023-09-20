@@ -1,6 +1,8 @@
+import './aside.js';
+
 document.addEventListener('DOMContentLoaded', (e) => {
   const filterWrapper = document.querySelector(".filter__wrapper");
-  const filterBtn = document.querySelector(".aside-btn");
+  const filterBtn = document.querySelector(".aside__btn");
   filterBtn.addEventListener("click", () => {
     filterWrapper.classList.toggle("active");
     filterBtn.classList.toggle("active");
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     placesBtn.classList.toggle("expanded");
   });
 
-  const filterCollapseBtn = document.querySelector(".filter__collapse-btn");
+  const filterCollapseBtn = document.querySelector(".aside__collapse-btn");
   const mobileFilterBtn = document.querySelector(".mobile-filter-toggle-btn");
   mobileFilterBtn.addEventListener("click", () => {
     filterWrapper.classList.toggle("active");

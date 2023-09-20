@@ -379,18 +379,18 @@
     min-height: 100vh;
   }
 
-  .filter__collapse-btn {
+  .aside__collapse-btn {
     background-color: transparent;
     font-size: 1.4rem;
     font-weight: 600;
     color: inherit;
   }
 
-  .filter__collapse-btn::before {
+  .aside__collapse-btn::before {
     background-image: url("../img/icon/arrow-square-left.svg");
   }
 
-  .aside-clear-btn {
+  .aside__clear-btn {
     position: fixed;
     left: 2rem;
     bottom: 2rem;
@@ -401,15 +401,15 @@
     z-index: 500;
   }
 
-  .aside-clear-btn img {
+  .aside__clear-btn img {
     opacity: 0;
   }
 
-  .aside-clear-btn span {
+  .aside__clear-btn span {
     display: block;
   }
 
-  .aside-clear-btn span::before {
+  .aside__clear-btn span::before {
     content: "";
     position: absolute;
     left: 0;
@@ -422,7 +422,7 @@
     background-repeat: no-repeat;
   }
 
-  .aside-toggles {
+  .aside__toggles {
     padding-bottom: 10rem;
   }
 

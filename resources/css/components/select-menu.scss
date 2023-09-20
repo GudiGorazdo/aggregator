@@ -1,6 +1,12 @@
 .select-menu {
   &__label {}
   .itc-select__toggle {}
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   &__current {
     position: relative;
     display: -webkit-box;

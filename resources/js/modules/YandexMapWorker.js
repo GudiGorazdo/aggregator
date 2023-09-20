@@ -76,7 +76,8 @@ export default class YandexMapWorker {
     ymaps.ready(function() {
       var myMap = new ymaps.Map("filter-map", {
         center: [average.lat, average.long],
-        zoom: 10
+        zoom: 10,
+        controls: ['zoomControl'],
       }, {
         searchControlProvider: 'yandex#search'
       }),

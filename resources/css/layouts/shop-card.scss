@@ -70,13 +70,17 @@
     text-overflow: ellipsis;
   }
 
-  .active & {
-    display: none;
-  }
+  // .active & {
+  //   display: none;
+  // }
 
   &__show-location {
     font-size: 1.4rem;
     line-height: 1;
+  }
+
+  &__data {
+    font-size: 1.4rem;
   }
 
   &__time {
@@ -119,6 +123,10 @@
     color: $colorWhite;
     border: 2px solid $colorSecondary;
     border-radius: 1px;
+
+    @media only screen and (max-width: $pointXL) {
+      font-size: 1.4rem;
+    }
   }
 
   &__contacts {

@@ -261,7 +261,7 @@
         });
 
         const filterWrapper = document.querySelector(".filter__wrapper");
-        const filterBtn = document.querySelector(".aside-btn");
+        const filterBtn = document.querySelector(".aside__btn");
 
 
         filterBtn.addEventListener("click", () => {
@@ -269,7 +269,7 @@
           filterBtn.classList.toggle("active");
         });
         const filterCollapseBtn = document.querySelector(
-          ".filter__collapse-btn"
+          ".aside__collapse-btn"
         );
 
         const mobileFilterBtn = document.querySelector(

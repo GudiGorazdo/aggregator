@@ -4,11 +4,26 @@ html {
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   color: $colorMainBackground;
+
+  @media only screen and (max-width: $pointXL) {
+    font-size: 56.25%;
+  }
+  @media only screen and (max-width: $pointLG) {
+    font-size: 50%;
+  }
+  @media only screen and (max-width: $pointMD) {
+    font-size: 62.5%;
+  }
 }
+
 
 body {
   background-color: $colorSecondaryBackground;
   overflow-x: hidden;
+}
+
+body.disabled {
+  overflow: hidden;
 }
 
 html,
@@ -17,7 +32,11 @@ body {
 }
 
 main {
-  padding-top: 10rem;
+  padding-top: $mainSectionPaddingXXL;
+
+  @media only screen and (max-width: $pointMD) {
+    padding-top: $mainSectionPaddingMD;
+  }
 }
 
 *,

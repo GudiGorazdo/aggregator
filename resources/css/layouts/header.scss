@@ -7,7 +7,11 @@
   &__top {
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
-    padding-right: 6rem;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
   }
 
   &__menu-btn,
@@ -38,9 +42,14 @@
 
   &__map-btn {
     display: none;
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
+    }
   }
 
   &__logo {
+    min-width: 170px;
     display: flex;
     align-items: center;
 
@@ -52,13 +61,36 @@
     > * + * {
       margin-left: 3rem;
     }
+
+    @media only screen and (max-width: $pointMD) {
+      max-width: 114px;
+      min-width: 114px;
+      margin: 0;
+
+      img {
+        max-height: 2.2rem;
+      }
+
+      > * + * {
+        margin-left: 0.6rem;
+      }
+    }
   }
 
   &__top-text {
+    padding-right: 1rem;
     font-size: 1.5rem;
     line-height: 1.6;
     text-align: center;
     margin-left: 2.4rem;
+
+    @media only screen and (max-width: $pointXL) {
+      opacity: 0;
+    }
+
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
   }
 
   &__top-link {
@@ -85,19 +117,27 @@
         transform: translateY(-50%);
       }
     }
+
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
   }
 }
 
 .header-city {
   position: relative;
   min-width: 21rem;
+
+  @media only screen and (max-width: $pointMD) {
+    display: none;
+  }
 }
 
 .header-city-popup {
   position: absolute;
-  bottom: -13.5em;
-  right: 0em;
-  padding: 1em;
+  top: 0em;
+  left: -18.5em;
+  padding: 1.5em;
   padding-top: 2.5em;
   border: 1px solid $color_4;
   border-radius: 1em;
@@ -105,18 +145,19 @@
   opacity: 1;
   visibility: visible;
   pointer-events: all;
+  z-index: 999;
 
   &::before {
     content: '';
     position: absolute;
-    right: 26px;
-    top: -9px;
+    top: 17px;
+    right: -11px;
     width: 2em;
     height: 2em;
     border-bottom: 1px solid $color_4;
     border-left: 1px solid $color_4;
     background-color: $colorWhite;
-    transform: rotate(135deg);
+    transform: rotate(225deg);
   }
   &.hidden {
     opacity: 0;
@@ -124,8 +165,8 @@
     pointer-events: none;
   }
   &__close {
-    top: 0;
-    right: 0;
+    top: 0.5rem;
+    right: 0.5rem;
   }
   &__label {
     margin-bottom: 1em;
@@ -135,7 +176,7 @@
   }
   &__confirm,
   &__label {
-    font-size: 2em;
+    font-size: 1.5em;
     white-space: nowrap;
   }
 }

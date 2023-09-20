@@ -1,5 +1,5 @@
 <div id="filter_location">
-    <p class="aside-label mt-3 mb-15">Район</p>
+    <p class="aside__label mt-3 mb-15">Район</p>
 
     @include('filters.location-item', [
         'items' => $items,
@@ -10,7 +10,7 @@
         'filterID' => $filter->getAttribute('area_id'),
     ])
 
-    <p class="aside-label mt-3 mb-15">Метро</p>
+    <p class="aside__label mt-3 mb-15">Метро</p>
 
     @include('filters.location-item', [
         'items' => $items->pluck('subways')->flatten()->all(),

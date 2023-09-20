@@ -1,4 +1,4 @@
-<section class="search search--filter">
+<section id="filter-category" class="search search--filter">
     <div class="search__form">
         <form onsubmit="event.preventDefault();" role="search">
             <input id="filterSearch" type="search" placeholder="Поиск" autofocus required />

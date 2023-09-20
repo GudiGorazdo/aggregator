@@ -5,7 +5,7 @@
   box-shadow: 0 5px 50px $colorBlackOpacity;
   display: none;
 
-  .active & {
+  &.active {
     display: flex;
     flex-direction: column;
   }
@@ -105,19 +105,6 @@
      background-repeat: no-repeat;
    }
 
-   &--menu {
-     width: 100%;
-     margin: 0;
-     display: none !important;
-   }
-
-   &--menu .categories-list {
-     padding-inline: 2rem;
-   }
-
-   &--menu .categories-list>li:last-child {
-     padding-bottom: 0;
-   }
 }
 
 
