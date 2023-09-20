@@ -1,4 +1,4 @@
- export default class YandexMapWorker {
+export default class YandexMapWorker {
   button = null;
   items = null;
   mapWrapper = null;
@@ -54,9 +54,14 @@
 
   scrollToShop(id) {
     const shopItem = document.querySelector(`[data-shop-target="${id}"]`);
+    const shopListHeight = this.shopList.offsetHeight;
+    const shopItemHeight = shopItem.offsetHeight;
+    const marginBottom = parseFloat(window.getComputedStyle(shopItem).marginBottom);
     const offsetTop = shopItem.offsetTop - this.shopList.offsetTop;
+    const scrollToPosition = offsetTop - (shopListHeight / 2) + (shopItemHeight / 2) + (marginBottom / 2);
+
     this.shopList.scrollTo({
-      top: offsetTop,
+      top: scrollToPosition,
       behavior: 'smooth'
     });
   }
@@ -68,7 +73,7 @@
     const showShop = this.showShop.bind(this);
     const scroll = this.scrollToShop.bind(this);
     const shops = this.items;
-    ymaps.ready(function () {
+    ymaps.ready(function() {
       var myMap = new ymaps.Map("filter-map", {
         center: [average.lat, average.long],
         zoom: 10
@@ -83,11 +88,11 @@
       for (var i = 0, l = shopsData.length; i < l; i++) {
         const mark = new ymaps.Placemark([shopsData[i].coords['lat'], shopsData[i].coords['long']], { path: shopsData[i].path });
         mark.events.add('click', ((shop) => {
-          return function () {
+          return function() {
             hideAllItems();
             showShop(shop);
             scroll(shop.path);
-            markCollection.each(function (placemark) {
+            markCollection.each(function(placemark) {
               placemark.options.set('iconColor', '#6c757d');
             });
             mark.options.set('iconColor', '#3d39fc');
@@ -97,13 +102,13 @@
       }
 
       document.querySelectorAll('[data-shop-view]').forEach(shop => shop.addEventListener('click', (e) => {
-         shops.forEach(shop => {
-           shop.classList.remove('show');
-           if (e.target.dataset.shopView == shop.dataset.shopTarget) {
-             shop.classList.add('show');
-           }
-         });
-        markCollection.each(function (mark) {
+        shops.forEach(shop => {
+          shop.classList.remove('show');
+          if (e.target.dataset.shopView == shop.dataset.shopTarget) {
+            shop.classList.add('show');
+          }
+        });
+        markCollection.each(function(mark) {
           mark.options.set('iconColor', '#6c757d');
           if (e.target.dataset.shopView == mark.properties.get('path')) {
             e.target.classList.add('show');
