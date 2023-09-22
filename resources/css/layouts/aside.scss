@@ -1,8 +1,13 @@
 @import "../components/display-rating.scss";
 
 .aside {
-  width: 10rem;
-  max-height: 60rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  // width: 10rem;
+  // max-height: 60rem;732px
+  height: 100%;
+  padding: 2.4rem;
   margin-right: 1rem;
   background: #fff5ec;
 
@@ -28,6 +33,7 @@
   }
 
   .active &--expanded {
+    // position: absolute;
     display: block;
 
     @media only screen and (max-width: $pointMD) {
@@ -169,8 +175,10 @@
   }
 
   &__btn {
+    box-sizing: content-box;
     width: 3rem;
     height: 3rem;
+    padding: 1rem;
   }
 
   &__btn--span {

@@ -4,9 +4,10 @@
   position: relative;
   width: 100%;
   max-width: 60rem;
-  height: 81rem;
-  overflow-y: auto;
+  height: 72.5rem;
+  // height: 100%;
   transition: height 0.5s;
+  overflow-y: auto;
 
   @media only screen and (max-width: $pointMD) {
     height: 119.5rem;

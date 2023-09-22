@@ -1,11 +1,14 @@
 import './aside.js';
 
 document.addEventListener('DOMContentLoaded', (e) => {
+  const aside = document.querySelector(".aside");
   const filterWrapper = document.querySelector(".filter__wrapper");
   const filterBtn = document.querySelector(".aside__btn");
+  const categoriesList = document.getElementById('filter-category');
   filterBtn.addEventListener("click", () => {
     filterWrapper.classList.toggle("active");
     filterBtn.classList.toggle("active");
+    aside.classList.toggle("active");
   });
 
 
@@ -54,7 +57,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
     if (x.matches) {
       filterCollapseBtn.addEventListener("click", () => {
         filterWrapper.classList.toggle("active");
+        aside.classList.toggle("active");
         bodyEl.classList.toggle("fixed-position");
+        categoriesList.classList.remove("active");
       });
 
       searchFilterBtn.addEventListener("click", () => {
@@ -75,6 +80,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         }
 
         filterWrapper.classList.toggle("active");
+        aside.classList.toggle("active");
+        categoriesList.classList.remove("active");
       });
     }
   }

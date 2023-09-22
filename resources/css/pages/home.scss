@@ -5,25 +5,41 @@
 @import "../layouts/similar.scss";
 
 .filter {
-  background-color: #ededed !important;
   position: relative;
+  padding-left: 10rem;
+  max-width: 100%;
+  // display: flex;
+  background-color: #ededed !important;
+
+  @media only screen and (max-width: $pointMD) {
+    padding-left: 0;
+  }
 
   &__wrapper {
+    // padding-bottom: 10rem;
     display: flex;
-    padding-bottom: 10rem;
+    // overflow-y: hidden;
 
-    @media only screen and (max-width: $pointMD) {
-      max-width: 100%;
-      padding-bottom: 0;
+    &.active > * {
+      transform: translateX(170px);
     }
   }
 
   &__map {
-    width: 50%;
+    // width: 50%;
+    // max-width: 50%;
+    // width: 500px;
+    // flex-basis: 50%;
     flex-grow: 1;
+    // flex-shrink: 1;
     margin-left: 10px;
     position: relative;
     transition: all 0.5s;
+
+    // @media only screen and (max-width: $pointXL) {
+    //   flex-grow: 0;
+    //   flex-shrink: 1;
+    // }
 
     @media only screen and (max-width: $pointMD) {
       position: absolute;
@@ -99,6 +115,14 @@
   @media only screen and (max-width: $pointMD) {
     padding: 2rem;
   }
+}
+
+#filter-category {
+  position: absolute;
+  top: 0;
+  left: 270px;
+  height: 100%;
+  z-index: 1;
 }
 
 
