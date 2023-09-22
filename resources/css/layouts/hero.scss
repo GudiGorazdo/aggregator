@@ -55,11 +55,8 @@
     }
 
     &.active {
-      height: 7rem;
-
-      @media only screen and (max-width: $pointMD) {
-        height: 18rem;
-      }
+      height: min-content;
+      padding-bottom: 3rem;
     }
   }
 
@@ -136,3 +133,5 @@
     }
   }
 }
+
+

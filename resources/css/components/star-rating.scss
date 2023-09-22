@@ -1,8 +1,8 @@
 .star-rating {
-  $widthStep: 3.2em;
+  $widthStep: 2.32em;
   $width: $widthStep * 5;
-  $heght: 2em;
-  $backgroundSize: 3.5em;
+  $heght: 1.6em;
+  $backgroundSize: 2.5em;
 
   padding: 0;
   display: flex;
@@ -59,32 +59,6 @@
 
   &__radio:hover ~ &__radio {
     background-image: none;
-  }
-
-  // SIZE 25
-  $widthStep_25: 4.92em;
-  $width_25: $widthStep_25 * 5;
-  $heght_25: 2.5em;
-  $backgroundSize_25: 5.5em;
-
-  &--25  &__group {
-      width: $width_25;
-      height: $heght_25;
-      background-size: $backgroundSize_25;
-  }
-
-
-  &--25  &__radio {
-    height: $heght_25;
-    background-size: $backgroundSize_25;
-  }
-
-  $z: 6;
-  @for $i from 1 through 5 {
-    &--25  &__radio:nth-of-type(#{$i}) {
-      width: ($i * $widthStep_25);
-      z-index: $z - $i;
-    }
   }
 }
 

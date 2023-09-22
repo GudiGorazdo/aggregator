@@ -34,7 +34,7 @@
         <x-social-item className="shop-card__contact shop-card__contact--tel">
             <x-icon-tel-icon />
         </x-social-item>
-        <button class="btn shop-card__show-location" data-shop-view="{{ $shop->id }}"><x-icon-location-icon /></button>
+        <button class="btn shop-card__show-location" data-shop-view="{{ $shop->id }}"><x-icon-map-location /></button>
     </div>
 </div>
 

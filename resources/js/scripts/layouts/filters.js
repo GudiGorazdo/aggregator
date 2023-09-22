@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 
   const placesItems = document.querySelector(".shop-list");
-  const placesBtn = document.querySelector(".shop-list-more");
+  const placesBtn = document.querySelector(".shop-list__more");
   placesBtn && placesBtn.addEventListener("click", () => {
     placesItems.classList.toggle("expanded");
     placesBtn.classList.toggle("expanded");

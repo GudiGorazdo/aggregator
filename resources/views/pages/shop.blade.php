@@ -60,7 +60,7 @@
 
             <div class="item-info__rating-box">
                 <h2 class="item-info__heading mb-12">Общий рейтинг</h2>
-                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" size="25"/>
+                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" size="55"/>
                 <table class="item-info__rating-table">
                     @foreach($shop->services as $service)
                     <tr>

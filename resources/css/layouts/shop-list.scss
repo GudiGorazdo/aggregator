@@ -1,12 +1,22 @@
 @import './shop-card.scss';
 
 .shop-list {
+  position: relative;
   width: 100%;
   max-width: 60rem;
   height: 81rem;
-  position: relative;
   overflow-y: auto;
   transition: height 0.5s;
+
+  @media only screen and (max-width: $pointMD) {
+    height: 119.5rem;
+    padding-bottom: 5rem;
+    overflow-y: hidden;
+
+    &.expanded {
+      height: max-content;
+    }
+  }
 
   &.active {
     display: none;
@@ -27,4 +37,45 @@
       margin-right: 3rem;
     }
   }
+
+  &__more {
+    display: none;
+
+    @media only screen and (max-width: $pointMD) {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      min-height: 4rem;
+      width: 100%;
+      padding: 1.1rem 2.2rem;
+      display: block;
+      background: $colorMainBackground;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      color: $colorWhite;
+      transform: translate(-50%, 0);
+      cursor: pointer;
+
+      & span {
+        position: relative;
+      }
+
+      & span::before {
+        content: "";
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        background-image: url("/resources/assets/svg/add-white.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        left: 0;
+        top: 50%;
+        transform: translate(-150%, -50%);
+      }
+    }
+  }
 }
+
+

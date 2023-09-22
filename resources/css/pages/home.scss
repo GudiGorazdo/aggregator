@@ -13,6 +13,7 @@
     padding-bottom: 10rem;
 
     @media only screen and (max-width: $pointMD) {
+      max-width: 100%;
       padding-bottom: 0;
     }
   }
@@ -23,6 +24,17 @@
     margin-left: 10px;
     position: relative;
     transition: all 0.5s;
+
+    @media only screen and (max-width: $pointMD) {
+      position: absolute;
+      top: 7rem;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 19rem);
+      margin: 0;
+      z-index: -1;
+      box-shadow: 0 5px 50px rgba(0, 0, 0, 0.15);
+    }
   }
 
   &__map::before {
@@ -88,4 +100,5 @@
     padding: 2rem;
   }
 }
+
 
