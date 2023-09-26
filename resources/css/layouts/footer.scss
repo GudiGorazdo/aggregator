@@ -2,13 +2,30 @@
   padding: 3.8rem 0;
   background: $colorSecondaryBackground;
 
-  &__inner {
-    position: relative;
+  @media only screen and (max-width: $pointMD) {
+    padding-top: 4.5rem;
+    padding-bottom: 15.8rem;
   }
 
-  &__logo img {
-    height: 5rem;
-    width: auto;
+  &__inner {
+    position: relative;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-bottom: 5rem;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__logo {
+    @media only screen and (max-width: $pointMD) {
+      margin-bottom: 4rem;
+    }
+
+    img {
+      height: 5rem;
+      width: auto;
+    }
   }
 
   &__list {
@@ -18,23 +35,37 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
     column-gap: 2rem;
+
+    @media only screen and (max-width: $pointMD) {
+      margin: 0;
+      grid-template-columns: 1fr;
+      grid-gap: 3rem;
+    }
+
+    li {
+      width: fit-content;
+    }
+
+    a:link,
+    a:visited {
+      font-family: "Inter", sans-serif;
+      font-size: 1.3rem;
+      line-height: 1;
+      font-weight: 500;
+      color: $color_5;
+      padding: 1.1rem 1.4rem;
+      background: $color_7;
+      display: inline-block;
+
+      @media only screen and (max-width: $pointMD) {
+        font-size: 1.5rem;
+        padding: 0;
+        background-color: transparent;
+      }
+    }
   }
 
-  &__list li {
-    width: fit-content;
-  }
 
-  &__list a:link,
-  &__list a:visited {
-    font-family: "Inter", sans-serif;
-    font-size: 1.3rem;
-    line-height: 1;
-    font-weight: 500;
-    color: $color_5;
-    padding: 1.1rem 1.4rem;
-    background: $color_7;
-    display: inline-block;
-  }
 
   &__link-btn {
     min-height: 4rem;
@@ -46,6 +77,12 @@
     font-weight: 600;
     color: $colorMainBackground;
     background: $colorPrimary;
+
+    @media only screen and (max-width: $pointMD) {
+      position: absolute;
+      top: 0;
+      right: 0
+    }
   }
 
   &__btn-top {
@@ -59,5 +96,14 @@
     left: 0;
     top: 50%;
     transform: translate(-300%, -50%) rotate(-180deg);
+
+    @media only screen and (max-width: $pointMD) {
+      top: auto;
+      left: 0;
+      bottom: 0;
+      transform: translate(0) rotate(-180deg);
+    }
   }
 }
+
+

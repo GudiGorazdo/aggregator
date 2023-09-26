@@ -42,19 +42,19 @@
 
 <section class="mobile-nav-section">
     <div class="mobile-nav-section__box">
-        <button class="btn mobile-filter-toggle-btn">
-            <img src="img/icon/arrow-square-up.svg" alt="Открыть фильтр" />
+        <button class="btn mobile-nav-section__toggle-btn mobile-nav-section__toggle-btn--filter">
+            <x-icon-arrow-square-up />
             <span>Фильтр</span>
         </button>
-        <button class="btn mobile-toggle-btn mobile-toggle-btn--places">
-            <img src="img/icon/places-icon.svg" alt="Открыть список мест" />
+        <button class="btn mobile-nav-section__toggle-btn mobile-nav-section__toggle-btn--places">
+            <x-icon-places-icon />
         </button>
-        <button class="btn mobile-toggle-btn mobile-toggle-btn--map">
-            <img src="img/icon/map-icon.svg" alt="Открыть карту" />
+        <button class="btn mobile-nav-section__toggle-btn mobile-nav-section__toggle-btn--map">
+            <x-icon-map-icon />
         </button>
     </div>
 
-    <a class="btn hero-section-btn" href="#">Отправить заявку всем</a>
+    <a class="btn btn--primary hero__btn" href="#">Отправить заявку всем</a>
 </section>
 @endsection
 

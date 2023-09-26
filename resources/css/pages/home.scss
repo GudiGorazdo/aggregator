@@ -122,8 +122,6 @@
     transition: all 0.5s;
   }
 
-
-
   &__text-btn.active::before {
     transform: translateY(-50%) rotate(-180deg);
   }
@@ -141,6 +139,71 @@
   left: 270px;
   height: 100%;
   z-index: 1;
+}
+
+.mobile-nav-section {
+  width: 100%;
+  height: 12rem;
+  position: fixed;
+  bottom: 0;
+  background-color: #25313a;
+  z-index: 1000;
+  display: none;
+
+  @media only screen and (max-width: $pointMD) {
+    display: block;
+
+    .hero__btn {
+      min-width: 100%;
+      padding: 2.2rem;
+      display: flex;
+      transform: translate(-50%, 0);
+      font-size: 1.9rem;
+    }
+  }
+
+  &__box {
+    height: 5.6rem;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__toggle-btn {
+    &--filter {
+      margin-right: auto;
+      min-width: 10rem;
+      min-height: 4rem;
+      font-size: 1.3rem;
+      color: #ffffff;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.8rem;
+      }
+    }
+
+    &--places {
+      margin-right: 1.2rem;
+
+      svg {
+        width: 20px;
+        height: 20px;
+
+        path {
+          stroke: #B4E040;
+        }
+      }
+    }
+
+    &--places,
+    &--map {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
 }
 
 
