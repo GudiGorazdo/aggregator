@@ -1,12 +1,14 @@
 .similar-categories {
-  & {
-    flex-basis: 60%;
-    margin-bottom: 3rem;
-    height: 16.7rem;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    transition: all 0.5s;
+  flex-basis: 60%;
+  margin-bottom: 3rem;
+  height: 16.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  transition: all 0.5s;
+
+  @media only screen and (max-width: $pointMD) {
+    height: 24rem;
   }
 
   & a:link,
@@ -18,6 +20,11 @@
     margin-bottom: 1.5rem;
     align-items: center;
     color: inherit;
+
+    @media only screen and (max-width: $pointMD) {
+      padding: 1.5rem 2rem;
+      width: 100%;
+    }
   }
 
   & img {

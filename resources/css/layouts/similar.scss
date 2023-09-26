@@ -9,17 +9,33 @@
   background-position: center right;
   background-size: auto 100%;
 
+  @media only screen and (max-width: $pointMD) {
+    padding-top: 2.7rem;
+    padding-bottom: 5.4rem;
+    background-image: url('/resources/assets/img/categories-bg-mobile.png');
+    background-position: bottom right;
+    background-size: 75%;
+  }
+
   &__title {
     margin-bottom: 4.2rem;
     font-size: 3rem;
     letter-spacing: -0.05em;
     font-weight: 600;
     color: $colorMainBackground;
+
+    @media only screen and (max-width: $pointMD) {
+      margin-bottom: 2.5rem;
+    }
   }
 
   &__inner {
     display: flex;
     justify-content: space-between;
+
+    @media only screen and (max-width: $pointMD) {
+      flex-direction: column;
+    }
   }
 
   &__more-btn {
@@ -28,6 +44,10 @@
     line-height: 1;
     font-weight: 600;
     padding-left: 3rem;
+
+    @media only screen and (max-width: $pointMD) {
+      margin-bottom: 4rem;
+    }
   }
 
   &__more-btn::before {
@@ -48,3 +68,5 @@
     transform: translateY(-50%) rotate(-180deg);
   }
 }
+
+

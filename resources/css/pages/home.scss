@@ -76,6 +76,21 @@
     font-size: 1.7rem;
     line-height: 2.4rem;
     font-weight: 600;
+
+    @media only screen and (max-width: $pointMD) {
+      width: 100%;
+      margin-bottom: 2rem;
+      padding: 4rem 2rem 0 2rem;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 7;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      &.active {
+        -webkit-line-clamp: 15;
+      }
+    }
   }
 
   &__text-btn {
@@ -86,6 +101,11 @@
     font-weight: 600;
     padding-left: 3rem;
     display: none;
+
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
+    }
   }
 
   &__text-btn::before {
@@ -102,9 +122,7 @@
     transition: all 0.5s;
   }
 
-  &__text.active {
-    -webkit-line-clamp: 15;
-  }
+
 
   &__text-btn.active::before {
     transform: translateY(-50%) rotate(-180deg);
