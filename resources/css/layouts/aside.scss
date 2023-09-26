@@ -21,12 +21,16 @@
     min-height: -webkit-fill-available;
     display: none;
     overflow-y: scroll;
-  }
 
+    &.active {
+      display: block;
+    }
+  }
   .active & {
     width: 26rem;
     max-height: 80rem;
   }
+
 
   .active &--collapsed {
     display: none;
@@ -70,6 +74,10 @@
     background-image: url('/resources/assets/svg/arrow-left.svg');
     background-size: contain;
     background-repeat: no-repeat;
+
+    @media only screen and (max-width: $pointMD) {
+      background-image: url('/resources/assets/svg/arrow-square-left.svg');
+    }
   }
 
   &--collapsed,

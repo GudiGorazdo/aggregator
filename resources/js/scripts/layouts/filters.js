@@ -1,15 +1,18 @@
 import './aside.js';
 
 document.addEventListener('DOMContentLoaded', (e) => {
+  const bodyEl = document.querySelector("body");
   const aside = document.querySelector(".aside");
   const filterWrapper = document.querySelector(".filter__wrapper");
-  const filterBtn = document.querySelector(".aside__btn");
+  const filterBtns = document.querySelectorAll(".filter-toggle-btn");
   const categoriesList = document.getElementById('filter-category');
-  filterBtn.addEventListener("click", () => {
-    filterWrapper.classList.toggle("active");
-    filterBtn.classList.toggle("active");
-    aside.classList.toggle("active");
-  });
+  filterBtns.forEach(button => {
+    button.addEventListener("click", () => {
+      filterWrapper.classList.toggle("active");
+      button.classList.toggle("active");
+      aside.classList.toggle("active");
+    });
+  })
 
 
   const filterText = document.querySelector(".filter__text");
@@ -27,28 +30,30 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 
   const filterCollapseBtn = document.querySelector(".aside__collapse-btn");
-  const mobileFilterBtn = document.querySelector(".mobile-filter-toggle-btn");
+  const mobileFilterBtn = document.querySelector(".mobile-nav-section__toggle-btn--filter");
   mobileFilterBtn.addEventListener("click", () => {
     filterWrapper.classList.toggle("active");
     bodyEl.classList.toggle("fixed-position");
+    filterWrapper.classList.toggle("active");
   });
 
-  const mapToggleBtn = document.querySelector(".mobile-toggle-btn--map");
+  const mapToggleBtn = document.querySelector(".mobile-nav-section__toggle-btn--map");
   mapToggleBtn.addEventListener("click", () => {
     bodyEl.classList.toggle("map-open");
+    mapToggleBtn.classList.toggle("active");
   });
 
-  const placesToggleBtn = document.querySelector(".mobile-toggle-btn--places");
-  placesToggleBtn.addEventListener("click", () => {
-    bodyEl.classList.toggle("map-open");
-  });
+  // const placesToggleBtn = document.querySelector(".mobile-nav-section__toggle-btn--places");
+  // placesToggleBtn.addEventListener("click", () => {
+  //   bodyEl.classList.toggle("map-open");
+  // });
 
   const scrollToTopBtn = document.querySelector(".footer__btn-top");
   scrollToTopBtn.addEventListener("click", () => {
     window.scrollTo(0, 0);
   });
 
-  const searchFilterBtn = document.querySelector(".categories-select");
+  // const searchFilterBtn = document.querySelector(".categories-select");
   const searchFilterEl = document.querySelector(".search--filter");
 
   let searchFilterCtrlBtns = document.querySelectorAll(".search__mobile-btn");
@@ -62,9 +67,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
         categoriesList.classList.remove("active");
       });
 
-      searchFilterBtn.addEventListener("click", () => {
-        searchFilterEl.classList.toggle("active");
-      });
+      // searchFilterBtn.addEventListener("click", () => {
+      //   searchFilterEl.classList.toggle("active");
+      // });
 
       searchFilterCtrlBtns.forEach(function(el) {
         el.addEventListener("click", () => {

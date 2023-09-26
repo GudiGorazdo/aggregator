@@ -16,7 +16,6 @@ export default class YandexMapWorker {
   mapAdd = false;
 
   constructor() {
-    this.button = document.querySelector('.mobile-toggle-btn--map');
     this.items = document.querySelectorAll('[data-shop-target]');
     this.mapWrapper = document.getElementById('filter-map');
     this.shopList = document.getElementById('shop-list');
@@ -27,7 +26,6 @@ export default class YandexMapWorker {
       };
     });
 
-    this.button.addEventListener('click', this.toggle.bind(this));
     const addMap = () => this.addMap(this.shopsData);
     window.onload = function() {
       addMap();
@@ -141,7 +139,6 @@ export default class YandexMapWorker {
   }
 
   hideAllItems() {
-    this.button.textContent = 'Список';
     this.items.forEach(shopCard => shopCard.classList.add(this.classes.hide));
     this.items.forEach(shopCard => shopCard.classList.remove(this.classes.show));
     this.showMap();
@@ -149,16 +146,10 @@ export default class YandexMapWorker {
   }
 
   showAllItems() {
-    this.button.textContent = 'Карта';
     this.items.forEach(shopCard => shopCard.classList.add(this.classes.show));
     this.items.forEach(shopCard => shopCard.classList.remove(this.classes.hide));
     this.hideMap();
     this.map = false;
-  }
-
-  toggle() {
-    if (!this.map) return this.hideAllItems();
-    return this.showAllItems();
   }
 }
 

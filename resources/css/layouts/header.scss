@@ -138,13 +138,12 @@
 
 .header-city-popup {
   position: absolute;
-  top: 0em;
-  left: -18.5em;
+  top: 5em;
+  left: 0;
   padding: 2em;
   padding-top: 3.5em;
   border: 1px solid $color_4;
   border-radius: 1em;
-  border-top-right-radius: 0;
   background-color: $colorWhite;
   font-size: 1.2rem;
   opacity: 1;
@@ -155,14 +154,14 @@
   &::before {
     content: '';
     position: absolute;
-    top: 3px;
-    right: -11px;
+    top: -13px;
+    right: 50%;
     width: 2em;
     height: 2em;
     border-bottom: 1px solid $color_4;
     border-left: 1px solid $color_4;
     background-color: $colorWhite;
-    transform: rotate(225deg);
+    transform: translateX(50%) rotate(135deg) ;
   }
 
   &.hidden {

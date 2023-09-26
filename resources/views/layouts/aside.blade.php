@@ -1,6 +1,6 @@
 <aside class="aside">
     <div class="aside--collapsed">
-        <button class="btn aside__btn">
+        <button class="btn aside__btn filter-toggle-btn">
             <x-icon-filter-icon />
         </button>
         <button class="btn aside__btn">
