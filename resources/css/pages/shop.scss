@@ -1,10 +1,15 @@
 @import "../variables.scss";
 @import "../components/display-rating.scss";
+@import "../layouts/crousel-section.scss";
 @import "../layouts/similar.scss";
 
-.preview__slide img {
-  /* width: max-content; */
-  pointer-events: none;
+.preview__slide {
+  max-height: 25.5rem;
+
+  & img {
+    width: 100%;
+    pointer-events: none;
+  }
 }
 
 #map {

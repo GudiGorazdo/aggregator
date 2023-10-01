@@ -24,9 +24,9 @@
   display: flex;
   justify-content: center;
 
-  @media only screen and (min-width: $pointXL) {
-    max-height: 813px;
-  }
+  // @media only screen and (min-width: $pointXL) {
+  //   max-height: 813px;
+  // }
 
   @media only screen and (max-width: $pointXL) {
     max-height: 652px;

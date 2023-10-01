@@ -13,14 +13,35 @@ document.addEventListener('DOMContentLoaded', (e) => {
       nextEl: '.forwards',
       prevEl: '.previous',
     },
-    slidesPerView: 7,
     freeMode: true,
+    spaceBetween: 10,
+    slidesPerView: 2,
+    breakpoints: {
+      500: {
+        slidesPerView: 3,
+      },
+      900: {
+        slidesPerView: 5,
+      },
+      1000: {
+        slidesPerView: 4,
+      },
+      1400: {
+        slidesPerView: 5,
+      },
+      1700: {
+        slidesPerView: 6,
+      },
+      1800: {
+        slidesPerView: 7,
+      }
+    }
   }
 
   const preview = new Swiper('.preview', previewParams);
 
   // MAP
-  ymaps.ready(function () {
+  ymaps.ready(function() {
     const coord = JSON.parse(document.getElementById('shop_coord').value);
     var myMap = new ymaps.Map("map", {
       center: [coord.lat, coord.long],

@@ -19,13 +19,9 @@
         :items="json_decode($shop->photos)"
         alt="фото компании {{ $shop->name }}"
     >
-        <x-slot name="navigation">
-            <div class="actions">
-                <div class="btn previous"><x-icon-slider-arrow-left /></div>
-                <div class="btn forwards"><x-icon-slider-arrow-right /></div>
-            </div>
-        </x-slot>
     </x-carousel>
+    <div class="btn previous"><x-icon-slider-arrow-left /></div>
+    <div class="btn forwards"><x-icon-slider-arrow-right /></div>
 </section>
 
 <section class="item-header-section">
