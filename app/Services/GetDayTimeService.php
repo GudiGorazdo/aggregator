@@ -109,3 +109,5 @@ class GetDayTimeService
         return Carbon::now()->subHours(self::getTimezone($timezone))->format('l Y-m-d H:i');
     }
 }
+
+

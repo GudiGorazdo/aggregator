@@ -45,7 +45,7 @@
 }
 
 .brands-section {
-  background-color: #ffffff;
+  background-color: $colorWhite;
   position: relative;
   z-index: 2;
 }
@@ -178,7 +178,7 @@
   }
 
   &__item--brands {
-    background-color: #ffffff;
+    background-color: $colorWhite;
   }
 
   &__checkbox {
@@ -204,7 +204,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #ffffff;
+      background-color: $colorWhite;
       z-index: 2;
     }
 
@@ -219,7 +219,7 @@
         left: 0;
         width: 100%;
         padding: 0 8rem 4rem 3rem;
-        background-color: #fff;
+        background-color: $colorWhite;
         display: none;
       }
     }
@@ -320,7 +320,7 @@
       flex-direction: row !important;
       align-items: center !important;
       height: 5rem !important;
-      border-bottom: 1px solid #d9d9d9;
+      border-bottom: 1px solid $colorGrey;
       padding-left: 2rem !important;
     }
 

@@ -1,4 +1,4 @@
-<fieldset class="star-rating{{ isset($size) ? " star-rating--$size" : '' }}{{ isset($disabled) ? ' disabled' : '' }}">
+<fieldset class="star-rating{{ isset($disabled) ? ' disabled' : '' }}">
   <legend class="star-rating__caption">Рейтинг</legend>
   <div class="star-rating__group">
     @foreach ([

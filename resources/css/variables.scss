@@ -1,11 +1,12 @@
 $colorGrey: #d9d9d9;
-$colorGreylight: #EDEDED;
+$colorGreyLight: #EDEDED;
 $colorWhite: #fff;
+$colorLight: #fff;
 $colorBlack: #000;
 $colorBlackOpacity: rgba(0, 0, 0, 0.2);
 $colorBlackHardOpacity: rgba(0, 0, 0, 0.05);
 $colorMainBackground: #25313a;
-$colorSecondaryBackground: #ededed;
+$colorSecondaryBackground: $colorGreyLight;
 $colorPrimary: #b4e040;
 $colorDarkPrimary: #a2d222;
 $colorSecondary: #3d39fc;
@@ -17,12 +18,17 @@ $color_4: #ccc;
 $color_5: #7d8797;
 $color_6: #828282;
 $color_7: #f6f6f6;
+$color_8: #8f8f8f;
+$color_9: #f2f2f2;
+$color_10: #f5423e;
+$color_11: #ff4b4820;
 
 $shadow: 0 5px 50px rgba(0, 0, 0, 0.15);
 
 $pointXL: 75em;
 $pointLG: 62.25em;
 $pointMD: 56.25em;
+$pointS: 32em;
 $pointXS: 25em;
 // $pointMD:
 //

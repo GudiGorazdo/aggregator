@@ -1,0 +1,95 @@
+.hours {
+  width: 100%;
+  margin-bottom: 5rem;
+
+  @media only screen and (max-width: $pointMD) {
+    display: none;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $color_8;
+    background-image: linear-gradient(to bottom, $color_9, transparent);
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  tbody {
+    td {
+      padding: 0.3rem 1.5rem;
+      font-size: 1.2rem;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    > * + * {
+      margin-top: 0.2rem;
+    }
+  }
+
+  &__weekend {
+    background-image: linear-gradient(to bottom, $color_11, transparent) !important;
+
+    th,
+    td {
+      color: $color_10;
+    }
+  }
+
+  &__dot {
+    --el-size: 0.8rem;
+    width: var(--el-size);
+    height: var(--el-size);
+    background-color: $colorGrey;
+    border-radius: 50%;
+
+    &--active {
+      background-color: $colorSecondary;
+    }
+  }
+
+  &--mobile {
+    display: none;
+    margin-bottom: 2rem;
+    width: 100%;
+    border-collapse: collapse;
+
+    @media only screen and (max-width: $pointMD) {
+      display: table;
+    }
+
+    tbody {
+      tr {
+        background-image: linear-gradient(to bottom, $color_9, transparent);
+      }
+
+      tr th,
+      tr td {
+        padding: 1.2rem 1.5rem;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-weight: 600;
+      }
+
+      tr th {
+        text-align: left;
+        color: $color_8;
+        border-radius: 10px 0 0 10px;
+      }
+
+      tr td {
+        text-align: right;
+        border-radius: 0 10px 10px 0;
+      }
+    }
+  }
+}
+
+
+
+
+

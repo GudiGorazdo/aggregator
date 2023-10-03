@@ -30,7 +30,9 @@
         @include('layouts.admin.panel')
     @endauth
     @include('layouts.header')
-    <main id="main-content" class="main-content">@yield('content')</main>
+    <main id="main-content" class="main-content">
+        @yield('content')
+    </main>
     @include('layouts.footer')
     {{-- <div class="modal-window"> --}}
     {{--     @include('layouts.aside') --}}

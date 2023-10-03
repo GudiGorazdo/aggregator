@@ -24,51 +24,51 @@
     <div class="btn forwards"><x-icon-slider-arrow-right /></div>
 </section>
 
-<section class="item-header-section">
+<section class="heading">
     <div class="container">
-        <div class="item-header-section__inner">
-            <h1 class="item-title">
+        <div class="heading__inner">
+            <h1 class="heading__title">
                 {{ $shop->name }}
             </h1>
-            <a href="#" class="btn btn--apply">Заявка на оценку</a>
+            <a href="#" class="btn btn--primary heading__btn">Заявка на оценку</a>
         </div>
     </div>
 
-    <a href="#" class="btn item-header-section__back-btn"><x-icon-slider-arrow-left /></a>
+    {{-- <a href="#" class="btn heading__back-btn"><x-icon-slider-arrow-left /></a> --}}
 </section>
 
-<section class="item-body-section">
-    <div class="item-info container">
-        <div class="item-info__left-col">
-            <div class="item-info__address-box">
-                <x-icon-location class="item-info__address-icon"/>
-                <span class="item-info__address-text">{{ $shop->address }}</span>
+<section class="info">
+    <div class="info__wrapper container">
+        <div class="info-left">
+            <div class="info-heading">
+                <x-icon-location/>
+                <span class="info-heading__title">{{ $shop->address }}</span>
             </div>
 
-            <div class="item-info__links-box">
+            <div class="info-links">
                 @if (!is_null($web))
-                    <a href="{{ $web[0] }}" class="item-info__link item-info__link--site">{{ $web[0] }}</a>
+                    <a href="{{ $web[0] }}" class="info-links__link info-links__link--site">{{ $web[0] }}</a>
                 @endif
                 @if (!is_null($shop->vk))
-                    <a href="vk.com/{{ $shop->vk[0] }}" class="item-info__link item-info__link--vk">vk.com/{{ $shop->vk }}</a>
+                    <a href="vk.com/{{ $shop->vk[0] }}" class="info-links__link info-links__link--vk">vk.com/{{ $shop->vk }}</a>
                 @endif
             </div>
 
-            <div class="item-info__rating-box">
-                <h2 class="item-info__heading mb-12">Общий рейтинг</h2>
-                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" size="55"/>
-                <table class="item-info__rating-table">
+            <div class="info-rating">
+                <h2 class="info-title mb-12">Общий рейтинг</h2>
+                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}"/>
+                <table class="info-rating__table">
                     @foreach($shop->services as $service)
                     <tr>
-                        <th class="item-info__rating-table--logo-box">
+                        <th class="info-rating__logo">
                             <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         </th>
                         <td>
                             <x-display-rating
                                 rating="{{ $service->pivot->rating }}"
                                 disabled={{true}}
-                                classNameCount="item-info__rating-table--rating-num"
-                                className="item-info__rating-table--rating"
+                                classNameCount="info-rating__count"
+                                className="info-rating__stars"
                             />
                         </td>
                     </tr>
@@ -76,72 +76,64 @@
                 </table>
             </div>
 
-            <div class="item-info__description-box">
-                <h2 class="item-info__heading mb-15">Описание</h2>
-                <p class="item-info__description-text" id="text-slice">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                    sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <button class="btn item-info__description-text-btn">
+            <div class="info-description">
+                <h2 class="info-title mb-15">Описание</h2>
+                <p class="info-description__text" id="text-slice">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <button class="btn info-description__btn">
                     Показать все
                 </button>
             </div>
         </div>
 
-        <div class="item-info__right-col">
-            <div class="item-info__right-col-box">
-                <div class="item-info__right-info-box">
-                    <div class="item-info__address-box">
-                        <x-icon-contacts class="item-info__address-icon" />
-                        <span class="item-info__address-text item-info__contacts-text">Контакты</span>
+        <div class="info-right">
+            <div class="info-right__wrapper">
+                <div class="info-contacts">
+                    <div class="info-heading">
+                        <x-icon-contacts/>
+                        <span class="info-heading__title">Контакты</span>
                     </div>
 
-                    <div class="item-info__contacts-box">
-                        <div class="item-info__phones-box">
-                            <a href="tel:{{ $shop->phone }}" class="item-info__phone">{{ $shop->phone }}</a>
+                    <div class="info-contacts__wrapper">
+                        <div class="info-contacts__phones">
+                            <a href="tel:{{ $shop->phone }}" class="info-contacts__phone">{{ $shop->phone }}</a>
                             @if (!is_null($additionalPhones))
                                 @foreach($additionalPhones as $phone)
-                                    <a href="tel:{{ $phone }}" class="item-info__phone">{{ $phone }}</a>
+                                    <a href="tel:{{ $phone }}" class="info-contacts__phone">{{ $phone }}</a>
                                 @endforeach
                             @endif
                         </div>
 
-                        <div class="item-info__socials-box">
+                        <div class="info-contacts__socials">
                             @if(!is_null($shop->whatsapp))
-                                <a href="whatsapp:{{ $shop->whatsapp }}" class="btn item-info__social-link"><x-icon-whatsapp-icon /></a>
+                                <a href="whatsapp:{{ $shop->whatsapp }}" class="btn info-contacts__social-link"><x-icon-whatsapp-icon /></a>
                             @endif
                             @if(!is_null($shop->telegram))
                                 <a href="telegram:{{ $shop->telegram }}"
-                                    class="btn item-info__social-link"
+                                    class="btn info-contacts__social-link"
                                 ><x-icon-telegram-icon width="25" height="24" viewBox="2 -0 24 24"/></a>
                             @endif
                         </div>
                     </div>
                 </div>
 
-                <div class="item-info__working-hours-box">
-                    <p class="item-info__working-hours-text">
+                <div class="info__hours">
+                    <p class="info__countdown">
                         {{ \App\Services\TitleService::getTimeBeforeClose($shop) }}
                     </p>
 
-                    <x-working-mode :workingMode="$workingMode"/>
+                    @include('layouts.hours', ['days' => $workingMode])
                 </div>
             </div>
 
-            <div class="item-info__map-box">
+            <div class="info-map">
                 <div id='map'></div>
-                <div class="item-info__map-overlay">
-                    <button href="#" class="btn item-info__map-btn item-info__map-btn--primary">
-                        <img src="img/icon/add-icon.svg" alt="" />
+                <div class="info-map__overlay">
+                    <button href="#" class="btn btn--primary info-map__btn">
+                        <x-icon-add-icon />
                         <span>Построить маршрут</span>
                     </button>
-                    <button href="#" class="btn item-info__map-btn item-info__map-btn--location">
-                        <img src="img/icon/location-icon.svg" alt="" />
+                    <button href="#" class="btn btn--grey info-map__btn">
+                        <x-icon-location-icon />
                         <span>Санкт-Петербург, ул. Ленина, д. 100</span>
                     </button>
                 </div>
@@ -238,8 +230,8 @@
                     <x-display-rating
                         rating="{{ $service->pivot->rating }}"
                         disabled={{true}}
-                        className="item-info__rating-table--rating"
-                        classNameCount="item-info__rating-table--rating-num"
+                        className="info__rating-table--rating"
+                        classNameCount="info__rating-table--rating-num"
                     />
                 </label>
             @endforeach
@@ -274,7 +266,7 @@
                                 </div>
                             </div>
 
-                            <a href="{{ $service->link }}" class="btn item-info__link item-info__link--site testimonials__tab-link">Перейти в карточку организации</a>
+                            <a href="{{ $service->link }}" class="btn info__link info__link--site testimonials__tab-link">Перейти в карточку организации</a>
                         </div>
                         <div class="testimonials__tab-body-container">
                             @foreach(json_decode($service->pivot->comments) as $comment)
@@ -319,8 +311,8 @@
                     <label for="testimonials-accordion-item-1" class="accordion__header accordion__header--brands" role="button">
                         <img src="img/item/yandex-logo.svg" alt="Яндекс Карты" />
                         <div class="testimonials-acordion__info-box">
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
+                            <div class="info__rating-table--rating">
+                                <p class="info__rating-table--rating-num">3.2</p>
                                 <select class="star-rating">
                                     <option value="">Выберите рейтинг</option>
                                     <option value="5">Отлично</option>
@@ -545,8 +537,8 @@
                     <label for="testimonials-accordion-item-2" class="accordion__header accordion__header--brands" role="button">
                         <img src="img/item/google-maps-logo.svg" alt="Google Maps" />
                         <div class="testimonials-acordion__info-box">
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
+                            <div class="info__rating-table--rating">
+                                <p class="info__rating-table--rating-num">3.2</p>
                                 <select class="star-rating">
                                     <option value="">Выберите рейтинг</option>
                                     <option value="5">Отлично</option>
@@ -770,8 +762,8 @@
                     <label for="testimonials-accordion-item-4" class="accordion__header accordion__header--brands" role="button">
                         <img src="img/item/2gis-logo.svg" alt="2gis" />
                         <div class="testimonials-acordion__info-box">
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
+                            <div class="info__rating-table--rating">
+                                <p class="info__rating-table--rating-num">3.2</p>
                                 <select class="star-rating">
                                     <option value="">Выберите рейтинг</option>
                                     <option value="5">Отлично</option>
@@ -996,8 +988,8 @@
                     <label for="testimonials-accordion-item-3" class="accordion__header accordion__header--brands" role="button">
                         <img src="img/item/avito-logo.svg" alt="Avito" />
                         <div class="testimonials-acordion__info-box">
-                            <div class="item-info__rating-table--rating">
-                                <p class="item-info__rating-table--rating-num">3.2</p>
+                            <div class="info__rating-table--rating">
+                                <p class="info__rating-table--rating-num">3.2</p>
                                 <select class="star-rating">
                                     <option value="">Выберите рейтинг</option>
                                     <option value="5">Отлично</option>
@@ -1220,7 +1212,7 @@
             </ul>
         </div>
 
-        <!-- <a href="#" class="link item-info__link item-info__link--site"
+        <!-- <a href="#" class="link info__link info__link--site"
     >Перейти в карточку организации</a
   > -->
     </div>

@@ -114,7 +114,7 @@
 }
 
 .swiper-3d .swiper-slide-shadow {
-  background: rgba(0, 0, 0, 0.15);
+  background: $shadow;
 }
 
 .swiper-3d .swiper-slide-shadow-left {
@@ -209,11 +209,11 @@
 }
 
 .swiper-lazy-preloader-white {
-  --swiper-preloader-color:#fff;
+  --swiper-preloader-color:$colorWhite;
 }
 
 .swiper-lazy-preloader-black {
-  --swiper-preloader-color:#000;
+  --swiper-preloader-color:$colorBlack;
 }
 
 @keyframes swiper-preloader-spin {

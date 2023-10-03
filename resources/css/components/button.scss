@@ -28,6 +28,10 @@
     background: $colorSecondary;
   }
 
+  &--grey {
+    background: $colorGreyLight;
+  }
+
   &--close {
     position: relative;
     width: 2.5rem;
@@ -54,7 +58,6 @@
       transform: rotate(-45deg);
     }
   }
-
 
   // NAVIGATION BUTTONS
   &.previous,

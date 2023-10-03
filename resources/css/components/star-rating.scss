@@ -4,6 +4,11 @@
   $heght: 1.6em;
   $backgroundSize: 2.5em;
 
+  $widthStep_MD: 2em;
+  $width_MD: $widthStep_MD * 5;
+  $heght_MD: 1.3em;
+  $backgroundSize_MD: 2em;
+
   padding: 0;
   display: flex;
   align-items: center;
@@ -28,6 +33,12 @@
     background-size: $backgroundSize;
     background-repeat: repeat-x;
     z-index: 0;
+
+    @media only screen and (max-width: $pointMD) {
+      width: $width_MD;
+      height: $heght_MD;
+      background-size: $backgroundSize_MD;
+    }
   }
 
   &__radio {
@@ -42,6 +53,11 @@
     appearance: none;
     font-size: inherit;
     cursor: pointer;
+
+    @media only screen and (max-width: $pointMD) {
+      height: $heght_MD;
+      background-size: $backgroundSize_MD;
+    }
   }
 
   $z: 6;
@@ -49,6 +65,10 @@
     &__radio:nth-of-type(#{$i}) {
       width: ($i * $widthStep);
       z-index: $z - $i;
+
+      @media only screen and (max-width: $pointMD) {
+        width: ($i * $widthStep_MD);
+      }
     }
   }
 

@@ -281,9 +281,9 @@ window.onload = function () {
           regionsBtn.classList.toggle("active");
         });
 
-        const descText = document.querySelector(".item-info");
+        const descText = document.querySelector(".info");
         const descTextBtn = document.querySelector(
-          ".item-info__description-text-btn"
+          ".info__description-text-btn"
         );
 
         descTextBtn.addEventListener("click", () => {
