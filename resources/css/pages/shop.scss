@@ -105,10 +105,10 @@
     line-height: 2.4rem;
     font-weight: 600;
 
-    @media only screen and (max-width: $pointMD) {
-      max-width: calc(100vw - 4rem);
-      padding: 0;
-    }
+    // @media only screen and (max-width: $pointMD) {
+    //   max-width: calc(100vw - 4rem);
+    //   padding: 0;
+    // }
 
     &__title {
       @media only screen and (max-width: $pointMD) {
@@ -125,22 +125,31 @@
   &-left {
     padding-right: 10rem;
 
-    @media only screen and (max-width: $pointMD) {
-      max-width: calc(100vw - 4rem);
-      padding: 0;
+      @media only screen and (max-width: $pointMD) {
+        // max-width: calc(100vw - 4rem);
+        padding: 0;
+      }
     }
-  }
 
-  &-right {
-    &__wrapper {
-      padding-left: 5rem;
-      padding-right: 7.5rem;
-      border-left: 1px solid $colorGrey;
+    &-right {
+      &__wrapper {
+        padding-left: 5rem;
+        padding-right: 7.5rem;
+        border-left: 1px solid $colorGrey;
 
       @media only screen and (max-width: $pointMD) {
         width: calc(100vw - 4rem);
         padding: 0;
+        display: flex;
         border: none;
+
+        > * {
+          flex-basis: 50%;
+        }
+      }
+
+      @media only screen and (max-width: $pointS) {
+        display: block;
       }
     }
   }
