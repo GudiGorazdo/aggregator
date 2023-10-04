@@ -21,3 +21,4 @@ class FilterService
         return $this->filters[$name] ?? false;
     }
 }
+

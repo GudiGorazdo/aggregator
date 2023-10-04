@@ -116,7 +116,6 @@ class TitleService
 
     public static function getTimeBeforeClose(Model $shop, bool $justTime = false): string
     {
-
         $dayNum = DayService::getDayNumByDate(CityTimeService::getDate($shop->region->timezone));
         $shopOpen = $shop->workingMode[(int)$dayNum - 1]['open_time'];
         $shopClose = $shop->workingMode[(int)$dayNum - 1]['close_time'];
@@ -126,16 +125,13 @@ class TitleService
         $openTime = $shopOpen ? Carbon::parse($time . ' ' . $shopOpen) : null;
         $closeTime = $shopClose ? Carbon::parse($time . ' ' . $shopClose) : null;
         $nowTime = Carbon::parse($time . ' ' . $year);
-        if (!$shopIsOpen) {
-            return 'Магазин закрыт';
-        }
+
+        if (!$shopIsOpen) return 'Магазин закрыт';
 
         if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
-            if ($justTime) {
-                return "Работает до " . $shopClose;
-            }
+            if ($justTime) return "Работает до " . $shopClose;
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '

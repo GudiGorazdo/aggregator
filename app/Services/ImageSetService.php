@@ -32,13 +32,13 @@ class ImageSetService
 
     public static function removeByName(string $name, string $path): void
     {
-        $mainName = explode('.', $name)[0]; 
+        $mainName = explode('.', $name)[0];
         $extention = explode('.', $name)[1] == 'webp' ? 'jpg' : 'webp';
         self::removeImage($path . '/' . $mainName . '.' . $extention);
         self::removeImage($path . '/' . $name);
-        
+
         foreach(self::SIZES as $sizeName => $size) {
-            $sPath = $path . '/' . $sizeName . '/'; 
+            $sPath = $path . '/' . $sizeName . '/';
             self::removeImage($sPath . $mainName . '.' . $extention);
             self::removeImage($sPath . $name);
         }
@@ -70,9 +70,7 @@ class ImageSetService
 
     private static function createWidthSet($image, string $name, string $folderPath, string $additionalType): array
     {
-
         $width = +$image->width();
-
         $sizesArr = [];
         foreach (self::SIZES as $sizeName => $size) {
             if (!($width > $size)) continue;
@@ -112,8 +110,8 @@ class ImageSetService
 
     private static function removeImage(string $path): void
     {
-        if (file_exists($path)) {
-            unlink($path);
-        }
+        if (file_exists($path)) unlink($path);
     }
 }
+
+
