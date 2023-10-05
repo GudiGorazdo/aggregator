@@ -765,7 +765,7 @@
 /*   display: none; */
 /* } */
 /*  */
-/* .accordion__body-content--brands { */
+/* .accordion__body-content--subcategories { */
 /*   padding: 0 8rem 4rem 3rem; */
 /* } */
 /*  */
@@ -834,7 +834,7 @@
 /*   display: block; */
 /* } */
 /*  */
-/* .accordion__body--brands.open .accordion__body-content--brands { */
+/* .accordion__body--brands.open .accordion__body-content--subcategories { */
 /*   padding: 0 8rem 8rem 3rem; */
 /* } */
 /*  */
@@ -1564,7 +1564,7 @@
     margin-top: 1rem;
   }
 
-  .accordion__body-content--brands {
+  .accordion__body-content--subcategories {
     padding: 0.5rem 2rem 3rem 2rem;
   }
 

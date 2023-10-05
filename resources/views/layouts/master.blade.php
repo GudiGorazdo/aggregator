@@ -43,8 +43,8 @@
     {{-- </div> --}}
 
     @yield('afterFooter')
-    @vite([ 'resources/js/scripts/layouts/header.js' ])
-    {{-- @vite([ 'resources/js/app.js' ]) --}}
+    {{-- @vite([ 'resources/js/scripts/layouts/header.js' ]) --}}
+    @vite([ 'resources/js/app.js' ])
     {{-- @vite([ 'resources/js/star-rating.min.js' ]) --}}
     {{-- @vite([ 'resources/js/item-page.js' ]) --}}
     {{-- @vite([ 'resources/js/libs.js' ]) --}}

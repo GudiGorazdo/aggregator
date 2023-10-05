@@ -64,4 +64,36 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 });
 
+let breadcrumbsBtns = document.querySelectorAll(".accordion__breadcrumbs-btn");
+let categoriesAccordionBody = document.querySelectorAll(".accordion__body--brands");
+
+breadcrumbsBtns.forEach(function (el) {
+  el.addEventListener("click", () => {
+    console.log('work')
+    categoriesAccordionBody.forEach(function (category) {
+      category.classList.remove("open");
+    });
+  });
+});
+
+let brandsListItemsEls = document.querySelectorAll(
+  ".brands-list__item--main"
+);
+
+brandsListItemsEls.forEach(function (el) {
+  el.addEventListener("click", () => {
+    console.log('work')
+    categoriesAccordionBody.forEach(function (category) {
+      category.classList.add("open");
+    });
+  });
+});
+
+let brandsListBtn = document.querySelector(".brands-list__more-btn");
+let brandsContainer = document.querySelector(".brands__content");
+
+brandsListBtn.addEventListener("click", () => {
+  brandsContainer.classList.toggle("expanded");
+});
+
 

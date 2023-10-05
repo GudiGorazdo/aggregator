@@ -142,14 +142,14 @@
     </div>
 </section>
 
-<section class="brands-section">
+<section class="brands">
     <div class="brands__container container-wide">
         <div class="brands__content">
             <h2 class="brands__heading">Можно продать</h2>
             <ul class="accordion accordion--brands">
                 @foreach($categories as $category)
                     <li class="accordion__item accordion__item--brands">
-                        <input type="checkbox" id="accordion-item-{{ $category->id }}" class="accordion__checkbox" checked />
+                        <input type="checkbox" id="accordion-item-{{ $category->id }}" class="accordion__checkbox" />
                         <label for="accordion-item-{{ $category->id }}" class="accordion__header accordion__header--brands" role="button">
                             <span class="brands-accordion__title">{{ $category->name }}</span>
                             @if($prices[$category->id]['max'])

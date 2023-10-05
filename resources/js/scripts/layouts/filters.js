@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   let subcategoryButtons = document.querySelectorAll('[data-subcategory-path]');
   subcategoryButtons.forEach(element => {
     element.addEventListener('click', (e) => {
+      console.log(e.target.dataset.subcategoryPath);
       const target = document.querySelector(`[data-subcategory-target="${e.target.dataset.subcategoryPath}"]`)
       target.classList.add('open');
     })

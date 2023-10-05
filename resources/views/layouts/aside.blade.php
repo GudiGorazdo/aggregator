@@ -50,6 +50,6 @@
         {{ app(\App\Services\FilterService::class)->getFilterByName('options')->render(null, false) }}
     </div>
 </aside>
-{{ app(\App\Services\FilterService::class)->getFilterByName('category')->render(null, false) }}
+{{ app(\App\Services\FilterService::class)->getFilterByName('categories')->render(null, false) }}
 
 

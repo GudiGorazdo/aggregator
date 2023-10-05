@@ -7,13 +7,7 @@
             </button>
         </form>
     </div>
-    <div class="search--filter__main">
-        <ul class="accordion accordion--categories categories-list">
-            @foreach (\App\Models\Category::with('subCategories')->get() as $category)
-                @include('filters.category-item', ['category' => $category])
-            @endforeach
-        </ul>
-    </div>
+    @include('layouts.categories-list', ['categories' => \App\Models\Category::with('subCategories')->get(), 'classMod' => 'aside'])
     <div class="search__mobile-btns">
         <button class="btn search__mobile-btn search__mobile-btn--selection">
             <span>Выбрано (6)</span>

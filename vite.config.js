@@ -15,13 +15,20 @@ export default defineConfig({
     },
     sourceMap: true,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        sourcemap: true  // Включение Source Maps
+      }
+    }
+  },
   plugins: [
     laravel({
       input: [
         // 'resources/scss/app.scss',
         'resources/css/pages/home.scss',
         'resources/css/app.scss',
-        // 'resources/js/app.js',
+        'resources/js/app.js',
         'resources/js/scripts/pages/home.js',
         'resources/js/scripts/pages/shop.js',
       ],
