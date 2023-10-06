@@ -4,8 +4,11 @@ import 'swiper/css/pagination';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import '../layouts/similar-companies.js';
 import '../layouts/similar.js';
+import tabs from '../tabs.js';
+import Chooser from '../../plugins/chooser';
 
 document.addEventListener('DOMContentLoaded', (e) => {
+
   // COURUSEL
   const previewParams = {
     modules: [Navigation],
@@ -39,7 +42,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
   }
 
   const preview = new Swiper('.preview', previewParams);
-
   // MAP
   ymaps.ready(function() {
     const coord = JSON.parse(document.getElementById('shop_coord').value);
@@ -62,32 +64,99 @@ document.addEventListener('DOMContentLoaded', (e) => {
     markCollection.add(mark);
     myMap.geoObjects.add(markCollection);
   });
-});
 
-let brandsListItemsEls = document.querySelectorAll(".brands-list__item--sell");
+  // BRANDS LIST SELL SECTION
+  let brandsListItemsEls = document.querySelectorAll(".brands-list__item--sell");
 
-brandsListItemsEls.forEach(function (el) {
-  el.addEventListener("click", () => {
-    const targetList = document.querySelector(`[data-target="${el.parentElement.dataset.path}"]`);
-    const breadcrumbs = document.querySelector(`[data-target-breadcrumbs="${el.parentElement.dataset.path}"]`);
-    targetList.classList.add("open");
-    breadcrumbs.parentElement.classList.add("open");
-    el.parentElement.classList.remove("open");
-    const close = () => {
-      targetList.classList.remove("open");
-      breadcrumbs.parentElement.classList.remove("open");
-      el.parentElement.classList.add("open");
-      breadcrumbs.removeEventListener('click', close);
-    }
-    breadcrumbs.addEventListener('click', close);
+  brandsListItemsEls.forEach(function(el) {
+    el.addEventListener("click", () => {
+      const targetList = document.querySelector(`[data-target="${el.parentElement.dataset.path}"]`);
+      const breadcrumbs = document.querySelector(`[data-target-breadcrumbs="${el.parentElement.dataset.path}"]`);
+      targetList.classList.add("open");
+      breadcrumbs.parentElement.classList.add("open");
+      el.parentElement.classList.remove("open");
+      const close = () => {
+        targetList.classList.remove("open");
+        breadcrumbs.parentElement.classList.remove("open");
+        el.parentElement.classList.add("open");
+        breadcrumbs.removeEventListener('click', close);
+      }
+      breadcrumbs.addEventListener('click', close);
+    });
   });
+
+  let brandsListBtn = document.querySelector(".sell__more");
+  let brandsContainer = document.querySelector(".sell__container");
+
+  brandsListBtn.addEventListener("click", () => {
+    brandsContainer.classList.toggle("expanded");
+  });
+
+
+  // SERVICES TABS
+  tabs.init();
+
+  const commetnsFilters = {
+    filters: [],
+    listUrl: '/api/data/services',
+    chooserID: 'comments_filter_',
+    options: {
+      current: 1,
+      data: [
+        {
+          value: 'Сначала новые',
+          // attr: {
+          //   'some_attr': 'some_value',
+          //   'some_attr': 'some_value',
+          //   'some_attr': 'some_value',
+          // },
+          //
+          // id: 'some_unique_id',
+          // group: 'some_name',
+          // onClick(item) { console.log('asdf'); }
+        },
+        { value: 'Сначала старые' },
+        { value: 'Сначала положительные' },
+        { value: 'Сначала негативные' },
+      ],
+      classList: {
+        label: `select-menu__label select-menu__label--comments`,
+        wrapper: `select-menu__wrapper select-menu__wrapper--comments`,
+        current: `select-menu__current select-menu__wrapper--comments`,
+        list: `select-menu__list select-menu__list--comments`,
+        item: `select-menu__item select-menu__item--comments`,
+        icon: `select-menu__icon select-menu__icon--comments`,
+      },
+    },
+
+    async init() {
+      try {
+        const services = await this.getServices();
+        services.forEach(service => {
+          const options = { el: `${this.chooserID}${service.id}`, ...this.options };
+          const filter = new Chooser(options);
+          this.filters.push(filter);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getServices() {
+      try {
+        const response = await fetch(this.listUrl);
+        if (response.ok) {
+          const services = await response.json();
+          return services;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  commetnsFilters.init();
 });
 
-let brandsListBtn = document.querySelector(".sell__more");
-let brandsContainer = document.querySelector(".sell__container");
-
-brandsListBtn.addEventListener("click", () => {
-  brandsContainer.classList.toggle("expanded");
-});
 
 

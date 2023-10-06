@@ -1,0 +1,87 @@
+@import "../variables.scss";
+
+.comment {
+  padding: 2rem;
+  border: 1px solid $colorGrey;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  &__header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__photo {
+    --el-size: 5rem;
+    width: var(--el-size);
+    height: var(--el-size);
+    margin-right: 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+      width: auto;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: 600;
+    line-height: 2rem;
+  }
+
+  &__name {
+    font-size: 1.5rem;
+  }
+
+  &__date {
+    font-size: 1.3rem;
+    color: $color_5;
+  }
+
+  &__text {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    font-weight: 400;
+  }
+
+  &__reply {
+    &-date {
+      margin-bottom: 0.5rem;
+      height: 2rem;
+      font-size: 1.3rem;
+      line-height: 2rem;
+      position: relative;
+      padding-left: 2.4rem;
+      color: $color_5;
+
+      &::before {
+        --size: 2rem;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--size);
+        height: var(--size);
+        background-image: url('/resources/assets/svg/google-map-short-icon.svg');
+        background-repeat: no-repeat;
+      }
+    }
+
+    &-text {
+      font-size: 1.3rem;
+      line-height: 1.8rem;
+      font-weight: 400;
+    }
+  }
+}
+
+

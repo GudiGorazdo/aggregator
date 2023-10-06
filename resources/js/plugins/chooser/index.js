@@ -134,7 +134,7 @@
 */
 
 const li = (props, item, ind, chooser, list, selected) => {
-  const dataId = item.chooserId ?? `${props.el}_${item.index}`;
+  const dataId = item.id ?? `${props.el}_${item.index ?? ind}`;
   props.data[ind].id = dataId;
   if (selected) list.setAttribute('aria-activedescendant', dataId);
 
@@ -256,7 +256,7 @@ export default class Chooser {
     this.elId = props.el;
     this.props.placeholder = props.placeholder ?? 'Chooser';
 
-    this.activeDescendant = props.current ? `${this.elId}_${props.current}` : null;
+    this.activeDescendant = props.current ? (props.data[props.current - 1].id ?? `${this.elId}_${props.current - 1 }`) : null;
     this.activeGroup = null;
     this.isOpen = false;
     this.focused = null;
@@ -549,3 +549,5 @@ export default class Chooser {
     }
   }
 }
+
+

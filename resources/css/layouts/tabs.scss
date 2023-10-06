@@ -1,0 +1,11 @@
+@import "../mixins.scss";
+
+[data-tab-target] {
+  @include hidden;
+
+  &.open {
+    @include visible;
+  }
+}
+
+

@@ -1,0 +1,49 @@
+@import "./comment.scss";
+
+.comments-list {
+  &__header {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__path {
+    padding-left: 3.4rem;
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+    font-size: 1.3rem;
+    line-height: 1;
+    font-weight: 500;
+    color: $color_5;
+
+    &::before {
+      --el-size: 2rem;
+      content: "";
+      position: absolute;
+      left: 0;
+      top: calc(50% - (var(--el-size) / 2));
+      width: var(--el-size);
+      height: var(--el-size);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url("/resources/assets/svg/site-link-icon.svg");
+    }
+  }
+
+  &__container {
+    max-height: 52rem;
+    overflow-y: scroll;
+  }
+}
+
+.select-menu {
+  &__wrapper--comments {
+    background-color: $color_7;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: $colorMainBackground;
+  }
+}
+
+

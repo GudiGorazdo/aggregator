@@ -1,0 +1,15 @@
+@mixin hidden {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@mixin visible($position: static) {
+  position: $position;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+
