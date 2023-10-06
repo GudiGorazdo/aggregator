@@ -43,7 +43,7 @@
                     </a>
                 </div>
 
-                <button class="btn similar__more-btn similar__expand" data-button="moreactive">
+                <button class="btn similar__more similar__expand" data-button="moreactive">
                     Показать все
                 </button>
             </div>

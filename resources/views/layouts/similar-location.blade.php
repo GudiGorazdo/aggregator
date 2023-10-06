@@ -4,7 +4,7 @@
         <a href="#">{{ $area->name }}</a>
         @endforeach
     </div>
-    <button class="btn similar__more-btn regions__expand" data-button="district">
+    <button class="btn similar__more regions__expand" data-button="district">
         Показать все
     </button>
 </div>

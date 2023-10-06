@@ -1,8 +1,9 @@
 @import "../variables.scss";
 @import "../components/display-rating.scss";
+@import "../components/accordion.scss";
 @import "../layouts/crousel-section.scss";
 @import "../layouts/hours.scss";
-// @import "../layouts/categories-list.scss";
+@import "../layouts/brands-list.scss";
 @import "../layouts/similar.scss";
 
 .preview__slide {
@@ -42,21 +43,6 @@
     }
   }
 
-  // &__back-btn {
-  //   $button-size: 2rem;
-  //
-  //   position: absolute;
-  //   top: calc(50% - (#{$button-size} / 2));
-  //   left: 4rem;
-  //   width: $button-size;
-  //   height: $button-size;
-  //
-  //   @media only screen and (max-width: $pointMD) {
-  //     top: 1rem;
-  //     left: 2rem;
-  //   }
-  // }
-
   &__btn {
     min-width: 38rem;
     min-height: 7.4rem;
@@ -84,7 +70,8 @@
 
     @media only screen and (max-width: $pointMD) {
       grid-template-columns: 1fr;
-      padding-bottom: 25.6rem;
+      padding-bottom: 6rem;
+      // padding-bottom: 25.6rem;
     }
   }
 
@@ -106,11 +93,6 @@
     line-height: 2.4rem;
     font-weight: 600;
 
-    // @media only screen and (max-width: $pointMD) {
-    //   max-width: calc(100vw - 4rem);
-    //   padding: 0;
-    // }
-
     &__title {
       @media only screen and (max-width: $pointMD) {
         font-size: 1.5rem;
@@ -127,7 +109,6 @@
     padding-right: 10rem;
 
       @media only screen and (max-width: $pointMD) {
-        // max-width: calc(100vw - 4rem);
         padding: 0;
       }
     }
@@ -409,6 +390,199 @@
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.sell {
+  position: relative;
+  background-color: $colorWhite;
+
+  &__container {
+    padding: 5.8rem 6.5rem 4.8rem 6.5rem;
+    background-color: $colorGreyLight;
+
+    @media only screen and (max-width: $pointMD) {
+      padding: 3.2rem 0;
+    }
+
+    &.expanded {
+      .sell__more::before {
+        transform: translateY(-50%) rotate(180deg);
+      }
+
+      .sell-list {
+        height: fit-content;
+      }
+    }
+  }
+
+  &__title {
+    margin-bottom: 5rem;
+    font-size: 3.7rem;
+    line-height: 1.4rem;
+    font-weight: 600;
+  }
+
+  &-list {
+    height: 50rem;
+    overflow: hidden;
+    transition: height 0.5s;
+
+    & li:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    &__breadcrumbs {
+      position: absolute;
+      margin-bottom: 2rem;
+      // padding: 2rem 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+
+      &.open {
+        position: relative;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+      }
+    }
+
+    &__title {
+      margin-bottom: 1.8rem;
+      font-size: 2.4rem;
+      line-height: 1.4rem;
+    }
+
+    &__range {
+      font-size: 1.9rem;
+      line-height: 1.4rem;
+    }
+
+    &__back {
+      padding-left: 3rem;
+      font-size: 1.2rem;
+      line-height: 1.4rem;
+      font-weight: 600;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 2rem;
+        height: 2rem;
+        background-image: url(/resources/assets/svg/arrow-square-left.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  &__more {
+    margin-top: 3rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    font-weight: 600;
+    padding-left: 3rem;
+
+  &::before {
+    --el-size: 2rem;
+    content: "";
+    position: absolute;
+    width: var(--el-size);
+    height: var(--el-size);
+    background-image: url(/resources/assets/svg/arrow-square-down.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    transition: all 0.5s;
+    }
+  }
+}
+
+.accordion {
+  &--sell {
+    background-color: $colorWhite;
+  }
+
+  &__header--sell {
+    --icon-size: 2rem;
+    --padding-inline: 2.5rem;
+    --padding-block: 3.5rem;
+    padding: var(--padding-block) var(--padding-inline);
+    padding-right: calc((var(--padding-inline) * 2) + var(--icon-size));
+    font-size: 2.7rem;
+    line-height: 1.4rem;
+    font-weight: 600;
+
+    @media only screen and (max-width: $pointMD) {
+      --padding-inline: 2rem;
+      --padding-block: 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: var(--padding-inline);
+      width: var(--icon-size);
+      height: var(--icon-size);
+      margin-top: calc(var(--icon-size) / -2);
+      background-image: url("/resources/assets/svg/add-icon.svg");
+    }
+  }
+
+  &__checkbox--sell:checked ~ &__header--sell {
+    &::after {
+      background-image: url("/resources/assets/svg/remove-icon.svg");
+    }
+  }
+
+  &__content {
+    padding: 0 4rem;
+
+    @media only screen and (max-width: $pointMD) {
+    padding: 0 2rem;
+    }
+  }
+}
+
+.brands-list {
+  &--sell,
+  &--point {
+    position: absolute;
+    padding-bottom: 4rem;
+    background-color: $colorWhite;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-bottom: 3rem;
+      gap: 1.8rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media only screen and (max-width: $pointS) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    &.open {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+  }
+
+  &__item--sell {
+    cursor: pointer;
+  }
 }
 
 

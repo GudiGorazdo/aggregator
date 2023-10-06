@@ -1,15 +1,17 @@
-<ul class="brands-list{{ isset($classMod) && $classMod ? " brands-list--" . $classMod : ""}}">
-    @foreach ($brands as $brand)
-    <li class="brands-list__item{{ isset($classMod) && $classMod ? " brands-list__item--" . $classMod : ""}}">
-        <x-checkbox-square label="{{ $brand->name }}" labelPos="back">
-            <x-icon-pc-icon fill="transparent"/>
-        </x-checkbox-square>
-        {{-- <div class="brands-list__icon"></div> --}}
-        {{-- <div class="brands-list__info"> --}}
-        {{--     <p class="brands-list__brand">{{ $item->name }}</p> --}}
-        {{--     <!-- <p class="brands-list__price">от 500 руб.</p> --> --}}
-        {{-- </div> --}}
-    </li>
+<ul
+    class="brands-list {{ isset($modification) && $modification ? " brands-list--" . $modification : ""}} {{ $classNameUl ?? "" }}"
+    {{ $attributes ?? '' }}
+    >
+    @foreach ($subCategories as $subCategory)
+        <li class="brands-list__item{{ isset($modification) && $modification ? " brands-list__item--" . $modification : ""}}">
+            <div class="brands-list__icon"></div>
+            <div class="brands-list__info">
+                <p class="brands-list__brand">{{ $subCategory->name }}</p>
+                @if(isset($prices) && isset($categoryID) && isset($prices[$categoryID]['items'][$subCategory->id]))
+                    <p class="brands-list__price">от {{ $prices[$categoryID]['items'][$subCategory->id]->price }} руб.</p>
+                @endif
+           </div>
+        </li>
     @endforeach
 </ul>
 

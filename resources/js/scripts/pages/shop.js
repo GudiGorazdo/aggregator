@@ -64,33 +64,27 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 });
 
-let breadcrumbsBtns = document.querySelectorAll(".accordion__breadcrumbs-btn");
-let categoriesAccordionBody = document.querySelectorAll(".accordion__body--brands");
-
-breadcrumbsBtns.forEach(function (el) {
-  el.addEventListener("click", () => {
-    console.log('work')
-    categoriesAccordionBody.forEach(function (category) {
-      category.classList.remove("open");
-    });
-  });
-});
-
-let brandsListItemsEls = document.querySelectorAll(
-  ".brands-list__item--main"
-);
+let brandsListItemsEls = document.querySelectorAll(".brands-list__item--sell");
 
 brandsListItemsEls.forEach(function (el) {
   el.addEventListener("click", () => {
-    console.log('work')
-    categoriesAccordionBody.forEach(function (category) {
-      category.classList.add("open");
-    });
+    const targetList = document.querySelector(`[data-target="${el.parentElement.dataset.path}"]`);
+    const breadcrumbs = document.querySelector(`[data-target-breadcrumbs="${el.parentElement.dataset.path}"]`);
+    targetList.classList.add("open");
+    breadcrumbs.parentElement.classList.add("open");
+    el.parentElement.classList.remove("open");
+    const close = () => {
+      targetList.classList.remove("open");
+      breadcrumbs.parentElement.classList.remove("open");
+      el.parentElement.classList.add("open");
+      breadcrumbs.removeEventListener('click', close);
+    }
+    breadcrumbs.addEventListener('click', close);
   });
 });
 
-let brandsListBtn = document.querySelector(".brands-list__more-btn");
-let brandsContainer = document.querySelector(".brands__content");
+let brandsListBtn = document.querySelector(".sell__more");
+let brandsContainer = document.querySelector(".sell__container");
 
 brandsListBtn.addEventListener("click", () => {
   brandsContainer.classList.toggle("expanded");

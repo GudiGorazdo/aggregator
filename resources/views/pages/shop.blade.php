@@ -142,65 +142,47 @@
     </div>
 </section>
 
-<section class="brands">
-    <div class="brands__container container-wide">
-        <div class="brands__content">
-            <h2 class="brands__heading">Можно продать</h2>
-            <ul class="accordion accordion--brands">
-                @foreach($categories as $category)
-                    <li class="accordion__item accordion__item--brands">
-                        <input type="checkbox" id="accordion-item-{{ $category->id }}" class="accordion__checkbox" />
-                        <label for="accordion-item-{{ $category->id }}" class="accordion__header accordion__header--brands" role="button">
-                            <span class="brands-accordion__title">{{ $category->name }}</span>
+<section class="sell">
+    <div class="sell__container container-wide">
+        <h2 class="sell__title">Можно продать</h2>
+        <ul class="sell-list">
+            @foreach($categories as $category)
+                <li>
+                    <x-accordion id="sell-item-{{ $category->id }}" modification="sell" >
+                        <x-slot name="title">
+                            <span class="sell-list__title">{{ $category->name }}</span>
                             @if($prices[$category->id]['max'])
-                                <span class="brands-accordion__price-range">до {{ $prices[$category->id]['max'] }} руб.</span>
+                                <span class="sell-list__range">до {{ $prices[$category->id]['max'] }} руб.</span>
                             @endif
-                        </label>
-                        <div class="accordion__body accordion__body--brands">
-                            <div class="accordion__body-inner accordion__body-inner--brands">
-                                <div class="accordion__body-content accordion__body-content--brands">
-                                    <ul class="brands-list brands-list--main">
-                                        @foreach ($category->subCategories as $subCategory)
-                                            <li class="brands-list__item brands-list__item--main">
-                                                <div class="brands-list__icon"></div>
-                                                <div class="brands-list__info">
-                                                    <p class="brands-list__brand">{{ $subCategory->name }}</p>
-                                                    @if(isset($prices[$category->id]['items'][$subCategory->id]))
-                                                        <p class="brands-list__price">от {{ $prices[$category->id]['items'][$subCategory->id]->price }} руб.</p>
-                                                    @endif
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <div class="accordion__body-inner--brands-2">
-                                    <ul class="accordion__breadcrumbs">
-                                        <li>
-                                            <button class="btn accordion__breadcrumbs-btn">
-                                                Стиральные машины (60)
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    <ul class="brands-list">
-                                        @for($i=0; $i<20;$i++)
-                                            <li class="brands-list__item">
-                                                <div class="brands-list__icon"></div>
-                                                <div class="brands-list__info">
-                                                    <p class="brands-list__brand">Пункт</p>
-                                                    <!-- <p class="brands-list__price">от 500 руб.</p> -->
-                                                </div>
-                                            </li>
-                                        @endfor
-                                    </ul>
-                                </div>
+                        </x-slot>
+                        @include('layouts.brands-list', [
+                            'subCategories' => $category->subCategories,
+                            'categoryID' => $category->id,
+                            'prices' => $prices,
+                            'modification' => 'sell',
+                            'classNameUl' => 'open',
+                            'attributes' => 'data-path=sell-item-' . $category->id,
+                        ])
+                            <div class="sell-list__breadcrumbs">
+                                <button class="btn sell-list__back" data-target-breadcrumbs="sell-item-{{ $category->id }}">{{ $category->name }} ({{ count($category->subCategories) }}</button>
                             </div>
-                        </div>
-                    </li>
-                @endforeach
-            </ul>
+                        @php
+                            $rarr = collect([]);
+                            for($i=1; $i<=20; $i++) {
+                                $rarr->push((object)['name' => "Пункт_$i"]);
+                            }
+                        @endphp
+                        @include('layouts.brands-list', [
+                            'subCategories' => $rarr,
+                            'modification' => 'point',
+                            'attributes' => 'data-target=sell-item-' . $category->id
+                        ])
+                    </x-accordion>
+                </li>
+            @endforeach
+        </ul>
 
-            <button class="btn brands-list__more-btn">Показать все</button>
-        </div>
+        <button class="btn sell__more">Показать все</button>
     </div>
 </section>
 

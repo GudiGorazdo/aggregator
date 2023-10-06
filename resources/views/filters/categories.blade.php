@@ -7,7 +7,7 @@
             </button>
         </form>
     </div>
-    @include('layouts.categories-list', ['categories' => \App\Models\Category::with('subCategories')->get(), 'classMod' => 'aside'])
+    @include('layouts.categories-list-form', ['categories' => \App\Models\Category::with('subCategories')->get()])
     <div class="search__mobile-btns">
         <button class="btn search__mobile-btn search__mobile-btn--selection">
             <span>Выбрано (6)</span>

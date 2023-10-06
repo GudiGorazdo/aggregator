@@ -330,7 +330,7 @@ window.onload = function () {
           });
         });
 
-        let brandsListBtn = document.querySelector(".brands-list__more-btn");
+        let brandsListBtn = document.querySelector(".brands-list__more");
         let brandsContainer = document.querySelector(".brands__content");
 
         brandsListBtn.addEventListener("click", () => {
