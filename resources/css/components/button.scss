@@ -77,6 +77,38 @@
       pointer-events: none;
     }
   }
+
+
+  // MORE BUTTONS
+  &--more {
+    min-height: 2rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    font-weight: 600;
+    padding-left: 3rem;
+
+    @media only screen and (max-width: $pointMD) {
+      margin-bottom: 4rem;
+    }
+  }
+
+  &--more::before {
+    content: "";
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background-image: url("/resources/assets/svg/arrow-square-down.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    transition: all 0.5s;
+  }
+
+  &--more.active::before {
+    transform: translateY(-50%) rotate(-180deg);
+  }
 }
 
 

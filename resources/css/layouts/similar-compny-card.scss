@@ -1,0 +1,84 @@
+@import '../variables.scss';
+
+.similar-company-card {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 2rem;
+  background-color: $colorWhite;
+
+  @media only screen and (max-width: $pointXS) {
+    padding: 2rem 1rem;
+  }
+
+  &__img-box {
+    --size: 10rem;
+    margin-right: 1.5rem;
+    width: var(--size);
+    height: var(--size);
+    overflow: hidden;
+    flex-shrink: 0;
+
+    @media only screen and (max-width: $pointXS) {
+      --size: 8rem;
+      margin-right: 1rem;
+    }
+  }
+
+  &__img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__info-box { }
+
+  &__title {
+    margin-bottom: 1rem;
+    font-size: 1.7rem;
+    line-height: 1.4rem;
+    font-weight: 600;
+
+    @media only screen and (max-width: $pointXS) {
+      margin-bottom: 0.5rem;
+      font-size: 1.6rem;
+      line-height: 1.2rem;
+    }
+  }
+
+  &__status {
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    font-weight: 600;
+    color: $colorSecondary;
+
+    @media only screen and (max-width: $pointXS) {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__address {
+    line-height: 1;
+    font-size: 1.4rem;
+    font-weight: 400;
+
+    @media only screen and (max-width: $pointXS) {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.display-rating {
+  &--similar-company {
+    margin-bottom: 1rem;
+
+    @media only screen and (max-width: $pointXS) {
+      font-size: 0.8rem;
+    }
+  }
+
+}
+
+
+

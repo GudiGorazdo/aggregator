@@ -12,18 +12,18 @@
 @section('content')
 <input id="shop_coord" type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
 <section class="carousel">
-    <x-carousel classMod='carousel' alt="фото компании {{ $shop->name }}" >
+    <x-carousel classMod='carousel'>
         @foreach (json_decode($shop->photos) as $item)
             <x-carousel-item classMod="carousel" >
                     <img class="carousel__img"
                         src="{{ $item->name . '/id/' . rand(10, 100) }}/240/240"
-                        alt="фото компании"
+                        alt="фото компании {{ $shop->name }}"
                     />
             </x-carousel-item>
         @endforeach
     </x-carousel>
-    <div class="btn previous"><x-icon-slider-arrow-left /></div>
-    <div class="btn forwards"><x-icon-slider-arrow-right /></div>
+    <div class="btn previous carousel-previous"><x-icon-slider-arrow-left /></div>
+    <div class="btn forwards carousel-forwards"><x-icon-slider-arrow-right /></div>
 </section>
 
 <section class="heading">
@@ -76,7 +76,7 @@
             <div class="info-description">
                 <h2 class="info-title mb-15">Описание</h2>
                 <p class="info-description__text" id="text-slice">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="btn info-description__btn">
+                <button class="btn btn--more">
                     Показать все
                 </button>
             </div>
@@ -179,7 +179,7 @@
             @endforeach
         </ul>
 
-        <button class="btn sell__more">Показать все</button>
+        <button class="btn btn--more sell__more">Показать все</button>
     </div>
 </section>
 
@@ -229,7 +229,7 @@
 </section>
 
 @include('layouts.similar-companies', [ 'similars' => $similars ])
-@include('layouts.similar-categories', ['cityID' => $shop->city_id])
+@include('layouts.similar-categories-and-location', ['cityID' => $shop->city_id])
 @endsection
 
 @section('afterFooter')

@@ -1,11 +1,12 @@
-<div class="similar-regions">
-    <div class="similar-regions__list">
+<div class="similar-location">
+    <div class="similar-location__list">
         @foreach (\App\Models\Area::getByCityID($cityID)->get() as $area)
         <a href="#">{{ $area->name }}</a>
         @endforeach
     </div>
-    <button class="btn similar__more regions__expand" data-button="district">
+    <button class="btn btn--more similar-location__more" data-button="district">
         Показать все
     </button>
 </div>
+
 

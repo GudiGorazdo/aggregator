@@ -64,9 +64,6 @@
     position: absolute;
     width: 2rem;
     height: 2rem;
-    background-image: url("/resources/assets/svg/arrow-square-down.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
     right: 0;
     bottom: 0.2rem;
     transition: all 0.5s;
@@ -76,10 +73,6 @@
       bottom: 0;
       left: 50%;
       transform: translate(-50%);
-    }
-
-    &.active {
-      transform: rotate(180deg);
     }
   }
 

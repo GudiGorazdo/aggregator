@@ -5,15 +5,10 @@
 @import "../layouts/crousel.scss";
 @import "../layouts/hours.scss";
 @import "../layouts/brands-list.scss";
-@import "../layouts/similar.scss";
 @import "../layouts/tabs.scss";
 @import "../layouts/comments-list.scss";
-
-.swiper {
-  &-slide--corousel {
-    max-height: 25.5rem;
-  }
-}
+@import "../layouts/similar-companies.scss";
+@import "../layouts/similar-categories-and-location.scss";
 
 .heading {
   position: relative;
@@ -265,33 +260,6 @@
   font-size: 1.7rem;
   line-height: 2.4rem;
   font-weight: 400;
-
-  &__btn {
-    margin-top: 2rem;
-    margin-bottom: 4rem;
-    font-size: 1.4rem;
-    line-height: 1;
-    font-weight: 600;
-    padding-left: 3rem;
-
-    &::before {
-      content: "";
-      position: absolute;
-      width: 2rem;
-      height: 2rem;
-      background-image: url("/resources/assets/svg/arrow-square-down.svg");
-      background-size: contain;
-      background-repeat: no-repeat;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 0;
-      transition: all 0.5s;
-    }
-
-    &.active::before {
-      transform: translateY(-50%) rotate(-180deg);
-    }
-  }
 }
 
 .info-contacts {
@@ -478,29 +446,6 @@
         background-size: contain;
         background-repeat: no-repeat;
       }
-    }
-  }
-
-  &__more {
-    margin-top: 3rem;
-    font-size: 1.4rem;
-    line-height: 1;
-    font-weight: 600;
-    padding-left: 3rem;
-
-  &::before {
-    --el-size: 2rem;
-    content: "";
-    position: absolute;
-    width: var(--el-size);
-    height: var(--el-size);
-    background-image: url(/resources/assets/svg/arrow-square-down.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    transition: all 0.5s;
     }
   }
 }

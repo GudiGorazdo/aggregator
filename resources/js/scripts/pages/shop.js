@@ -3,7 +3,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import '../layouts/similar-companies.js';
-import '../layouts/similar.js';
+import '../layouts/similar-categories.js';
+import '../layouts/similar-locations.js';
 import tabs from '../tabs.js';
 import Chooser from '../../plugins/chooser';
 
@@ -13,8 +14,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const previewParams = {
     modules: [Navigation],
     navigation: {
-      nextEl: '.forwards',
-      prevEl: '.previous',
+      nextEl: '.carousel-forwards',
+      prevEl: '.carousel-previous',
     },
     freeMode: true,
     spaceBetween: 10,

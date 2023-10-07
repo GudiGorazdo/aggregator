@@ -1,0 +1,51 @@
+@import "../layouts/similar-compny-card.scss";
+.similar-companies {
+  position: relative;
+
+  &__navigation {
+    @media only screen and (max-width: $pointMD) {
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &-forwards,
+  &-previous {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    @media only screen and (max-width: $pointMD) {
+      position: relative;
+      top: unset;
+      flex-basis: 45%;
+      transform: unset;
+    }
+  }
+
+  &-forwards {
+    right: -7%;
+
+    @media only screen and (max-width: $pointMD) {
+      right: unset;
+    }
+  }
+
+  &-previous {
+    left: -7%;
+
+    @media only screen and (max-width: $pointMD) {
+      left: unset;
+    }
+  }
+
+  .swiper-slide {
+    &--similar-companies {
+      max-width: 370px ;
+    }
+  }
+}
+
+

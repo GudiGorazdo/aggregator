@@ -7,15 +7,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // COURUSEL
   const similarListParams = {
     modules: [Navigation],
-    slidesPerView: 4,
     freeMode: true,
     navigation: {
-      nextEl: '.similar-forwards',
-      prevEl: '.similar-previous',
+      nextEl: '.similar-companies-forwards',
+      prevEl: '.similar-companies-previous',
     },
+    spaceBetween: 10,
+    slidesPerView: 'auto',
   }
 
-  const corousel = new Swiper('.similar-list', similarListParams);
+  const corousel = new Swiper('.swiper--similar-companies', similarListParams);
+  corousel.update();
 });
 
 
