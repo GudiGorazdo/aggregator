@@ -8,7 +8,7 @@ export default class YandexMapWorker {
   markCollection = null;
 
   classes = {
-    show: 'show',
+    show: 'active',
     hide: 'hidden',
   }
 
@@ -71,6 +71,7 @@ export default class YandexMapWorker {
     const showShop = this.showShop.bind(this);
     const scroll = this.scrollToShop.bind(this);
     const shops = this.items;
+    const showClass = this.classes.show;
     ymaps.ready(function() {
       var myMap = new ymaps.Map("filter-map", {
         center: [average.lat, average.long],
@@ -102,15 +103,15 @@ export default class YandexMapWorker {
 
       document.querySelectorAll('[data-shop-view]').forEach(shop => shop.addEventListener('click', (e) => {
         shops.forEach(shop => {
-          shop.classList.remove('show');
+          shop.classList.remove(showClass);
           if (e.target.dataset.shopView == shop.dataset.shopTarget) {
-            shop.classList.add('show');
+            shop.classList.add(showClass);
           }
         });
         markCollection.each(function(mark) {
           mark.options.set('iconColor', '#6c757d');
           if (e.target.dataset.shopView == mark.properties.get('path')) {
-            e.target.classList.add('show');
+            e.target.classList.add(this.classes.show);
             myMap.setCenter(mark.geometry.getCoordinates());
             // myMap.setZoom(15);
             mark.options.set('iconColor', '#3d39fc');

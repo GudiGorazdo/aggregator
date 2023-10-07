@@ -56,7 +56,7 @@
 
             <div class="info-rating">
                 <h2 class="info-title mb-12">Общий рейтинг</h2>
-                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}"/>
+                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} shopID="{{ $shop->id }}" classMod="info-average"/>
                 <table class="info-rating__table">
                     @foreach($shop->services as $service)
                     <tr>
@@ -64,12 +64,7 @@
                             <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         </th>
                         <td>
-                            <x-display-rating
-                                rating="{{ $service->pivot->rating }}"
-                                disabled={{true}}
-                                classNameCount="info-rating__count"
-                                className="info-rating__stars"
-                            />
+                            <x-display-rating rating="{{ $service->pivot->rating }}" disabled={{true}} classMod="info-services" />
                         </td>
                     </tr>
                 @endforeach
@@ -191,12 +186,7 @@
         <div class="testimonials__left">
             <div class="testimonials__heading">
                 <h2 class="testimonials__title">Отзывы</h2>
-                <x-display-rating
-                    rating="{{ $shop->average_rating }}"
-                    disabled={{true}}
-                    className="testimonials__average"
-                    classNameCount="testimonials__count"
-                />
+                <x-display-rating rating="{{ $shop->average_rating }}" disabled={{true}} classMod="testimonials-average" />
             </div>
 
             <p class="testimonials__description">Все актуальные отзывы об организации можно посмотреть на странице компании на соответствующем сервисе</p>
@@ -207,12 +197,7 @@
                     <label class="testimonials__label" for="tab-{{ $service->id }}" data-tab-path="tab-testimonials-{{ $service->id }}" data-tab-group="tab-testimonials">
                         <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         <span class="btn testimonials__number">{{ $service->pivot->rating_count }} {{ \App\Helpers::getNumEnding((int)$service->rating_count, array('оценка', 'оценки', 'оценок')) }}</span>
-                        <x-display-rating
-                            rating="{{ $service->pivot->rating }}"
-                            disabled={{true}}
-                            className="tabset-rating"
-                            classNameCount="tabset-rating__count"
-                        />
+                        <x-display-rating rating="{{ $service->pivot->rating }}" disabled={{true}} classMod="testimonials-service" />
                     </label>
                 @endforeach
             </div>
@@ -230,12 +215,7 @@
                     <x-slot name="title">
                         <img class="testimonials__logo" src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         <div class="testimonials__info">
-                            <x-display-rating
-                                rating="{{ $service->pivot->rating }}"
-                                disabled={{true}}
-                                className="tabset-rating"
-                                classNameCount="tabset-rating__count"
-                            />
+                            <x-display-rating rating="{{ $service->pivot->rating }}" disabled={{true}} classMod="testimonials-service" />
                             <span class="btn testimonials__number">{{ $service->pivot->rating_count }} {{ \App\Helpers::getNumEnding((int)$service->rating_count, array('оценка', 'оценки', 'оценок')) }}</span>
                         </div>
                     </x-slot>
