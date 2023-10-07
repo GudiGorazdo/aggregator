@@ -111,7 +111,7 @@ export default class YandexMapWorker {
         markCollection.each(function(mark) {
           mark.options.set('iconColor', '#6c757d');
           if (e.target.dataset.shopView == mark.properties.get('path')) {
-            e.target.classList.add(this.classes.show);
+            e.target.classList.add(showClass);
             myMap.setCenter(mark.geometry.getCoordinates());
             // myMap.setZoom(15);
             mark.options.set('iconColor', '#3d39fc');

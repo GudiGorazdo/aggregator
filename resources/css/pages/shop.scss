@@ -2,19 +2,16 @@
 @import "../mixins.scss";
 @import "../components/display-rating.scss";
 @import "../components/accordion.scss";
-@import "../layouts/crousel-section.scss";
+@import "../layouts/crousel.scss";
 @import "../layouts/hours.scss";
 @import "../layouts/brands-list.scss";
 @import "../layouts/similar.scss";
 @import "../layouts/tabs.scss";
 @import "../layouts/comments-list.scss";
 
-.preview__slide {
-  max-height: 25.5rem;
-
-  & img {
-    width: 100%;
-    pointer-events: none;
+.swiper {
+  &-slide--corousel {
+    max-height: 25.5rem;
   }
 }
 

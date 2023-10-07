@@ -10,7 +10,7 @@
                         <img src="{{ asset('assets/img/item/card-photo.jpg') }}" alt="Фото компании" />
                     </div>
                     <div class="similar-list__info-box">
-                        <h3 class="similar-list__title"><a href="/shop/{{ $similar->id }}">{{ $similar->name }}<a/></h3>
+                        <h3 class="similar-list__title"><a href="/shop/{{ $similar->id }}">{{ $similar->name }}</a></h3>
                         <x-display-rating rating="{{ $similar->average_rating }}" disabled={{true}} shopID="{{ $similar->id }}"/>
                         <p class="similar-list__open-status">{{ \App\Services\TitleService::getTimeBeforeClose($similar, true) }}</p>
                         <p class="similar-list__address">{{ $similar->address }}</p>

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
   }
 
-  const preview = new Swiper('.preview', previewParams);
+  const preview = new Swiper('.swiper--carousel', previewParams);
   // MAP
   ymaps.ready(function() {
     const coord = JSON.parse(document.getElementById('shop_coord').value);

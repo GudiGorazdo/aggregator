@@ -11,14 +11,16 @@
 
 @section('content')
 <input id="shop_coord" type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
-<section class="carousel-section">
-    <x-carousel
-        className='preview carousel'
-        classNameSlide="preview__slide"
-        classNameImage="preview__img"
-        :items="json_decode($shop->photos)"
-        alt="фото компании {{ $shop->name }}"
-    >
+<section class="carousel">
+    <x-carousel classMod='carousel' alt="фото компании {{ $shop->name }}" >
+        @foreach (json_decode($shop->photos) as $item)
+            <x-carousel-item classMod="carousel" >
+                    <img class="carousel__img"
+                        src="{{ $item->name . '/id/' . rand(10, 100) }}/240/240"
+                        alt="фото компании"
+                    />
+            </x-carousel-item>
+        @endforeach
     </x-carousel>
     <div class="btn previous"><x-icon-slider-arrow-left /></div>
     <div class="btn forwards"><x-icon-slider-arrow-right /></div>
@@ -228,23 +230,6 @@
 
 @include('layouts.similar-companies', [ 'similars' => $similars ])
 @include('layouts.similar-categories', ['cityID' => $shop->city_id])
-
-<section class="mobile-nav-section">
-    <div class="mobile-nav-section__box">
-        <button class="btn mobile-filter-toggle-btn">
-            <img src="img/icon/arrow-square-up.svg" alt="Открыть фильтр" />
-            <span>Фильтр</span>
-        </button>
-        <button class="btn mobile-toggle-btn mobile-toggle-btn--places">
-            <img src="img/icon/places-icon.svg" alt="Открыть список мест" />
-        </button>
-        <button class="btn mobile-toggle-btn mobile-toggle-btn--map">
-            <img src="img/icon/map-icon.svg" alt="Открыть карту" />
-        </button>
-    </div>
-
-    <a class="btn hero-section-btn" href="#">Отправить заявку всем</a>
-</section>
 @endsection
 
 @section('afterFooter')

@@ -1,6 +1,11 @@
-.carousel-section {
+.carousel {
   position: relative;
   padding: 0 3.5rem;
+
+  &__img {
+    width: 100%;
+    pointer-events: none;
+  }
 
   .previous,
   .forwards {
@@ -15,10 +20,6 @@
       border-radius: 0;
     }
 
-    &.swiper-button-disabled {
-      opacity: 0.6;
-      pointer-events: none;
-    }
   }
 
   .forwards {
@@ -32,6 +33,13 @@
     @media only screen and (max-width: $pointXS) {
       left: 0;
     }
+  }
+}
+
+.swiper {
+  &-button-disabled {
+    opacity: 0.6;
+    pointer-events: none;
   }
 }
 
