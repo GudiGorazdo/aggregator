@@ -192,11 +192,11 @@
             <div class="testimonials__heading">
                 <h2 class="testimonials__title">Отзывы</h2>
                 <x-display-rating
-                        rating="{{ $shop->average_rating }}"
-                        disabled={{true}}
-                        className="testimonials__average"
-                        classNameCount="testimonials__count"
-                        />
+                    rating="{{ $shop->average_rating }}"
+                    disabled={{true}}
+                    className="testimonials__average"
+                    classNameCount="testimonials__count"
+                />
             </div>
 
             <p class="testimonials__description">Все актуальные отзывы об организации можно посмотреть на странице компании на соответствующем сервисе</p>
@@ -208,11 +208,11 @@
                         <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         <span class="btn testimonials__number">{{ $service->pivot->rating_count }} {{ \App\Helpers::getNumEnding((int)$service->rating_count, array('оценка', 'оценки', 'оценок')) }}</span>
                         <x-display-rating
-                                rating="{{ $service->pivot->rating }}"
-                                disabled={{true}}
-                                className="tabset-rating"
-                                classNameCount="tabset-rating__count"
-                                />
+                            rating="{{ $service->pivot->rating }}"
+                            disabled={{true}}
+                            className="tabset-rating"
+                            classNameCount="tabset-rating__count"
+                        />
                     </label>
                 @endforeach
             </div>
@@ -220,8 +220,27 @@
         <div class="testimonials__panels">
             @foreach($shop->services as $service)
                 <div class="{{ $service->id == 1 ? 'open' : '' }}" data-tab-target="tab-testimonials-{{ $service->id }}" data-tab-group="tab-testimonials">
-                    @include('layouts.comments-list', ['service' => $service])
+                    @include('layouts.comments-list', ['service' => $service, 'filterID' => "comments_filter_$service->id"])
                 </div>
+            @endforeach
+        </div>
+        <div class="testimonials__list">
+            @foreach($shop->services as $service)
+                <x-accordion id="testimonials-item-{{ $service->id }}" modification="testimonials" >
+                    <x-slot name="title">
+                        <img class="testimonials__logo" src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
+                        <div class="testimonials__info">
+                            <x-display-rating
+                                rating="{{ $service->pivot->rating }}"
+                                disabled={{true}}
+                                className="tabset-rating"
+                                classNameCount="tabset-rating__count"
+                            />
+                            <span class="btn testimonials__number">{{ $service->pivot->rating_count }} {{ \App\Helpers::getNumEnding((int)$service->rating_count, array('оценка', 'оценки', 'оценок')) }}</span>
+                        </div>
+                    </x-slot>
+                    @include('layouts.comments-list', ['service' => $service, 'filterID' => "mobile_comments_filter_$service->id"])
+                </x-accordion>
             @endforeach
         </div>
     </div>

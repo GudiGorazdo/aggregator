@@ -99,7 +99,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const commetnsFilters = {
     filters: [],
     listUrl: '/api/data/services',
-    chooserID: 'comments_filter_',
+    chooserID: '',
+    desktopID: 'comments_filter_',
+    mobileID: 'mobile_comments_filter_',
     options: {
       current: 1,
       data: [
@@ -130,6 +132,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     },
 
     async init() {
+      this.chooserID = window.innerWidth >= 900 ? this.desktopID : this.mobileID;
       try {
         const services = await this.getServices();
         services.forEach(service => {

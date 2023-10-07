@@ -511,48 +511,6 @@
     background-color: $colorWhite;
   }
 
-  &__header--sell {
-    --icon-size: 2rem;
-    --padding-inline: 2.5rem;
-    --padding-block: 3.5rem;
-    padding: var(--padding-block) var(--padding-inline);
-    padding-right: calc((var(--padding-inline) * 2) + var(--icon-size));
-    font-size: 2.7rem;
-    line-height: 1.4rem;
-    font-weight: 600;
-
-    @media only screen and (max-width: $pointMD) {
-      --padding-inline: 2rem;
-      --padding-block: 2.5rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: var(--padding-inline);
-      width: var(--icon-size);
-      height: var(--icon-size);
-      margin-top: calc(var(--icon-size) / -2);
-      background-image: url("/resources/assets/svg/add-icon.svg");
-    }
-  }
-
-  &__checkbox--sell:checked ~ &__header--sell {
-    &::after {
-      background-image: url("/resources/assets/svg/remove-icon.svg");
-    }
-  }
-
-  &__content {
-    padding: 0 4rem;
-
-    @media only screen and (max-width: $pointMD) {
-    padding: 0 2rem;
-    }
-  }
 }
 
 .brands-list {
@@ -596,11 +554,21 @@
 
   &__content {
     display: flex;
+
+    @media only screen and (max-width: $pointMD) {
+      flex-direction: column;
+    }
   }
 
   &__left,
   &__panels {
     flex-basis: 50%;
+  }
+
+  &__panels {
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
   }
 
   &__heading {
@@ -613,10 +581,26 @@
     margin-right: 2rem;
     font-size: 3.7rem;
     font-weight: 600;
+
+    @media only screen and (max-width: $pointMD) {
+      font-size: 3rem;
+      line-height: 1.4rem;
+    }
+  }
+
+  &__logo {
+    @media only screen and (max-width: $pointMD) {
+      max-height: 3.2rem;
+      margin-bottom: 2rem;
+    }
   }
 
   &__average {
     margin-bottom: 0;
+
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
   }
 
   &__count {
@@ -632,6 +616,16 @@
     font-size: 2rem;
     line-height: 3.1rem;
     font-weight: 400;
+
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
+  }
+
+  &__tabset {
+    @media only screen and (max-width: $pointMD) {
+      display: none;
+    }
   }
 
   &__checkbox {
@@ -661,9 +655,45 @@
     font-weight: 700;
     border-radius: 0.7rem;
     background-color: $colorPrimary;
+
+    @media only screen and (max-width: $pointMD) {
+      padding: 0.4rem 1.1rem;
+      font-size: 1.2rem;
+    }
   }
 
 
+  &__info {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.accordion {
+  &--testimonials {
+    display: none;
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $colorGrey;
+    }
+  }
+
+  &__header--testimonials {
+    padding: 2rem 0;
+    display: block;
+
+    &::after {
+      top: 31%;
+    }
+  }
+
+  &__content--testimonials {
+    padding: 0;
+  }
 }
 
 

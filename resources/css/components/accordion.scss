@@ -9,13 +9,45 @@
   }
 
   &__header {
+    --icon-size: 2rem;
+    --padding-inline: 2.5rem;
+    --padding-block: 3.5rem;
     position: relative;
+    padding: var(--padding-block) var(--padding-inline);
+    padding-right: calc((var(--padding-inline) * 2) + var(--icon-size));
     display: block;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     user-select: none;
+    font-size: 2.7rem;
+    line-height: 1.4rem;
+    font-weight: 600;
+
+    @media only screen and (max-width: $pointMD) {
+      --padding-inline: 2rem;
+      --padding-block: 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: var(--padding-inline);
+      width: var(--icon-size);
+      height: var(--icon-size);
+      margin-top: calc(var(--icon-size) / -2);
+      background-image: url("/resources/assets/svg/add-icon.svg");
+    }
+  }
+
+  &__checkbox:checked ~ &__header {
+    &::after {
+      background-image: url("/resources/assets/svg/remove-icon.svg");
+    }
   }
 
   &__body {
@@ -30,7 +62,12 @@
 
   &__content {
     position: relative;
+    padding: 0 4rem;
     overflow: hidden;
+
+    @media only screen and (max-width: $pointMD) {
+      padding: 0 2rem;
+    }
   }
 }
 

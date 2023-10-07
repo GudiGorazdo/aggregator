@@ -17,6 +17,24 @@
     font-weight: 500;
     color: $color_5;
 
+    @media only screen and (max-width: $pointS) {
+      display: none;
+    }
+
+    &--mobile {
+      display: none;
+
+      @media only screen and (max-width: $pointS) {
+        padding-left: 2.4rem;
+        display: inline-block;
+        text-align: right;
+      }
+
+      @media only screen and (max-width: $pointXS) {
+        padding-left: unset;
+      }
+    }
+
     &::before {
       --el-size: 2rem;
       content: "";
@@ -28,12 +46,20 @@
       background-size: contain;
       background-repeat: no-repeat;
       background-image: url("/resources/assets/svg/site-link-icon.svg");
+
+      @media only screen and (max-width: $pointXS) {
+        display: none;
+      }
     }
   }
 
   &__container {
     max-height: 52rem;
     overflow-y: scroll;
+  }
+
+  &__filter {
+    min-width: 178px;
   }
 }
 
@@ -43,6 +69,15 @@
     font-size: 1.3rem;
     font-weight: 600;
     color: $colorMainBackground;
+  }
+
+  &__list--comments {
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  &__item--comments {
+    padding-right: 4rem;
   }
 }
 
