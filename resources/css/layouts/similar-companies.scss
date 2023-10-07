@@ -1,10 +1,31 @@
 @import "../layouts/similar-compny-card.scss";
+
 .similar-companies {
   position: relative;
+  padding-block: 3.3rem;
+
+  @media only screen and (max-width: $pointMD) {
+    max-width: 100%;
+  }
+
+  &__title {
+    margin-bottom: 5rem;
+    font-size: 3rem;
+    line-height: 1.4rem;
+    letter-spacing: -1px;
+    font-weight: 600;
+
+    @media only screen and (max-width: $pointMD) {
+      margin-bottom: 3.3rem;
+      padding-left: 1rem;
+      font-size: 2.7rem;
+      line-height: 1.4rem;
+    }
+  }
 
   &__navigation {
     @media only screen and (max-width: $pointMD) {
-      padding: 2rem 0;
+      padding: 2rem 1rem;
       display: flex;
       justify-content: space-between;
     }
