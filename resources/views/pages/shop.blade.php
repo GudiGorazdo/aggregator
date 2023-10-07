@@ -115,7 +115,7 @@
 
                 <div class="info__hours">
                     <p class="info__countdown">
-                        {{ \App\Services\TitleService::getTimeBeforeClose($shop) }}
+                        {{ \App\Services\TitleService::timeBeforeClose($shop) }}
                     </p>
 
                     @include('layouts.hours', ['days' => $workingMode])

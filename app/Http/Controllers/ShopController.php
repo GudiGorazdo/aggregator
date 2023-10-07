@@ -17,7 +17,7 @@ class ShopController extends Controller
     public function index(Request $request): View
     {
         $shops = Shop::filter()->get();
-        $title = TitleService::getHomePage($request, $shops);
+        $title = TitleService::homePage($request, $shops);
         $cityID = LocationController::getCityID();
         return view('pages.home', compact('shops', 'title', 'cityID'));
     }

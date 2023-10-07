@@ -508,12 +508,25 @@
 
   &__left,
   &__panels {
-    flex-basis: 45%;
+    flex-basis: 50%;
+  }
+
+  &__left {
+    box-sizing: border-box;
+    padding-right: 5rem;
   }
 
   &__panels {
     @media only screen and (max-width: $pointMD) {
       display: none;
+    }
+  }
+
+  &__list {
+    display: none;
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
     }
   }
 
@@ -631,12 +644,6 @@
 
 .accordion {
   &--testimonials {
-    display: none;
-
-    @media only screen and (max-width: $pointMD) {
-      display: block;
-    }
-
     &:not(:last-child) {
       border-bottom: 1px solid $colorGrey;
     }

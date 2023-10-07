@@ -18,7 +18,7 @@ use \App\Helpers;
 
 class TitleService
 {
-    static function getHomePage(Request $request, Collection $shops): string
+    public static function homePage(Request $request, Collection $shops): string
     {
         $categories = self::getCategories($request);
         $areas = self::getAreas($request, $shops);
@@ -114,7 +114,7 @@ class TitleService
         return $string;
     }
 
-    public static function getTimeBeforeClose(Model $shop, bool $justTime = false): string
+    public static function timeBeforeClose(Model $shop, bool $justTime = false): string
     {
         $dayNum = DayService::getDayNumByDate(CityTimeService::getDate($shop->region->timezone));
         $shopOpen = $shop->workingMode[(int)$dayNum - 1]['open_time'];
@@ -132,6 +132,7 @@ class TitleService
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             if ($justTime) return "Работает до " . $shopClose;
+            \App\Helpers::log($timeBeforeClose);
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '
