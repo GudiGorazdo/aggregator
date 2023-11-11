@@ -1,4 +1,4 @@
-export default {
+const tabs = {
   showClass: "open",
   paths: null,
   targets: null,
@@ -32,4 +32,4 @@ export default {
       }
     });
   },
-};
+}.init();

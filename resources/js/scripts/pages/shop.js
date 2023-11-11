@@ -1,11 +1,11 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Swiper, { Navigation, Pagination } from "swiper";
 import "../layouts/similar-companies.js";
 import "../layouts/similar-categories.js";
 import "../layouts/similar-locations.js";
-import tabs from "../tabs.js";
+import "../tabs.js";
+import Swiper, { Navigation, Pagination } from "swiper";
 import Chooser from "../../plugins/chooser";
 
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -98,9 +98,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     brandsContainer.classList.toggle("expanded");
   });
 
-  // SERVICES TABS
-  tabs.init();
-
   const commetnsFilters = {
     filters: [],
     listUrl: "/api/data/services",
@@ -166,7 +163,5 @@ document.addEventListener("DOMContentLoaded", (e) => {
         console.log(error);
       }
     },
-  };
-
-  commetnsFilters.init();
+  }.init();
 });
