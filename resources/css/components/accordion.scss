@@ -44,7 +44,7 @@
     }
   }
 
-  &__checkbox:checked ~ &__header {
+  &__checkbox:checked~&__header {
     &::after {
       background-image: url("/resources/assets/svg/remove-icon.svg");
     }
@@ -56,13 +56,13 @@
     transition: grid-template-rows 200ms ease;
   }
 
-  &__checkbox:checked ~ &__body {
+  &__checkbox:checked~&__body {
     grid-template-rows: 1fr;
   }
 
   &__content {
     position: relative;
-    padding: 0 4rem;
+    padding: 0 2.5rem;
     overflow: hidden;
 
     @media only screen and (max-width: $pointMD) {
@@ -70,5 +70,3 @@
     }
   }
 }
-
-

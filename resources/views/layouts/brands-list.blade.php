@@ -2,7 +2,9 @@
     {{ $attributes ?? '' }}>
     @foreach ($subCategories as $subCategory)
         <li
-            class="brands-list__item{{ isset($modification) && $modification ? ' brands-list__item--' . $modification : '' }}">
+            class="brands-list__item{{ isset($modification) && $modification ? ' brands-list__item--' . $modification : '' }}"
+            {{ isset($itemAttributes) ? $itemAttributes($subCategory->id) : '' }}
+        >
             <div class="brands-list__icon"></div>
             <div class="brands-list__info">
                 <p class="brands-list__brand">{{ $subCategory->name }}</p>

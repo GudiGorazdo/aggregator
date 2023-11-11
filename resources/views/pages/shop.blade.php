@@ -158,7 +158,6 @@
         <div class="sell__container container-wide">
             <h2 class="sell__title">Можно продать</h2>
             <ul class="sell-list" data-expand-target="shop-categories">
-            {{-- <ul class="sell-list"> --}}
                 @foreach ($categories as $category)
                     <li>
                         <x-accordion id="sell-item-{{ $category->id }}" modification="sell">
@@ -201,7 +200,6 @@
             </ul>
 
             <button class="btn btn--more sell__more" data-expand-path="shop-categories">Показать все</button>
-            {{-- <button class="btn btn--more sell__more">Показать все</button> --}}
         </div>
     </section>
 

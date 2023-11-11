@@ -7,7 +7,10 @@
         {{ $title }}
     </label>
     <div class="accordion__body{{ isset($modification) ? " accordion__body--$modification" : '' }}">
-        <div class="accordion__content{{ isset($modification) ? " accordion__content--$modification" : '' }}">
+        <div
+            class="accordion__content{{ isset($modification) ? " accordion__content--$modification" : '' }}"
+            {{ $contentAttributes ?? '' }}
+        >
             {{ $slot }}
         </div>
     </div>

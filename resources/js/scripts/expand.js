@@ -52,7 +52,7 @@ const expand = {
 	},
 
 	open(button, container) {
-		button.classList.add(this.activeClass);
+		document.querySelectorAll(`[data-expand-path="${button.dataset.expandPath}"]`).forEach(item => item.classList.add(this.activeClass));
 		const startHeight = container.clientHeight;
 		container.style.height = `${startHeight}px`;
 		container.setAttribute(this.startHeightAttribute, startHeight);
@@ -64,7 +64,7 @@ const expand = {
 	},
 
 	close(button, container) {
-		button.classList.remove(this.activeClass);
+		document.querySelectorAll(`[data-expand-path="${button.dataset.expandPath}"]`).forEach(item => item.classList.remove(this.activeClass));
 		container.style.height = `${container.dataset.expandTotalHeight}px`;
 		setTimeout(() => container.style.height = `${container.dataset.expandStartHeight}px`, 10);
 		setTimeout(() => {

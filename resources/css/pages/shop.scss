@@ -383,6 +383,7 @@
   }
 
   &-list {
+    margin-bottom: 2rem;
     overflow: hidden;
 
     & li:not(:last-child) {
@@ -399,8 +400,8 @@
 
     &__breadcrumbs {
       position: absolute;
+      margin-top: 0.5rem;
       margin-bottom: 2rem;
-      // padding: 2rem 0;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -415,12 +416,12 @@
 
     &__title {
       margin-bottom: 1.8rem;
-      font-size: 2.4rem;
+      font-size: 2.7rem;
       line-height: 1.4rem;
     }
 
     &__range {
-      font-size: 1.9rem;
+      font-size: 2.4rem;
       line-height: 1.4rem;
     }
 
