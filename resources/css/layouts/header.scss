@@ -59,16 +59,20 @@
 
   .active__cross {
     >span {
-      &:nth-child(2) {
-        display: none;
-      }
-
       &:nth-child(1) {
         transform: translateY(-50%) rotate(45deg);
       }
 
       &:nth-child(3) {
         transform: translateY(50%) rotate(-45deg);
+      }
+    }
+  }
+
+  .active__middle {
+    >span {
+      &:nth-child(2) {
+        display: none;
       }
     }
   }

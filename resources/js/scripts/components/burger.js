@@ -11,13 +11,17 @@ const burger = {
   open() {
     this.menuList.classList.add("active");
     this.menuBtn.classList.add("active__animation");
-    setTimeout(() => this.menuBtn.classList.add("active__cross"), 100);
+    setTimeout(() => {
+      this.menuBtn.classList.add("active__cross");
+      this.menuBtn.classList.add("active__middle");
+    }, 100);
   },
 
   close() {
     this.menuList.classList.remove("active");
     this.menuBtn.classList.remove("active__cross");
     setTimeout(() => this.menuBtn.classList.remove("active__animation"), 100);
+    setTimeout(() => this.menuBtn.classList.remove("active__middle"), 150);
   },
 
   toggle() {
