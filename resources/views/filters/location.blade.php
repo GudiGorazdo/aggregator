@@ -20,12 +20,12 @@
         'request' => $request,
         'groupField' => 'area_id',
         'filterID' => $filter->getAttribute('subway_id'),
-        'groups' => [[
-            'name' => 'area',
-            'type' => 'target',
-            'value_prefix' => 'area_',
-        ]]
+        'groups' => [
+            [
+                'name' => 'area',
+                'type' => 'target',
+                'value_prefix' => 'area_',
+            ],
+        ],
     ])
 </div>
-
-

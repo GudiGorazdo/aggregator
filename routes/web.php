@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware("guest")->group(function () {
     Route::get('/', [App\Http\Controllers\ShopController::class, 'index'])->name('home');
     Route::get('/shop/{id}', [App\Http\Controllers\ShopController::class, 'show'])->name('shop');
-
     Route::get('/404', [App\Http\Controllers\UndefinedController::class, 'index'])->name('undefined');
 });
 

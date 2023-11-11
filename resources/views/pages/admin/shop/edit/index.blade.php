@@ -5,58 +5,47 @@
 @endsection
 
 @section('styles')
-    @vite([ 'resources/scss/admin.scss' ])
+    @vite(['resources/scss/admin.scss'])
 @endsection
 
 @section('content')
     <section class="shop container">
         <section class="head d-flex justify-content-center">
-            <img class="head_logo" src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100" alt="лого компании {{ $shop->name }}">
+            <img class="head_logo" src="{{ $shop->logo . 'id/' . rand(1, 500) }}/100/100"
+                alt="лого компании {{ $shop->name }}">
             <h2 class="head_title">
-                Комиссионный магазин 
+                Комиссионный магазин
                 <p>"{{ $shop->name }}"</p>
             </h2>
         </section>
-        {{--<input id="shop_coord" value="{{ $shop->coord }}">--}}
-        <x-input
-            classNamesWrapper="mb-3"
-            inputId="lat"
-            name="lat"
-            label="Долгота (Latitude)"
-            type="text"
-            value="{{ $coord['lat'] }}"
-        />
-        <x-input
-            classNamesWrapper="mb-3"
-            inputId="long"
-            name="long"
-            label="Широта (Longitude)"
-            type="text"
-            value="{{ $coord['long'] }}"
-        />
+        {{-- <input id="shop_coord" value="{{ $shop->coord }}"> --}}
+        <x-input classNamesWrapper="mb-3" inputId="lat" name="lat" label="Долгота (Latitude)" type="text"
+            value="{{ $coord['lat'] }}" />
+        <x-input classNamesWrapper="mb-3" inputId="long" name="long" label="Широта (Longitude)" type="text"
+            value="{{ $coord['long'] }}" />
 
         <x-accordion className="shop-photos" id="shop_photos">
-            <x-accordion-item
-                className="shop-photos_inner"
-                {{-- bodyClassName="reviews_body" --}}
-                {{-- bodyId="reviews_body_{{ $service['id'] }}" --}}
-                collapse="shop_photos_inner"
-            >
+            <x-accordion-item className="shop-photos_inner" {{-- bodyClassName="reviews_body" --}} {{-- bodyId="reviews_body_{{ $service['id'] }}" --}}
+                collapse="shop_photos_inner">
                 <x-slot name="title">
-                    Все фотографии 
-                    {{--{{ dd($photos) }}--}}
-                    <span id="shop_photos_count">( {{ count((array)$photos) }} )</span>
+                    Все фотографии
+                    {{-- {{ dd($photos) }} --}}
+                    <span id="shop_photos_count">( {{ count((array) $photos) }} )</span>
                 </x-slot>
                 <form id="shop_photos_form" class="shop-photos_form" action="#">
-                    <input type="hidden" value="{{ $shop->id}}" name="id">
+                    <input type="hidden" value="{{ $shop->id }}" name="id">
                     <ul id="shop_photos_list" class="shop-photos_list d-flex">
-                       @include('pages.admin.shop.edit.photos-list-items', ['photos' => $photos, 'shop' => $shop])
+                        @include('pages.admin.shop.edit.photos-list-items', [
+                            'photos' => $photos,
+                            'shop' => $shop,
+                        ])
                     </ul>
                 </form>
             </x-accordion-item>
         </x-accordion>
         <div class="shop-add-photos-wrapper">
-            <form action="{{ route('admin.shop.update', ["shop" => $shop->id]) }}" id="shop_add_photos" class="shop-add-photos dropzone">
+            <form action="{{ route('admin.shop.update', ['shop' => $shop->id]) }}" id="shop_add_photos"
+                class="shop-add-photos dropzone">
                 @method('PATCH')
             </form>
         </div>
@@ -66,45 +55,32 @@
                     <div class="rating">
                         <div class="rating_average">
                             <p class="rating_label">Общий рейтинг</p>
-                            <x-star-rating-display rating="{{ +$shop->average_rating }}" decimal='1'/>
+                            <x-star-rating-display rating="{{ +$shop->average_rating }}" decimal='1' />
                         </div>
                         <ul class="rating_list">
                             @foreach ($services as $service)
                                 <li class="rating_item">
                                     <p class="rating_label">{{ $service['name'] }}</p>
-                                    <p class="rating_count rating-count"><i class="fa fa-star rating_star rating_star--gold"></i></p>
-                                    <x-input
-                                        classNamesWrapper="mb-3"
-                                        inputId="service_{{ $service['id'] }}"
-                                        name="{{ $service['id'] }}"
-                                        label=""
-                                        type="text"
-                                        value="{{ +$service['rating'] }}"
-                                    />
-                                    <a id="anchor_reviews_{{ $service['id'] }}"
-                                        class="rating_comments-count"
-                                        href="#reviews_item_{{ $service['id'] }}"
-                                        {{-- data-bs-toggle="collapse" --}}
-                                        {{-- data-bs-taraget="#reviews_service-{{ $service['id'] }}" --}}
-                                        {{-- data-anchor-target="reviews_item_{{ $service['id'] }}" --}}
-                                        data-anchor-target="reviews_service-{{ $service['id'] }}"
-                                    >({{ $service['comments_count_title']}})</a>
+                                    <p class="rating_count rating-count"><i
+                                            class="fa fa-star rating_star rating_star--gold"></i></p>
+                                    <x-input classNamesWrapper="mb-3" inputId="service_{{ $service['id'] }}"
+                                        name="{{ $service['id'] }}" label="" type="text"
+                                        value="{{ +$service['rating'] }}" />
+                                    <a id="anchor_reviews_{{ $service['id'] }}" class="rating_comments-count"
+                                        href="#reviews_item_{{ $service['id'] }}" {{-- data-bs-toggle="collapse" --}}
+                                        {{-- data-bs-taraget="#reviews_service-{{ $service['id'] }}" --}} {{-- data-anchor-target="reviews_item_{{ $service['id'] }}" --}}
+                                        data-anchor-target="reviews_service-{{ $service['id'] }}">({{ $service['comments_count_title'] }})</a>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
-                    <x-socials-list
-                        classNameList="rating-socials"
-                        classNameItem="rating-socials_item"
-                        tg="{{ $shop->telegram }}"
-                        whatsapp="{{ $shop->whatsapp }}"
-                        phone="{{ $shop->phone }}"
-                        edit="{{ true }}"
-                    />
+                    <x-socials-list classNameList="rating-socials" classNameItem="rating-socials_item"
+                        tg="{{ $shop->telegram }}" whatsapp="{{ $shop->whatsapp }}" phone="{{ $shop->phone }}"
+                        edit="{{ true }}" />
                 </div>
                 <section id="description_desktop" class="description description--desktop">
                     <h3 class="shop_subtitle">Описание</h3>
-                    {{--<p class="description_text description_text--desktop">{{ $shop->description }}</p>--}}
+                    {{-- <p class="description_text description_text--desktop">{{ $shop->description }}</p> --}}
                     <textarea id="descriotion_desktop" name="description">{{ $shop->description }}</textarea>
                 </section>
                 @include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'desktop'])
@@ -115,28 +91,17 @@
                         <h4 class="shop_subtitle">Телефон:</h4>
                         <ul class="contacts_list">
                             <li class="contacts_item">
-                                {{--<a class="contacts_link" href="tel:{{ $shop->phone }}">{{ $shop->phone }}</a>--}}
+                                {{-- <a class="contacts_link" href="tel:{{ $shop->phone }}">{{ $shop->phone }}</a> --}}
                                 Основной
-                                <x-input
-                                    classNamesWrapper="mb-3"
-                                    inputId="phone_main"
-                                    name="phone_main"
-                                    label=""
-                                    type="text"
-                                    value="{{ $shop->phone }}"
-                                />
+                                <x-input classNamesWrapper="mb-3" inputId="phone_main" name="phone_main" label=""
+                                    type="text" value="{{ $shop->phone }}" />
                             </li>
                             @foreach ($additionalPhones as $index => $phone)
                                 <li class="contacts_item">
-                                    {{--<a class="contacts_link" href="tel:{{ $phone }}">{{ $phone }}</a>--}}
-                                    <x-input
-                                        classNamesWrapper="mb-3"
-                                        inputId="phone_additional_{{ $index }}"
-                                        name="phone_additional[]"
-                                        label=""
-                                        type="text"
-                                        value="{{ $phone }}"
-                                    />
+                                    {{-- <a class="contacts_link" href="tel:{{ $phone }}">{{ $phone }}</a> --}}
+                                    <x-input classNamesWrapper="mb-3" inputId="phone_additional_{{ $index }}"
+                                        name="phone_additional[]" label="" type="text"
+                                        value="{{ $phone }}" />
                                 </li>
                             @endforeach
                         </ul>
@@ -144,15 +109,9 @@
                         <ul class="contacts_list">
                             @foreach (json_decode($shop->web) as $index => $web)
                                 <li class="contacts_item">
-                                    {{--<a class="contacts_link" href="https://{{ $web }}">{{ $web }}</a>--}}
-                                    <x-input
-                                        classNamesWrapper="mb-3"
-                                        inputId="web_{{ $index }}"
-                                        name="web[]"
-                                        label=""
-                                        type="text"
-                                        value="{{ $web }}"
-                                    />
+                                    {{-- <a class="contacts_link" href="https://{{ $web }}">{{ $web }}</a> --}}
+                                    <x-input classNamesWrapper="mb-3" inputId="web_{{ $index }}" name="web[]"
+                                        label="" type="text" value="{{ $web }}" />
                                 </li>
                             @endforeach
                         </ul>
@@ -163,32 +122,17 @@
                             @foreach ($workingMode as $day)
                                 <tr>
                                     <th>{{ $day['day'] }}</th>
-                                        <td>
-                                        <x-checkbox
-                                            :line="true"
-                                            :active="$day['is_open'] || false"
-                                            id="is_open_{{ $day['day_id'] }}"
-                                            value="1"
-                                            name="{{ $day['day_id'] }}"
-                                        >
+                                    <td>
+                                        <x-checkbox :line="true" :active="$day['is_open'] || false" id="is_open_{{ $day['day_id'] }}"
+                                            value="1" name="{{ $day['day_id'] }}">
                                             Открыто
                                         </x-checkbox>
-                                        <x-input
-                                            classNamesWrapper="mb-3"
-                                            inputId="open_day_{{ $day['day_id'] }}"
-                                            name="{{ $day['day_id'] }}"
-                                            label="с"
-                                            type="text"
-                                            value="{{ $day['open'] }}"
-                                        />
-                                        <x-input
-                                            classNamesWrapper="mb-3"
-                                            inputId="close_day_{{ $day['day_id'] }}"
-                                            name="{{ $day['day_id'] }}"
-                                            label="до"
-                                            type="text"
-                                            value="{{ $day['close'] }}"
-                                        />
+                                        <x-input classNamesWrapper="mb-3" inputId="open_day_{{ $day['day_id'] }}"
+                                            name="{{ $day['day_id'] }}" label="с" type="text"
+                                            value="{{ $day['open'] }}" />
+                                        <x-input classNamesWrapper="mb-3" inputId="close_day_{{ $day['day_id'] }}"
+                                            name="{{ $day['day_id'] }}" label="до" type="text"
+                                            value="{{ $day['close'] }}" />
                                         <hr>
                                     </td>
                                 </tr>
@@ -199,14 +143,8 @@
                 <section class="location">
                     <h4 class="shop_subtitle">Адрес:</h4>
                     <address class="location_address">{{ $shop->address }}</address>
-                        <x-input
-                            classNamesWrapper="mb-3"
-                            inputId="address"
-                            name="address"
-                            label=""
-                            type="text"
-                            value="{{ $shop->address }}"
-                        />
+                    <x-input classNamesWrapper="mb-3" inputId="address" name="address" label="" type="text"
+                        value="{{ $shop->address }}" />
                     <div id="shop-map" class="location_map"></div>
                 </section>
             </div>
@@ -214,7 +152,7 @@
         <section id="description_mobile" class="description description--mobile">
             <h4 class="shop_subtitle">Описание</h4>
             <div id="description_wrapper" class="description_wrapper close">
-                {{--<p id="description_text" class="description_text description_text--mobile">{{ $shop->description }}</p>--}}
+                {{-- <p id="description_text" class="description_text description_text--mobile">{{ $shop->description }}</p> --}}
                 <textarea id="descriotion_mobile" name="description">{{ $shop->description }}</textarea>
             </div>
             <div id="description_ellipsis" class="ellipsis">...</div>
@@ -222,14 +160,12 @@
         </section>
 
         <div class="categories-reviews-wrapper">
-            {{--@include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'mobile'])--}}
+            {{-- @include('pages.admin.shop.edit.categories', ['prices' => $prices, 'mod' => 'mobile']) --}}
             @include('pages.shop.reviews-list', ['services' => $services])
         </div>
-        <form id="shop-main-form" action="#" data-id="{{ $shop->id}}">
-            <x-button-site id="shop_photos_remove"
-                data-modal-path="site-confirm"
-                data-confirm="Сохранить данные?"
-            >SUBMIT!!!</x-button-site>
+        <form id="shop-main-form" action="#" data-id="{{ $shop->id }}">
+            <x-button-site id="shop_photos_remove" data-modal-path="site-confirm"
+                data-confirm="Сохранить данные?">SUBMIT!!!</x-button-site>
         </form>
 
     </section>
@@ -265,4 +201,3 @@
 @section('afterFooter')
     @vite(['resources/js/scripts/admin/edit.js'])
 @endsection
-

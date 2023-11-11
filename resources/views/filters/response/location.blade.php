@@ -1,6 +1,9 @@
 @php
-    if (isset($params)) $cityID = $params ?? null;
-    else $cityID = $request['city'] ?? \App\Http\Controllers\CookieController::getCookie(\App\Constants\CookieConstants::LOCATION) ?? null;
+    if (isset($params)) {
+        $cityID = $params ?? null;
+    } else {
+        $cityID = $request['city'] ?? (\App\Http\Controllers\CookieController::getCookie(\App\Constants\CookieConstants::LOCATION) ?? null);
+    }
     $items = $filter->getItems(+$cityID);
     var_dump($cityID);
 @endphp
@@ -10,7 +13,7 @@
     'label' => 'Район',
     'city_id' => $cityID,
     'request' => $request,
-    ])
+])
 @include('filters.location-filter', [
     'items' => $items->pluck('subways')->flatten()->all(),
     'name' => 'subway',
@@ -23,6 +26,6 @@
             'name' => 'area',
             'type' => 'target',
             'value_prefix' => 'area_',
-        ]
-    ]
+        ],
+    ],
 ])

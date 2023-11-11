@@ -10,5 +10,3 @@
         {{ $label }}
     @endif
 </label>
-
-

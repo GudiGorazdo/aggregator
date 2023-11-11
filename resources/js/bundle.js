@@ -6,23 +6,23 @@
   !*** ./source/js/index.js ***!
   \****************************/
       /***/ (
-  __unused_webpack_module,
-  __webpack_exports__,
-  __webpack_require__
-) => {
+        __unused_webpack_module,
+        __webpack_exports__,
+        __webpack_require__,
+      ) => {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         /* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_0__ =
           __webpack_require__(/*! ./select */ "./source/js/select.js");
         /* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_0___default =
           /*#__PURE__*/ __webpack_require__.n(
-            _select__WEBPACK_IMPORTED_MODULE_0__
+            _select__WEBPACK_IMPORTED_MODULE_0__,
           );
         /* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_1__ =
           __webpack_require__(/*! ./script */ "./source/js/script.js");
         /* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_1___default =
           /*#__PURE__*/ __webpack_require__.n(
-            _script__WEBPACK_IMPORTED_MODULE_1__
+            _script__WEBPACK_IMPORTED_MODULE_1__,
           );
         /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_2__ =
           __webpack_require__(/*! ./slider */ "./source/js/slider.js");
@@ -59,8 +59,10 @@
                 selectedValue = option[0];
                 selectedContent = option[1];
               }
-              items.push(`<li class="itc-select__option${selectedClass}" data-select="option"
-        data-value="${option[0]}" data-index="${index}">${option[1]}</li>`);
+              items.push(
+                `<li class="itc-select__option${selectedClass}" data-select="option"
+        data-value="${option[0]}" data-index="${index}">${option[1]}</li>`,
+              );
             });
             return `<button type="button" class="itc-select__toggle" name="${name}"
       value="${selectedValue}" data-select="toggle" data-index="${selectedIndex}">
@@ -78,20 +80,18 @@
             });
           }
           static create(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             if (this._el) {
               return new this(target, params);
             }
             return null;
           }
           constructor(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             this._params = params || {};
             this._onClickFn = this._onClick.bind(this);
             if (this._params.options) {
@@ -99,7 +99,7 @@
               this._el.classList.add(this.constructor.EL);
             }
             this._elToggle = this._el.querySelector(
-              this.constructor.DATA_TOGGLE
+              this.constructor.DATA_TOGGLE,
             );
             this._el.addEventListener("click", this._onClickFn);
           }
@@ -115,7 +115,7 @@
           _updateOption(el) {
             const elOption = el.closest(`.${this.constructor.EL_OPTION}`);
             const elOptionSel = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (elOptionSel) {
               elOptionSel.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -132,7 +132,7 @@
           }
           _reset() {
             const selected = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (selected) {
               selected.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -192,7 +192,7 @@
           }
           set selectedIndex(index) {
             const option = this._el.querySelector(
-              `.select__option[data-index="${index}"]`
+              `.select__option[data-index="${index}"]`,
             );
             if (option) {
               this._updateOption(option);
@@ -225,7 +225,7 @@
 
         const heroText = document.querySelector(".hero-section-text-box");
         const heroTextBtn = document.querySelector(
-          ".hero-section-text-expand-btn"
+          ".hero-section-text-expand-btn",
         );
         heroTextBtn.addEventListener("click", () => {
           heroText.classList.toggle("active");
@@ -263,17 +263,16 @@
         const filterWrapper = document.querySelector(".filter__wrapper");
         const filterBtn = document.querySelector(".aside__btn");
 
-
         filterBtn.addEventListener("click", () => {
           filterWrapper.classList.toggle("active");
           filterBtn.classList.toggle("active");
         });
         const filterCollapseBtn = document.querySelector(
-          ".aside__collapse-btn"
+          ".aside__collapse-btn",
         );
 
         const mobileFilterBtn = document.querySelector(
-          ".mobile-filter-toggle-btn"
+          ".mobile-filter-toggle-btn",
         );
         mobileFilterBtn.addEventListener("click", () => {
           filterWrapper.classList.toggle("active");
@@ -286,7 +285,7 @@
         });
 
         const placesToggleBtn = document.querySelector(
-          ".mobile-toggle-btn--places"
+          ".mobile-toggle-btn--places",
         );
         placesToggleBtn.addEventListener("click", () => {
           bodyEl.classList.toggle("map-open");
@@ -299,25 +298,27 @@
 
         const searchFilterBtn = document.querySelector(".categories-select");
         const searchFilterEl = document.querySelector(
-          ".search--filter"
+          ".search--filter",
         );
 
         let searchFilterCtrlBtns = document.querySelectorAll(
-          ".search__mobile-btn"
+          ".search__mobile-btn",
         );
 
         function myFunction(x) {
           if (x.matches) {
             menuBtn.addEventListener("click", () => {
               //добавляем проверку на открытую фильтрацию
-              let filteractive = document.querySelector('.filter__wrapper.active');
+              let filteractive = document.querySelector(
+                ".filter__wrapper.active",
+              );
               if (filteractive != undefined) {
                 filterCollapseBtn.click();
               }
               //если фильтрации нет, проверка пропускается
               menuList.classList.toggle("active");
               bodyEl.classList.toggle("fixed-position");
-              menuBtn.classList.toggle('active__cross');
+              menuBtn.classList.toggle("active__cross");
             });
 
             filterCollapseBtn.addEventListener("click", () => {
@@ -329,7 +330,7 @@
               searchFilterEl.classList.toggle("active");
             });
 
-            searchFilterCtrlBtns.forEach(function(el) {
+            searchFilterCtrlBtns.forEach(function (el) {
               el.addEventListener("click", () => {
                 searchFilterEl.classList.toggle("active");
               });
@@ -337,13 +338,13 @@
           } else {
             menuBtn.addEventListener("click", () => {
               menuList.classList.toggle("active");
-              menuBtn.classList.toggle('active__cross');
+              menuBtn.classList.toggle("active__cross");
             });
 
             filterCollapseBtn.addEventListener("click", () => {
-              if (filterWrapper.dataset.width == 'true') {
-                console.log('отменяю');
-                filterWrapper.style.width = 'auto';
+              if (filterWrapper.dataset.width == "true") {
+                console.log("отменяю");
+                filterWrapper.style.width = "auto";
                 filterWrapper.dataset.width = "false";
               }
 
@@ -384,8 +385,10 @@
                 selectedValue = option[0];
                 selectedContent = option[1];
               }
-              items.push(`<li class="itc-select__option${selectedClass}" data-select="option"
-          data-value="${option[0]}" data-index="${index}">${option[1]}</li>`);
+              items.push(
+                `<li class="itc-select__option${selectedClass}" data-select="option"
+          data-value="${option[0]}" data-index="${index}">${option[1]}</li>`,
+              );
             });
             return `<button type="button" class="itc-select__toggle" name="${name}"
         value="${selectedValue}" data-select="toggle" data-index="${selectedIndex}">
@@ -403,20 +406,18 @@
             });
           }
           static create(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             if (this._el) {
               return new this(target, params);
             }
             return null;
           }
           constructor(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             this._params = params || {};
             this._onClickFn = this._onClick.bind(this);
             if (this._params.options) {
@@ -424,7 +425,7 @@
               this._el.classList.add(this.constructor.EL);
             }
             this._elToggle = this._el.querySelector(
-              this.constructor.DATA_TOGGLE
+              this.constructor.DATA_TOGGLE,
             );
             this._el.addEventListener("click", this._onClickFn);
           }
@@ -440,7 +441,7 @@
           _updateOption(el) {
             const elOption = el.closest(`.${this.constructor.EL_OPTION}`);
             const elOptionSel = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (elOptionSel) {
               elOptionSel.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -457,7 +458,7 @@
           }
           _reset() {
             const selected = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (selected) {
               selected.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -517,7 +518,7 @@
           }
           set selectedIndex(index) {
             const option = this._el.querySelector(
-              `.select__option[data-index="${index}"]`
+              `.select__option[data-index="${index}"]`,
             );
             if (option) {
               this._updateOption(option);
@@ -537,17 +538,17 @@
       /***/ (
         __unused_webpack_module,
         __webpack_exports__,
-        __webpack_require__
+        __webpack_require__,
       ) => {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ =
           __webpack_require__(
-            /*! swiper */ "./node_modules/swiper/swiper.esm.js"
+            /*! swiper */ "./node_modules/swiper/swiper.esm.js",
           );
         /* harmony import */ var swiper_css__WEBPACK_IMPORTED_MODULE_1__ =
           __webpack_require__(
-            /*! swiper/css */ "./node_modules/swiper/swiper.min.css"
+            /*! swiper/css */ "./node_modules/swiper/swiper.min.css",
           );
 
         const taskSlider = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](
@@ -556,51 +557,60 @@
             slidesPerView: 2,
             spaceBetween: 8,
             centeredSlides: true,
-          }
+          },
         );
 
         /***/
       },
-
     /******/
   };
   /************************************************************************/
-  /******/ // The module cache
+  /******/
+  // The module cache
   /******/ var __webpack_module_cache__ = {};
   /******/
-  /******/ // The require function
+  /******/
+  // The require function
   /******/ function __webpack_require__(moduleId) {
-    /******/ // Check if module is in cache
+    /******/
+    // Check if module is in cache
     /******/ var cachedModule = __webpack_module_cache__[moduleId];
     /******/ if (cachedModule !== undefined) {
       /******/ return cachedModule.exports;
       /******/
     }
-    /******/ // Create a new module (and put it into the cache)
+    /******/
+    // Create a new module (and put it into the cache)
     /******/ var module = (__webpack_module_cache__[moduleId] = {
-      /******/ // no module.id needed
-      /******/ // no module.loaded needed
+      /******/
+      // no module.id needed
+      /******/
+      // no module.loaded needed
       /******/ exports: {},
       /******/
     });
     /******/
-    /******/ // Execute the module function
+    /******/
+    // Execute the module function
     /******/ __webpack_modules__[moduleId](
       module,
       module.exports,
-      __webpack_require__
+      __webpack_require__,
     );
     /******/
-    /******/ // Return the exports of the module
+    /******/
+    // Return the exports of the module
     /******/ return module.exports;
     /******/
   }
   /******/
-  /******/ // expose the modules object (__webpack_modules__)
+  /******/
+  // expose the modules object (__webpack_modules__)
   /******/ __webpack_require__.m = __webpack_modules__;
   /******/
   /************************************************************************/
-  /******/ /* webpack/runtime/chunk loaded */
+  /******/
+  /* webpack/runtime/chunk loaded */
   /******/ (() => {
     /******/ var deferred = [];
     /******/ __webpack_require__.O = (result, chunkIds, fn, priority) => {
@@ -610,8 +620,9 @@
           var i = deferred.length;
           i > 0 && deferred[i - 1][2] > priority;
           i--
-        )
+        ) {
           deferred[i] = deferred[i - 1];
+        }
         /******/ deferred[i] = [chunkIds, fn, priority];
         /******/ return;
         /******/
@@ -650,14 +661,15 @@
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/compat get default export */
+  /******/
+  /* webpack/runtime/compat get default export */
   /******/ (() => {
-    /******/ // getDefaultExport function for compatibility with non-harmony modules
+    /******/
+    // getDefaultExport function for compatibility with non-harmony modules
     /******/ __webpack_require__.n = (module) => {
-      /******/ var getter =
-        module && module.__esModule
-          ? /******/ () => module["default"]
-          : /******/ () => module;
+      /******/ var getter = module && module.__esModule
+        ? /******/ () => module["default"]
+        : /******/ () => module;
       /******/ __webpack_require__.d(getter, { a: getter });
       /******/ return getter;
       /******/
@@ -665,9 +677,11 @@
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/define property getters */
+  /******/
+  /* webpack/runtime/define property getters */
   /******/ (() => {
-    /******/ // define getter functions for harmony exports
+    /******/
+    // define getter functions for harmony exports
     /******/ __webpack_require__.d = (exports, definition) => {
       /******/ for (var key in definition) {
         /******/ if (
@@ -675,9 +689,9 @@
           !__webpack_require__.o(exports, key)
         ) {
           /******/ Object.defineProperty(exports, key, {
-          enumerable: true,
-          get: definition[key],
-        });
+            enumerable: true,
+            get: definition[key],
+          });
           /******/
         }
         /******/
@@ -687,21 +701,24 @@
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/hasOwnProperty shorthand */
+  /******/
+  /* webpack/runtime/hasOwnProperty shorthand */
   /******/ (() => {
     /******/ __webpack_require__.o = (obj, prop) =>
       Object.prototype.hasOwnProperty.call(obj, prop);
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/make namespace object */
+  /******/
+  /* webpack/runtime/make namespace object */
   /******/ (() => {
-    /******/ // define __esModule on exports
+    /******/
+    // define __esModule on exports
     /******/ __webpack_require__.r = (exports) => {
       /******/ if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
         /******/ Object.defineProperty(exports, Symbol.toStringTag, {
-    value: "Module",
-  });
+          value: "Module",
+        });
         /******/
       }
       /******/ Object.defineProperty(exports, "__esModule", { value: true });
@@ -710,36 +727,49 @@
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/jsonp chunk loading */
+  /******/
+  /* webpack/runtime/jsonp chunk loading */
   /******/ (() => {
-    /******/ // no baseURI
     /******/
-    /******/ // object to store loaded and loading chunks
-    /******/ // undefined = chunk not loaded, null = chunk preloaded/prefetched
-    /******/ // [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+    // no baseURI
+    /******/
+    /******/
+    // object to store loaded and loading chunks
+    /******/
+    // undefined = chunk not loaded, null = chunk preloaded/prefetched
+    /******/
+    // [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
     /******/ var installedChunks = {
       /******/ bundle: 0,
       /******/
     };
     /******/
-    /******/ // no chunk on demand loading
     /******/
-    /******/ // no prefetching
+    // no chunk on demand loading
     /******/
-    /******/ // no preloaded
     /******/
-    /******/ // no HMR
+    // no prefetching
     /******/
-    /******/ // no HMR manifest
+    /******/
+    // no preloaded
+    /******/
+    /******/
+    // no HMR
+    /******/
+    /******/
+    // no HMR manifest
     /******/
     /******/ __webpack_require__.O.j = (chunkId) =>
       installedChunks[chunkId] === 0;
     /******/
-    /******/ // install a JSONP callback for chunk loading
+    /******/
+    // install a JSONP callback for chunk loading
     /******/ var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
       /******/ var [chunkIds, moreModules, runtime] = data;
-      /******/ // add "moreModules" to the modules object,
-      /******/ // then flag all "chunkIds" as loaded and fire callback
+      /******/
+      // add "moreModules" to the modules object,
+      /******/
+      // then flag all "chunkIds" as loaded and fire callback
       /******/ var moduleId,
         chunkId,
         i = 0;
@@ -777,22 +807,25 @@
     /******/ chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
     /******/ chunkLoadingGlobal.push = webpackJsonpCallback.bind(
       null,
-      chunkLoadingGlobal.push.bind(chunkLoadingGlobal)
+      chunkLoadingGlobal.push.bind(chunkLoadingGlobal),
     );
     /******/
   })();
   /******/
   /************************************************************************/
   /******/
-  /******/ // startup
-  /******/ // Load entry module and return exports
-  /******/ // This entry module depends on other loaded chunks and execution need to be delayed
+  /******/
+  // startup
+  /******/
+  // Load entry module and return exports
+  /******/
+  // This entry module depends on other loaded chunks and execution need to be delayed
   /******/ var __webpack_exports__ = __webpack_require__.O(
     undefined,
     [
       "vendors-node_modules_swiper_swiper_min_css-node_modules_swiper_swiper_esm_js",
     ],
-    () => __webpack_require__("./source/js/index.js")
+    () => __webpack_require__("./source/js/index.js"),
   );
   /******/ __webpack_exports__ = __webpack_require__.O(__webpack_exports__);
   /******/
@@ -800,74 +833,69 @@
 })();
 
 let checkboxCrumble = document.querySelectorAll(
-  ".accordion__breadcrumbs-btn--search--1"
+  ".accordion__breadcrumbs-btn--search--1",
 );
 
-checkboxCrumble.forEach(element => {
-  element.addEventListener("click", function() {
-    let parentItem = element.closest('.accordion__item--categories');
+checkboxCrumble.forEach((element) => {
+  element.addEventListener("click", function () {
+    let parentItem = element.closest(".accordion__item--categories");
     let parentCheckbox = parentItem.querySelector("[data-input__checkbox]");
     parentCheckbox.checked = false;
   });
 });
 
-let buttonShowMore = document.querySelector('.shop-list__more');
-let textButton = buttonShowMore && buttonShowMore.querySelector('span');
-let flexWrapper = document.querySelector('[data-correct]');
+let buttonShowMore = document.querySelector(".shop-list__more");
+let textButton = buttonShowMore && buttonShowMore.querySelector("span");
+let flexWrapper = document.querySelector("[data-correct]");
 
-buttonShowMore && buttonShowMore.addEventListener('click', () => {
-
-  if (buttonShowMore.dataset.state == 'close') {
-    buttonShowMore.dataset.state = 'open';
-    textButton.textContent = 'Свернуть';
-    flexWrapper.classList.remove('correct');
+buttonShowMore && buttonShowMore.addEventListener("click", () => {
+  if (buttonShowMore.dataset.state == "close") {
+    buttonShowMore.dataset.state = "open";
+    textButton.textContent = "Свернуть";
+    flexWrapper.classList.remove("correct");
+  } else {
+    buttonShowMore.dataset.state = "close";
+    textButton.textContent = "Показать еще";
+    flexWrapper.classList.add("correct");
   }
-  else {
-    buttonShowMore.dataset.state = 'close';
-    textButton.textContent = 'Показать еще';
-    flexWrapper.classList.add('correct');
-  }
-})
-let checkboxAccordeon = document.querySelectorAll('.accordion__checkbox');
-checkboxAccordeon.forEach(element => {
-  element.addEventListener('click', () => {
-  })
 });
-let brandsList = document.querySelectorAll('.brands-list__item');
+let checkboxAccordeon = document.querySelectorAll(".accordion__checkbox");
+checkboxAccordeon.forEach((element) => {
+  element.addEventListener("click", () => {
+  });
+});
+let brandsList = document.querySelectorAll(".brands-list__item");
 if (brandsList != undefined || brandsList != null) {
-  brandsList.forEach(element => {
-    element.addEventListener('click', () => {
-      element.classList.toggle('active__brand');
-    })
+  brandsList.forEach((element) => {
+    element.addEventListener("click", () => {
+      element.classList.toggle("active__brand");
+    });
   });
 }
 
-let filterSelect = document.querySelectorAll('[data-select__menu]');
-filterSelect.forEach(element => {
-  element.addEventListener('click', () => {
-    let parent = element.closest('.accordion__item');
-    let input = parent.querySelector('.accordion__checkbox');
+let filterSelect = document.querySelectorAll("[data-select__menu]");
+filterSelect.forEach((element) => {
+  element.addEventListener("click", () => {
+    let parent = element.closest(".accordion__item");
+    let input = parent.querySelector(".accordion__checkbox");
     input.click();
-  })
+  });
 });
-let labelCat = document.querySelectorAll('.accordion__header--categories');
+let labelCat = document.querySelectorAll(".accordion__header--categories");
 
-labelCat.forEach(element => {
-  element.addEventListener('click', (e) => {
+labelCat.forEach((element) => {
+  element.addEventListener("click", (e) => {
     e.preventDefault();
-    element.classList.toggle('cat-active');
-  })
+    element.classList.toggle("cat-active");
+  });
 });
-
 
 //добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы
-let menuListActive = document.querySelector('.menu-list');
+let menuListActive = document.querySelector(".menu-list");
 // console.log(menuListActive);
 if (screen.width >= 900) {
-  menuListActive.addEventListener('wheel', function(event) {
+  menuListActive.addEventListener("wheel", function (event) {
     event.preventDefault();
     menuListActive.scrollTop += event.deltaY;
   });
 }
-
-

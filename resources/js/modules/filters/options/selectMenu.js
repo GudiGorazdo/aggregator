@@ -7,6 +7,6 @@ const selectMenu = {
     item: `select-menu__item`,
     icon: `select-menu__icon`,
   },
-}
+};
 
 export default selectMenu;

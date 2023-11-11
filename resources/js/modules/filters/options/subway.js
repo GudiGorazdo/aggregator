@@ -1,10 +1,10 @@
-import selectMenu from './selectMenu';
+import selectMenu from "./selectMenu";
 
 const subway = {
-  el: 'filter_subway',
-  placeholder: 'Метро',
+  el: "filter_subway",
+  placeholder: "Метро",
   data: [],
-  ... selectMenu,
-}
+  ...selectMenu,
+};
 
 export default subway;

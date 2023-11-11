@@ -1,16 +1,16 @@
 export default {
-  showClass: 'open',
+  showClass: "open",
   paths: null,
   targets: null,
 
   init() {
     this.show = this.show.bind(this);
     this.hideAll = this.hideAll.bind(this);
-    this.paths = document.querySelectorAll('[data-tab-path]');
-    this.targets = document.querySelectorAll('[data-tab-target]');
+    this.paths = document.querySelectorAll("[data-tab-path]");
+    this.targets = document.querySelectorAll("[data-tab-target]");
 
-    this.paths.forEach(el => {
-      el.addEventListener('click', () => {
+    this.paths.forEach((el) => {
+      el.addEventListener("click", () => {
         this.hideAll(el);
         this.show(el);
       });
@@ -18,7 +18,7 @@ export default {
   },
 
   show(el) {
-    this.targets.forEach(target => {
+    this.targets.forEach((target) => {
       if (target.dataset.tabTarget === el.dataset.tabPath) {
         target.classList.add(this.showClass);
       }
@@ -26,12 +26,10 @@ export default {
   },
 
   hideAll(el) {
-    this.targets.forEach(target => {
+    this.targets.forEach((target) => {
       if (target.dataset.tabGroup === el.dataset.tabGroup) {
         target.classList.remove(this.showClass);
       }
     });
-  }
-}
-
-
+  },
+};

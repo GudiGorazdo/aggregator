@@ -1,7 +1,7 @@
 <section class="hero container-wide mb-45">
     <div class="hero__content flex-ctr">
         <h1 class="hero__title">{{ $title }}</h1>
-        <div class="hero__text-box">
+        <div class="hero__text-box" data-expand-target="hero-text">
             <p class="hero__text">
             Срочный выкуп ноутбуков, телефонов, планшетов, фотоаппаратов в
             любом состоянии.
@@ -14,7 +14,7 @@
             Срочный выкуп ноутбуков, телефонов, планшетов, фотоаппаратов в
             любом состоянии.
             </p>
-            <button class="btn btn--more hero__text-expand-btn"></button>
+            <button class="btn btn--more hero__text-expand-btn" data-expand-path="hero-text"></button>
         </div>
         <a class="btn btn--primary hero__btn" href="#">Отправить заявку всем</a>
     </div>

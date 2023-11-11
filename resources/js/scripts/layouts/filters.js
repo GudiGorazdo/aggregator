@@ -1,19 +1,18 @@
-import './aside.js';
+import "./aside.js";
 
-document.addEventListener('DOMContentLoaded', (e) => {
+document.addEventListener("DOMContentLoaded", (e) => {
   const bodyEl = document.querySelector("body");
   const aside = document.querySelector(".aside");
   const filterWrapper = document.querySelector(".filter__wrapper");
   const filterBtns = document.querySelectorAll(".filter-toggle-btn");
-  const categoriesList = document.getElementById('filter-category');
-  filterBtns.forEach(button => {
+  const categoriesList = document.getElementById("filter-category");
+  filterBtns.forEach((button) => {
     button.addEventListener("click", () => {
       filterWrapper.classList.toggle("active");
       button.classList.toggle("active");
       aside.classList.toggle("active");
     });
-  })
-
+  });
 
   const filterText = document.querySelector(".filter__text");
   const filterTextBtn = document.querySelector(".filter__text-btn");
@@ -30,14 +29,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 
   const filterCollapseBtn = document.querySelector(".aside__collapse-btn");
-  const mobileFilterBtn = document.querySelector(".mobile-nav-section__toggle-btn--filter");
+  const mobileFilterBtn = document.querySelector(
+    ".mobile-nav-section__toggle-btn--filter",
+  );
   mobileFilterBtn.addEventListener("click", () => {
     filterWrapper.classList.toggle("active");
     bodyEl.classList.toggle("fixed-position");
     filterWrapper.classList.toggle("active");
   });
 
-  const mapToggleBtn = document.querySelector(".mobile-nav-section__toggle-btn--map");
+  const mapToggleBtn = document.querySelector(
+    ".mobile-nav-section__toggle-btn--map",
+  );
   mapToggleBtn.addEventListener("click", () => {
     bodyEl.classList.toggle("map-open");
     mapToggleBtn.classList.toggle("active");
@@ -71,16 +74,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
       //   searchFilterEl.classList.toggle("active");
       // });
 
-      searchFilterCtrlBtns.forEach(function(el) {
+      searchFilterCtrlBtns.forEach(function (el) {
         el.addEventListener("click", () => {
           searchFilterEl.classList.toggle("active");
         });
       });
     } else {
       filterCollapseBtn.addEventListener("click", () => {
-        if (filterWrapper.dataset.width == 'true') {
-          console.log('отменяю');
-          filterWrapper.style.width = 'auto';
+        if (filterWrapper.dataset.width == "true") {
+          console.log("отменяю");
+          filterWrapper.style.width = "auto";
           filterWrapper.dataset.width = "false";
         }
 
@@ -95,32 +98,33 @@ document.addEventListener('DOMContentLoaded', (e) => {
   setListeners(x); // Call listener function at run time
   x.addListener(setListeners);
 
-
   let checkboxCrumble = document.querySelectorAll("[data-subcategory-close]");
-  checkboxCrumble.forEach(element => {
-    element.addEventListener("click", function(e) {
-      const target = document.querySelector(`[data-subcategory-target="${e.target.dataset.subcategoryClose}"]`)
-      target.classList.remove('open');
+  checkboxCrumble.forEach((element) => {
+    element.addEventListener("click", function (e) {
+      const target = document.querySelector(
+        `[data-subcategory-target="${e.target.dataset.subcategoryClose}"]`,
+      );
+      target.classList.remove("open");
     });
   });
 
-  let subcategoryButtons = document.querySelectorAll('[data-subcategory-path]');
-  subcategoryButtons.forEach(element => {
-    element.addEventListener('click', (e) => {
+  let subcategoryButtons = document.querySelectorAll("[data-subcategory-path]");
+  subcategoryButtons.forEach((element) => {
+    element.addEventListener("click", (e) => {
       console.log(e.target.dataset.subcategoryPath);
-      const target = document.querySelector(`[data-subcategory-target="${e.target.dataset.subcategoryPath}"]`)
-      target.classList.add('open');
-    })
+      const target = document.querySelector(
+        `[data-subcategory-target="${e.target.dataset.subcategoryPath}"]`,
+      );
+      target.classList.add("open");
+    });
   });
 
-  let brandsList = document.querySelectorAll('.brands-list__item');
+  let brandsList = document.querySelectorAll(".brands-list__item");
   if (brandsList != undefined || brandsList != null) {
-    brandsList.forEach(element => {
-      element.addEventListener('click', () => {
-        element.classList.toggle('active__brand');
-      })
+    brandsList.forEach((element) => {
+      element.addEventListener("click", () => {
+        element.classList.toggle("active__brand");
+      });
     });
   }
 });
-
-

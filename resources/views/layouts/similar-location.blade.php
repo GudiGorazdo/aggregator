@@ -1,10 +1,11 @@
 <div class="similar-location">
-    <div class="similar-location__list">
+    <div class="similar-location__list" data-expand-target="similar-location">
         @foreach (\App\Models\Area::getByCityID($cityID)->get() as $area)
         <a href="#">{{ $area->name }}</a>
         @endforeach
     </div>
-    <button class="btn btn--more similar-location__more" data-button="district">
+    {{-- <button class="btn btn--more similar-location__more" data-button="district" data-expand-path="similar-categories"> --}}
+    <button class="btn btn--more similar-location__more" data-expand-path="similar-location">
         Показать все
     </button>
 </div>

@@ -3,16 +3,13 @@ var starRatingControl = new StarRating(".star-rating", {
   tooltip: false,
 });
 
-
-
 //добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы
-let listSimilar = document.querySelector('#scroll-list');
-listSimilar.addEventListener('wheel', function (event) {
+let listSimilar = document.querySelector("#scroll-list");
+listSimilar.addEventListener("wheel", function (event) {
   event.preventDefault();
   if (screen.width <= 900) {
     listSimilar.scrollTop += event.deltaY;
-  }
-  else {
+  } else {
     listSimilar.scrollLeft += event.deltaY;
   }
 });
@@ -51,23 +48,23 @@ window.onload = function () {
   !*** ./source/js/index.js ***!
   \****************************/
       /***/ (
-  __unused_webpack_module,
-  __webpack_exports__,
-  __webpack_require__
-) => {
+        __unused_webpack_module,
+        __webpack_exports__,
+        __webpack_require__,
+      ) => {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         /* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_0__ =
           __webpack_require__(/*! ./select */ "./source/js/select.js");
         /* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_0___default =
           /*#__PURE__*/ __webpack_require__.n(
-            _select__WEBPACK_IMPORTED_MODULE_0__
+            _select__WEBPACK_IMPORTED_MODULE_0__,
           );
         /* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_1__ =
           __webpack_require__(/*! ./script */ "./source/js/script.js");
         /* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_1___default =
           /*#__PURE__*/ __webpack_require__.n(
-            _script__WEBPACK_IMPORTED_MODULE_1__
+            _script__WEBPACK_IMPORTED_MODULE_1__,
           );
         /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_2__ =
           __webpack_require__(/*! ./slider */ "./source/js/slider.js");
@@ -102,8 +99,10 @@ window.onload = function () {
                 selectedValue = option[0];
                 selectedContent = option[1];
               }
-              items.push(`<li class="itc-select__option${selectedClass}" data-select="option"
-        data-value="${option[0]}" data-index="${index}">${option[1]}</li>`);
+              items.push(
+                `<li class="itc-select__option${selectedClass}" data-select="option"
+        data-value="${option[0]}" data-index="${index}">${option[1]}</li>`,
+              );
             });
             return `<button type="button" class="itc-select__toggle" name="${name}"
       value="${selectedValue}" data-select="toggle" data-index="${selectedIndex}">
@@ -121,20 +120,18 @@ window.onload = function () {
             });
           }
           static create(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             if (this._el) {
               return new this(target, params);
             }
             return null;
           }
           constructor(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             this._params = params || {};
             this._onClickFn = this._onClick.bind(this);
             if (this._params.options) {
@@ -142,7 +139,7 @@ window.onload = function () {
               this._el.classList.add(this.constructor.EL);
             }
             this._elToggle = this._el.querySelector(
-              this.constructor.DATA_TOGGLE
+              this.constructor.DATA_TOGGLE,
             );
             this._el.addEventListener("click", this._onClickFn);
           }
@@ -158,7 +155,7 @@ window.onload = function () {
           _updateOption(el) {
             const elOption = el.closest(`.${this.constructor.EL_OPTION}`);
             const elOptionSel = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (elOptionSel) {
               elOptionSel.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -175,7 +172,7 @@ window.onload = function () {
           }
           _reset() {
             const selected = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (selected) {
               selected.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -235,7 +232,7 @@ window.onload = function () {
           }
           set selectedIndex(index) {
             const option = this._el.querySelector(
-              `.select__option[data-index="${index}"]`
+              `.select__option[data-index="${index}"]`,
             );
             if (option) {
               this._updateOption(option);
@@ -283,7 +280,7 @@ window.onload = function () {
 
         const descText = document.querySelector(".info");
         const descTextBtn = document.querySelector(
-          ".info__description-text-btn"
+          ".info__description-text-btn",
         );
 
         descTextBtn.addEventListener("click", () => {
@@ -292,7 +289,7 @@ window.onload = function () {
         });
 
         const placesToggleBtn = document.querySelector(
-          ".mobile-toggle-btn--places"
+          ".mobile-toggle-btn--places",
         );
         placesToggleBtn.addEventListener("click", () => {
           bodyEl.classList.toggle("map-open");
@@ -304,10 +301,10 @@ window.onload = function () {
         });
 
         let breadcrumbsBtns = document.querySelectorAll(
-          ".accordion__breadcrumbs-btn"
+          ".accordion__breadcrumbs-btn",
         );
         let categoriesAccordionBody = document.querySelectorAll(
-          ".accordion__body--brands"
+          ".accordion__body--brands",
         );
 
         breadcrumbsBtns.forEach(function (el) {
@@ -319,7 +316,7 @@ window.onload = function () {
         });
 
         let brandsListItemsEls = document.querySelectorAll(
-          ".brands-list__item--main"
+          ".brands-list__item--main",
         );
 
         brandsListItemsEls.forEach(function (el) {
@@ -342,12 +339,12 @@ window.onload = function () {
             menuBtn.addEventListener("click", () => {
               menuList.classList.toggle("active");
               bodyEl.classList.toggle("fixed-position");
-              menuBtn.classList.toggle('active__cross');
+              menuBtn.classList.toggle("active__cross");
             });
           } else {
             menuBtn.addEventListener("click", () => {
               menuList.classList.toggle("active");
-              menuBtn.classList.toggle('active__cross');
+              menuBtn.classList.toggle("active__cross");
             });
           }
         }
@@ -356,12 +353,11 @@ window.onload = function () {
         myFunction(x); // Call listener function at run time
         x.addListener(myFunction);
 
-
         //добавляем обработчик событий скролла на колесико для списка, отключая прокрутку страницы
-        let menuListActive = document.querySelector('.menu-list');
+        let menuListActive = document.querySelector(".menu-list");
         // console.log(menuListActive);
         if (screen.width >= 900) {
-          menuListActive.addEventListener('wheel', function (event) {
+          menuListActive.addEventListener("wheel", function (event) {
             event.preventDefault();
             menuListActive.scrollTop += event.deltaY;
           });
@@ -395,8 +391,10 @@ window.onload = function () {
                 selectedValue = option[0];
                 selectedContent = option[1];
               }
-              items.push(`<li class="itc-select__option${selectedClass}" data-select="option"
-          data-value="${option[0]}" data-index="${index}">${option[1]}</li>`);
+              items.push(
+                `<li class="itc-select__option${selectedClass}" data-select="option"
+          data-value="${option[0]}" data-index="${index}">${option[1]}</li>`,
+              );
             });
             return `<button type="button" class="itc-select__toggle" name="${name}"
         value="${selectedValue}" data-select="toggle" data-index="${selectedIndex}">
@@ -414,20 +412,18 @@ window.onload = function () {
             });
           }
           static create(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             if (this._el) {
               return new this(target, params);
             }
             return null;
           }
           constructor(target, params) {
-            this._el =
-              typeof target === "string"
-                ? document.querySelector(target)
-                : target;
+            this._el = typeof target === "string"
+              ? document.querySelector(target)
+              : target;
             this._params = params || {};
             this._onClickFn = this._onClick.bind(this);
             if (this._params.options) {
@@ -435,7 +431,7 @@ window.onload = function () {
               this._el.classList.add(this.constructor.EL);
             }
             this._elToggle = this._el.querySelector(
-              this.constructor.DATA_TOGGLE
+              this.constructor.DATA_TOGGLE,
             );
             this._el.addEventListener("click", this._onClickFn);
           }
@@ -451,7 +447,7 @@ window.onload = function () {
           _updateOption(el) {
             const elOption = el.closest(`.${this.constructor.EL_OPTION}`);
             const elOptionSel = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (elOptionSel) {
               elOptionSel.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -468,7 +464,7 @@ window.onload = function () {
           }
           _reset() {
             const selected = this._el.querySelector(
-              `.${this.constructor.EL_OPTION_SELECTED}`
+              `.${this.constructor.EL_OPTION_SELECTED}`,
             );
             if (selected) {
               selected.classList.remove(this.constructor.EL_OPTION_SELECTED);
@@ -528,7 +524,7 @@ window.onload = function () {
           }
           set selectedIndex(index) {
             const option = this._el.querySelector(
-              `.select__option[data-index="${index}"]`
+              `.select__option[data-index="${index}"]`,
             );
             if (option) {
               this._updateOption(option);
@@ -548,17 +544,17 @@ window.onload = function () {
       /***/ (
         __unused_webpack_module,
         __webpack_exports__,
-        __webpack_require__
+        __webpack_require__,
       ) => {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ =
           __webpack_require__(
-            /*! swiper */ "./node_modules/swiper/swiper.esm.js"
+            /*! swiper */ "./node_modules/swiper/swiper.esm.js",
           );
         /* harmony import */ var swiper_css__WEBPACK_IMPORTED_MODULE_1__ =
           __webpack_require__(
-            /*! swiper/css */ "./node_modules/swiper/swiper.min.css"
+            /*! swiper/css */ "./node_modules/swiper/swiper.min.css",
           );
 
         const taskSlider = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](
@@ -567,51 +563,60 @@ window.onload = function () {
             slidesPerView: 2,
             spaceBetween: 8,
             centeredSlides: true,
-          }
+          },
         );
 
         /***/
       },
-
     /******/
   };
   /************************************************************************/
-  /******/ // The module cache
+  /******/
+  // The module cache
   /******/ var __webpack_module_cache__ = {};
   /******/
-  /******/ // The require function
+  /******/
+  // The require function
   /******/ function __webpack_require__(moduleId) {
-    /******/ // Check if module is in cache
+    /******/
+    // Check if module is in cache
     /******/ var cachedModule = __webpack_module_cache__[moduleId];
     /******/ if (cachedModule !== undefined) {
       /******/ return cachedModule.exports;
       /******/
     }
-    /******/ // Create a new module (and put it into the cache)
+    /******/
+    // Create a new module (and put it into the cache)
     /******/ var module = (__webpack_module_cache__[moduleId] = {
-      /******/ // no module.id needed
-      /******/ // no module.loaded needed
+      /******/
+      // no module.id needed
+      /******/
+      // no module.loaded needed
       /******/ exports: {},
       /******/
     });
     /******/
-    /******/ // Execute the module function
+    /******/
+    // Execute the module function
     /******/ __webpack_modules__[moduleId](
       module,
       module.exports,
-      __webpack_require__
+      __webpack_require__,
     );
     /******/
-    /******/ // Return the exports of the module
+    /******/
+    // Return the exports of the module
     /******/ return module.exports;
     /******/
   }
   /******/
-  /******/ // expose the modules object (__webpack_modules__)
+  /******/
+  // expose the modules object (__webpack_modules__)
   /******/ __webpack_require__.m = __webpack_modules__;
   /******/
   /************************************************************************/
-  /******/ /* webpack/runtime/chunk loaded */
+  /******/
+  /* webpack/runtime/chunk loaded */
   /******/ (() => {
     /******/ var deferred = [];
     /******/ __webpack_require__.O = (result, chunkIds, fn, priority) => {
@@ -621,8 +626,9 @@ window.onload = function () {
           var i = deferred.length;
           i > 0 && deferred[i - 1][2] > priority;
           i--
-        )
+        ) {
           deferred[i] = deferred[i - 1];
+        }
         /******/ deferred[i] = [chunkIds, fn, priority];
         /******/ return;
         /******/
@@ -661,14 +667,15 @@ window.onload = function () {
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/compat get default export */
+  /******/
+  /* webpack/runtime/compat get default export */
   /******/ (() => {
-    /******/ // getDefaultExport function for compatibility with non-harmony modules
+    /******/
+    // getDefaultExport function for compatibility with non-harmony modules
     /******/ __webpack_require__.n = (module) => {
-      /******/ var getter =
-        module && module.__esModule
-          ? /******/ () => module["default"]
-          : /******/ () => module;
+      /******/ var getter = module && module.__esModule
+        ? /******/ () => module["default"]
+        : /******/ () => module;
       /******/ __webpack_require__.d(getter, { a: getter });
       /******/ return getter;
       /******/
@@ -676,9 +683,11 @@ window.onload = function () {
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/define property getters */
+  /******/
+  /* webpack/runtime/define property getters */
   /******/ (() => {
-    /******/ // define getter functions for harmony exports
+    /******/
+    // define getter functions for harmony exports
     /******/ __webpack_require__.d = (exports, definition) => {
       /******/ for (var key in definition) {
         /******/ if (
@@ -686,9 +695,9 @@ window.onload = function () {
           !__webpack_require__.o(exports, key)
         ) {
           /******/ Object.defineProperty(exports, key, {
-          enumerable: true,
-          get: definition[key],
-        });
+            enumerable: true,
+            get: definition[key],
+          });
           /******/
         }
         /******/
@@ -698,21 +707,24 @@ window.onload = function () {
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/hasOwnProperty shorthand */
+  /******/
+  /* webpack/runtime/hasOwnProperty shorthand */
   /******/ (() => {
     /******/ __webpack_require__.o = (obj, prop) =>
       Object.prototype.hasOwnProperty.call(obj, prop);
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/make namespace object */
+  /******/
+  /* webpack/runtime/make namespace object */
   /******/ (() => {
-    /******/ // define __esModule on exports
+    /******/
+    // define __esModule on exports
     /******/ __webpack_require__.r = (exports) => {
       /******/ if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
         /******/ Object.defineProperty(exports, Symbol.toStringTag, {
-    value: "Module",
-  });
+          value: "Module",
+        });
         /******/
       }
       /******/ Object.defineProperty(exports, "__esModule", { value: true });
@@ -721,36 +733,49 @@ window.onload = function () {
     /******/
   })();
   /******/
-  /******/ /* webpack/runtime/jsonp chunk loading */
+  /******/
+  /* webpack/runtime/jsonp chunk loading */
   /******/ (() => {
-    /******/ // no baseURI
     /******/
-    /******/ // object to store loaded and loading chunks
-    /******/ // undefined = chunk not loaded, null = chunk preloaded/prefetched
-    /******/ // [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+    // no baseURI
+    /******/
+    /******/
+    // object to store loaded and loading chunks
+    /******/
+    // undefined = chunk not loaded, null = chunk preloaded/prefetched
+    /******/
+    // [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
     /******/ var installedChunks = {
       /******/ bundle: 0,
       /******/
     };
     /******/
-    /******/ // no chunk on demand loading
     /******/
-    /******/ // no prefetching
+    // no chunk on demand loading
     /******/
-    /******/ // no preloaded
     /******/
-    /******/ // no HMR
+    // no prefetching
     /******/
-    /******/ // no HMR manifest
+    /******/
+    // no preloaded
+    /******/
+    /******/
+    // no HMR
+    /******/
+    /******/
+    // no HMR manifest
     /******/
     /******/ __webpack_require__.O.j = (chunkId) =>
       installedChunks[chunkId] === 0;
     /******/
-    /******/ // install a JSONP callback for chunk loading
+    /******/
+    // install a JSONP callback for chunk loading
     /******/ var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
       /******/ var [chunkIds, moreModules, runtime] = data;
-      /******/ // add "moreModules" to the modules object,
-      /******/ // then flag all "chunkIds" as loaded and fire callback
+      /******/
+      // add "moreModules" to the modules object,
+      /******/
+      // then flag all "chunkIds" as loaded and fire callback
       /******/ var moduleId,
         chunkId,
         i = 0;
@@ -788,27 +813,27 @@ window.onload = function () {
     /******/ chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
     /******/ chunkLoadingGlobal.push = webpackJsonpCallback.bind(
       null,
-      chunkLoadingGlobal.push.bind(chunkLoadingGlobal)
+      chunkLoadingGlobal.push.bind(chunkLoadingGlobal),
     );
     /******/
   })();
   /******/
   /************************************************************************/
   /******/
-  /******/ // startup
-  /******/ // Load entry module and return exports
-  /******/ // This entry module depends on other loaded chunks and execution need to be delayed
+  /******/
+  // startup
+  /******/
+  // Load entry module and return exports
+  /******/
+  // This entry module depends on other loaded chunks and execution need to be delayed
   /******/ var __webpack_exports__ = __webpack_require__.O(
     undefined,
     [
       "vendors-node_modules_swiper_swiper_min_css-node_modules_swiper_swiper_esm_js",
     ],
-    () => __webpack_require__("./source/js/index.js")
+    () => __webpack_require__("./source/js/index.js"),
   );
   /******/ __webpack_exports__ = __webpack_require__.O(__webpack_exports__);
   /******/
   /******/
 })();
-
-
-

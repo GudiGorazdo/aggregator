@@ -1,4 +1,4 @@
-<div class="similar-categories">
+<div class="similar-categories" data-expand-target="similar-categories">
     <a href="#">
         <x-icon-categories-page.1 />
         <h3>Телефоны</h3>
@@ -37,7 +37,8 @@
     </a>
 </div>
 
-<button class="btn btn--more similar-categories__more" data-button="moreactive">
+{{-- <button class="btn btn--more similar-categories__more" data-button="moreactive" data-expand-path="similar-categories"> --}}
+<button class="btn btn--more similar-categories__more" data-expand-path="similar-categories">
     Показать все
 </button>
 

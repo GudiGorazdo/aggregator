@@ -1,7 +1,7 @@
-import 'bootstrap';
-import './scripts/aside';
-import './scripts/burger';
-import ModalWindow from './plugins/modal/ModalWindow';
+import "bootstrap";
+import "./scripts/aside";
+import "./scripts/burger";
+import ModalWindow from "./plugins/modal/ModalWindow";
 
 /**
  * МОДАЛЬНЫЕ ОКНА, АЛЕРТЫ, ОКНА ПОДТВЕРЖДЕНИЯ ДЕЙСТВИЯ
@@ -11,8 +11,6 @@ import ModalWindow from './plugins/modal/ModalWindow';
  *
  * @param modalCallbackOnClose        --  Массив колбэк функций, которые выполняются в момент закрытия модального окна,
  *                                        чтобы добавить функцию необходимо воспользоваться методом $modal.options.addCloseCallBack(function)
- *
- *
  *
  * ОКНО ПОДТВЕРЖДЕНИЯ
  * чтобы вызвать необходимо добавить кнопку:
@@ -43,23 +41,31 @@ const modalCallbackOnClose = [];
 let confirm = null;
 window.$modal = new ModalWindow({
   isOpen: (instance, event) => {
-    modalCallbackOnOpen.forEach(callback => callback());
+    modalCallbackOnOpen.forEach((callback) => callback());
     if (event.target.dataset.alert) {
-      instance.modal.querySelector('#site-alert_message').textContent = event.target.dataset.alert;
+      instance.modal.querySelector("#site-alert_message").textContent =
+        event.target.dataset.alert;
     }
     if (event.target.dataset.confirm) {
-      instance.modal.querySelector('#site_confirm_message').textContent = event.target.dataset.confirm;
-      document.getElementById('site_confirm_true').addEventListener('click', confirm);
+      instance.modal.querySelector("#site_confirm_message").textContent =
+        event.target.dataset.confirm;
+      document.getElementById("site_confirm_true").addEventListener(
+        "click",
+        confirm,
+      );
     }
   },
   isClose: (instance, event) => {
-    modalCallbackOnClose.forEach(callback => callback());
-    if (instance.modalContainer.id == 'site-alert') {
-      instance.modal.querySelector('#site-alert_message').textContent = '';
+    modalCallbackOnClose.forEach((callback) => callback());
+    if (instance.modalContainer.id == "site-alert") {
+      instance.modal.querySelector("#site-alert_message").textContent = "";
     }
-    if (instance.modalContainer.id == 'site-confirm') {
-      instance.modal.querySelector('#site_confirm_message').textContent = '';
-      document.getElementById('site_confirm_true').removeEventListener('click', confirm);
+    if (instance.modalContainer.id == "site-confirm") {
+      instance.modal.querySelector("#site_confirm_message").textContent = "";
+      document.getElementById("site_confirm_true").removeEventListener(
+        "click",
+        confirm,
+      );
       confirm = null;
     }
   },
@@ -74,5 +80,5 @@ window.$modal = new ModalWindow({
 
   setConfirm(func) {
     confirm = func;
-  }
+  },
 });

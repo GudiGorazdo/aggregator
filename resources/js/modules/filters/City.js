@@ -1,5 +1,5 @@
-import Chooser from '../../plugins/chooser';
-import optionsCity from './options/city';
+import Chooser from "../../plugins/chooser";
+import optionsCity from "./options/city";
 
 export default class City {
   start = true;
@@ -8,9 +8,9 @@ export default class City {
     wrapper: null,
     button: null,
     close: null,
-    HIDDEN_CLASS: 'hidden',
+    HIDDEN_CLASS: "hidden",
     hidden: true,
-  }
+  };
 
   city = {
     storageMark: null,
@@ -26,7 +26,7 @@ export default class City {
 
   open = {
     area: false,
-    subway: false
+    subway: false,
   };
 
   buttons = {
@@ -37,16 +37,16 @@ export default class City {
   query = {};
   activeAreas = [];
 
-  constructor(cityStorageMark = 'city') {
+  constructor(cityStorageMark = "city") {
     this.queryData();
     this.city.storageMark = cityStorageMark;
-    this.popup.wrapper = document.getElementById('city_confirm_popup');
-    this.popup.close = document.getElementById('city_popup_close');
-    this.popup.button = document.getElementById('city_confirm_true');
+    this.popup.wrapper = document.getElementById("city_confirm_popup");
+    this.popup.close = document.getElementById("city_popup_close");
+    this.popup.button = document.getElementById("city_confirm_true");
 
     if (!this.cityCheckConfirm()) {
-      this.popup.close.addEventListener('click', this.popupClose.bind(this));
-      this.popup.button.addEventListener('click', this.cityConfirm.bind(this))
+      this.popup.close.addEventListener("click", this.popupClose.bind(this));
+      this.popup.button.addEventListener("click", this.cityConfirm.bind(this));
     }
 
     this.initialize();
@@ -59,7 +59,7 @@ export default class City {
     this.setCityOptions(this.city.all);
     this.city.select = new Chooser(this.city.options);
 
-    const city = this.city.all.find(item => item.id === +this.query.city);
+    const city = this.city.all.find((item) => item.id === +this.query.city);
     if (city) this.setCurrentCity(city.id);
     else {
       await this.getCurrentCity(this.city.all);
@@ -72,58 +72,60 @@ export default class City {
     }
 
     this.start = false;
-  }
+  };
 
   popupClose = () => {
     this.popup.wrapper.classList.add(this.popup.HIDDEN_CLASS);
-  }
+  };
 
   cityConfirm = () => {
     const date = new Date();
     date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
-    document.cookie = `LOCATION_CONFIRM=1; expires=${date.toUTCString()}; path=/; SameSite=Strict`;
+    document.cookie =
+      `LOCATION_CONFIRM=1; expires=${date.toUTCString()}; path=/; SameSite=Strict`;
     this.popupClose();
-
-  }
+  };
 
   cityCheckConfirm = () => {
-    const cookies = document.cookie.split('; ');
-    const confirm = cookies.find(cookie => cookie.startsWith('LOCATION_CONFIRM='));
-    if (confirm && confirm.split('=')[1] == '1') return true;
+    const cookies = document.cookie.split("; ");
+    const confirm = cookies.find((cookie) =>
+      cookie.startsWith("LOCATION_CONFIRM=")
+    );
+    if (confirm && confirm.split("=")[1] == "1") return true;
     return false;
-  }
+  };
 
   getCookie = async () => {
-    const cookies = document.cookie.split('; ');
-    const city = cookies.find(cookie => cookie.startsWith('LOCATION='));
-    if (city) return city.split('=')[1];
-  }
+    const cookies = document.cookie.split("; ");
+    const city = cookies.find((cookie) => cookie.startsWith("LOCATION="));
+    if (city) return city.split("=")[1];
+  };
 
   setCookie = (value) => {
     document.cookie = `LOCATION=${value}; path=/; SameSite=Strict`;
-  }
+  };
 
   getBody = async (url) => {
     let resp = await fetch(url);
     resp = await resp.text();
     return resp;
-  }
+  };
 
   addFilter = async (url) => {
     const body = await this.getBody(url);
     if (body) {
-      this.parent.innerHTML = '';
+      this.parent.innerHTML = "";
       this.parent.innerHTML = body;
       return true;
     }
     return false;
-  }
+  };
 
   getCurrentCity = async (all) => {
     if (this.city.saved) {
       return this.setCurrentCity(this.city.saved);
     }
-  }
+  };
 
   setCurrentCity(current) {
     this.city.select.select(current, true);
@@ -136,10 +138,10 @@ export default class City {
       this.setCookie(id);
       window.location.href = `/?city=${id}`;
     }
-  }
+  };
 
   setCityOptions = (cities) => {
-    cities.forEach(city => {
+    cities.forEach((city) => {
       this.city.options.data.push({
         value: city.name,
         index: city.id,
@@ -150,48 +152,50 @@ export default class City {
     });
     this.city.options.onSelect = (item) => {
       this.onSelectCity(item.index);
-    }
-  }
+    };
+  };
 
   getCityLink = (value) => {
     return `<a href="/?city=${value}">`;
-  }
+  };
 
   hideSubways = (e) => {
-    this.getSubwayItems().forEach(item => {
+    this.getSubwayItems().forEach((item) => {
       if (this.activeAreas.length == 0) {
-        return item.parentElement.classList.remove('hidden');
+        return item.parentElement.classList.remove("hidden");
       }
       if (!this.activeAreas.includes(item.dataset.area_target)) {
-        item.parentElement.classList.add('hidden');
+        item.parentElement.classList.add("hidden");
         item.checked = false;
       } else {
-        item.parentElement.classList.remove('hidden');
+        item.parentElement.classList.remove("hidden");
       }
     });
-  }
+  };
 
   resetAreasAndSubways = () => {
-    this.getSubwayItems().forEach(item => item.checked = false);
-    this.getAreaItems().forEach(item => item.checked = false);
-  }
+    this.getSubwayItems().forEach((item) => item.checked = false);
+    this.getAreaItems().forEach((item) => item.checked = false);
+  };
 
   changeAreas = (e) => {
     if (e.target.checked) {
-      if (!this.activeAreas.includes(e.target.id)) this.activeAreas.push(e.target.id);
+      if (!this.activeAreas.includes(e.target.id)) {
+        this.activeAreas.push(e.target.id);
+      }
     } else if (this.activeAreas.includes(e.target.id)) {
       this.activeAreas.splice(this.activeAreas.indexOf(e.target.id), 1);
     }
     this.hideSubways(e);
-  }
+  };
 
   addAreaListeners = () => {
-    this.getAreaItems().forEach(item => {
-      item.addEventListener('click', this.changeAreas.bind(this));
+    this.getAreaItems().forEach((item) => {
+      item.addEventListener("click", this.changeAreas.bind(this));
       if (item.checked) this.activeAreas.push(item.id);
       this.hideSubways();
     });
-  }
+  };
 
   getSubwayItems = () => {
     return document.querySelectorAll('[id^="subway_"]');
@@ -209,10 +213,10 @@ export default class City {
   };
 
   getAllCities = async () => {
-    let resp = await fetch(`/api/data/cities`,);
+    let resp = await fetch(`/api/data/cities`);
     resp = await resp.json();
     return resp;
-  }
+  };
 
   queryData = () => {
     let params = (new URL(document.location)).searchParams;
@@ -223,8 +227,6 @@ export default class City {
         this.query[param.value[0]] = param.value[1];
         param = iterator.next();
       }
-    } while (!param.done)
-  }
+    } while (!param.done);
+  };
 }
-
-

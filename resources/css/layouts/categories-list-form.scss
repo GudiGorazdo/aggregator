@@ -20,11 +20,20 @@
     &:not(:last-child) {
       margin-bottom: 1.8rem;
     }
+
+    .brands-list-form {
+      max-height: 594px;
+      overflow-y: auto;
+    }
   }
 
   &__into {
     margin-left: auto;
 
+    svg {
+      width: 30px;
+      height: 30px;
+    }
   }
 
   &__brands {
@@ -32,6 +41,8 @@
     top: 0;
     left: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     background-color: $colorWhite;
     opacity: 0;
     pointer-events: none;

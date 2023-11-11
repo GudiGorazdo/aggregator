@@ -13,29 +13,17 @@
     @params $placeholder               -- placeholder
 --}}
 <div {{ $classNamesWrapper ? 'class=' . $classNamesWrapper : '' }}>
-    <label
-        for="{{ $inputId }}"
-        class="{{ $classNamesLabel ?? '' }}"
-        {{ !isset($label) ? "hidden" : '' }}
-    >{{ $label ?? '' }}</label>
-    <input
-        id="{{ $inputId }}"
-        class="{{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
-        type="{{ $type }}"
-        name="{{ $name }}"
-        value="{{ old($name) ?? ($value ?? '') }}"
-        placeholder="{{ $placeholder ?? '' }}"
-        {{ isset($description) ? 'aria-describedby=' . $description : '' }}
-        {{ isset($required) ? "required" : "" }}
-    >
+    <label for="{{ $inputId }}" class="{{ $classNamesLabel ?? '' }}"
+        {{ !isset($label) ? 'hidden' : '' }}>{{ $label ?? '' }}</label>
+    <input id="{{ $inputId }}" class="{{ $classNamesInput ?? '' }} @error($name) is-invalid @enderror"
+        type="{{ $type }}" name="{{ $name }}" value="{{ old($name) ?? ($value ?? '') }}"
+        placeholder="{{ $placeholder ?? '' }}" {{ isset($description) ? 'aria-describedby=' . $description : '' }}
+        {{ isset($required) ? 'required' : '' }}>
     @if (isset($description))
-        <div
-            class="{{ $classNamesDescription ?? '' }}"
-            {{ $descriprionId ? "id=" . $descriprionId : ""}}
-        >{{ $description }}</div>
+        <div class="{{ $classNamesDescription ?? '' }}" {{ $descriprionId ? 'id=' . $descriprionId : '' }}>
+            {{ $description }}</div>
     @endif
     @error($name)
         <p class="invalid-feedback">{{ $message }}</p>
     @enderror
 </div>
-

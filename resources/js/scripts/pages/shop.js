@@ -1,21 +1,20 @@
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import Swiper, { Navigation, Pagination } from 'swiper';
-import '../layouts/similar-companies.js';
-import '../layouts/similar-categories.js';
-import '../layouts/similar-locations.js';
-import tabs from '../tabs.js';
-import Chooser from '../../plugins/chooser';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import Swiper, { Navigation, Pagination } from "swiper";
+import "../layouts/similar-companies.js";
+import "../layouts/similar-categories.js";
+import "../layouts/similar-locations.js";
+import tabs from "../tabs.js";
+import Chooser from "../../plugins/chooser";
 
-document.addEventListener('DOMContentLoaded', (e) => {
-
+document.addEventListener("DOMContentLoaded", (e) => {
   // COURUSEL
   const previewParams = {
     modules: [Navigation],
     navigation: {
-      nextEl: '.carousel-forwards',
-      prevEl: '.carousel-previous',
+      nextEl: ".carousel-forwards",
+      prevEl: ".carousel-previous",
     },
     freeMode: true,
     spaceBetween: 10,
@@ -38,28 +37,28 @@ document.addEventListener('DOMContentLoaded', (e) => {
       },
       1800: {
         slidesPerView: 7,
-      }
-    }
-  }
+      },
+    },
+  };
 
-  const preview = new Swiper('.swiper--carousel', previewParams);
+  const preview = new Swiper(".swiper--carousel", previewParams);
   // MAP
-  ymaps.ready(function() {
-    const coord = JSON.parse(document.getElementById('shop_coord').value);
+  ymaps.ready(function () {
+    const coord = JSON.parse(document.getElementById("shop_coord").value);
     var myMap = new ymaps.Map("map", {
       center: [coord.lat, coord.long],
       zoom: 10,
-      controls: []
+      controls: [],
     }),
       markCollection = new ymaps.GeoObjectCollection(null, {
-        iconColor: '#6c757d'
+        iconColor: "#6c757d",
       });
 
-    myMap.controls.add('zoomControl');
-    myMap.controls.remove('typeSelector');
-    myMap.controls.remove('geolocationControl');
-    myMap.controls.remove('trafficControl');
-    myMap.controls.remove('FullscreenControl');
+    myMap.controls.add("zoomControl");
+    myMap.controls.remove("typeSelector");
+    myMap.controls.remove("geolocationControl");
+    myMap.controls.remove("trafficControl");
+    myMap.controls.remove("FullscreenControl");
 
     const mark = new ymaps.Placemark([coord.lat, coord.long]);
     markCollection.add(mark);
@@ -67,12 +66,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 
   // BRANDS LIST SELL SECTION
-  let brandsListItemsEls = document.querySelectorAll(".brands-list__item--sell");
+  let brandsListItemsEls = document.querySelectorAll(
+    ".brands-list__item--sell",
+  );
 
-  brandsListItemsEls.forEach(function(el) {
+  brandsListItemsEls.forEach(function (el) {
     el.addEventListener("click", () => {
-      const targetList = document.querySelector(`[data-target="${el.parentElement.dataset.path}"]`);
-      const breadcrumbs = document.querySelector(`[data-target-breadcrumbs="${el.parentElement.dataset.path}"]`);
+      const targetList = document.querySelector(
+        `[data-target="${el.parentElement.dataset.path}"]`,
+      );
+      const breadcrumbs = document.querySelector(
+        `[data-target-breadcrumbs="${el.parentElement.dataset.path}"]`,
+      );
       targetList.classList.add("open");
       breadcrumbs.parentElement.classList.add("open");
       el.parentElement.classList.remove("open");
@@ -80,9 +85,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
         targetList.classList.remove("open");
         breadcrumbs.parentElement.classList.remove("open");
         el.parentElement.classList.add("open");
-        breadcrumbs.removeEventListener('click', close);
-      }
-      breadcrumbs.addEventListener('click', close);
+        breadcrumbs.removeEventListener("click", close);
+      };
+      breadcrumbs.addEventListener("click", close);
     });
   });
 
@@ -93,21 +98,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
     brandsContainer.classList.toggle("expanded");
   });
 
-
   // SERVICES TABS
   tabs.init();
 
   const commetnsFilters = {
     filters: [],
-    listUrl: '/api/data/services',
-    chooserID: '',
-    desktopID: 'comments_filter_',
-    mobileID: 'mobile_comments_filter_',
+    listUrl: "/api/data/services",
+    chooserID: "",
+    desktopID: "comments_filter_",
+    mobileID: "mobile_comments_filter_",
     options: {
       current: 1,
       data: [
         {
-          value: 'Сначала новые',
+          value: "Сначала новые",
           // attr: {
           //   'some_attr': 'some_value',
           //   'some_attr': 'some_value',
@@ -118,9 +122,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
           // group: 'some_name',
           // onClick(item) { console.log('asdf'); }
         },
-        { value: 'Сначала старые' },
-        { value: 'Сначала положительные' },
-        { value: 'Сначала негативные' },
+        { value: "Сначала старые" },
+        { value: "Сначала положительные" },
+        { value: "Сначала негативные" },
       ],
       classList: {
         label: `select-menu__label select-menu__label--comments`,
@@ -133,11 +137,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
     },
 
     async init() {
-      this.chooserID = window.innerWidth >= 900 ? this.desktopID : this.mobileID;
+      this.chooserID = window.innerWidth >= 900
+        ? this.desktopID
+        : this.mobileID;
       try {
         const services = await this.getServices();
-        services.forEach(service => {
-          const options = { el: `${this.chooserID}${service.id}`, ...this.options };
+        services.forEach((service) => {
+          const options = {
+            el: `${this.chooserID}${service.id}`,
+            ...this.options,
+          };
           const filter = new Chooser(options);
           this.filters.push(filter);
         });
@@ -156,11 +165,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  };
 
   commetnsFilters.init();
 });
-
-
-

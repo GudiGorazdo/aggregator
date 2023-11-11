@@ -5,5 +5,3 @@
 
     {{ $navigation ?? '' }}
 </div>
-
-

@@ -1,10 +1,10 @@
-import selectMenu from './selectMenu';
+import selectMenu from "./selectMenu";
 
 const area = {
-  el: 'filter_area',
-  placeholder: 'Район',
+  el: "filter_area",
+  placeholder: "Район",
   data: [],
-  ... selectMenu,
-}
+  ...selectMenu,
+};
 
 export default area;

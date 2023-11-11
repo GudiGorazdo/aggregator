@@ -1,3 +1,1 @@
-<a class="{{$className}}" href="#">{{ $slot }}</a>
-
-
+<a class="{{ $className }}" href="#">{{ $slot }}</a>

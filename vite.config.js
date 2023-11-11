@@ -1,15 +1,15 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import path from 'path';
-import autoprefixer from 'autoprefixer';
-import terser from '@rollup/plugin-terser';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import path from "path";
+import autoprefixer from "autoprefixer";
+import terser from "@rollup/plugin-terser";
 
 export default defineConfig({
   css: {
     postcss: {
       plugins: [
         autoprefixer({
-          overrideBrowserslist: ['last 2 versions'],
+          overrideBrowserslist: ["last 2 versions"],
         }),
       ],
     },
@@ -18,19 +18,19 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        sourcemap: true  // Включение Source Maps
-      }
-    }
+        sourcemap: true, // Включение Source Maps
+      },
+    },
   },
   plugins: [
     laravel({
       input: [
         // 'resources/scss/app.scss',
-        'resources/css/pages/home.scss',
-        'resources/css/app.scss',
-        'resources/js/app.js',
-        'resources/js/scripts/pages/home.js',
-        'resources/js/scripts/pages/shop.js',
+        "resources/css/pages/home.scss",
+        "resources/css/app.scss",
+        "resources/js/app.js",
+        "resources/js/scripts/pages/home.js",
+        "resources/js/scripts/pages/shop.js",
       ],
       refresh: true,
     }),
@@ -42,7 +42,7 @@ export default defineConfig({
         drop_console: true,
         dead_code: true,
         global_defs: {
-          'process.env.NODE_ENV': 'production',
+          "process.env.NODE_ENV": "production",
         },
       },
       mangle: {
@@ -82,9 +82,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap')
-    }
-  }
+      "~bootstrap": path.resolve(__dirname, "node_modules/bootstrap"),
+    },
+  },
 });
-
-

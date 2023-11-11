@@ -1,17 +1,17 @@
-import Chooser from '../../plugins/chooser';
-import areaOptions from './options/area';
-import subwayOptions from './options/subway';
+import Chooser from "../../plugins/chooser";
+import areaOptions from "./options/area";
+import subwayOptions from "./options/subway";
 
 export default class Location {
   items = [];
   area = {
     options: areaOptions,
     select: null,
-  }
+  };
   subway = {
     options: subwayOptions,
     select: null,
-  }
+  };
 
   constructor() {
     this.init();
@@ -27,15 +27,15 @@ export default class Location {
     let resp = await fetch(`/api/data/location`);
     resp = await resp.json();
     return resp;
-  }
+  };
 
   disableArea = () => {
-    document.getElementById(this.area.options.el).classList.add('disabled');
-  }
+    document.getElementById(this.area.options.el).classList.add("disabled");
+  };
 
   disableSubway = () => {
-    document.getElementById(this.subway.options.el).classList.add('disabled');
-  }
+    document.getElementById(this.subway.options.el).classList.add("disabled");
+  };
 
   setItems() {
     if (this.items.length < 1) {
@@ -69,5 +69,3 @@ export default class Location {
     this.subway.select = new Chooser(this.subway.options);
   }
 }
-
-
