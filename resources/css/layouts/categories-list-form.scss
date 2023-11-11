@@ -7,7 +7,7 @@
   width: 100%;
   overflow-y: auto;
 
- &__item {
+  &__item {
     min-height: 4rem;
     padding-right: 2rem;
     font-size: 1.7rem;
@@ -24,6 +24,18 @@
     .brands-list-form {
       max-height: 594px;
       overflow-y: auto;
+
+      @media only screen and (max-width: $pointXL) {
+        max-height: 537px;
+      }
+
+      @media only screen and (max-width: $pointLG) {
+        max-height: 515px;
+      }
+
+      @media only screen and (max-width: $pointMD) {
+        max-height: 82vh;
+      }
     }
   }
 
@@ -88,5 +100,3 @@
     }
   }
 }
-
-

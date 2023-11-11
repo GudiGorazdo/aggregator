@@ -1,4 +1,5 @@
 import "./aside";
+import "../expand";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const bodyEl = document.querySelector("body");
@@ -12,13 +13,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
       button.classList.toggle("active");
       aside.classList.toggle("active");
     });
-  });
-
-  const filterText = document.querySelector(".filter__text");
-  const filterTextBtn = document.querySelector(".filter__text-btn");
-  filterTextBtn.addEventListener("click", () => {
-    filterText.classList.toggle("active");
-    filterTextBtn.classList.toggle("active");
   });
 
   const placesItems = document.querySelector(".shop-list");

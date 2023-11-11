@@ -94,7 +94,7 @@
       text-overflow: ellipsis;
       overflow: hidden;
 
-      &.active {
+      &[data-expand-start-height] {
         -webkit-line-clamp: 15;
       }
     }
@@ -146,6 +146,21 @@
   left: 270px;
   height: 100%;
   z-index: 1;
+
+  @media only screen and (max-width: $pointXL) {
+    left: 259px;
+  }
+
+  @media only screen and (max-width: $pointLG) {
+    left: 249px;
+  }
+
+  @media only screen and (max-width: $pointMD) {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+  }
 }
 
 .mobile-nav-section {
