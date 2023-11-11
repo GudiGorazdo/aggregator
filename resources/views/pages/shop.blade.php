@@ -78,16 +78,16 @@
 
                 <div class="info-description">
                     <h2 class="info-title mb-15">Описание</h2>
-                    <p class="info-description__text" id="text-slice">
+                    <p class="info-description__text" id="text-slice" data-expand-target="shop-description">
                         Lorem ipsum dolor sit amet, consectetur adipiscing
                         elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
                         dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
                         sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
-                    <button class="btn btn--more">
+                    {{-- <button class="btn btn--more" data-expand-path="shop-description">
                         Показать все
-                    </button>
+                    </button> --}}
                 </div>
             </div>
 
@@ -157,7 +157,8 @@
     <section class="sell">
         <div class="sell__container container-wide">
             <h2 class="sell__title">Можно продать</h2>
-            <ul class="sell-list">
+            <ul class="sell-list" data-expand-target="shop-categories">
+            {{-- <ul class="sell-list"> --}}
                 @foreach ($categories as $category)
                     <li>
                         <x-accordion id="sell-item-{{ $category->id }}" modification="sell">
@@ -180,7 +181,7 @@
                             <div class="sell-list__breadcrumbs">
                                 <button class="btn sell-list__back"
                                     data-target-breadcrumbs="sell-item-{{ $category->id }}">
-                                    {{ $category->name }} ({{ count($category->subCategories) }}
+                                    {{ $category->name }} {{ count($category->subCategories) }}
                                 </button>
                             </div>
                             @php
@@ -195,11 +196,12 @@
                                 'attributes' => 'data-target=sell-item-' . $category->id,
                             ])
                         </x-accordion>
-                    </li>)
+                    </li>
                 @endforeach
             </ul>
 
-            <button class="btn btn--more sell__more">Показать все</button>
+            <button class="btn btn--more sell__more" data-expand-path="shop-categories">Показать все</button>
+            {{-- <button class="btn btn--more sell__more">Показать все</button> --}}
         </div>
     </section>
 

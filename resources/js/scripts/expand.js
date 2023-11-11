@@ -3,19 +3,41 @@
  *
  * data-expand-path="value" -- html атрибут кнопки
  * data-expand-target="value" -- html атрибут блока
+ * data-expand-transition="0.3" -- плавность анимации
+ *
+ * так же может работать с элементами у которых задано свойство display: none
+ * например, если есть список, в котором видны только первые элементы, а у
+ * остальных задано свойство display: none, то можно задать для списка, например,
+ * такие стили и список будет открываться плавно
+ *
+ * ul {
+ *   overflow: hidden;
+ * }
+ *
+ * ul>li:nth-child(n+6) {
+ *   display: none;
+ * }
+ *
+ * ul[data-expand-start-height]>li:nth-child(n+6) {
+ *   display: block;
+ * }
+ *
  */
-
 
 const expand = {
 	activeClass: 'active',
+	totalHeightAttribute: 'data-expand-total-height',
+	startHeightAttribute: 'data-expand-start-height',
 	itemsPath: null,
 	itemsTarget: null,
+	transition: 0.3,
 
 	init() {
 		this.itemsPath = document.querySelectorAll('[data-expand-path]');
 		this.itemsTarget = document.querySelectorAll('[data-expand-target]');
 		this.toggle = this.toggle.bind(this);
 		this.itemsPath.forEach(button => {
+			button.transition = button.dataset.expandTransition ?? this.transition;
 			button.addEventListener('click', this.toggle);
 		});
 	},
@@ -31,17 +53,24 @@ const expand = {
 
 	open(button, container) {
 		button.classList.add(this.activeClass);
-		const height = container.scrollHeight;
-		container.style.height = `${height}px`;
+		const startHeight = container.clientHeight;
+		container.style.height = `${startHeight}px`;
+		container.setAttribute(this.startHeightAttribute, startHeight);
+		const totalHeight = container.scrollHeight;
+		container.setAttribute(this.totalHeightAttribute, totalHeight);
+		container.style.transition = `height ${button.transition}s ease-in-out`;
+		setTimeout(() => container.style.height = `${totalHeight}px`, 10);
+		setTimeout(() => container.style.height = 'unset', button.transition * 1000);
 	},
 
 	close(button, container) {
 		button.classList.remove(this.activeClass);
-		container.removeAttribute('style');
-	},
-
-	getContainerHeight(container) {
-		const height = container.scrollHeight;
-		container.style.height = height;
+		container.style.height = `${container.dataset.expandTotalHeight}px`;
+		setTimeout(() => container.style.height = `${container.dataset.expandStartHeight}px`, 10);
+		setTimeout(() => {
+			container.removeAttribute(this.startHeightAttribute);
+			container.removeAttribute(this.totalHeightAttribute);
+			container.removeAttribute('style');
+		}, button.transition * 1000);
 	},
 }.init();

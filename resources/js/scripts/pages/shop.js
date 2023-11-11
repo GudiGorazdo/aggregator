@@ -1,10 +1,11 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "../layouts/similar-companies.js";
-import "../layouts/similar-categories.js";
-import "../layouts/similar-locations.js";
-import "../tabs.js";
+import "../layouts/similar-companies";
+import "../layouts/similar-categories";
+import "../layouts/similar-locations";
+import "../tabs";
+import "../expand";
 import Swiper, { Navigation, Pagination } from "swiper";
 import Chooser from "../../plugins/chooser";
 
@@ -91,12 +92,12 @@ document.addEventListener("DOMContentLoaded", (e) => {
     });
   });
 
-  let brandsListBtn = document.querySelector(".sell__more");
-  let brandsContainer = document.querySelector(".sell__container");
+  // let brandsListBtn = document.querySelector(".sell__more");
+  // let brandsContainer = document.querySelector(".sell-list");
 
-  brandsListBtn.addEventListener("click", () => {
-    brandsContainer.classList.toggle("expanded");
-  });
+  // brandsListBtn.addEventListener("click", () => {
+  //   brandsContainer.classList.toggle("expanded");
+  // });
 
   const commetnsFilters = {
     filters: [],

@@ -1,1 +1,1 @@
-import "../expand.js";
+import "../expand";

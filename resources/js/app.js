@@ -1,1 +1,1 @@
-import "./scripts/layouts/header.js";
+import "./scripts/layouts/header";

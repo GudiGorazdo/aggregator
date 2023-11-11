@@ -1,4 +1,4 @@
-import "./aside.js";
+import "./aside";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const bodyEl = document.querySelector("body");

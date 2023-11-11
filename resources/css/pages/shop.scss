@@ -373,16 +373,6 @@
     @media only screen and (max-width: $pointMD) {
       padding: 3.2rem 0;
     }
-
-    &.expanded {
-      .sell__more::before {
-        transform: translateY(-50%) rotate(180deg);
-      }
-
-      .sell-list {
-        height: fit-content;
-      }
-    }
   }
 
   &__title {
@@ -393,12 +383,18 @@
   }
 
   &-list {
-    height: 50rem;
     overflow: hidden;
-    transition: height 0.5s;
 
     & li:not(:last-child) {
       margin-bottom: 1rem;
+    }
+
+    > li:nth-child(n+6) {
+      display: none;
+    }
+
+    &[data-expand-start-height] > li:nth-child(n+6) {
+      display: block;
     }
 
     &__breadcrumbs {
@@ -662,5 +658,6 @@
     padding: 0;
   }
 }
+
 
 
