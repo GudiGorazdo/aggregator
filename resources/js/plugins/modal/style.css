@@ -24,7 +24,6 @@
   padding: 20px;
   display: none;
   vertical-align: middle;
-  background-color: $light;
   border-radius: 10px;
   cursor: default;
   text-align: left;
@@ -40,73 +39,72 @@
   display: inline-block;
 }
 
-.disable-scroll {
-  position: fixed;
-  overflow: hidden;
-  height: 100vh;
+.modal-disable-scroll {
   left: 0;
   top: 0;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 
-.modal-window__animation--fade {
+.modal-window__fade {
   opacity: 0;
   transition: opacity var(--transition-time);
 }
 
-.modal-window__animation--fade.modal-window__animate--open {
+.modal-window__fade.modal-window__animate {
   opacity: 1;
   transition: opacity var(--transition-time);
 }
 
 
-.modal-window__animation--fadeInUp {
+.modal-window__fadeInUp {
   opacity: 0;
   transform: translateY(-100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-.modal-window__animation--fadeInUp.modal-window__animate--open {
+.modal-window__fadeInUp.modal-window__animate {
   opacity: 1;
   transform: translateY(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 
-.modal-window__animation--fadeInDown {
+.modal-window__fadeInDown {
   opacity: 0;
   transform: translateY(100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-.modal-window__animation--fadeInDown.modal-window__animate--open {
+.modal-window__fadeInDown.modal-window__animate {
   opacity: 1;
   transform: translateY(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 
-.modal-window__animation--fadeInLeft {
+.modal-window__fadeInLeft {
   opacity: 0;
   transform: translateX(-100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-.modal-window__animation--fadeInLeft.modal-window__animate--open {
+.modal-window__fadeInLeft.modal-window__animate {
   opacity: 1;
   transform: translateX(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
 
-.modal-window__animation--fadeInRight {
+.modal-window__fadeInRight {
   opacity: 0;
   transform: translateX(100%);
   transition: opacity var(--transition-time), transform var(--transition-time);
 }
 
-.modal-window__animation--fadeInRight.modal-window__animate--open {
+.modal-window__fadeInRight.modal-window__animate {
   opacity: 1;
   transform: translateX(0);
   transition: opacity var(--transition-time), transform var(--transition-time);
