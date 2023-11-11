@@ -45,7 +45,7 @@
     border-right: 1px solid $colorGrey;
 
     @media only screen and (max-width: $pointMD) {
-      padding:1.5rem;
+      padding: 1.5rem;
       padding-bottom: 0;
       border: none;
     }
@@ -69,19 +69,25 @@
 
   &__info {
     width: 100%;
-    max-width: 38.5rem;
+    max-width: 35.5rem;
   }
 
   &__title {
-    font-size: 1.7rem;
-    color: $colorMainBackground;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 100%;
 
     @media only screen and (max-width: $pointMD) {
       margin-bottom: 0.5rem;
+    }
+
+    a {
+      max-width: 100%;
+      display: inline-block;
+      font-size: 1.7rem;
+      font-weight: 600;
+      white-space: nowrap;
+      color: $colorMainBackground;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -163,7 +169,7 @@
       padding: 1.5rem;
       flex-direction: row;
 
-      > * + * {
+      >*+* {
         margin-left: 4.5rem;
       }
     }
@@ -176,7 +182,7 @@
       align-items: center;
       row-gap: 1rem;
 
-      > * + * {
+      >*+* {
         margin-left: 0;
       }
     }
@@ -203,9 +209,9 @@
       font-size: 1.5rem;
       display: none;
 
-    @media only screen and (max-width: $pointMD) {
-      display: flex;
-    }
+      @media only screen and (max-width: $pointMD) {
+        display: flex;
+      }
 
       &::before {
         content: "";
@@ -238,5 +244,3 @@
     stroke: $colorSecondary;
   }
 }
-
-

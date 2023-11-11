@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     bodyEl: document.querySelector("body"),
     menuList: document.querySelector(".menu"),
 
-    initialization(x) {
+    init(x) {
       if (x.matches) {
         this.menuBtn.addEventListener("click", () => {
           this.menuList.classList.toggle("active");
@@ -18,7 +18,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     },
-  };
-
-  burger.initialization(window.matchMedia("(max-width: 56.25em)"));
+  }.init(window.matchMedia("(max-width: 56.25em)"));
 });
