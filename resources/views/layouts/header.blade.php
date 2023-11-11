@@ -2,7 +2,9 @@
     <div class="container-wide">
         <div class="header__top flex-btw">
             <button id="burger" class="btn header__menu-btn">
-                <x-icon-burger />
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
             <a class="header__logo ml-4" href="/">
                 <x-picture name="logo.png" path='assets/img/' alt=''/>
