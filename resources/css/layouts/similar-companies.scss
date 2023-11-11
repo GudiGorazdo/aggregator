@@ -23,6 +23,10 @@
     }
   }
 
+  &__carousel {
+    position: relative;
+  }
+
   &__navigation {
     @media only screen and (max-width: $pointMD) {
       padding: 2rem 1rem;
@@ -61,12 +65,20 @@
       left: unset;
     }
   }
+}
 
-  .swiper-slide {
+.swiper-wrapper {
+  &--similar-companies {
+    align-items: stretch;
+  }
+
+  & .swiper-slide {
     &--similar-companies {
       max-width: 370px ;
+      height: unset;
     }
   }
 }
+
 
 
