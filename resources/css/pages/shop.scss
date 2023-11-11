@@ -52,6 +52,7 @@
 
 .info {
   padding-top: 7rem;
+  padding-bottom: 5rem;
   background-color: $colorWhite;
 
   @media only screen and (max-width: $pointMD) {
@@ -103,24 +104,25 @@
   &__left {
     padding-right: 10rem;
 
-      @media only screen and (max-width: $pointMD) {
-        padding: 0;
-      }
+    @media only screen and (max-width: $pointMD) {
+      padding: 0;
     }
+  }
 
-    &__right {
-      &-wrapper {
-        padding-left: 5rem;
-        padding-right: 7.5rem;
-        border-left: 1px solid $colorGrey;
+  &__right {
+    &-wrapper {
+      padding-left: 5rem;
+      padding-right: 7.5rem;
+      border-left: 1px solid $colorGrey;
 
       @media only screen and (max-width: $pointMD) {
         width: calc(100vw - 4rem);
+        margin-bottom: 5rem;
         padding: 0;
         display: flex;
         border: none;
 
-        > * {
+        >* {
           flex-basis: 50%;
         }
       }
@@ -160,8 +162,9 @@
     }
   }
 
-  > * + * {
+  >*+* {
     margin-left: 4rem;
+
     @media only screen and (max-width: $pointMD) {
       margin-left: 0;
       margin-top: 1.2rem;
@@ -205,8 +208,8 @@
   &__table {
     width: 100%;
 
-     th,
-     td {
+    th,
+    td {
       padding-top: 1.4rem;
       padding-bottom: 1.4rem;
     }
@@ -260,6 +263,10 @@
   font-size: 1.7rem;
   line-height: 2.4rem;
   font-weight: 400;
+
+  @media only screen and (max-width: $pointMD) {
+    margin-bottom: 5rem;
+  }
 }
 
 .info-contacts {
@@ -267,11 +274,18 @@
     position: relative;
     margin-bottom: 2rem;
     padding: 2rem;
-    background-color: $colorPrimary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .info-heading {
       display: none;
     }
+  }
+
+  @media only screen and (max-width: $pointS) {
+    background-color: $colorPrimary;
+    display: block;
   }
 
   &__wrapper {
@@ -291,8 +305,16 @@
     display: flex;
     flex-direction: column;
 
-    > * + * {
+    >*+* {
       margin-top: 1.4rem;
+
+      @media only screen and (max-width: $pointMD) {
+        margin-top: 3.4rem;
+      }
+
+      @media only screen and (max-width: $pointS) {
+        margin-top: 1.4rem;
+      }
     }
   }
 
@@ -310,12 +332,12 @@
       margin-bottom: 2rem;
     }
 
-    & > * + * {
+    &>*+* {
       margin-left: 3rem;
     }
   }
 
- &__social-link {
+  &__social-link {
     --el-size: 4.5rem;
     width: var(--el-size);
     height: var(--el-size);
@@ -335,7 +357,7 @@
     left: 1.5rem;
     display: flex;
 
-    > * + * {
+    >*+* {
       margin-left: 1.5rem;
     }
   }
@@ -390,11 +412,11 @@
       margin-bottom: 1rem;
     }
 
-    > li:nth-child(n+6) {
+    >li:nth-child(n+6) {
       display: none;
     }
 
-    &[data-expand-start-height] > li:nth-child(n+6) {
+    &[data-expand-start-height]>li:nth-child(n+6) {
       display: block;
     }
 
@@ -445,6 +467,10 @@
       }
     }
   }
+
+  &__more {
+    margin-left: 2rem;
+  }
 }
 
 .accordion {
@@ -455,6 +481,7 @@
 }
 
 .brands-list {
+
   &--sell,
   &--point {
     position: absolute;
@@ -589,7 +616,7 @@
     }
   }
 
-  &__checkbox:checked + &__label {
+  &__checkbox:checked+&__label {
     opacity: 1;
   }
 
@@ -660,5 +687,8 @@
   }
 }
 
-
-
+.footer {
+  @media only screen and (max-width: $pointMD) {
+    padding-bottom: 3.8rem;
+  }
+}

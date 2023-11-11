@@ -9,7 +9,7 @@
   }
 
   &__header {
-    --icon-size: 2rem;
+    --icon-size: 20px;
     --padding-inline: 2.5rem;
     --padding-block: 3.5rem;
     position: relative;
@@ -41,6 +41,7 @@
       height: var(--icon-size);
       margin-top: calc(var(--icon-size) / -2);
       background-image: url("/resources/assets/svg/add-icon.svg");
+      background-repeat: no-repeat;
     }
   }
 
