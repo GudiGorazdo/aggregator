@@ -6,4 +6,4 @@ import "../../scripts/tabs";
 import "../../scripts/expand";
 import "./map";
 import "./brandsList";
-import "./commentsFilter";
+import "./feedback";

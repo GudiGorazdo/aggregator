@@ -1,6 +1,6 @@
-import Chooser from "../../plugins/chooser";
+import Chooser from "../plugins/chooser";
 
-const commetnsFilter = {
+const filter = {
 	filters: [],
 	listUrl: "/api/data/services",
 	chooserID: "",
