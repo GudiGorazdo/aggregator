@@ -107,7 +107,10 @@
  * to the element instance of the class, for example:
  *
  * const modalWindow = new ModalWindow(options);
- * modalWindow.modalEl.addEventListener('eventNameOpen', () => console.log('opened'));
+ * modalWindow.modalEl.addEventListener('eventNameForMessageOpen', () => console.log('opened'));
+ * modalWindow.modalEl.addEventListener('eventNameForMessaageClose', () => console.log('closed'));
+ *
+ * modalWindow.showMessage({text: 'example', event: 'eventNameForMessage'});
  *
  */
 
