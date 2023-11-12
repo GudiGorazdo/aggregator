@@ -1,21 +1,22 @@
 .site-message {
 	width: max-content;
 	max-width: 80%;
-	padding: 2em;
-	padding-bottom: 3rem;
-	background-color: $colorGreyLight;
+	padding: 3em;
+	background-color: $colorSecondaryBackground;
 
-	@media(min-width: 992px) {
-		max-width: 60%;
-	}
-
-	@media(min-width: 992px) {
-		max-width: 50%;
+	@media only screen and (max-width: $pointMD) {
+		padding: 2rem;
 	}
 
 	&__close {
-		margin-left: auto;
-		margin-bottom: 1.5rem;
+		position: absolute;
+		top: 1.5rem;
+		right: 1.5rem;
+
+		@media only screen and (max-width: $pointMD) {
+			top: 1rem;
+			right: 1rem;
+		}
 
 		&::after,
 		&::before {
@@ -24,6 +25,7 @@
 		}
 
 		&:hover {
+
 			&::after,
 			&::before {
 				background-color: $colorSecondary;
@@ -31,10 +33,25 @@
 		}
 
 		&:active {
+
 			&::after,
 			&::before {
 				// background-color: var(--bs-link-hover-color);
 			}
+		}
+	}
+
+	&__title {
+		margin: 0;
+		margin-bottom: 2.5rem;
+		padding: 0;
+		font-size: 3rem;
+		line-height: 2.4rem;
+		text-align: center;
+
+		@media only screen and (max-width: $pointMD) {
+			font-size: 2.5rem;
+			margin-bottom: 1rem;
 		}
 	}
 
@@ -45,5 +62,9 @@
 		line-height: 2.4rem;
 		text-align: center;
 		color: #25313a;
+
+		@media only screen and (max-width: $pointMD) {
+			font-size: 1.5rem;
+		}
 	}
 }
