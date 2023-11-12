@@ -67,7 +67,7 @@ const expand = {
 		container.setAttribute(this.attributes.totalHeight, totalHeight);
 		container.style.transition = `all ${button.transition}s ease-in-out`;
 		setTimeout(() => container.style.height = `${totalHeight}px`, 10);
-		setTimeout(() => container.style.height = '', button.transition * 1000);
+		setTimeout(() => container.style.height = 'unset', button.transition * 1000);
 	},
 
 	close(button, container) {
