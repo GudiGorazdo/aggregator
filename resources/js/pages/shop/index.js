@@ -1,10 +1,9 @@
+import "../../layouts/carousel";
 import "../../layouts/similar-companies";
 import "../../layouts/similar-categories";
 import "../../layouts/similar-locations";
 import "../../scripts/tabs";
 import "../../scripts/expand";
-import "./preview";
 import "./map";
 import "./brandsList";
 import "./commentsFilter";
-import "./carouselModal";

@@ -3,21 +3,61 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Swiper, { Navigation, Pagination } from "swiper";
 
+const preview = {
+  swiperEl: ".swiper--carousel-preview",
+  swiper: null,
+  params: {
+    modules: [Navigation],
+    navigation: {
+      nextEl: ".carousel-preview-next",
+      prevEl: ".carousel-preview-prev",
+    },
+    freeMode: true,
+    spaceBetween: 10,
+    slidesPerView: 2,
+    breakpoints: {
+      500: {
+        slidesPerView: 3,
+      },
+      900: {
+        slidesPerView: 5,
+      },
+      1000: {
+        slidesPerView: 4,
+      },
+      1400: {
+        slidesPerView: 5,
+      },
+      1700: {
+        slidesPerView: 6,
+      },
+      1800: {
+        slidesPerView: 7,
+      },
+    },
+  },
+
+  init() {
+    this.swiper = new Swiper(this.swiperEl, this.params);
+  }
+}.init();
+
+
 const photos = {
-  swiperEl: '.swiper--photos',
-  previewEls: '[data-preview]',
+  swiperEl: '.swiper--carousel-photos',
+  previewEls: '[data-carousel-preview]',
   swiper: null,
   params: {
     modules: [Navigation, Pagination],
     loop: true,
     slidesPerView: 1,
     pagination: {
-      el: '.swiper-pagination--photos',
+      el: '.carousel-photos-pagination',
       clickable: true,
     },
     navigation: {
-      nextEl: '.swiper-button-next--photos',
-      prevEl: '.swiper-button-prev--photos',
+      nextEl: '.carousel-photos-next',
+      prevEl: '.carousel-photos-prev',
     },
   },
 
@@ -26,7 +66,7 @@ const photos = {
     document.querySelectorAll(this.previewEls).forEach(button => {
       button.addEventListener('click', (e) => {
         this.swiper = new Swiper(this.swiperEl, this.params);
-        const index = +e.target.dataset.preview;
+        const index = +e.target.dataset.carouselPreview;
         this.swiper.slideToLoop(index, 0, false);
       });
     });
@@ -41,8 +81,8 @@ const photos = {
 }.init();
 
 const fullscreenController = {
-  modal: document.getElementById('photos'),
-  enters: document.querySelectorAll('[data-modal-path="photos_window"]'),
+  modal: document.getElementById('carousel-photos'),
+  enters: document.querySelectorAll('[data-modal-path="carousel_photos"]'),
   exit: document.getElementById('exit_fullscreen_photos'),
 
   init() {

@@ -98,8 +98,8 @@
 }
 
 // NAVIGATION BUTTONS
-.previous,
-.forwards {
+.prev,
+.next {
   max-width: fit-content;
   padding: 1rem 2rem;
   display: inline-flex;
@@ -125,13 +125,13 @@
   }
 }
 
-.previous {
+.prev {
   &--centered {
     left: 0;
   }
 }
 
-.forwards {
+.next {
   &--centered {
     right: 0;
   }

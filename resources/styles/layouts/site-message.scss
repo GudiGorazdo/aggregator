@@ -35,9 +35,7 @@
 		&:active {
 
 			&::after,
-			&::before {
-				// background-color: var(--bs-link-hover-color);
-			}
+			&::before {}
 		}
 	}
 

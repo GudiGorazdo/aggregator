@@ -21,7 +21,7 @@
 
 @section('content')
     <input id="shop_coord" type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
-    @include('pages.shop.layouts.carousel-preview', ['photos' => $photos])
+    @include('layouts.carousel.preview', ['photos' => $photos, 'modalPath' => 'carousel_photos'])
     @include('pages.shop.layouts.heading', ['title' => $shop->name])
     @include('pages.shop.layouts.info', [
         'shop' => $shop,
@@ -33,9 +33,9 @@
     @include('layouts.similar-companies', ['similars' => $similars])
     @include('layouts.similar-categories-and-location', ['cityID' => $shop->city_id])
 @section('modal')
-    <div id="photos" class="photos-carousel modal-window__container" data-modal-target="photos_window">
-        <x-close-btn id="exit_fullscreen_photos" class="photos-carousel__close modal-window__close" />
-        @include('layouts.photos-carousel', ['photos' => $photos])
+    <div id="carousel-photos" class="carousel-photos modal-window__container" data-modal-target="carousel_photos">
+        <x-close-btn id="exit_fullscreen_photos" class="carousel-photos__close modal-window__close" />
+        @include('layouts.carousel.modal', ['photos' => $photos])
     </div>
 @endsection
 @endsection

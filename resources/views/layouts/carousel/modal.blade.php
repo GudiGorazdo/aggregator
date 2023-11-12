@@ -1,6 +1,6 @@
-<x-carousel classMod='photos'>
+<x-carousel classMod='carousel-photos'>
     @for ($i = 0; $i < count($photos); $i++)
-        <x-carousel-item classMod="photos">
+        <x-carousel-item classMod="carousel-photos">
             {{-- <div class="loader">
                 <img src="{{ asset('assets/images/Loading_black.gif') }}" loading="lazy" alt="loader">
             </div> --}}
@@ -8,6 +8,6 @@
         </x-carousel-item>
     @endfor
 </x-carousel>
-<div class="btn previous previous--centered swiper-button-prev--photos"><x-icon-slider-arrow-left /></div>
-<div class="btn forwards forwards--centered swiper-button-next--photos"><x-icon-slider-arrow-right /></div>
-<div class="swiper-pagination swiper-pagination--photos"></div>
+<div class="btn prev prev--centered carousel-photos-prev"><x-icon-slider-arrow-left /></div>
+<div class="btn next next--centered carousel-photos-next"><x-icon-slider-arrow-right /></div>
+<div class="swiper-pagination carousel-photos-pagination"></div>
