@@ -1,6 +1,8 @@
 import ModalWindow from './plugins/modal/ModalWindow';
 import "./scripts/layouts/header";
 
+document.addEventListener('click', e => console.log(e.target));
+
 window.app = {};
 
 app.modal = new ModalWindow({

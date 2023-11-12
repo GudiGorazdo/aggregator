@@ -55,6 +55,7 @@
  * data-modal-speed-in="300"
  * data-modal-speed-out="300"
  *
+ *
  * USING FROM JS
  *
  * Create HTML element for modal window
@@ -82,6 +83,33 @@
  * fadeInDown
  * fadeInLeft
  * fadeInRight,
+ *
+ *
+ * EVENTS
+ *
+ * When using HTML attributes
+ * To utilize events, you should add the event name as
+ * an attribute to the button that opens the modal window.
+ * For example:
+ * data-modal-event="eventName"
+ *
+ * When using JS
+ * You should add to the options event: 'eventName'.
+ *
+ * NB
+ * When generating events, 'Open' will be appended to
+ * the event name for opening events and 'Close' for closing events.
+ * For instance, if you name the event 'eventName',
+ * the generated events will be 'eventNameOpen'
+ * when opening the modal window and 'eventNameClose' when closing it.
+ *
+ * When doing so, you need to attach the listener
+ * to the element instance of the class, for example:
+ *
+ * const modalWindow = new ModalWindow(options);
+ * modalWindow.addEventListener('eventNameOpen', () => console.log('opened'));
+ *
+ *
  */
 
 export default class ModalWindow {
@@ -94,6 +122,11 @@ export default class ModalWindow {
       "textarea",
       "[tabindex]",
     ];
+
+    this.modalElEvents = {
+      open: 'modalWindowOpen',
+      close: 'modalWindowClose',
+    }
 
     this.attributes = {
       path: 'data-modal-path',
@@ -122,7 +155,7 @@ export default class ModalWindow {
     };
 
     this.options = Object.assign(defaultOptions, options);
-    this.modal = document.getElementById(this.classes.modal);
+    this.modalEl = document.getElementById(this.classes.modal);
     this.alert = document.querySelector(`.${this.classes.message}`);
     this.fixBlocks = document.querySelectorAll(`.${this.classes.fixBlock}`);
 
@@ -131,25 +164,28 @@ export default class ModalWindow {
     this.isOpen = false;
     this.isTmpOpen = false;
     this.isTmpCreated = false;
-    this.modalContainer = false;
+    this.modalElContainer = false;
     this.previosActiveElement = false;
+    this.generateEvent = false;
     this.events();
   }
 
   events() {
-    if (!this.modal) return;
+    if (!this.modalEl) return;
     document.addEventListener("click", function (e) {
       if (this.isTmpOpen) return;
+      if (e.target.classList.contains(this.classes.close)) return this.close(e);
       const clickedElement = e.target.closest(`[${this.attributes.path}]`);
       if (!clickedElement) return this.checkForClose(e);
+      this.generateEvent = clickedElement.dataset.modalEvent ?? false;
       if (clickedElement.dataset.modalOneButton && this.isOpen) return this.close(e);
       let target = clickedElement.dataset.modalPath;
       let animation = clickedElement.dataset.modalAnimation;
       let speed = clickedElement.dataset.modalSpeedIn;
       let speedOut = clickedElement.dataset.modalSpeedOut;
       this.setAnimadionOptions(animation, speed, speedOut);
-      this.modalContainer = document.querySelector(`[${this.attributes.target}="${target}"]`);
-      if (this.modalContainer) this.open(e);
+      this.modalElContainer = document.querySelector(`[${this.attributes.target}="${target}"]`);
+      if (this.modalElContainer) this.open(e);
     }.bind(this));
 
     window.addEventListener("keydown", function (e) {
@@ -171,8 +207,9 @@ export default class ModalWindow {
     tmp.classList.add(this.classes.container);
     this.options.classes.message.container && tmp.classList.add(this.options.classes.message.container);
     options.classes?.container && tmp.classList.add(options.classes?.container);
-    this.modal.append(tmp);
-    this.modalContainer = tmp;
+    this.modalEl.append(tmp);
+    this.modalElContainer = tmp;
+    this.generateEvent = options.generateEvent ?? false;
     this.isTmpOpen = true;
     this.isTmpCreated = true;
     this.open();
@@ -180,7 +217,7 @@ export default class ModalWindow {
 
   getMessagetmplate(options) {
     return (`
-      <button class="${this.createClassString(this.options.classes.message.close, options.classes?.close)}"></button>
+      <button class="${this.createClassString(this.classes.close, this.options.classes.message.close, options.classes?.close)}"></button>
       ${options.title ? `<h2 class="${this.createClassString(this.options.classes.message.title, options.classes?.title)}">${options.title ?? ''}</h2>` : ''}
       ${options.text ? `<p class="${this.createClassString(this.options.classes.message.text, options.classes?.text)}">${options.text ?? ''}</p>` : ''}
     `);
@@ -192,7 +229,7 @@ export default class ModalWindow {
     return tmp;
   }
 
-  removetmpElement() {
+  removeTmpElement() {
     const tmp = document.getElementById(this.ids.tmp);
     tmp.parentElement.removeChild(tmp);
     this.isTmpCreated = false;
@@ -211,52 +248,61 @@ export default class ModalWindow {
   }
 
   isCloseButtonClicked(e) {
-    return e.target.closest(`.${this.modalCloseClass}`);
+    return e.target.closest(`.${this.modalElCloseClass}`);
   }
 
   isClickOutsideModal(e) {
     return !e.target.classList.contains(this.classes.container) &&
-      !e.target.closest(`${this.classes.container}`) &&
+      !e.target.closest(`.${this.classes.container}`) &&
       this.isOpen;
   }
 
   open(e = null) {
+    if (this.generateEvent) {
+      const openEvent = new CustomEvent(this.generateEvent + 'Open', { detail: { instance: this } });
+      this.modalEl.dispatchEvent(openEvent);
+    }
     this.previosActiveElement = document.activeElement;
-    this.modal.style.setProperty("--transition-time", `${this.speed / 1000}s`);
-    this.modal.classList.add(`${this.classes.modal}${this.classes.openPostfix}`);
+    this.modalEl.style.setProperty("--transition-time", `${this.speed / 1000}s`);
+    this.modalEl.classList.add(`${this.classes.modal}${this.classes.openPostfix}`);
     this.disableScroll();
 
-    this.modalContainer.classList.add(`${this.classes.modal}${this.classes.openPostfix}`);
-    this.modalContainer.classList.add(`${this.classes.modal}__${this.animation}`);
+    this.modalElContainer.classList.add(`${this.classes.modal}${this.classes.openPostfix}`);
+    this.modalElContainer.classList.add(`${this.classes.modal}__${this.animation}`);
 
     this.isOpen = true;
     this.focusTrap();
 
     setTimeout(() => {
       this.options.isOpen(this, e);
-      this.modalContainer.classList.add(`${this.classes.animation}`);
+      this.modalElContainer.classList.add(`${this.classes.animation}`);
       this.isTmpOpen = false;
     }, this.speed);
   }
 
   close(e = null) {
-    if (!this.modalContainer) return
-    this.modalContainer.classList.remove(`${this.classes.animation}`);
+    if (!this.modalElContainer) return;
+    this.modalElContainer.classList.remove(`${this.classes.animation}`);
     setTimeout(() => {
-      this.modalContainer.classList.remove(`${this.classes.modal}__${this.animation}`);
-      this.modal.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
-      this.modalContainer.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
+      this.modalElContainer.classList.remove(`${this.classes.modal}__${this.animation}`);
+      this.modalEl.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
+      this.modalElContainer.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
       this.enableScroll();
       this.isOpen = false;
       this.focusTrap();
       this.options.isClose(this, e);
-      this.isTmpCreated && this.removetmpElement();
+      this.isTmpCreated && this.removeTmpElement();
+      if (this.generateEvent) {
+        const closeEvent = new CustomEvent(this.generateEvent + 'Close', { detail: { instance: this } });
+        this.modalEl.dispatchEvent(closeEvent);
+        this.generateEvent = false;
+      }
     }, this.speedOut);
   }
 
   focusCatch(e) {
     if (!this.isOpen) return;
-    const focusable = this.modalContainer.querySelectorAll(this.focusElements);
+    const focusable = this.modalElContainer.querySelectorAll(this.focusElements);
     const focusArray = Array.prototype.slice.call(focusable);
     const focusedIndex = focusArray.indexOf(document.activeElement);
 
@@ -271,7 +317,7 @@ export default class ModalWindow {
   }
 
   focusTrap() {
-    const focusable = this.modalContainer.querySelectorAll(this.focusElements);
+    const focusable = this.modalElContainer.querySelectorAll(this.focusElements);
     if (this.isOpen && focusable.length > 0) {
       setTimeout(() => focusable[0].focus(), 100);
     } else {

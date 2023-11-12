@@ -9,11 +9,6 @@
 
   .previous,
   .forwards {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-
     @media only screen and (max-width: $pointXS) {
       height: 100%;
       padding: 0 0.6rem;

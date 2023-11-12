@@ -9,6 +9,11 @@
 @import "../layouts/comments-list.scss";
 @import "../layouts/similar-companies.scss";
 @import "../layouts/similar-categories-and-location.scss";
+@import "../layouts/photos-carousel.scss";
+
+.swiper-slide--carousel {
+  cursor: pointer;
+}
 
 .heading {
   position: relative;

@@ -9,27 +9,35 @@
     @vite(['resources/css/pages/shop.scss'])
 @endsection
 
+@php
+    $photos = json_decode($shop->photos);
+
+    $f = [];
+    for ($i = 0; $i < count($photos); $i++) {
+        $f[] = rand(10, 100);
+    }
+    $i = 0;
+@endphp
+
 @section('content')
     <input id="shop_coord" type="hidden" name="shop_coord" value={{ $shop->coord }} data-shop-path={{ $shop->id }}>
     <section class="carousel">
         <x-carousel classMod='carousel'>
-            @foreach (json_decode($shop->photos) as $item)
-                <x-carousel-item classMod="carousel">
-                    <img class="carousel__img" src="{{ $item->name . '/id/' . rand(10, 100) }}/240/240"
+            @for ($i = 0; $i < count($photos); $i++)
+                <x-carousel-item classMod="carousel" addAttributes="data-modal-path=photos_window data-modal-event=photosCarousel data-preview={{ $i }}">
+                    <img class="carousel__img" src="{{ $photos[$i]->name . '/id/' . $f[$i] }}/240/240"
                         alt="фото компании {{ $shop->name }}" />
                 </x-carousel-item>
-            @endforeach
+            @endfor
         </x-carousel>
-        <div class="btn previous carousel-previous"><x-icon-slider-arrow-left /></div>
-        <div class="btn forwards carousel-forwards"><x-icon-slider-arrow-right /></div>
+        <div class="btn previous previous--centered carousel-previous"><x-icon-slider-arrow-left /></div>
+        <div class="btn forwards forwards--centered carousel-forwards"><x-icon-slider-arrow-right /></div>
     </section>
 
     <section class="heading">
         <div class="container">
             <div class="heading__inner">
-                <h1 class="heading__title">
-                    {{ $shop->name }}
-                </h1>
+                <h1 class="heading__title">{{ $shop->name }}</h1>
                 <a href="#" class="btn btn--primary heading__btn">Заявка на оценку</a>
             </div>
         </div>
@@ -268,10 +276,17 @@
 
     @include('layouts.similar-companies', ['similars' => $similars])
     @include('layouts.similar-categories-and-location', ['cityID' => $shop->city_id])
+
+@section('modal')
+    <div id="photos" class="photos-carousel modal-window__container" data-modal-target="photos_window">
+        <x-close-btn id="exit_fullscreen_photos" class="photos-carousel__close modal-window__close" />
+        @include('layouts.photos-carousel')
+    </div>
+@endsection
 @endsection
 
 @section('afterFooter')
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU"
-        type="text/javascript"></script>
-    @vite(['resources/js/scripts/pages/shop.js'])
+<script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU"
+    type="text/javascript"></script>
+@vite(['resources/js/scripts/pages/shop/shop.js'])
 @endsection

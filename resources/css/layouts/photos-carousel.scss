@@ -1,0 +1,25 @@
+.photos-carousel {
+	max-width: 1000px;
+
+	&__close {
+		position: absolute;
+		top: 0;
+		right: -2rem;
+	}
+}
+
+.swiper-button {
+	$position: -5rem;
+
+	&-prev--photos {
+		left: $position;
+	}
+
+	&-next--photos {
+		right: $position;
+	}
+}
+
+.swiper-pagination--photos>.swiper-pagination-bullet-active {
+	background: $colorPrimary;
+}

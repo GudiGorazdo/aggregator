@@ -31,7 +31,7 @@
             </button>
         </div>
 
-        <a class="btn btn--primary hero__btn" href="#">Отправить заявку всем</a>
+        <button class="btn btn--primary hero__btn">Отправить заявку всем</button>
     </section>
 @endsection
 
@@ -44,7 +44,7 @@
     <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
     {{-- @vite([ 'resources/js/scripts/pages/home.js' ]) --}}
     {{-- @vite([ 'resources/js/bundle.js' ]) --}}
-    @vite(['resources/js/scripts/pages/home.js'])
+    @vite(['resources/js/scripts/pages/home/home.js'])
     {{-- @vite([ 'resources/js/scripts/yandexMapWorker.js' ]) --}}
     {{-- @vite([ 'resources/js/scripts/locationFilter.js' ]) --}}
     {{-- @vite([ 'resources/js/scripts/starRating.js' ]) --}}

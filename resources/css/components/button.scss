@@ -59,25 +59,6 @@
     }
   }
 
-  // NAVIGATION BUTTONS
-  &.previous,
-  &.forwards {
-    padding: 1rem 2rem;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border: 0;
-    border-radius: 32rem;
-    background: $colorWhite;
-    font-size: 1rem;
-    color: $colorPrimary;
-    cursor: pointer;
-
-    * {
-      pointer-events: none;
-    }
-  }
-
 
   // MORE BUTTONS
   &--more {
@@ -111,4 +92,42 @@
   }
 }
 
+// NAVIGATION BUTTONS
+.previous,
+.forwards {
+  max-width: fit-content;
+  padding: 1rem 2rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  border-radius: 32rem;
+  background: $colorWhite;
+  font-size: 1rem;
+  color: $colorPrimary;
+  cursor: pointer;
 
+  * {
+    pointer-events: none;
+  }
+
+
+  &--centered {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+}
+
+.previous {
+  &--centered {
+    left: 0;
+  }
+}
+
+.forwards {
+  &--centered {
+    right: 0;
+  }
+}
