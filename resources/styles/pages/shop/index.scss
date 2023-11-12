@@ -1,0 +1,67 @@
+@import "../../variables.scss";
+@import "../../mixins.scss";
+@import "../../components/display-rating.scss";
+@import "../../components/accordion.scss";
+@import "../../layouts/crousel.scss";
+@import "../../layouts/info-rating.scss";
+@import "../../layouts/hours.scss";
+@import "../../layouts/brands-list.scss";
+@import "../../layouts/tabs.scss";
+@import "../../layouts/comments-list.scss";
+@import "../../layouts/similar-companies.scss";
+@import "../../layouts/similar-categories-and-location.scss";
+@import "../../layouts/photos-carousel.scss";
+@import "./layouts/heading.scss";
+@import "./layouts/info.scss";
+@import "./layouts/feedback.scss";
+
+
+.swiper-slide--carousel {
+  cursor: pointer;
+}
+
+
+.accordion {
+  &--sell {
+    background-color: $colorWhite;
+  }
+}
+
+.brands-list {
+  &--sell,
+  &--point {
+    position: absolute;
+    padding-bottom: 4rem;
+    background-color: $colorWhite;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-bottom: 3rem;
+      gap: 1.8rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media only screen and (max-width: $pointS) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    &.open {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+  }
+
+  &__item--sell {
+    cursor: pointer;
+  }
+}
+
+.footer {
+  @media only screen and (max-width: $pointMD) {
+    padding-bottom: 3.8rem;
+  }
+}

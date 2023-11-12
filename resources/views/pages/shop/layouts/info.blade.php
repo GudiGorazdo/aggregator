@@ -17,7 +17,7 @@
                 @endif
             </div>
 
-            @include('layouts.info-rating', ['shopID' => $shop->id, 'averageRating' => $shop->average_rating, 'services' => $shop->services])
+            @include('pages.shop.layouts.info-rating', ['shopID' => $shop->id, 'averageRating' => $shop->average_rating, 'services' => $shop->services])
             <div class="info-description">
                 <h2 class="info-title mb-15">Описание</h2>
                 <p class="info-description__text" id="text-slice" data-expand-target="shop-description">
@@ -75,7 +75,7 @@
                         {{ \App\Services\TitleService::timeBeforeClose($shop) }}
                     </p>
 
-                    @include('layouts.hours', ['days' => $workingMode])
+                    @include('pages.shop.layouts.hours', ['days' => $workingMode])
                 </div>
             </div>
 

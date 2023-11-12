@@ -6,7 +6,7 @@
 
 @section('styles')
     <link rel="preload" href="{{ asset('assets/images/Loading_black.gif') }}" as="image">
-    @vite(['resources/css/pages/shop.scss'])
+    @vite(['resources/styles/pages/shop/index.scss'])
 @endsection
 
 @php
@@ -29,7 +29,7 @@
         'additionalPhones' => $additionalPhones,
     ])
     @include('pages.shop.layouts.sell', ['categories' => $categories])
-    @include('pages.shop.layouts.testimonials', ['shop' => $shop])
+    @include('pages.shop.layouts.feedback', ['shop' => $shop])
     @include('layouts.similar-companies', ['similars' => $similars])
     @include('layouts.similar-categories-and-location', ['cityID' => $shop->city_id])
 @section('modal')
@@ -43,5 +43,5 @@
 @section('afterFooter')
 <script src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU"
     type="text/javascript"></script>
-@vite(['resources/js/scripts/pages/shop/shop.js'])
+@vite(['resources/js/scripts/pages/shop/index.js'])
 @endsection

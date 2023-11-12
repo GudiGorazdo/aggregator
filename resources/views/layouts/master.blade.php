@@ -19,7 +19,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicon/apple-touch-icon.png') }}">
 
     @yield('title')
-    @vite(['resources/css/app.scss'])
+    @vite(['resources/styles/app.scss'])
     @yield('styles')
     @vite(['resources/js/app.js'])
     @yield('links_scripts')

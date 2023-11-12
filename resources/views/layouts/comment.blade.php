@@ -5,14 +5,10 @@
         </div>
         <div class="comment__info">
             <p class="comment__name">{{ $comment->name }}</p>
-            <p class="comment__date">
-                {{ $comment->date }}
-            </p>
+            <p class="comment__date">{{ $comment->date }}</p>
         </div>
     </div>
-    <p class="comment__text">
-        {{ $comment->text }}
-    </p>
+    <p class="comment__text">{{ $comment->text }}</p>
     @if($comment->response > [])
         <div class="comment__reply">
             <p class="comment__reply-date">

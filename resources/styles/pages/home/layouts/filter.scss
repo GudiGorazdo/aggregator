@@ -1,9 +1,3 @@
-@import "../variables.scss";
-@import "../layouts/hero.scss";
-@import "../layouts/aside.scss";
-@import "../layouts/shop-list.scss";
-@import "../layouts/similar-categories-and-location.scss";
-
 .filter {
   &__container {
     position: relative;
@@ -22,7 +16,7 @@
     display: flex;
     // overflow-y: hidden;
 
-    &.active > * {
+    &.active>* {
       transform: translateX(170px);
     }
   }
@@ -162,79 +156,3 @@
     z-index: 2000;
   }
 }
-
-.mobile-nav-section {
-  width: 100%;
-  height: 12rem;
-  position: fixed;
-  bottom: 0;
-  background-color: $colorMainBackground;
-  z-index: 1000;
-  display: none;
-
-  @media only screen and (max-width: $pointMD) {
-    display: block;
-
-    .hero__btn {
-      min-width: 100%;
-      padding: 2.2rem;
-      display: flex;
-      transform: translate(-50%, 0);
-      font-size: 1.9rem;
-    }
-  }
-
-  &__box {
-    height: 5.6rem;
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
-    display: flex;
-    align-items: center;
-  }
-
-  &__toggle-btn {
-    &--filter {
-      margin-right: auto;
-      min-width: 10rem;
-      min-height: 4rem;
-      font-size: 1.3rem;
-      color: $colorWhite;
-
-      svg {
-        width: 2rem;
-        height: 2rem;
-        margin-right: 0.8rem;
-      }
-    }
-
-    &--map {
-      width: 4rem;
-      height: 4rem;
-
-      svg {
-        width: 20px;
-        height: 20px;
-
-        path {
-          stroke: $colorPrimary;
-        }
-      }
-
-
-      .mobile-nav-section__icon--places {
-        display: none;
-      }
-
-      &.active {
-        .mobile-nav-section__icon--map {
-          display: none;
-        }
-        .mobile-nav-section__icon--places {
-          display: inline-block;
-        }
-      }
-    }
-  }
-}
-
-
