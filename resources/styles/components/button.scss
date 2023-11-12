@@ -93,7 +93,7 @@
   }
 
   &--more.active::before {
-    transform: translateY(-50%) rotate(-180deg);
+    transform: translateY(-50%) rotate(180deg);
   }
 }
 

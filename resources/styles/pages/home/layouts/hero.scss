@@ -50,9 +50,10 @@
     transition: height 0.5s;
 
     &[data-expand-start-height] {
-      height: min-content;
-      // padding-top: 3rem;
-      padding-bottom: 3rem;
+      @media only screen and (max-width: $pointMD) {
+        height: min-content;
+        padding-bottom: 3rem;
+      }
     }
   }
 
@@ -124,5 +125,3 @@
     }
   }
 }
-
-
