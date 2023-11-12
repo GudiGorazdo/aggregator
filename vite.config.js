@@ -25,12 +25,12 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
-        // 'resources/scss/app.scss',
-        "resources/css/pages/home.scss",
-        "resources/css/app.scss",
+        "resources/styles/pages/home/index.scss",
+        "resources/styles/pages/shop/index.scss",
+        "resources/styles/app.scss",
         "resources/js/app.js",
-        "resources/js/scripts/pages/home.js",
-        "resources/js/scripts/pages/shop.js",
+        "resources/js/pages/home/index.js",
+        "resources/js/pages/shop/index.js",
       ],
       refresh: true,
     }),

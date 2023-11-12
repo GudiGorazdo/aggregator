@@ -5,8 +5,8 @@ export default class YandexMapWorker {
   shopsData = null;
   shopList = null;
   markCollection = null;
-  map = false;
-  mapAdd = false;
+  isMapVisible = false;
+  isMapAdded = false;
 
   classes = {
     show: "active",
@@ -17,14 +17,13 @@ export default class YandexMapWorker {
     this.items = document.querySelectorAll("[data-shop-target]");
     this.mapWrapper = document.getElementById("filter-map");
     this.shopList = document.getElementById("shop-list");
-    this.shopsData = Array.from(
-      document.querySelectorAll('input[name="shop_coord"]'),
-    ).map((item) => {
-      return {
-        path: item.dataset.shopPath,
-        coords: JSON.parse(item.value),
-      };
-    });
+    this.shopsData =
+      Array.from(document.querySelectorAll('input[name="shop_coord"]')).map((item) => {
+        return {
+          path: item.dataset.shopPath,
+          coords: JSON.parse(item.value),
+        };
+      });
 
     const addMap = () => this.addMap(this.shopsData);
     window.onload = function () {
@@ -68,7 +67,7 @@ export default class YandexMapWorker {
   }
 
   addMap(shopsData) {
-    if (this.mapAdd) return;
+    if (this.isMapAdded) return;
     const average = this.getMapCenter();
     const hideAllItems = this.hideAllItems.bind(this);
     const showShop = this.showShop.bind(this);
@@ -133,40 +132,34 @@ export default class YandexMapWorker {
       myMap.geoObjects.add(markCollection);
     });
 
-    this.mapAdd = true;
+    this.isMapAdded = true;
   }
 
   hideMap() {
     this.mapWrapper.classList.remove(this.classes.show);
+    this.isMapVisible = false;
   }
 
   showMap() {
     this.mapWrapper.classList.add(this.classes.show);
+    this.isMapVisible = true;
   }
 
   showShop(shopData) {
-    const target = document.querySelector(
-      `[data-shop-target="${shopData.path}"]`,
-    );
+    const target = document.querySelector(`[data-shop-target="${shopData.path}"]`);
     target.classList.remove(this.classes.hide);
     target.classList.add(this.classes.show);
   }
 
   hideAllItems() {
     this.items.forEach((shopCard) => shopCard.classList.add(this.classes.hide));
-    this.items.forEach((shopCard) =>
-      shopCard.classList.remove(this.classes.show)
-    );
+    this.items.forEach((shopCard) => shopCard.classList.remove(this.classes.show));
     this.showMap();
-    this.map = true;
   }
 
   showAllItems() {
     this.items.forEach((shopCard) => shopCard.classList.add(this.classes.show));
-    this.items.forEach((shopCard) =>
-      shopCard.classList.remove(this.classes.hide)
-    );
+    this.items.forEach((shopCard) => shopCard.classList.remove(this.classes.hide));
     this.hideMap();
-    this.map = false;
   }
 }
