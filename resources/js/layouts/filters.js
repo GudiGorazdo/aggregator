@@ -1,5 +1,5 @@
 import "./aside";
-import "../expand";
+import "../scripts/expand";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const bodyEl = document.querySelector("body");

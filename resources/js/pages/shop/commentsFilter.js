@@ -1,4 +1,4 @@
-import Chooser from "../../../plugins/chooser";
+import Chooser from "../../plugins/chooser";
 
 const commetnsFilter = {
 	filters: [],

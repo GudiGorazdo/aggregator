@@ -25,5 +25,5 @@
     <script defer src="https://api-maps.yandex.ru/2.1/?apikey=30c606be-6c96-48b4-a6a2-80eab6220ea3&lang=ru_RU"
         type="text/javascript" crossorigin="anonymous"></script>
     <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
-    @vite(['resources/js/scripts/pages/home/index.js'])
+    @vite(['resources/js/pages/home/index.js'])
 @endsection

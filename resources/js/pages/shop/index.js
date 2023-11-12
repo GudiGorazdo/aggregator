@@ -1,8 +1,8 @@
 import "../../layouts/similar-companies";
 import "../../layouts/similar-categories";
 import "../../layouts/similar-locations";
-import "../../tabs";
-import "../../expand";
+import "../../scripts/tabs";
+import "../../scripts/expand";
 import "./preview";
 import "./map";
 import "./brandsList";
