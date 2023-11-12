@@ -38,9 +38,6 @@
     </div>
     @include('layouts.footer')
     @yield('afterFooter')
-    @auth('admin')
-        {{-- @vite([ 'resources/js/scripts/admin/panel.js' ]) --}}
-    @endauth
 </body>
 
 </html>

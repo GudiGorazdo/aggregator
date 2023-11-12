@@ -1,5 +1,5 @@
-import "./aside";
-import "../scripts/expand";
+import "../../layouts/aside";
+import "../../scripts/expand";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const bodyEl = document.querySelector("body");

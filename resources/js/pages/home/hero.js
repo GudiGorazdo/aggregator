@@ -1,4 +1,4 @@
-import "../scripts/expand";
+import "../../scripts/expand";
 
 document.querySelectorAll('.hero__btn').forEach(button => {
 		button.addEventListener('click', (e) => {
