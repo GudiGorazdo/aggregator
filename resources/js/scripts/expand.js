@@ -1,8 +1,8 @@
 /**
  * скрипт для блоков, увеличивающих свой размер по событию
  *
- * data-expand-path="value" -- html атрибут кнопки
- * data-expand-target="value" -- html атрибут блока
+ * ${this.attributes.path}="value" -- html атрибут кнопки
+ * ${this.attributes.target}="value" -- html атрибут блока
  * data-expand-transition="0.3" -- плавность анимации
  *
  * так же может работать с элементами у которых задано свойство display: none,
@@ -26,16 +26,22 @@
  */
 
 const expand = {
-	activeClass: 'active',
-	totalHeightAttribute: 'data-expand-total-height',
-	startHeightAttribute: 'data-expand-start-height',
+	classes: {
+		active: 'active',
+	},
+	attributes: {
+		path: 'data-expand-path',
+		target: 'data-expand-target',
+		totalHeight: 'data-expand-total-height',
+		startHeight: 'data-expand-start-height',
+	},
 	itemsPath: null,
 	itemsTarget: null,
 	transition: 0.3,
 
 	init() {
-		this.itemsPath = document.querySelectorAll('[data-expand-path]');
-		this.itemsTarget = document.querySelectorAll('[data-expand-target]');
+		this.itemsPath = document.querySelectorAll(`[${this.attributes.path}]`);
+		this.itemsTarget = document.querySelectorAll(`[${this.attributes.target}]`);
 		this.toggle = this.toggle.bind(this);
 		this.itemsPath.forEach(button => {
 			button.transition = button.dataset.expandTransition ?? this.transition;
@@ -46,31 +52,31 @@ const expand = {
 	toggle(event) {
 		const button = event.target;
 		const path = button.dataset.expandPath;
-		const container = document.querySelector(`[data-expand-target="${path}"]`);
-		const opened = button.classList.contains(this.activeClass);
+		const container = document.querySelector(`[${this.attributes.target}="${path}"]`);
+		const opened = button.classList.contains(this.classes.active);
 		if (opened) this.close(button, container);
 		else this.open(button, container);
 	},
 
 	open(button, container) {
-		document.querySelectorAll(`[data-expand-path="${button.dataset.expandPath}"]`).forEach(item => item.classList.add(this.activeClass));
+		document.querySelectorAll(`[${this.attributes.path}="${button.dataset.expandPath}"]`).forEach(item => item.classList.add(this.classes.active));
 		const startHeight = container.clientHeight;
 		container.style.height = `${startHeight}px`;
-		container.setAttribute(this.startHeightAttribute, startHeight);
+		container.setAttribute(this.attributes.startHeight, startHeight);
 		const totalHeight = container.scrollHeight;
-		container.setAttribute(this.totalHeightAttribute, totalHeight);
-		container.style.transition = `height ${button.transition}s ease-in-out`;
+		container.setAttribute(this.attributes.totalHeight, totalHeight);
+		container.style.transition = `all ${button.transition}s ease-in-out`;
 		setTimeout(() => container.style.height = `${totalHeight}px`, 10);
-		setTimeout(() => container.style.height = 'unset', button.transition * 1000);
+		setTimeout(() => container.style.height = '', button.transition * 1000);
 	},
 
 	close(button, container) {
-		document.querySelectorAll(`[data-expand-path="${button.dataset.expandPath}"]`).forEach(item => item.classList.remove(this.activeClass));
+		document.querySelectorAll(`[${this.attributes.path}="${button.dataset.expandPath}"]`).forEach(item => item.classList.remove(this.classes.active));
 		container.style.height = `${container.dataset.expandTotalHeight}px`;
 		setTimeout(() => container.style.height = `${container.dataset.expandStartHeight}px`, 10);
 		setTimeout(() => {
-			container.removeAttribute(this.startHeightAttribute);
-			container.removeAttribute(this.totalHeightAttribute);
+			container.removeAttribute(this.attributes.startHeight);
+			container.removeAttribute(this.attributes.totalHeight);
 			container.removeAttribute('style');
 		}, button.transition * 1000);
 	},
