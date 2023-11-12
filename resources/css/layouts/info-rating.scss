@@ -1,0 +1,30 @@
+.info-rating {
+  margin-bottom: 2.6rem;
+
+  &__table {
+    width: 100%;
+
+    th,
+    td {
+      padding-top: 1.4rem;
+      padding-bottom: 1.4rem;
+    }
+
+    th {
+      width: 80%;
+    }
+
+    & tr:not(:first-of-type) th,
+    & tr:not(:first-of-type) td {
+      border-top: 1px solid $colorGrey;
+    }
+  }
+
+  &__logo {
+    text-align: left;
+  }
+
+  &__count {
+    margin-right: 0.5rem;
+  }
+}

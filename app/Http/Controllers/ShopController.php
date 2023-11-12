@@ -19,7 +19,7 @@ class ShopController extends Controller
         $shops = Shop::filter()->get();
         $title = TitleService::homePage($request, $shops);
         $cityID = LocationController::getCityID();
-        return view('pages.home', compact('shops', 'title', 'cityID'));
+        return view('pages.home.index', compact('shops', 'title', 'cityID'));
     }
 
     public function show(string $id): View|RedirectResponse
@@ -28,7 +28,7 @@ class ShopController extends Controller
         if (!$shop) return redirect()->route('undefined');
         CookieController::setCookie(CookieConstants::LOCATION, $shop->city_id, CookieController::getYears(1));
 
-        return view('pages.shop', [
+        return view('pages.shop.index', [
             'shop' => $shop,
             'web' => json_decode($shop->web),
             'additionalPhones' => json_decode($shop->additional_phones),
