@@ -1,25 +1,95 @@
 .photos-carousel {
 	max-width: 1000px;
 
+	@media only screen and (max-width: $pointXL) {
+		max-width: 80vw;
+	}
+
+	@media only screen and (max-width: $pointMD) {
+		&.modal-window__container {
+			display: flex !important;
+		}
+
+		max-width: unset;
+		padding: 0;
+		align-items: center;
+		align-content: center;
+	}
+
 	&__close {
 		position: absolute;
 		top: 0;
 		right: -2rem;
+
+		@media only screen and (max-width: $pointMD) {
+			$position: 3rem;
+			top: $position;
+			right: $position;
+			padding: 1.5rem;
+			border-radius: 100%;
+			background-color: $colorLight;
+			z-index: 10;
+
+			&::after,
+			&::before {
+				width: 70%;
+				background-color: $colorMainBackground;
+			}
+		}
 	}
 }
 
 .swiper-button {
-	$position: -5rem;
+	$xlPosition: -5rem;
 
 	&-prev--photos {
-		left: $position;
+		left: $xlPosition;
 	}
 
 	&-next--photos {
-		right: $position;
+		right: $xlPosition;
+	}
+
+	@media only screen and (max-width: $pointMD) {
+		$mdPosition: 1rem;
+
+		&-prev--photos {
+			left: $mdPosition;
+		}
+
+		&-next--photos {
+			right: $mdPosition;
+		}
 	}
 }
 
 .swiper-pagination--photos>.swiper-pagination-bullet-active {
 	background: $colorPrimary;
+}
+
+.swiper-slide--photos {
+	@media only screen and (max-width: $pointMD) {
+		&.swiper-slide {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			align-content: center;
+		}
+
+		img {
+			height: 100vh;
+			margin: auto;
+		}
+	}
+}
+
+.swiper-pagination.swiper-pagination--photos.swiper-pagination-bullets {
+	@media only screen and (max-width: $pointMD) {
+		left: 50%;
+		width: fit-content;
+		padding: 0.5rem;
+		border-radius: 5px;
+		background-color: $colorLight;
+		transform: translateX(-50%);
+	}
 }

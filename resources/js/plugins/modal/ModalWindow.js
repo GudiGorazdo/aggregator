@@ -107,8 +107,7 @@
  * to the element instance of the class, for example:
  *
  * const modalWindow = new ModalWindow(options);
- * modalWindow.addEventListener('eventNameOpen', () => console.log('opened'));
- *
+ * modalWindow.modalEl.addEventListener('eventNameOpen', () => console.log('opened'));
  *
  */
 
@@ -284,8 +283,8 @@ export default class ModalWindow {
     if (!this.modalElContainer) return;
     this.modalElContainer.classList.remove(`${this.classes.animation}`);
     setTimeout(() => {
-      this.modalElContainer.classList.remove(`${this.classes.modal}__${this.animation}`);
       this.modalEl.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
+      this.modalElContainer.classList.remove(`${this.classes.modal}__${this.animation}`);
       this.modalElContainer.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
       this.enableScroll();
       this.isOpen = false;
