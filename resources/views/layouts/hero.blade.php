@@ -16,7 +16,7 @@
             </p>
             <button class="btn btn--more hero__text-expand-btn" data-expand-path="hero-text"></button>
         </div>
-        <a class="btn btn--primary hero__btn" href="#">Отправить заявку всем</a>
+        <button class="btn btn--primary hero__btn">Отправить заявку всем</button>
     </div>
 </section>
 

@@ -1,0 +1,49 @@
+.site-message {
+	width: max-content;
+	max-width: 80%;
+	padding: 2em;
+	padding-bottom: 3rem;
+	background-color: $colorGreyLight;
+
+	@media(min-width: 992px) {
+		max-width: 60%;
+	}
+
+	@media(min-width: 992px) {
+		max-width: 50%;
+	}
+
+	&__close {
+		margin-left: auto;
+		margin-bottom: 1.5rem;
+
+		&::after,
+		&::before {
+			background-color: $colorMainBackground;
+			transition: background 0.3s;
+		}
+
+		&:hover {
+			&::after,
+			&::before {
+				background-color: $colorSecondary;
+			}
+		}
+
+		&:active {
+			&::after,
+			&::before {
+				// background-color: var(--bs-link-hover-color);
+			}
+		}
+	}
+
+	&__text {
+		margin: 0;
+		padding: 0;
+		font-size: 2rem;
+		line-height: 2.4rem;
+		text-align: center;
+		color: #25313a;
+	}
+}

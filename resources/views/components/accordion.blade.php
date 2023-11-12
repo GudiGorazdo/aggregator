@@ -1,7 +1,9 @@
 <div class="accordion{{ isset($modification) ? " accordion--$modification" : '' }}">
     <input id="{{ $id }}"
         class="accordion__checkbox{{ isset($modification) ? " accordion__checkbox--$modification" : '' }}"
-        type="checkbox" />
+        type="checkbox"
+        autocomplete="off"
+    />
     <label for="{{ $id }}"
         class="accordion__header{{ isset($modification) ? " accordion__header--$modification" : '' }}" role="button">
         {{ $title }}

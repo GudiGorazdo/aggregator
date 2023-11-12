@@ -2,6 +2,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Swiper, { Navigation, Pagination } from 'swiper';
+app.hello();
 
 const checkMediaWidth = (e = null) => {
   const previewButton = document.getElementById('preview_count');

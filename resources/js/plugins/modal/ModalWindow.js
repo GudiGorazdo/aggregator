@@ -1,3 +1,89 @@
+/**
+ * INITIALIZATION
+ * document.addEventListener('DOMContentLoaded', () => {
+ * 	 classes: {
+ * 		 message: {
+ * 			 container: 'example',
+ * 			 close: 'example',
+ * 			 title: 'example',
+ * 		   text: 'example',
+ * 	  	}
+ *  	},
+ *   const modal = new ModalWindow({
+ *     isOpen: (modal) => {
+ *       console.log('opened');
+ *     },
+ *     isClose: (modal) => {
+ *       console.log('closed');
+ *     },
+ *   });
+ * });
+ *
+ * USING WITH HTML DATA ATTRIBUTES
+ * Add data-modal-path attribute to some button element:
+ * <button class="open" data-modal-path="anyName">Open Modal</button>
+ *
+ * Add data-modal-target attribute to modal__container element:
+ * <div class="modal-window__container" data-modal-target="anyName">
+ *
+ * FULL EXAMPLE:
+ * Open button:
+ *  <button class="open"
+ *         data-modal-path="example"
+ *         data-modal-animation="fadeInUp"
+ *         data-modal-speed-in="300"
+ *         data-modal-speed-out="300">
+ *  Some Button Text
+ * </button>
+ *
+ * HTML structure for modal window
+ * <div class="modal-window">
+ *   <div class="modal-window__container" data-modal-target="example">
+ *     <button class="modal-window__close">Close</button>
+ *     <div class="modal-window__content">
+ *       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis, asperiores?
+ *     </div>
+ *   </div>
+ * </div>
+ *
+ * if you need one button to work both for opening and closing the window, add the attribute
+ * data-modal-one-button="true"
+ *
+ * Animation
+ * data-modal-path="anyName"
+ * data-modal-animation="fadeInUp"
+ * data-modal-speed-in="300"
+ * data-modal-speed-out="300"
+ *
+ * USING FROM JS
+ *
+ * Create HTML element for modal window
+ * <div class="modal-window"><div>
+ *
+ * The modal window is invoked using methods:
+ *
+ * showMessage(options = {});
+ * options = {
+ *   text: 'example'
+ *   title: 'example',
+ *   animation: 'anyType',
+ *   speed: 0.3s,
+ *   speedOut: 0.3.s,
+ *   classes: {
+ *     container: 'example',
+ *     close: 'example',
+ *     title: 'example',
+ *     text: 'example',
+ *   }
+ * }
+ *
+ * FADE IN EFFECTS
+ * fadeInUp
+ * fadeInDown
+ * fadeInLeft
+ * fadeInRight,
+ */
+
 export default class ModalWindow {
   constructor(options) {
     this.focusElements = [
@@ -19,6 +105,7 @@ export default class ModalWindow {
       message: 'modal-window__message',
       container: 'modal-window__container',
       animation: 'modal-window__animate',
+      close: 'modal-window__close',
       openPostfix: '--open',
       disableScroll: 'modal-disable-scroll',
       fixBlock: 'modal-fix-block',
@@ -26,6 +113,7 @@ export default class ModalWindow {
 
     this.ids = {
       modal: 'modal-window',
+      tmp: 'modal-window-tmp',
     };
 
     let defaultOptions = {
@@ -41,7 +129,8 @@ export default class ModalWindow {
     this.speed = false;
     this.animation = false;
     this.isOpen = false;
-    this.isOpenMessage = false;
+    this.isTmpOpen = false;
+    this.isTmpCreated = false;
     this.modalContainer = false;
     this.previosActiveElement = false;
     this.events();
@@ -50,6 +139,7 @@ export default class ModalWindow {
   events() {
     if (!this.modal) return;
     document.addEventListener("click", function (e) {
+      if (this.isTmpOpen) return;
       const clickedElement = e.target.closest(`[${this.attributes.path}]`);
       if (!clickedElement) return this.checkForClose(e);
       if (clickedElement.dataset.modalOneButton && this.isOpen) return this.close(e);
@@ -57,9 +147,7 @@ export default class ModalWindow {
       let animation = clickedElement.dataset.modalAnimation;
       let speed = clickedElement.dataset.modalSpeedIn;
       let speedOut = clickedElement.dataset.modalSpeedOut;
-      this.animation = animation ?? "fade";
-      this.speed = speed ? parseInt(speed) : 300;
-      this.speedOut = speedOut ? parseInt(speedOut) : 100;
+      this.setAnimadionOptions(animation, speed, speedOut);
       this.modalContainer = document.querySelector(`[${this.attributes.target}="${target}"]`);
       if (this.modalContainer) this.open(e);
     }.bind(this));
@@ -70,18 +158,48 @@ export default class ModalWindow {
     }.bind(this));
   }
 
-  showMessage(message, options = {}) {
-    console.log(message);
-    console.log(options);
-    // this.
+  setAnimadionOptions(animation, speed, speedOut) {
+    this.animation = animation ?? "fade";
+    this.speed = speed ? parseInt(speed) : 300;
+    this.speedOut = speedOut ? parseInt(speedOut) : 100;
   }
 
-  getMessageTemplate(options) {
-    return (
-      `<div class="${this.options.classes.message} modal-window__container">
-        <button class="btn btn--close site-alert__close modal-window__close" data-alert="data-alert"></button>
-        <p id="site-alert-message" class="site-alert__message"></p>
-        </div>`);
+  showMessage(options = {}) {
+    this.setAnimadionOptions(options.animation, options.speed, options.speedOut);
+    const tmp = this.getTmpElement();
+    tmp.innerHTML = this.getMessagetmplate(options);
+    tmp.classList.add(this.classes.container);
+    this.options.classes.message.container && tmp.classList.add(this.options.classes.message.container);
+    options.classes?.container && tmp.classList.add(options.classes?.container);
+    this.modal.append(tmp);
+    this.modalContainer = tmp;
+    this.isTmpOpen = true;
+    this.isTmpCreated = true;
+    this.open();
+  }
+
+  getMessagetmplate(options) {
+    return (`
+      <button class="${this.createClassString(this.options.classes.message.close, options.classes?.close)}"></button>
+      ${options.title ? `<h2 class="${this.createClassString(this.options.classes.message.title, options.classes?.title)}">${options.title ?? ''}</h2>` : ''}
+      ${options.text ? `<p class="${this.createClassString(this.options.classes.message.text, options.classes?.text)}">${options.text ?? ''}</p>` : ''}
+    `);
+  }
+
+  getTmpElement() {
+    const tmp = document.createElement('div');
+    tmp.setAttribute('id', this.ids.tmp);
+    return tmp;
+  }
+
+  removetmpElement() {
+    const tmp = document.getElementById(this.ids.tmp);
+    tmp.parentElement.removeChild(tmp);
+    this.isTmpCreated = false;
+  }
+
+  createClassString(baseClass, ...additionalClasses) {
+    return [baseClass, ...additionalClasses].filter(Boolean).join(' ').trim();
   }
 
   checkForClose(e) {
@@ -115,40 +233,40 @@ export default class ModalWindow {
     this.focusTrap();
 
     setTimeout(() => {
-      e && this.options.isOpen(this, e);
+      this.options.isOpen(this, e);
       this.modalContainer.classList.add(`${this.classes.animation}`);
+      this.isTmpOpen = false;
     }, this.speed);
   }
 
   close(e = null) {
-    if (this.modalContainer) {
-      this.modalContainer.classList.remove(`${this.classes.animation}`);
-      setTimeout(() => {
-        this.modalContainer.classList.remove(`${this.classes.modal}__${this.animation}`);
-        this.modal.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
-        this.modalContainer.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
-        this.enableScroll();
-        this.isOpen = false;
-        this.focusTrap();
-        e && this.options.isClose(this, e);
-      }, this.speedOut);
-    }
+    if (!this.modalContainer) return
+    this.modalContainer.classList.remove(`${this.classes.animation}`);
+    setTimeout(() => {
+      this.modalContainer.classList.remove(`${this.classes.modal}__${this.animation}`);
+      this.modal.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
+      this.modalContainer.classList.remove(`${this.classes.modal}${this.classes.openPostfix}`);
+      this.enableScroll();
+      this.isOpen = false;
+      this.focusTrap();
+      this.options.isClose(this, e);
+      this.isTmpCreated && this.removetmpElement();
+    }, this.speedOut);
   }
 
   focusCatch(e) {
-    if (this.isOpen) {
-      const focusable = this.modalContainer.querySelectorAll(this.focusElements);
-      const focusArray = Array.prototype.slice.call(focusable);
-      const focusedIndex = focusArray.indexOf(document.activeElement);
+    if (!this.isOpen) return;
+    const focusable = this.modalContainer.querySelectorAll(this.focusElements);
+    const focusArray = Array.prototype.slice.call(focusable);
+    const focusedIndex = focusArray.indexOf(document.activeElement);
 
-      if (e.shiftKey && focusedIndex === 0) {
-        focusArray[focusArray.length - 1].focus();
-        e.preventDefault();
-      }
-      if (!e.shiftKey && focusedIndex === (focusArray.length - 1)) {
-        focusArray[0].focus();
-        e.preventDefault();
-      }
+    if (e.shiftKey && focusedIndex === 0) {
+      focusArray[focusArray.length - 1].focus();
+      e.preventDefault();
+    }
+    if (!e.shiftKey && focusedIndex === (focusArray.length - 1)) {
+      focusArray[0].focus();
+      e.preventDefault();
     }
   }
 
