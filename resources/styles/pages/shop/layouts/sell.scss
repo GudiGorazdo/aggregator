@@ -22,7 +22,7 @@
     margin-bottom: 2rem;
     overflow: hidden;
 
-    & li:not(:last-child) {
+    & > li:not(:last-child) {
       margin-bottom: 1rem;
     }
 
@@ -99,6 +99,7 @@
     position: absolute;
     padding-bottom: 4rem;
     background-color: $colorWhite;
+    row-gap: 2rem;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
