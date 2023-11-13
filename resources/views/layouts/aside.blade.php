@@ -1,5 +1,5 @@
 <aside class="aside">
-    <div class="aside--collapsed">
+    <div class="aside__collapsed">
         <button class="btn aside__btn filter-toggle-btn">
             <x-icon-filter-icon />
         </button>
@@ -23,7 +23,7 @@
         <button class="btn aside__btn"><x-icon-calculator-icon width="30" height="30"/></button>
     </div>
 
-    <div class="aside--expanded">
+    <div class="aside__expanded">
         <div class="flex-btw">
             <button class="btn aside__collapse-btn">
                 <span> Фильтр </span>
