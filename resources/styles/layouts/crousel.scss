@@ -58,23 +58,18 @@
 
   &__close {
     position: absolute;
-    top: 0;
-    right: -2rem;
+    $position: 3rem;
+    top: $position;
+    right: $position;
+    padding: 1.5rem;
+    border-radius: 100%;
+    background-color: $colorLight;
+    z-index: 10;
 
-    @media only screen and (max-width: $pointMD) {
-      $position: 3rem;
-      top: $position;
-      right: $position;
-      padding: 1.5rem;
-      border-radius: 100%;
-      background-color: $colorLight;
-      z-index: 10;
-
-      &::after,
-      &::before {
-        width: 70%;
-        background-color: $colorMainBackground;
-      }
+    &::after,
+    &::before {
+      width: 70%;
+      background-color: $colorMainBackground;
     }
   }
 

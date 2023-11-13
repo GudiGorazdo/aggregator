@@ -33,10 +33,7 @@
     @include('layouts.similar-companies', ['similars' => $similars])
     @include('layouts.similar-categories-and-location', ['cityID' => $shop->city_id])
 @section('modal')
-    <div id="carousel-photos" class="carousel-photos modal-window__container" data-modal-target="carousel_photos">
-        <x-close-btn id="exit_fullscreen_photos" class="carousel-photos__close modal-window__close" />
-        @include('layouts.carousel.modal', ['photos' => $photos])
-    </div>
+    @include('layouts.carousel.modal', ['photos' => $photos, 'modalTarget' => 'carousel_photos'])
 @endsection
 @endsection
 
