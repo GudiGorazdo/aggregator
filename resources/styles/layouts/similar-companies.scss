@@ -1,5 +1,3 @@
-@import "../layouts/similar-compny-card.scss";
-
 .similar-companies {
   position: relative;
   padding-block: 3.3rem;
@@ -35,8 +33,8 @@
     }
   }
 
-  &-forwards,
-  &-previous {
+  &-next,
+  &-prev {
     @media only screen and (max-width: $pointMD) {
       position: relative;
       top: unset;
@@ -45,7 +43,7 @@
     }
   }
 
-  &-forwards {
+  &-next {
     right: -7%;
 
     @media only screen and (max-width: $pointMD) {
@@ -53,7 +51,7 @@
     }
   }
 
-  &-previous {
+  &-prev {
     left: -7%;
 
     @media only screen and (max-width: $pointMD) {

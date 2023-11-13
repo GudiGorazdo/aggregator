@@ -84,6 +84,7 @@ const fullscreenController = {
   modal: document.getElementById('carousel-photos'),
   enters: document.querySelectorAll('[data-modal-path="carousel_photos"]'),
   exit: document.getElementById('exit_fullscreen_photos'),
+  breakpoint: 900,
 
   init() {
     this.enters.forEach(button => button.addEventListener('click', this.enterFullscreen.bind(this)));
@@ -91,7 +92,7 @@ const fullscreenController = {
   },
 
   enterFullscreen() {
-    if (window.innerWidth < 900) {
+    if (window.innerWidth < this.breakpoint) {
       if (this.modal.requestFullscreen) {
         this.modal.requestFullscreen();
       } else if (this.modal.webkitRequestFullscreen) {

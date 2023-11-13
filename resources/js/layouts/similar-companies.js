@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
     modules: [Navigation],
     freeMode: true,
     navigation: {
-      nextEl: ".similar-companies-forwards",
-      prevEl: ".similar-companies-previous",
+      nextEl: ".similar-companies-next",
+      prevEl: ".similar-companies-prev",
     },
     spaceBetween: 10,
     slidesPerView: "auto",

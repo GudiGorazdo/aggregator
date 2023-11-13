@@ -1,5 +1,3 @@
-@import "../../../mixins.scss";
-
 .filter {
   &__container {
     position: relative;
@@ -166,7 +164,7 @@
     }
 
     @media only screen and (max-width: $pointMD) {
-      max-height: 82vh;
+      max-height: 76vh;
     }
   }
 }
