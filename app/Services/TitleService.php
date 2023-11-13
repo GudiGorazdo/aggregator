@@ -132,15 +132,14 @@ class TitleService
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             if ($justTime) return "Работает до " . $shopClose;
-            \App\Helpers::log($timeBeforeClose);
             return 'До закрытия магазина осталось '
                 . $timeBeforeClose[0]
                 . ' '
-                . Helpers::getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
+                . getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
                 . ' '
                 . $timeBeforeClose[1]
                 . ' '
-                . Helpers::getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
+                . getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
             ;
          } else if (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
             return 'Магазин открыт круглосуточно';

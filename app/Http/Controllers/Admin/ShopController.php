@@ -72,13 +72,13 @@ class ShopController extends Controller
         $categories = Category::with('subCategories')->get()->toArray();
         foreach($categories as $ind => $category) {
             $categoryKey = array_search((int)$category['id'], array_column($data['prices'], 'category_id'));
-            if (!$categoryKey && $categoryKey !== 0) continue; 
+            if (!$categoryKey && $categoryKey !== 0) continue;
             foreach($category['sub_categories'] as $index => $subCategory) {
                 $subCategoryKey = null;
                 if (isset($data['prices'][$categoryKey]['data'])) {
                     $subCategoryKey = array_search((int)$subCategory['id'], array_column($data['prices'][$categoryKey]['data'], 'sub_category_id'));
                 }
-                if (!$subCategoryKey && $subCategoryKey !== 0) continue; 
+                if (!$subCategoryKey && $subCategoryKey !== 0) continue;
                 $categories[$ind]['sub_categories'][$index]['active'] = true;
                 $categories[$ind]['sub_categories'][$index]['price'] = $data['prices'][$categoryKey]['data'][$subCategoryKey]['price'];
             }
@@ -156,7 +156,7 @@ class ShopController extends Controller
         $this->syncCategories((array)$data['sub_categories'], $shop);
 
         //return response(['ok' => true]);
-        \App\Helpers::log($data, __DIR__);
+        // \App\Helpers::log($data, __DIR__);
         $photos = $this->syncPhotos(
             $request,
             $imageService,
@@ -202,7 +202,7 @@ class ShopController extends Controller
                 ->where('shop_id', $shop_id)
                 ->where('day_of_week', (int)$day)
             ;
-            if ($rec->get()->first()) { 
+            if ($rec->get()->first()) {
                 $rec->update([
                     'is_open' => (int)$mode->is_open,
                     'open_time' => $mode->open,
@@ -220,15 +220,15 @@ class ShopController extends Controller
                 ->where('shop_id', $shop_id)
                 ->where('service_id', (int)$service->id)
             ;
-            if ($rec->get()->first()) { 
-                $rec->update(['rating' => number_format($service->rating, 2)]); 
+            if ($rec->get()->first()) {
+                $rec->update(['rating' => number_format($service->rating, 2)]);
             }
-        } 
+        }
     }
 
     public function photosPreload()
     {
-        \App\Helpers::log('asdkfasdf', __DIR__);
+        // \App\Helpers::log('asdkfasdf', __DIR__);
     }
 
     /**

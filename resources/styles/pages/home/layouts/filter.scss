@@ -1,7 +1,7 @@
 .filter {
   &__container {
     position: relative;
-    padding-left: 10rem;
+    padding-left: 11rem;
     max-width: 100%;
     background-color: $colorGreyLight !important;
 
@@ -118,7 +118,7 @@
 .search--filter {
   position: absolute;
   top: 0;
-  left: 270px;
+  left: 280px;
   height: 100%;
   display: none;
   z-index: 1;
@@ -129,11 +129,11 @@
   }
 
   @media only screen and (max-width: $pointXL) {
-    left: 259px;
+    left: 269px;
   }
 
   @media only screen and (max-width: $pointLG) {
-    left: 249px;
+    left: 259px;
   }
 
   @media only screen and (max-width: $pointMD) {

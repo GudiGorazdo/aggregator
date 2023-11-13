@@ -20,7 +20,7 @@
                         data-tab-path="tab-feedback-{{ $service->id }}" data-tab-group="tab-feedback">
                         <img src="{{ asset("resources-assets/svg/$service->logo") }}" alt="{{ $service->name }}" />
                         <span class="btn feedback__number">{{ $service->pivot->rating_count }}
-                            {{ \App\Helpers::getNumEnding((int) $service->rating_count, ['оценка', 'оценки', 'оценок']) }}</span>
+                            {{ getNumEnding((int) $service->rating_count, ['оценка', 'оценки', 'оценок']) }}</span>
                         <x-display-rating rating="{{ $service->pivot->rating }}" disabled={{ true }}
                             classMod="feedback-service" />
                     </label>
@@ -48,7 +48,7 @@
                             <x-display-rating rating="{{ $service->pivot->rating }}" disabled={{ true }}
                                 classMod="feedback-service" />
                             <span class="btn feedback__number">{{ $service->pivot->rating_count }}
-                                {{ \App\Helpers::getNumEnding((int) $service->rating_count, ['оценка', 'оценки', 'оценок']) }}</span>
+                                {{ getNumEnding((int) $service->rating_count, ['оценка', 'оценки', 'оценок']) }}</span>
                         </div>
                     </x-slot>
                     @include('layouts.comments-list', [
