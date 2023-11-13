@@ -67,7 +67,6 @@
   }
 
   .regions-list {
-
     a:link,
     a:visited {
       font-size: 1.5rem;
@@ -149,7 +148,7 @@
     }
   }
 
-  &__item--menu {
+  &--menu &__item {
     width: 50%;
 
     @media only screen and (max-width: $pointMD) {

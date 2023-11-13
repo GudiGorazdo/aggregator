@@ -1,5 +1,5 @@
 .categories-list {
-  &__into--form {
+  &--form &__into {
     margin-left: auto;
 
     svg {
@@ -8,7 +8,7 @@
     }
   }
 
-  &__brands--form {
+  &--form &__brands {
     position: absolute;
     top: 0;
     left: 0;
@@ -28,12 +28,12 @@
     }
   }
 
-  &__breadcrumbs--form {
+  &--form &__breadcrumbs {
     padding: 1.3rem 1rem;
     border-bottom: 1px solid $colorGrey;
   }
 
-  &__back--form {
+  &--form &__back {
     position: relative;
     padding: 0.5rem 0rem;
     padding-left: 3rem;

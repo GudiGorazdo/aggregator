@@ -1,7 +1,7 @@
 const sell = {
   els: null,
   classes: {
-    el: 'categories-list__item--sell',
+    el: '.categories-list--sell > .categories-list__item',
     open: 'open',
   },
   attributes: {
@@ -10,7 +10,7 @@ const sell = {
   },
 
   init() {
-    this.els = document.querySelectorAll(`.${this.classes.el}`);
+    this.els = document.querySelectorAll(`${this.classes.el}`);
     this.els.forEach(el => {
       if (!el.parentElement.classList.contains(this.classes.open)) {
         el.parentElement.classList.add(this.classes.open);

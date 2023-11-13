@@ -122,7 +122,8 @@
     }
   }
 
-  &__item--sell {
+  &--sell &__item,
+  &--point &__item {
     cursor: pointer;
   }
 }

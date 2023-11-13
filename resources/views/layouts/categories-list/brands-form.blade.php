@@ -2,7 +2,7 @@
 
 <ul class="categories-list{{ getModifiedClass('categories-list', [$modifier, 'brand']) }}">
     @foreach ($brands as $brand)
-    <li class="categories-list__item{{ getModifiedClass('categories-list__item', [$modifier, 'brand']) }}">
+    <li class="categories-list__item">
         <x-checkbox-square label="{{ $brand->name }}" labelPos="back">
             {{-- <x-icon-pc-icon fill="transparent"/> --}}
         </x-checkbox-square>

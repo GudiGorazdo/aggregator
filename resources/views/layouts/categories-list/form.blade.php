@@ -4,19 +4,19 @@
     class="categories-list{{ getModifiedClass('categories-list', [$modifier, 'form']) }}">
     @foreach ($categories as $category)
         <li
-            class="categories-list__item{{ getModifiedClass('categories-list__item', [$modifier, 'form']) }}">
+            class="categories-list__item">
             <x-checkbox-square label="{{ $category->name }}" labelPos="back">
                 <x-icon-pc-icon fill="transparent" />
             </x-checkbox-square>
             <button
-                class="btn categories-list__into{{ getModifiedClass('categories-list__into', [$modifier, 'form']) }}"
+                class="btn categories-list__into"
                 data-subcategory-path="{{ $category->id }}">
                 <x-icon-chevron-down />
             </button>
-            <div class="categories-list__brands{{ getModifiedClass('categories-list__brands', [$modifier, 'form']) }}"
+            <div class="categories-list__brands"
                 data-subcategory-target="{{ $category->id }}">
-                <div class="categories-list__breadcrumbs{{ getModifiedClass('categories-list__breadcrumbs', [$modifier, 'form']) }}">
-                    <button class="btn categories-list__back{{ getModifiedClass('categories-list__back', [$modifier, 'form']) }}"
+                <div class="categories-list__breadcrumbs">
+                    <button class="btn categories-list__back"
                         data-subcategory-close="{{ $category->id }}">
                         {{ $category->name }} ({{ count($category->subCategories) }})
                     </button>
