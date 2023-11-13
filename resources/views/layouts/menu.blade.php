@@ -14,10 +14,10 @@
             </ul>
         </div>
 
-        <section class="search search--menu">
-            <div class="search__form">
+        <section class="search-category search-category--menu">
+            <div class="search-category__form">
                 <form onsubmit="event.preventDefault();" role="search">
-                    <input id="search" type="search" placeholder="Поиск" autofocus required />
+                    <input id="search-category" type="search" placeholder="Поиск" autofocus required />
                     <button type="submit">
                         <x-icon-search-icon />
                     </button>
