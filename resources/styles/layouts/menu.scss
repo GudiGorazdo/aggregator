@@ -152,6 +152,10 @@
       display: block;
     }
   }
+
+  &__action {
+    display: none;
+  }
 }
 
 .menu-disable-scroll {

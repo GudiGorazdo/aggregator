@@ -10,11 +10,11 @@
     @include('layouts.categories-list-form', [
         'categories' => \App\Models\Category::with('subCategories')->get(),
     ])
-    <div class="search__mobile-btns">
-        <button class="btn search__mobile-btn search__mobile-btn--selection">
+    <div class="search-category__action">
+        <button class="btn search-category__btn search-category__btn--selection">
             <span>Выбрано (6)</span>
         </button>
-        <button class="btn search__mobile-btn search__mobile-btn--clear">
+        <button class="btn search-category__btn search-category__btn--clear">
             <img src="img/icon/trash.svg" alt="Очистить" />
         </button>
     </div>
