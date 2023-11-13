@@ -14,8 +14,6 @@ use \App\Models\Category;
 
 class ShopController extends Controller
 {
-    use \App\Http\Controllers\Traits\ShopTrait;
-
     public const PHOTOS_PATH = 'app/public/uploads/images/shops/';
 
     /**
