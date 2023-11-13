@@ -2,7 +2,7 @@ import "../../layouts/carousel";
 import "../../layouts/similar-companies";
 import "../../layouts/similar-categories";
 import "../../layouts/similar-locations";
-import "../../scripts/tabs";
+import "../../components/tabs";
 import "../../scripts/expand";
 import "./map";
 import "./sell";

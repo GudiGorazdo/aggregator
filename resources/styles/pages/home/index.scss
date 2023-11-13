@@ -6,3 +6,9 @@
 @import "./layouts/shop-list.scss";
 @import "./layouts/shop-card.scss";
 @import "./layouts/mobile-nav.scss";
+
+.footer {
+  @media only screen and (max-width: $pointMD) {
+    padding-bottom: 15.8rem;
+  }
+}

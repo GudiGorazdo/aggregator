@@ -29,7 +29,7 @@
         </div>
         <div class="feedback__panels">
             @foreach ($shop->services as $service)
-                <div class="{{ $service->id == 1 ? 'open' : '' }}"
+                <div class="feedback__tab{{ $service->id == 1 ? ' open' : '' }}"
                     data-tab-target="tab-feedback-{{ $service->id }}" data-tab-group="tab-feedback">
                     @include('layouts.comments-list', [
                         'service' => $service,

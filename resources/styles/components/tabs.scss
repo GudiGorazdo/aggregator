@@ -1,7 +1,6 @@
 @import "../mixins.scss";
 
 [data-tab-target] {
-  position: absolute;
   max-width: 100%;
   @include hidden;
 
