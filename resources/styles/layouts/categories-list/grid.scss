@@ -1,0 +1,26 @@
+.categories-list {
+  &--grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem 6rem;
+  }
+
+  &__item--grid {
+    display: flex;
+    align-items: center;
+  }
+
+  &__info--grid {
+    font-weight: 600;
+    line-height: 2rem;
+  }
+
+  &__brand--grid {
+    font-size: 1.7rem;
+    pointer-events: none;
+  }
+
+  &__price--grid {
+    font-size: 1.5rem;
+  }
+}

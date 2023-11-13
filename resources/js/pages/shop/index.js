@@ -5,5 +5,5 @@ import "../../layouts/similar-locations";
 import "../../scripts/tabs";
 import "../../scripts/expand";
 import "./map";
-import "./brandsList";
+import "./sell";
 import "./feedback";

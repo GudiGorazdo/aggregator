@@ -1,3 +1,5 @@
+@php !isset($modifier) ? $modifier = null : null; @endphp
+
 <ul class="categories-list{{ getModifiedClass('categories-list', [$modifier, 'brand']) }}">
     @foreach ($brands as $brand)
     <li class="categories-list__item{{ getModifiedClass('categories-list__item', [$modifier, 'brand']) }}">

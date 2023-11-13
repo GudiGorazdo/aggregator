@@ -40,7 +40,7 @@
         </div>
         <div class="feedback__list">
             @foreach ($shop->services as $service)
-                <x-accordion id="feedback-item-{{ $service->id }}" modification="feedback">
+                <x-accordion id="feedback-item-{{ $service->id }}" modifier="feedback">
                     <x-slot name="title">
                         <img class="feedback__logo" src="{{ asset("resources-assets/svg/$service->logo") }}"
                             alt="{{ $service->name }}" />

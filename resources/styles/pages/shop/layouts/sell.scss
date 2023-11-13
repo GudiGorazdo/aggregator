@@ -37,7 +37,7 @@
     &__breadcrumbs {
       position: absolute;
       margin-top: 0.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 0.5rem;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -84,5 +84,44 @@
 
   &__more {
     margin-left: 2rem;
+  }
+}
+
+.accordion {
+  &--sell {
+    background-color: $colorWhite;
+  }
+}
+
+.categories-list {
+  &--sell,
+  &--point {
+    position: absolute;
+    padding-bottom: 4rem;
+    background-color: $colorWhite;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-bottom: 3rem;
+      gap: 1.8rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media only screen and (max-width: $pointS) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    &.open {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+  }
+
+  &__item--sell {
+    cursor: pointer;
   }
 }

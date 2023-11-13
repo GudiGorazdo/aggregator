@@ -4,7 +4,7 @@
         <ul class="sell-list" data-expand-target="shop-categories">
             @foreach ($categories as $category)
                 <li>
-                    <x-accordion id="sell-item-{{ $category->id }}" modification="sell">
+                    <x-accordion id="sell-item-{{ $category->id }}" modifier="sell">
                         <x-slot name="title">
                             <span class="sell-list__title">{{ $category->name }}</span>
                             @if ($prices[$category->id]['max'])
@@ -13,12 +13,11 @@
                                 </span>
                             @endif
                         </x-slot>
-                        @include('layouts.brands-list', [
+                        @include('layouts.categories-list.brands-default', [
                             'subCategories' => $category->subCategories,
                             'categoryID' => $category->id,
                             'prices' => $prices,
-                            'modification' => 'sell',
-                            'classNameUl' => 'open',
+                            'modifier' => 'sell',
                             'attributes' => 'data-path=sell-item-' . $category->id,
                         ])
                         <div class="sell-list__breadcrumbs">
@@ -32,9 +31,9 @@
                                 $rarr->push((object) ['name' => "Пункт_$i"]);
                             }
                         @endphp
-                        @include('layouts.brands-list', [
+                        @include('layouts.categories-list.brands-default', [
                             'subCategories' => $rarr,
-                            'modification' => 'point',
+                            'modifier' => 'point',
                             'attributes' => 'data-target=sell-item-' . $category->id,
                         ])
                     </x-accordion>
