@@ -4,7 +4,7 @@
             <h2 class="menu__title mb-2">Категории</h2>
             @include('layouts.categories-list.default', [
                 'categories' => $categories,
-                'modifier' => 'menu',
+                'modifier' => ['menu', 'desktop'],
             ])
         </div>
         @include('layouts.search.categories', [

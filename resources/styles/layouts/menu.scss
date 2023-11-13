@@ -133,14 +133,13 @@
     }
   }
 
-  &__action--menu.search__action--categories {
+  &--menu &__action {
     display: none;
   }
 }
 
 .categories-list {
   &--menu {
-    flex-wrap: wrap;
     height: 53.5rem;
 
     @media only screen and (max-width: $pointMD) {
@@ -149,11 +148,21 @@
   }
 
   &--menu &__item {
-    width: 50%;
-
     @media only screen and (max-width: $pointMD) {
       padding-bottom: 0;
     }
+  }
+
+  &--menu.categories-list--desktop {
+    flex-wrap: wrap;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-inline: 2rem;
+    }
+  }
+
+  &--menu.categories-list--desktop &__item {
+    width: 50%;
   }
 }
 
