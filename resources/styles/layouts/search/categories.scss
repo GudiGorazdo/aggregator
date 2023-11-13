@@ -1,0 +1,53 @@
+.search {
+  &--categories {
+    width: 44rem;
+    position: relative;
+    background: $colorWhite;
+    box-shadow: 0 5px 50px $colorBlackOpacity;
+  }
+
+  &__form--categories {
+    width: 100%;
+    background: $colorWhite;
+    border-bottom: 1px solid $colorGrey;
+  }
+
+  &__action--categories {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    z-index: 3;
+  }
+
+  &__btn--categories {
+    width: 45%;
+    padding: 1.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $colorMainBackground;
+  }
+
+  &__btn--categories.search__btn--selection span {
+    position: relative;
+    padding-left: 2.8rem;
+  }
+
+  &__btn--categories.search__btn--selection span::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    width: 2rem;
+    height: 2rem;
+    background-image: url('/resources/assets/svg/tick-square-icon.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  &__btn--categories.search__btn--clear {
+    background-color: $colorSecondaryBackground;
+  }
+}
+

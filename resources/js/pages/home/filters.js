@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
   const aside = document.querySelector(".aside");
   const filterWrapper = document.querySelector(".filter__wrapper");
   const filterBtns = document.querySelectorAll(".filter-toggle-btn");
-  const categoriesList = document.getElementById("filter-category");
+  const categoriesList = document.querySelector(".search--filter");
   filterBtns.forEach((button) => {
     button.addEventListener("click", () => {
       filterWrapper.classList.toggle("active");

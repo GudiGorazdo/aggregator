@@ -1,5 +1,6 @@
-@import "./categories-list.scss";
-@import "./search-category.scss";
+@import "./categories-list/default.scss";
+@import "./search/default.scss";
+@import "./search/categories.scss";
 
 .menu {
   height: 100vh;
@@ -45,18 +46,6 @@
     width: 50%;
     height: 100%;
 
-    & .categories-list {
-      flex-wrap: wrap;
-      height: 53.5rem;
-    }
-
-    & li {
-      width: 50%;
-    }
-
-    & li:nth-child(10n) {
-      margin-top: 0;
-    }
 
     @media only screen and (max-width: $pointMD) {
       display: none;
@@ -134,29 +123,41 @@
   }
 }
 
-.search-category {
-  &--menu.search-category {
+.search {
+  &--menu.search--categories {
     width: 100%;
     margin: 0;
     display: none;
-
-    & .categories-list {
-      padding-inline: 2rem;
-    }
-
-    & .categories-list>li:last-child {
-      padding-bottom: 0;
-    }
 
     @media only screen and (max-width: $pointMD) {
       display: block;
     }
   }
 
-  &__action {
+  &__action--menu.search__action--categories {
     display: none;
   }
 }
+
+.categories-list {
+  &--menu {
+    flex-wrap: wrap;
+    height: 53.5rem;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-inline: 2rem;
+    }
+  }
+
+  &__item--menu {
+    width: 50%;
+
+    @media only screen and (max-width: $pointMD) {
+      padding-bottom: 0;
+    }
+  }
+}
+
 
 .menu-disable-scroll {
   left: 0;

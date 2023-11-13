@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const categoryList = document.getElementById("filter-category");
+  const categoryList = document.querySelector(".search--filter");
   const toggleCategoryListBTN = document.getElementById("toggle-category");
   toggleCategoryListBTN.addEventListener("click", () => {
     if (categoryList.classList.contains("active")) {

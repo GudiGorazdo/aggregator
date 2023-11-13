@@ -1,9 +1,10 @@
+@import "../../../mixins.scss";
+
 .filter {
   &__container {
     position: relative;
     padding-left: 10rem;
     max-width: 100%;
-    // display: flex;
     background-color: $colorGreyLight !important;
 
     @media only screen and (max-width: $pointMD) {
@@ -12,9 +13,7 @@
   }
 
   &__wrapper {
-    // padding-bottom: 10rem;
     display: flex;
-    // overflow-y: hidden;
 
     &.active>* {
       transform: translateX(170px);
@@ -22,20 +21,10 @@
   }
 
   &__map {
-    // width: 50%;
-    // max-width: 50%;
-    // width: 500px;
-    // flex-basis: 50%;
     flex-grow: 1;
-    // flex-shrink: 1;
     margin-left: 10px;
     position: relative;
     transition: all 0.5s;
-
-    // @media only screen and (max-width: $pointXL) {
-    //   flex-grow: 0;
-    //   flex-shrink: 1;
-    // }
 
     @media only screen and (max-width: $pointMD) {
       position: absolute;
@@ -128,18 +117,18 @@
   }
 }
 
-.search--filter .categories-list {
-  @media only screen and (max-width: $pointMD) {
-    padding: 2rem;
-  }
-}
-
-#filter-category {
+.search--filter {
   position: absolute;
   top: 0;
   left: 270px;
   height: 100%;
+  display: none;
   z-index: 1;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+  }
 
   @media only screen and (max-width: $pointXL) {
     left: 259px;
@@ -154,5 +143,30 @@
     left: 0;
     width: 100%;
     z-index: 2000;
+  }
+}
+
+.categories-list {
+  &--filter {
+    @media only screen and (max-width: $pointMD) {
+      padding: 2rem;
+    }
+  }
+
+  &--filter.categories-list--brand {
+    max-height: 594px;
+    overflow-y: auto;
+
+    @media only screen and (max-width: $pointXL) {
+      max-height: 537px;
+    }
+
+    @media only screen and (max-width: $pointLG) {
+      max-height: 515px;
+    }
+
+    @media only screen and (max-width: $pointMD) {
+      max-height: 82vh;
+    }
   }
 }

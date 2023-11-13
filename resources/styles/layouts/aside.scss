@@ -1,16 +1,15 @@
-@import "../layouts/categories-list-form.scss";
+@import "../layouts/categories-list/form.scss";
 @import "../components/display-rating.scss";
 
 .aside {
   position: absolute;
   top: 0;
   left: 0;
-  // width: 10rem;
-  // max-height: 60rem;732px
   height: 100%;
   padding: 2.4rem;
   margin-right: 1rem;
   background: $color_12;
+  transition: width 0.3s ease-in-out;
 
   @media only screen and (max-width: $pointMD) {
     position: fixed;
@@ -27,6 +26,7 @@
       display: block;
     }
   }
+
   .active & {
     width: 26rem;
     max-height: 80rem;
@@ -38,7 +38,6 @@
   }
 
   .active &--expanded {
-    // position: absolute;
     display: block;
 
     @media only screen and (max-width: $pointMD) {
