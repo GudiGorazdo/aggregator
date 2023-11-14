@@ -152,19 +152,19 @@
   }
 
   &--filter.categories-list--brand {
-    max-height: 594px;
+    height: 594px;
     overflow-y: auto;
 
     @media only screen and (max-width: $pointXL) {
-      max-height: 537px;
+      height: 537px;
     }
 
     @media only screen and (max-width: $pointLG) {
-      max-height: 515px;
+      height: 515px;
     }
 
     @media only screen and (max-width: $pointMD) {
-      max-height: 76vh;
+      height: 76vh;
     }
   }
 }

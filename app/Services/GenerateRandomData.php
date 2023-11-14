@@ -431,8 +431,8 @@ class GenerateRandomData
         $shops = \App\Models\Shop::all()->shuffle();
         $categories = \App\Models\Category::all()->shuffle();
 
-        for ($i = 0; $i < rand(5, 10); $i++) {
-            foreach ($categories as $category) {
+        foreach ($categories as $category) {
+            for ($i = 0; $i < rand(10, 20); $i++) {
                 self::generateSubCategory($category->id, $i);
             }
             $categories->shuffle();

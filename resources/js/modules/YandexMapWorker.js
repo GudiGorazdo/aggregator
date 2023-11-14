@@ -31,9 +31,9 @@ export default class YandexMapWorker {
     };
   }
 
-  addMarkCollection(collection) {
-    this.markCollection = collection;
-  }
+  // addMarkCollection(collection) {
+  //   this.markCollection = collection;
+  // }
 
   getMapCenter() {
     let sumLat = 0;
