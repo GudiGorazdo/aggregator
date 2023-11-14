@@ -1,5 +1,5 @@
-import "../../layouts/aside";
-import "../../scripts/expand";
+import "../../../layouts/aside";
+import "../../../scripts/expand";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const bodyEl = document.querySelector("body");
@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     } else {
       filterCollapseBtn.addEventListener("click", () => {
         if (filterWrapper.dataset.width == "true") {
-          console.log("отменяю");
           filterWrapper.style.width = "auto";
           filterWrapper.dataset.width = "false";
         }

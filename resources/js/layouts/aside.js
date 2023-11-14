@@ -1,16 +1,19 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const categoryList = document.querySelector(".search--filter");
-  const toggleCategoryListBTN = document.getElementById("toggle-category");
-  toggleCategoryListBTN.addEventListener("click", () => {
-    if (categoryList.classList.contains("active")) {
-      categoryList.classList.remove("active");
-    } else {
-      categoryList.classList.add("active");
-    }
-    if (toggleCategoryListBTN.classList.contains("active")) {
-      toggleCategoryListBTN.classList.remove("active");
-    } else {
-      toggleCategoryListBTN.classList.add("active");
-    }
-  });
-});
+const categoryUI = {
+  classes: { active: 'active' },
+  categoryList: document.querySelector(".search--filter"),
+  toggleCategoryListBtn: document.getElementById("toggle-category"),
+  actionButtons: document.querySelectorAll('.search--filter  .search__btn'),
+
+  init() {
+    [this.toggleCategoryListBtn, ...this.actionButtons].forEach(button => {
+      button.addEventListener("click", () => {
+        this.toggleActive(this.categoryList);
+        this.toggleActive(this.toggleCategoryListBtn);
+      });
+    });
+  },
+
+  toggleActive: function (element) {
+    element.classList.toggle(this.classes.active);
+  },
+}.init();

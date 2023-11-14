@@ -1,5 +1,12 @@
 <label class="checkbox-square">
-    <input class="checkbox-square__input" type="checkbox" autocomplete="off" />
+    <input
+        class="checkbox-square__input"
+        type="checkbox"
+        value="{{ $value }}"
+        {{ isset($name) ? 'name=' . $name : '' }}
+        {{ $inputAttributes ?? '' }}
+        autocomplete="{{ $autocomplete ?? 'off' }}"
+    />
     @if (isset($labelPos) && $labelPos == 'front')
         {{ $label }}
     @endif

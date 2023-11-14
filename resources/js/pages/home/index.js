@@ -1,5 +1,5 @@
 import "./hero";
-import "./filters";
+import "./filter";
 import "../../layouts/similar-categories";
 import "../../layouts/similar-locations";
 import Location from "../../modules/filters/Location";

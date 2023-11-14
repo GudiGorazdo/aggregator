@@ -5,7 +5,7 @@
     @foreach ($categories as $category)
         <li
             class="categories-list__item">
-            <x-checkbox-square label="{{ $category->name }}" labelPos="back">
+            <x-checkbox-square label="{{ $category->name }}" labelPos="back" value="{{ $category->id }}" name="filter-category">
                 <x-icon-pc-icon fill="transparent" />
             </x-checkbox-square>
             <button
@@ -24,6 +24,7 @@
                 @include('layouts.categories-list.brands-form', [
                     'brands' => $category->subCategories,
                     'modifier' => $modifier,
+                    'categoryID' => $category->id,
                 ])
             </div>
         </li>

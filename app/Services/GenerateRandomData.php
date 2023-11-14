@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Faker\Factory;
@@ -45,49 +46,41 @@ class GenerateRandomData
         }
     }
 
-    private static function generateMunicipalities($regionID, $cityID, $areaID)
+    private static function generateMunicipalities($area, $i)
     {
-        for ($i = 0; $i < rand(1, 10); $i++) {
-            $m = new \App\Models\Municipality();
-            $m->name = 'Муниципальный округ' . '_' . ($i + 1);
-            $m->region_id = $regionID;
-            $m->city_id = $cityID;
-            $m->area_id = $areaID;
-            $m->save();
-        }
+        $m = new \App\Models\Municipality();
+        $m->name = 'Муниципальный округ' . '_' . ($i + 1);
+        $m->region_id = $area->region_id;
+        $m->city_id = $area->city_id;
+        $m->area_id = $area->id;
+        $m->save();
     }
 
-    private static function generateArea($cityID, $region_id)
+    private static function generateArea($cityID, $region_id, $i)
     {
-        for ($i = 0; $i < rand(5, 15); $i++) {
-            $area = new \App\Models\Area();
-            $area->name = ($i + 1) . '_Район';
-            $area->name_for_title =   ($i + 1) . 'м';
-            $area->city_id = $cityID;
-            $area->region_id = $region_id;
-            try {
-                $area->save();
-            } catch (Exception $error) {
-                continue;
-            }
-            $arr[] = $area->id;
+        $area = new \App\Models\Area();
+        $area->name = ($i + 1) . '_Район';
+        $area->name_for_title =   ($i + 1) . 'м';
+        $area->city_id = $cityID;
+        $area->region_id = $region_id;
+        try {
+            $area->save();
+        } catch (Exception $error) {
+            // continue;
         }
+        $arr[] = $area->id;
     }
 
-    private static function generateSubway($cityID, $areaID)
+    private static function generateSubway($area, $i)
     {
-        $r = rand(0, 7);
-
+        if (in_array($area->city_id, [12, 13, 14, 15])) return;
+        $subway = new \App\Models\Subway();
+        $subway->name = ($i + 1) . '_Метро__' . $area->name;
+        $subway->city_id = $area->city_id;
+        $subway->area_id = $area->id;
+        $subway->save();
+        $arr[] = $subway->id;
         $arr = [];
-        for ($i = 0; $i < $r; $i++) {
-            $subway = new \App\Models\Subway();
-            $area = \App\Models\Area::where('id', $areaID)->first();
-            $subway->name = ($i + 1) . '_Метро__' . $area->name;
-            $subway->city_id = $cityID;
-            $subway->area_id = $areaID;
-            $subway->save();
-            $arr[] = $subway->id;
-        }
 
         return $arr;
     }
@@ -154,34 +147,33 @@ class GenerateRandomData
         }
     }
 
-    private static function generateShop($n, $cityID, $region_id, $areaID, $municipalities, $faker, $city_coord)
+    private static function generateShop($area, $faker)
     {
-        $arr = [];
-
-        for ($i = 0; $i < $n; $i++) {
+        $subways = \App\Models\Subway::where('area_id', $area->id)->first();
+        $city = \App\Models\City::find($area->city_id);
+        for ($i = 0; $i < rand(3, 7); $i++) {
             $shop = new \App\Models\Shop();
-            $shop->city_id = $cityID;
-            $shop->region_id = $region_id;
-            $shop->area_id = $areaID;
-            $shop->municipality_id = $municipalities[rand(0, count($municipalities) - 1)]->id;
+            $shop->city_id = $area->city_id;
+            $shop->region_id = $area->region_id;
+            $shop->area_id = $area->id;
             $shop->logo =  'https://picsum.photos/';
             $shop->title = 'Title_' . rand(100000, 999999);
             $shop->name = 'Name_' . rand(100000, 999999);
             $shop->address = 'Улица_' . rand(1000, 9999) . ' д. ' . rand(10, 99);
             $shop->description = implode('', $faker->paragraphs());
             $shop->zip = rand(100000, 999999);
-            $city = json_decode($city_coord);
-            $latMin = (int)$city->lat - (125 / 1000);
-            $latMax = (int)$city->lat + (125 / 1000);
-            $longMin = (int)$city->long - (125 / 1000);
-            $longMax = (int)$city->long + (125 / 1000);
+            $city_c = json_decode($city->coord);
+            $latMin = (int)$city_c->lat - (125 / 1000);
+            $latMax = (int)$city_c->lat + (125 / 1000);
+            $longMin = (int)$city_c->long - (125 / 1000);
+            $longMax = (int)$city_c->long + (125 / 1000);
             $shop->coord = json_encode(array(
                 'lat' => $faker->latitude($latMin, $latMax),
                 'long' => $faker->longitude($longMin, $longMax)
             ));
 
             $photos = [];
-            for($i = 0; $i < rand(10, 30); $i++) {
+            for ($i = 0; $i < rand(10, 30); $i++) {
                 $photos[] = ['name' => 'https://picsum.photos/', 'sizes' => []];
             }
 
@@ -272,62 +264,34 @@ class GenerateRandomData
                 ]);
             }
 
+            rand(0, 3) > 0 && $subways && self::generateShopSubways($shop->id, $subways->pluck('id'));
             self::generateWorkingMode($shop->id, $faker, $shop->convenience_shop);
-
-            $arr[] = $shop->id;
-        }
-
-        return $arr;
-    }
-
-    private static function generateDesc()
-    {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "http://asdfast.beobit.net/api/?&length=1&count=1",
-            CURLOPT_HEADER => false,
-            CURLOPT_RETURNTRANSFER => true,
-        ]);
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            return false;
-        } else {
-            return json_decode($response)->text;
         }
     }
 
     private static function generateShopSubways($shop_id, $subway_arr)
     {
         foreach ($subway_arr as $subway) {
-            try {
-                \Illuminate\Support\Facades\DB::table('shop_subway')->insert([
-                    'subway_id' => $subway,
-                    'shop_id' => $shop_id
-                ]);
-            } catch (Exception $error) {
-                continue;
+            if (rand(0, 5) > 3) {
+                try {
+                    \Illuminate\Support\Facades\DB::table('shop_subway')->insert([
+                        'subway_id' => $subway,
+                        'shop_id' => $shop_id
+                    ]);
+                } catch (Exception $error) {
+                    continue;
+                }
             }
         }
     }
 
 
-    private static function generateSubCategories($category_id)
+    private static function generateSubCategory($category_id, $i)
     {
-        $arr = [];
-        for ($i = 0; $i < rand(10, 20); $i++) {
-            $sub_category = new \App\Models\SubCategory();
-            $sub_category->name = ($i + 1) . '_подкатегория';
-            $sub_category->category_id = $category_id;
-            $sub_category->save();
-            $arr[] = $sub_category->id;
-        }
-        return $arr;
+        $sub_category = new \App\Models\SubCategory();
+        $sub_category->name = ($i + 1) . '_подкатегория';
+        $sub_category->category_id = $category_id;
+        $sub_category->save();
     }
 
     private static function generateShopSubCategory($category_id, $shop_id)
@@ -336,21 +300,6 @@ class GenerateRandomData
             'sub_category_id' => $category_id,
             'shop_id' => $shop_id
         ]);
-    }
-
-    private static function generateShopsWithSubways($cityID, $region_id, $areas, $b, $faker, $city_coord)
-    {
-        foreach ($areas as $area) {
-            self::generateMunicipalities($region_id, $cityID, $area->id);
-            $municipalities = \App\Models\Municipality::where('area_id', $area->id)->get();
-            $shop_ids = self::generateShop(rand(1, 5), $cityID, $region_id, $area->id, $municipalities, $faker, $city_coord);
-            if ($b < 5) {
-                $subwayIDs = self::generateSubway($cityID, $area->id);
-                foreach ($shop_ids as $shop) {
-                    self::generateShopSubways($shop, $subwayIDs);
-                }
-            }
-        }
     }
 
     public static function generateRandomAdminUser()
@@ -423,44 +372,66 @@ class GenerateRandomData
         }
         self::generate(15, \App\Models\Category::class, 'Категория', 'категории');
 
-        $cities = \App\Models\City::all();
+        $cities = \App\Models\City::all()->shuffle();
         $b = 0;
-        foreach ($cities as $city) {
-            self::generateArea($city->id, $city->region_id);
-            $areas = \App\Models\Area::all();
-            self::generateShopsWithSubways($city->id, $city->region_id, $areas, $b, $faker, $city->coord);
-            $b++;
+        for ($i = 0; $i < rand(5, 15); $i++) {
+            foreach ($cities as $city) {
+                self::generateArea($city->id, $city->region_id, $i);
+            }
+            $cities->shuffle();
+        }
 
+        $areas = \App\Models\Area::all()->shuffle();
+        foreach ($areas as $area) {
+            for ($i = 0; $i < rand(1, 2); $i++) {
+                self::generateMunicipalities($area, $i);
+            }
+        }
+
+        $areas->shuffle();
+        for ($i = 0; $i < 5; $i++) {
+            foreach ($areas as $area) {
+                self::generateSubway($area, $i);
+            }
+            $areas->shuffle();
+        }
+
+        $areas->shuffle();
+        foreach ($areas as $area) {
+            if (rand(0, 5) > 4) continue;
+            self::generateShop($area, $faker);
         }
 
         self::generateChains($faker);
 
-        $shops = \App\Models\Shop::all();
-        $categories = \App\Models\Category::all();
+        $shops = \App\Models\Shop::all()->shuffle();
+        $categories = \App\Models\Category::all()->shuffle();
 
-        foreach ($categories as $category) {
-            self::generateSubCategories($category->id);
+        for ($i = 0; $i < rand(5, 10); $i++) {
+            foreach ($categories as $category) {
+                self::generateSubCategory($category->id, $i);
+            }
+            $categories->shuffle();
         }
 
-        $sub_categories = \App\Models\SubCategory::all();
-
         foreach ($shops as $shop) {
-            foreach ($sub_categories as $c) {
-                // if (rand(0, 5)) continue;
-                if (rand(0, 3) > 0) {
+
+            for ($i = 0; $i < rand(5, 10); $i++) {
+                $c = \App\Models\SubCategory::inRandomOrder()->first();
+                try {
                     self::generateShopSubCategory($c->id, $shop->id);
                     $category = $categories->find($c->category_id);
                     \Illuminate\Support\Facades\DB::table('shop_category')->updateOrInsert([
                         'category_id' => $category->id,
                         'shop_id' => $shop->id
                     ]);
-                    self::generateShopPrices($shop->id, $category->id, $c->id);
+                } catch (Exception $error) {
+                    // continue;
                 }
+                $c = null;
             }
         }
 
-        self::generateRandomAdminUser();
+        // self::generateRandomAdminUser();
     }
 }
-
-

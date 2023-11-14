@@ -12,6 +12,10 @@
   font-family: inherit;
   color: inherit;
 
+  * {
+    pointer-events: none;
+  }
+
   &:disabled {
     cursor: auto;
   }
