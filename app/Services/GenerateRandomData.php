@@ -294,12 +294,23 @@ class GenerateRandomData
         $sub_category->save();
     }
 
-    private static function generateShopSubCategory($category_id, $shop_id)
+    private static function generateShopSubCategory($shop)
     {
-        \Illuminate\Support\Facades\DB::table('shop_sub_category')->insert([
-            'sub_category_id' => $category_id,
-            'shop_id' => $shop_id
-        ]);
+        $categories = $shop->categories;
+        foreach ($categories as $category) {
+            $subs = \App\Models\SubCategory::where('category_id', $category->id)->get();
+            foreach ($subs as $sc) {
+                try {
+                    \Illuminate\Support\Facades\DB::table('shop_sub_category')->insert([
+                        'sub_category_id' => $sc->id,
+                        'shop_id' => $shop->id
+                    ]);
+                    self::generateShopPrices($shop->id, $category->id, $sc->id);
+                } catch (Exception $error) {
+                    // self::generateShopSubCategory($categories, $shop);
+                }
+            }
+        }
     }
 
     public static function generateRandomAdminUser()
@@ -350,6 +361,8 @@ class GenerateRandomData
 
     public static function start()
     {
+        echo 'start' . PHP_EOL;
+
         $faker = Factory::create();
 
         $services = [
@@ -364,13 +377,19 @@ class GenerateRandomData
                 'logo' => $s[1],
             ]);
         }
+        echo 'services' . PHP_EOL;
 
         self::generate(3, \App\Models\Region::class, 'Регион', false, true, $faker);
+        echo 'regions' . PHP_EOL;
+
         $regions = \App\Models\Region::all();
         foreach ($regions as $region) {
             self::generateCity($region->id, $region->name, $faker);
         }
+        echo 'cities' . PHP_EOL;
+
         self::generate(15, \App\Models\Category::class, 'Категория', 'категории');
+        echo 'categories' . PHP_EOL;
 
         $cities = \App\Models\City::all()->shuffle();
         $b = 0;
@@ -380,6 +399,7 @@ class GenerateRandomData
             }
             $cities->shuffle();
         }
+        echo 'areas' . PHP_EOL;
 
         $areas = \App\Models\Area::all()->shuffle();
         foreach ($areas as $area) {
@@ -387,6 +407,7 @@ class GenerateRandomData
                 self::generateMunicipalities($area, $i);
             }
         }
+        echo 'municipalities' . PHP_EOL;
 
         $areas->shuffle();
         for ($i = 0; $i < 5; $i++) {
@@ -395,14 +416,17 @@ class GenerateRandomData
             }
             $areas->shuffle();
         }
+        echo 'subways' . PHP_EOL;
 
         $areas->shuffle();
         foreach ($areas as $area) {
             if (rand(0, 5) > 4) continue;
             self::generateShop($area, $faker);
         }
+        echo 'shops' . PHP_EOL;
 
         self::generateChains($faker);
+        echo 'chains' . PHP_EOL;
 
         $shops = \App\Models\Shop::all()->shuffle();
         $categories = \App\Models\Category::all()->shuffle();
@@ -413,24 +437,23 @@ class GenerateRandomData
             }
             $categories->shuffle();
         }
+        echo 'subcategories' . PHP_EOL;
 
         foreach ($shops as $shop) {
-
-            for ($i = 0; $i < rand(5, 10); $i++) {
-                $c = \App\Models\SubCategory::inRandomOrder()->first();
+            for ($i = 0; $i < rand(7, 15); $i++) {
                 try {
-                    self::generateShopSubCategory($c->id, $shop->id);
-                    $category = $categories->find($c->category_id);
-                    \Illuminate\Support\Facades\DB::table('shop_category')->updateOrInsert([
+                    $category = \App\Models\Category::inRandomOrder()->first();
+                    \Illuminate\Support\Facades\DB::table('shop_category')->insert([
                         'category_id' => $category->id,
                         'shop_id' => $shop->id
                     ]);
                 } catch (Exception $error) {
-                    // continue;
+                    // self::generateShopSubCategory($categories, $shop);
                 }
-                $c = null;
             }
+            self::generateShopSubCategory($shop);
         }
+        echo 'shop categories and subcategories' . PHP_EOL;
 
         // self::generateRandomAdminUser();
     }

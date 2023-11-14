@@ -7,7 +7,7 @@
                     <x-accordion id="sell-item-{{ $category->id }}" modifier="sell">
                         <x-slot name="title">
                             <span class="sell-list__title">{{ $category->name }}</span>
-                            @if ($prices[$category->id]['max'])
+                            @if (isset($prices[$category->id]) && $prices[$category->id]['max'])
                                 <span class="sell-list__range">
                                     до {{ $prices[$category->id]['max'] }} руб.
                                 </span>
