@@ -9,12 +9,13 @@ class DatabaseSeeder extends Seeder
 {
     private function echoStart(string $modelName): void
     {
-        echo "{$modelName} start";
+        echo "{$modelName}";
     }
 
-    private function echoFinish(): void
+    private function echoFinish(string $modelName): void
     {
-        echo " ----- DONE" . PHP_EOL;
+        $padding = str_repeat('.', 48 - strlen($modelName));
+        echo "{$padding} DONE" . PHP_EOL;
     }
 
     private function seedModel(string $modelClass, int $count, string $modelName, string|bool $has = false, int $hasCount = 0): void
@@ -39,7 +40,7 @@ class DatabaseSeeder extends Seeder
             ->count(15)
             ->create();
 
-        $this->echoFinish();
+        $this->echoFinish('categories and subcategories');
     }
 
     private function seedServices(): void
@@ -60,7 +61,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $this->echoFinish();
+        $this->echoFinish('services');
     }
 
     private function seedShopSubways(): void
@@ -74,7 +75,7 @@ class DatabaseSeeder extends Seeder
             $ids && $shop->subways()->syncWithoutDetaching($ids);
         }
 
-        $this->echoFinish();
+        $this->echoFinish('shop subways');
     }
 
     private function seedShopServices(): void
@@ -115,7 +116,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $this->echoFinish();
+        $this->echoFinish('shop services');
     }
 
     private function seedShopCategories(): void
@@ -129,7 +130,7 @@ class DatabaseSeeder extends Seeder
             $ids && $shop->categories()->syncWithoutDetaching($ids);
         }
 
-        $this->echoFinish();
+        $this->echoFinish('shop categories');
     }
 
     private function seedShopSubCategories(): void
@@ -139,7 +140,7 @@ class DatabaseSeeder extends Seeder
         $shops = \App\Models\Shop::with('categories')->get();
 
         foreach ($shops as $shop) {
-            foreach($shop->categories as $category) {
+            foreach ($shop->categories as $category) {
                 // $categoryIds = $shop->categories->pluck('id')->toArray();
                 $subCategoryIds = \App\Models\SubCategory::where('category_id', $category->id)
                     ->inRandomOrder()
@@ -153,7 +154,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $this->echoFinish();
+        $this->echoFinish('shop subcategories');
     }
 
     private function seedShopWorkingMode(): void
@@ -223,7 +224,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $this->echoFinish();
+        $this->echoFinish('shop workingmode');
     }
 
     private function seedShopPrices(): void
@@ -245,7 +246,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $this->echoFinish();
+        $this->echoFinish('shop prices');
     }
 
     private function seedShopChains(): void
@@ -269,7 +270,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $this->echoFinish();
+        $this->echoFinish('chain shops');
     }
 
     /**
@@ -288,7 +289,7 @@ class DatabaseSeeder extends Seeder
         $this->seedCategoriesAndSubCategories();
         $this->seedModel(\App\Models\Chain::class, 100, 'chains');
         $this->seedServices();
-        $this->seedModel(\App\Models\Shop::class, 1000, 'shops');
+        $this->seedModel(\App\Models\Shop::class, 200, 'shops');
 
         // SEED RELATIONS
         $this->seedShopSubways();
@@ -297,6 +298,6 @@ class DatabaseSeeder extends Seeder
         $this->seedShopSubCategories();
         $this->seedShopWorkingMode();
         $this->seedShopPrices();
-        $this->seedShopChains();
+        // $this->seedShopChains();
     }
 }
