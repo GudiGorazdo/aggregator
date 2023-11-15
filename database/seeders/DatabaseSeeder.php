@@ -91,7 +91,6 @@ class DatabaseSeeder extends Seeder
 
             foreach ($shops as $shop) {
                 foreach ($services as $service) {
-                    if (rand(0, 5) > 4) continue;
                     $comments = [];
                     for ($i = 0; $i < rand(1, 7); $i++) {
                         $comments[$i] = [
@@ -142,7 +141,6 @@ class DatabaseSeeder extends Seeder
             $shops = \App\Models\Shop::with('categories')->get();
             foreach ($shops as $shop) {
                 foreach ($shop->categories as $category) {
-                    // $categoryIds = $shop->categories->pluck('id')->toArray();
                     $subCategoryIds = \App\Models\SubCategory::where('category_id', $category->id)
                         ->inRandomOrder()
                         ->limit(rand(1, 15))
