@@ -32,9 +32,9 @@ class DatabaseSeeder extends Seeder
         $this->echoFinish($message);
     }
 
-    private function seedModel(string $modelClass, int $count, string $modelName): void
+    private function seedModel(string $modelClass, int $count, string $message): void
     {
-        $this->executeWithLogging($modelName, function () use ($modelClass, $count) {
+        $this->executeWithLogging($message, function () use ($modelClass, $count) {
             $modelFactory = resolve($modelClass)::factory();
 
             if ($modelFactory instanceof Factory) {
@@ -43,13 +43,17 @@ class DatabaseSeeder extends Seeder
         });
     }
 
-    private function seedCategoriesAndSubCategories(string $message): void
+    private function seedModelHas(string $modelClass, int $count, string $has, int $hasCount, string $message): void
     {
-        $this->executeWithLogging($message, function () {
-            \App\Models\Category::factory()
-                ->has(\App\Models\SubCategory::factory()->count(30))
-                ->count(15)
-                ->create();
+        $this->executeWithLogging($message, function () use ($modelClass, $count, $has, $hasCount) {
+            $modelFactory = resolve($modelClass)::factory();
+            $modelFactoryHas = resolve($has)::factory();
+
+            if ($modelFactory instanceof Factory && $modelFactoryHas instanceof Factory) {
+                $modelFactory->has($modelFactoryHas->count($hasCount))
+                    ->count($count)
+                    ->create();
+            }
         });
     }
 
@@ -276,7 +280,7 @@ class DatabaseSeeder extends Seeder
         $this->seedModel(\App\Models\Area::class, 30, 'area');
         $this->seedModel(\App\Models\Municipality::class, 40, 'municipalities');
         $this->seedModel(\App\Models\Subway::class, 100, 'subways');
-        $this->seedCategoriesAndSubCategories('categories and subcategories');
+        $this->seedModelHas(\App\Models\Category::class, 15, \App\Models\SubCategory::class, 30, 'categories and subcategories');
         $this->seedModel(\App\Models\Chain::class, 100, 'chains');
         $this->seedServices('services');
         $this->seedModel(\App\Models\Shop::class, 200, 'shops');
