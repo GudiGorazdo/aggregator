@@ -9,15 +9,15 @@ class DatabaseSeeder extends Seeder
 {
     private function echoStart(string $modelName): void
     {
-        echo "{$modelName} start -- ";
+        echo "{$modelName} start";
     }
 
-    private function echoFinish(string $modelName): void
+    private function echoFinish(): void
     {
-        echo "{$modelName} finish" . PHP_EOL;
+        echo " ----- DONE" . PHP_EOL;
     }
 
-    private function seedModel(string $modelClass, int $count, string $modelName, string|bool $attach = false): void
+    private function seedModel(string $modelClass, int $count, string $modelName, string|bool $has = false, int $hasCount = 0): void
     {
         $this->echoStart($modelName);
 
@@ -30,21 +30,19 @@ class DatabaseSeeder extends Seeder
         $this->echoFinish($modelName);
     }
 
-    private function seedShopSubways()
+    private function seedCategoriesAndSubCategories(): void
     {
-        $this->echoStart('shop subways');
+        $this->echoStart('categories and subcategories');
 
-        $shops = \App\Models\Shop::all();
+        \App\Models\Category::factory()
+            ->has(\App\Models\SubCategory::factory()->count(30))
+            ->count(15)
+            ->create();
 
-        foreach ($shops as $shop) {
-            $subwayIds = \App\Models\Subway::where('area_id', $shop->area_id)->inRandomOrder()->limit(3)->pluck('id');
-            $subwayIds && $shop->subways()->syncWithoutDetaching($subwayIds);
-        }
-
-        $this->echoFinish('shop subways');
+        $this->echoFinish();
     }
 
-    private function seedServices()
+    private function seedServices(): void
     {
         $this->echoStart('services');
 
@@ -62,7 +60,216 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $this->echoFinish('services');
+        $this->echoFinish();
+    }
+
+    private function seedShopSubways(): void
+    {
+        $this->echoStart('shop subways');
+
+        $shops = \App\Models\Shop::all();
+
+        foreach ($shops as $shop) {
+            $ids = \App\Models\Subway::where('area_id', $shop->area_id)->inRandomOrder()->limit(3)->pluck('id');
+            $ids && $shop->subways()->syncWithoutDetaching($ids);
+        }
+
+        $this->echoFinish();
+    }
+
+    private function seedShopServices(): void
+    {
+        $this->echoStart('shop services');
+
+        $shops = \App\Models\Shop::all();
+        $services = \App\Models\Service::all();
+
+        foreach ($shops as $shop) {
+            foreach ($services as $service) {
+                if (rand(0, 5) > 4) continue;
+                $comments = [];
+                for ($i = 0; $i < rand(1, 7); $i++) {
+                    $comments[$i] = [];
+                    $comments[$i]['name'] = 'name_' . ($i + 1);
+                    $comments[$i]['date'] = date('Y-m-d', mt_rand(1, time()));
+                    $comments[$i]['rating'] = rand(11, 50) / 10;
+                    $comments[$i]['text'] = implode('', fake()->paragraphs());
+                    $comments[$i]['response'] = [];
+                    if (rand(0, 1) > 0) {
+                        $comments[$i]['response']['name'] = 'name';
+                        $comments[$i]['response']['date'] = date('Y-m-d', mt_rand(1, time()));
+                        $comments[$i]['response']['rating'] = rand(11, 50) / 10;
+                        $comments[$i]['response']['text'] = implode('', fake()->paragraphs());
+                    }
+                }
+
+                \Illuminate\Support\Facades\DB::table('shop_services')->insert([
+                    'shop_id' => $shop->id,
+                    'service_id' => $service->id,
+                    'service_shop_id' => fake()->uuid(),
+                    'rating' => rand(11, 50) / 10,
+                    'rating_count' => rand(10, 100),
+                    'link' => '#',
+                    'comments' => json_encode($comments),
+                ]);
+            }
+        }
+
+        $this->echoFinish();
+    }
+
+    private function seedShopCategories(): void
+    {
+        $this->echoStart('shop categories');
+
+        $shops = \App\Models\Shop::all();
+
+        foreach ($shops as $shop) {
+            $ids = \App\Models\Category::inRandomOrder()->limit(15)->pluck('id');
+            $ids && $shop->categories()->syncWithoutDetaching($ids);
+        }
+
+        $this->echoFinish();
+    }
+
+    private function seedShopSubCategories(): void
+    {
+        $this->echoStart('shop subcategories');
+
+        $shops = \App\Models\Shop::with('categories')->get();
+
+        foreach ($shops as $shop) {
+            foreach($shop->categories as $category) {
+                // $categoryIds = $shop->categories->pluck('id')->toArray();
+                $subCategoryIds = \App\Models\SubCategory::where('category_id', $category->id)
+                    ->inRandomOrder()
+                    ->limit(rand(1, 15))
+                    ->pluck('id')
+                    ->toArray();
+
+                if (!empty($subCategoryIds)) {
+                    $shop->subcategories()->syncWithoutDetaching($subCategoryIds);
+                }
+            }
+        }
+
+        $this->echoFinish();
+    }
+
+    private function seedShopWorkingMode(): void
+    {
+        $this->echoStart('shop workingmode');
+
+        $shops = \App\Models\Shop::all();
+
+        foreach ($shops as $shop) {
+            $firstOpen = false;
+            $firstOpenTime = null;
+
+            $nextDay = fake()->boolean(80); // 80% вероятность, что открыто
+            $bDay = false;
+            $bDayClose = false;
+
+            for ($i = 1; $i <= 7; $i++) {
+                $shop_id = $shop->id;
+                $day_of_week = $i;
+                $is_open = $nextDay;
+                if ($i == 7) $nextDay = false;
+                else $nextDay = fake()->boolean(80);
+                $minutesOpen = fake()->boolean() ? '30' : '00';
+                $minutesClose = fake()->boolean() ? '30' : '00';
+                if ($shop->convenience) {
+                    if ($bDay && is_null($bDayClose)) {
+                        $open_time = null;
+                    } else if (($is_open && !$bDay) || !$bDay) {
+                        $open_time = rand(8, 12) . ':' . $minutesOpen;
+                    }
+                    if (!$nextDay) {
+                        $close_time = rand(18, 21) . ':' . $minutesClose;
+                    } else {
+                        $close_time = null;
+                    }
+                } else {
+                    if ($bDay && is_null($bDayClose)) {
+                        $open_time = null;
+                    } else if ($nextDay && !is_null($bDayClose)) {
+                        $open_time = rand(8, 12) . ':' . $minutesOpen;
+                    } else if (($is_open && !$bDay) || !$bDay) {
+                        $open_time = rand(8, 12) . ':' . $minutesOpen;
+                    } else {
+                        $open_time = fake()->boolean() ? rand(8, 12) . ':' . $minutesOpen : null; // 50% вероятность, что будет время открытия
+                    }
+                    if (!$nextDay || ($i == 7 && $firstOpen && !is_null($firstOpenTime))) {
+                        $close_time = rand(18, 21) . ':' . $minutesClose;
+                    } else if ($i == 7 && $firstOpen && is_null($firstOpenTime)) {
+                        $close_time = null;
+                    } else {
+                        $close_time = fake()->boolean() ? rand(18, 21) . ':' . $minutesClose : null; // 50% вероятность, что будет время закрытия
+                    }
+                }
+                $bDay = $is_open;
+                $bDayClose = $close_time;
+                if ($i == 1) {
+                    $firstOpen = $is_open;
+                    $firstOpenTime = $open_time;
+                }
+                \Illuminate\Support\Facades\DB::table('shop_working_modes')->insert([
+                    'shop_id' => $shop_id,
+                    'day_of_week' => $day_of_week,
+                    'is_open' => $is_open,
+                    'open_time' => $open_time,
+                    'close_time' => $close_time,
+                ]);
+            }
+        }
+
+        $this->echoFinish();
+    }
+
+    private function seedShopPrices(): void
+    {
+        $this->echoStart('shop prices');
+
+        $shops = \App\Models\Shop::with('subCategories')->get();
+
+        foreach ($shops as $shop) {
+            foreach ($shop->subCategories as $subCategory) {
+                if (rand(0, 3)) {
+                    \Illuminate\Support\Facades\DB::table('shop_prices')->updateOrInsert([
+                        'shop_id' => $shop->id,
+                        'category_id' => $subCategory->category_id,
+                        'sub_category_id' => $subCategory->id,
+                        'price' => rand(10, 50) . '000',
+                    ]);
+                }
+            }
+        }
+
+        $this->echoFinish();
+    }
+
+    private function seedShopChains(): void
+    {
+        $this->echoStart('chain shops');
+
+        $chains = \App\Models\Chain::all();
+        foreach ($chains as $chain) {
+            for ($i = 0; $i < rand(5, 10); $i++) {
+                $shop = \App\Models\Shop::inRandomOrder()->first();
+                $check = \Illuminate\Support\Facades\DB::table('chain_shops')->where('shop_id', $shop->id)->first();
+                while ($check) {
+                    $shop = \App\Models\Shop::inRandomOrder()->first();
+                    $check = \Illuminate\Support\Facades\DB::table('chain_shops')->where('shop_id', $shop->id)->first();
+                }
+
+                \Illuminate\Support\Facades\DB::table('chain_shops')->insert([
+                    'shop_id' => $shop->id,
+                    'chain_id' => $chain->id
+                ]);
+            }
+        }
+
+        $this->echoFinish();
     }
 
     /**
@@ -72,15 +279,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedServices();
+        // SEED MAIN TABLES
         $this->seedModel(\App\Models\Region::class, 3, 'regions');
         $this->seedModel(\App\Models\City::class, 5, 'cities');
         $this->seedModel(\App\Models\Area::class, 30, 'area');
         $this->seedModel(\App\Models\Municipality::class, 40, 'municipalities');
         $this->seedModel(\App\Models\Subway::class, 100, 'subways');
-        $this->seedModel(\App\Models\Category::class, 20, 'categories');
-        $this->seedModel(\App\Models\SubCategory::class, 200, 'subcategories');
-        $this->seedModel(\App\Models\Shop::class, 2000, 'shops');
+        $this->seedCategoriesAndSubCategories();
+        $this->seedModel(\App\Models\Chain::class, 100, 'chains');
+        $this->seedServices();
+        $this->seedModel(\App\Models\Shop::class, 1000, 'shops');
+
+        // SEED RELATIONS
         $this->seedShopSubways();
+        $this->seedShopServices();
+        $this->seedShopCategories();
+        $this->seedShopSubCategories();
+        $this->seedShopWorkingMode();
+        $this->seedShopPrices();
+        $this->seedShopChains();
     }
 }

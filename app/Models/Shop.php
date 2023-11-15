@@ -121,7 +121,7 @@ class Shop extends Model
 
     public function services(): belongsToMany
     {
-        return $this->belongsToMany(\App\Models\Service::class, 'shop_service')
+        return $this->belongsToMany(\App\Models\Service::class, 'shop_services')
             ->withPivot('rating')
             ->withPivot('rating_count')
             ->withPivot('comments')

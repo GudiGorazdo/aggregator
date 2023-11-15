@@ -21,11 +21,11 @@ class SubCategoryFactory extends Factory
             $name .= '_' . fake()->word();
         }
 
-        $category = \App\Models\Category::inRandomOrder()->first();
+        // $category = \App\Models\Category::inRandomOrder()->first();
 
         return [
             'name' => $name,
-            'category_id' => $category->id,
+            'category_id' => \App\Models\Category::factory(),
         ];
     }
 }

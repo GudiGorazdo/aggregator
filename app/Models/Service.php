@@ -23,7 +23,7 @@ class Service extends Model
 
     public function shops(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Shop::class, 'shop_service');
+        return $this->belongsToMany(\App\Models\Shop::class, 'shop_services');
     }
 }
 
