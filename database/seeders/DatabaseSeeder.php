@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Seeder;
 
+use function Termwind\terminal;
+
 class DatabaseSeeder extends Seeder
 {
     private function echoStart(string $modelName): void
@@ -14,7 +16,14 @@ class DatabaseSeeder extends Seeder
 
     private function echoFinish(string $modelName): void
     {
-        $padding = str_repeat('.', 48 - strlen($modelName));
+        $strWidth = strlen($modelName) + strlen(' DONE');
+        $terminalWidth = (int)shell_exec('tput cols');
+        if (!$terminalWidth || $terminalWidth > 100) {
+            $terminalWidth = 100;
+        } else if ($terminalWidth <= $strWidth) {
+            $terminalWidth = $strWidth + 1;
+        }
+        $padding = str_repeat('.', $terminalWidth - $strWidth);
         echo "{$padding} DONE" . PHP_EOL;
     }
 
