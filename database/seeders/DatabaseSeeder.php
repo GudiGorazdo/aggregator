@@ -90,17 +90,20 @@ class DatabaseSeeder extends Seeder
                 if (rand(0, 5) > 4) continue;
                 $comments = [];
                 for ($i = 0; $i < rand(1, 7); $i++) {
-                    $comments[$i] = [];
-                    $comments[$i]['name'] = 'name_' . ($i + 1);
-                    $comments[$i]['date'] = date('Y-m-d', mt_rand(1, time()));
-                    $comments[$i]['rating'] = rand(11, 50) / 10;
-                    $comments[$i]['text'] = implode('', fake()->paragraphs());
-                    $comments[$i]['response'] = [];
+                    $comments[$i] = [
+                        'name' => 'name_' . ($i + 1),
+                        'date' => date('Y-m-d', mt_rand(1, time())),
+                        'rating' => rand(11, 50) / 10,
+                        'text' => implode('', fake()->paragraphs()),
+                        'response' => [],
+                    ];
                     if (rand(0, 1) > 0) {
-                        $comments[$i]['response']['name'] = 'name';
-                        $comments[$i]['response']['date'] = date('Y-m-d', mt_rand(1, time()));
-                        $comments[$i]['response']['rating'] = rand(11, 50) / 10;
-                        $comments[$i]['response']['text'] = implode('', fake()->paragraphs());
+                        $comments[$i]['response'] = [
+                            'name' => 'name',
+                            'date' => date('Y-m-d', mt_rand(1, time())),
+                            'rating' => rand(11, 50) / 10,
+                            'text' => implode('', fake()->paragraphs()),
+                        ];
                     }
                 }
 
