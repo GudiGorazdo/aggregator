@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
         $shops = \App\Models\Shop::all();
 
         foreach ($shops as $shop) {
-            $ids = \App\Models\Subway::where('area_id', $shop->area_id)->inRandomOrder()->limit(3)->pluck('id');
+            $ids = \App\Models\Subway::where('area_id', $shop->area_id)->inRandomOrder()->limit(rand(1, 3))->pluck('id');
             $ids && $shop->subways()->syncWithoutDetaching($ids);
         }
 
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
         $shops = \App\Models\Shop::all();
 
         foreach ($shops as $shop) {
-            $ids = \App\Models\Category::inRandomOrder()->limit(15)->pluck('id');
+            $ids = \App\Models\Category::inRandomOrder()->limit(rand(3, 15))->pluck('id');
             $ids && $shop->categories()->syncWithoutDetaching($ids);
         }
 
