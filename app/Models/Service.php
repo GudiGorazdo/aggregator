@@ -11,6 +11,8 @@ class Service extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function scopeGetShopService(Builder $query, int $service_id, int $shop_id)
     {
         return $query->where('id', $service_id)->whereHas('shops', function (Builder $query) use ($shop_id) {
