@@ -29,11 +29,11 @@ class DatabaseSeeder extends Seeder
         });
     }
 
-    private function seedModelHas(string $modelClass, int $count, string $has, int $hasCount, string $message): void
+    private function seedModelHas(string $modelClass, int $count, string $hasClass, int $hasCount, string $message): void
     {
-        $this->executeWithLogging($message, function () use ($modelClass, $count, $has, $hasCount) {
+        $this->executeWithLogging($message, function () use ($modelClass, $count, $hasClass, $hasCount) {
             $modelFactory = resolve($modelClass)::factory();
-            $modelFactoryHas = resolve($has)::factory();
+            $modelFactoryHas = resolve($hasClass)::factory();
 
             if ($modelFactory instanceof Factory && $modelFactoryHas instanceof Factory) {
                 $modelFactory->has($modelFactoryHas->count($hasCount))
