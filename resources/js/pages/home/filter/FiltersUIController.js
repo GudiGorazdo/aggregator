@@ -1,5 +1,7 @@
 import "../../../layouts/aside";
 import "../../../scripts/expand";
+import categories from "./categories";
+categories.init();
 
 export class FiltersUIController {
   constructor() {
@@ -13,12 +15,11 @@ export class FiltersUIController {
     this.filterCollapseBtn = document.querySelector(".aside__collapse-btn");
     this.searchFilterEl = document.querySelector(".search--filter");
     this.searchFilterCtrlBtns = document.querySelectorAll(".search__mobile-btn");
-    this.checkboxCrumble = document.querySelectorAll("[data-subcategory-close]");
-    this.subcategoryButtons = document.querySelectorAll("[data-subcategory-path]");
     this.brandsList = document.querySelectorAll(".brands-list__item");
     this.mapToggleBtn = document.querySelector(".mobile-nav-section__toggle-btn--map");
     this.scrollToTopBtn = document.querySelector(".footer__btn-top");
     this.mobileFilterBtn = document.querySelector(".mobile-nav-section__toggle-btn--filter");
+    this.clearButton = document.querySelector('.search--filter .search__btn--clear')
 
     this.x = window.matchMedia("(max-width: 56.25em)");
     this.init();
@@ -31,8 +32,6 @@ export class FiltersUIController {
     this.initPlacesButton();
     this.initMapToggleButton();
     this.initScrollToTopButton();
-    this.initCheckboxCrumble();
-    this.initSubcategoryButtons();
     this.initBrandsList();
   }
 
@@ -67,28 +66,6 @@ export class FiltersUIController {
   initScrollToTopButton() {
     this.scrollToTopBtn.addEventListener("click", () => {
       window.scrollTo(0, 0);
-    });
-  }
-
-  initCheckboxCrumble() {
-    this.checkboxCrumble.forEach((element) => {
-      element.addEventListener("click", (e) => {
-        const target = document.querySelector(
-          `[data-subcategory-target="${e.target.dataset.subcategoryClose}"]`
-        );
-        target.classList.remove("open");
-      });
-    });
-  }
-
-  initSubcategoryButtons() {
-    this.subcategoryButtons.forEach((element) => {
-      element.addEventListener("click", (e) => {
-        const target = document.querySelector(
-          `[data-subcategory-target="${e.target.dataset.subcategoryPath}"]`
-        );
-        target.classList.add("open");
-      });
     });
   }
 

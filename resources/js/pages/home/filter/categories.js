@@ -1,4 +1,4 @@
-const categories = {
+export default {
   selectors: {
     buttons: {
       apply: '.search--filter .search__btn--selection',
@@ -13,9 +13,14 @@ const categories = {
       el: '.search--filter .search__count',
       title: '.search--filter .search__count-title',
     },
+    list: {
+      subCategories: 'data-subcategory-target',
+    },
+    clean: 'data-filter-clean',
   },
 
   classes: {
+    open: 'open',
     hidden: 'hidden',
     disabled: 'disabled',
     activePartial: 'checkbox-square__input--partial',
@@ -34,12 +39,18 @@ const categories = {
 
   inputs: {},
 
+  isSubCategoryListOpen: false,
+
   init() {
     this.count.el = document.querySelector(this.selectors.count.el);
     this.count.title = document.querySelector(this.selectors.count.title);
+    this.checkboxCrumble = document.querySelectorAll("[data-subcategory-close]");
+    this.subcategoryButtons = document.querySelectorAll("[data-subcategory-path]");
 
     this.initInputs();
-    this.initButtons();
+    this.initActionButtons();
+    this.initCheckboxCrumble();
+    this.initSubcategoryButtons();
   },
 
   initInputs() {
@@ -48,7 +59,6 @@ const categories = {
         'subCategories': {},
         'el': input,
         'id': +input.value,
-        'active': input.checked,
         'activeBrands': 0,
       };
       input.addEventListener('click', this.toggleCategories.bind(this));
@@ -56,7 +66,6 @@ const categories = {
         this.inputs[input.value].subCategories[subCategory.value] = {
           'el': subCategory,
           'id': +subCategory.value,
-          'active': subCategory.checked,
         };
         if (subCategory.checked) this.inputs[input.value].activeBrands++;
         subCategory.addEventListener('click', this.toggleSubCategories.bind(this));
@@ -71,7 +80,6 @@ const categories = {
     if (category.el.classList.contains(this.classes.activePartial)) {
       category.el.classList.remove(this.classes.activePartial);
       category.el.checked = false;
-      category.checked = false;
     }
     Object.values(category.subCategories).forEach(subCategory => {
       if (category.el.checked) {
@@ -83,7 +91,7 @@ const categories = {
       }
     });
 
-    this.setCount();
+    this.setApplyCount();
   },
 
   toggleSubCategories(event) {
@@ -101,10 +109,11 @@ const categories = {
       }
     }
 
-    this.setCount();
+    this.setApplyCount();
+    this.setClearCount(category);
   },
 
-  initButtons() {
+  initActionButtons() {
     this.buttons.apply = document.querySelector(this.selectors.buttons.apply);
     this.buttons.clear = document.querySelector(this.selectors.buttons.clear);
     this.buttons.wrapper = document.querySelector(this.selectors.buttons.wrapper);
@@ -119,7 +128,43 @@ const categories = {
     });
   },
 
-  setCount() {
+  initCheckboxCrumble() {
+    this.checkboxCrumble.forEach((element) => {
+      element.addEventListener("click", (e) => {
+        this.isSubCategoryListOpen = false;
+        const target = document.querySelector(`[${this.selectors.list.subCategories}="${e.target.dataset.subcategoryClose}"]`);
+        target.classList.remove(this.classes.open);
+        this.buttons.clear.removeAttribute(this.selectors.clean);
+        this.buttons.clear.textContent = 'Очистить всё';
+      });
+    });
+  },
+
+  initSubcategoryButtons() {
+    this.subcategoryButtons.forEach((element) => {
+      element.addEventListener("click", (e) => {
+        this.isSubCategoryListOpen = true;
+        const category = e.target.dataset.subcategoryPath;
+        const target = document.querySelector(`[${this.selectors.list.subCategories}="${category}"]`);
+        this.buttons.clear.setAttribute(this.selectors.clean, category);
+        target.classList.add(this.classes.open);
+        this.setClearCount(category);
+      });
+    });
+  },
+
+  setClearCount(category) {
+    console.log(this.inputs[category]);
+    if (this.inputs[category].activeBrands) {
+      this.buttons.clear.textContent = 'Очистить: ' + this.inputs[category].activeBrands;
+    } else {
+      console.log('asdfjasdflkj');
+      this.buttons.clear.textContent = 'Очистить всё';
+      this.buttons.clear.classList.add(this.classes.disabled);
+    }
+  },
+
+  setApplyCount() {
     const count = Object.values(this.inputs).reduce((acc, category) => {
       return acc + category.activeBrands;
     }, 0);
@@ -140,6 +185,28 @@ const categories = {
   },
 
   clear() {
-    console.log('clear');
-  }
-}.init();
+    if (this.buttons.clear.hasAttribute(this.selectors.clean)) {
+      this.clearSubCategories(this.inputs[this.buttons.clear.dataset.filterClean]);
+    } else {
+      this.clearFull();
+    }
+  },
+
+  clearFull() {
+    Object.values(this.inputs).forEach(category => {
+      this.clearSubCategories(category);
+    });
+  },
+
+  clearSubCategories(category) {
+    category.el.checked = false;
+    category.el.classList.remove(this.classes.activePartial);
+    category.activeBrands = 0;
+    Object.values(category.subCategories).forEach(subCategory => {
+      subCategory.el.checked = false;
+    });
+
+    this.setApplyCount();
+    this.setClearCount(category.id);
+  },
+};

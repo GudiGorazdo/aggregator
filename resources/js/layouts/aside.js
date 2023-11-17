@@ -2,10 +2,11 @@ const categoryUI = {
   classes: { active: 'active' },
   categoryList: document.querySelector(".search--filter"),
   toggleCategoryListBtn: document.getElementById("toggle-category"),
-  actionButtons: document.querySelectorAll('.search--filter  .search__btn'),
+  applyCategory: document.querySelector('.search--filter .search__btn--selection'),
+  // actionButtons: document.querySelectorAll('.search--filter  .search__btn'),
 
   init() {
-    [this.toggleCategoryListBtn, ...this.actionButtons].forEach(button => {
+    [this.toggleCategoryListBtn, this.applyCategory].forEach(button => {
       button.addEventListener("click", () => {
         this.toggleActive(this.categoryList);
         this.toggleActive(this.toggleCategoryListBtn);
