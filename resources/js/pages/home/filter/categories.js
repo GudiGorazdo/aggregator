@@ -149,6 +149,7 @@ export default {
         this.isSubCategoryListOpen = false;
         const target = document.querySelector(`[${this.selectors.list.subCategories}="${e.target.dataset.subcategoryClose}"]`);
         target.classList.remove(this.classes.open);
+        this.setClearCount(e.target.dataset.subcategoryClose);
         this.buttons.clear.removeAttribute(this.selectors.count.clear.data);
       });
     });
@@ -168,7 +169,7 @@ export default {
   },
 
   setClearCount(category) {
-    if (this.inputs[category].activeBrands) {
+    if (this.inputs[category].activeBrands && this.isSubCategoryListOpen) {
       this.buttons.clear.textContent = 'Очистить: ' + this.inputs[category].activeBrands;
     } else {
       this.buttons.clear.textContent = 'Очистить всё';
