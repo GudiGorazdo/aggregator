@@ -68,7 +68,11 @@ const categories = {
 
   toggleCategories(event) {
     const category = this.inputs[event.target.value];
-    category.el.classList.remove(this.classes.activePartial);
+    if (category.el.classList.contains(this.classes.activePartial)) {
+      category.el.classList.remove(this.classes.activePartial);
+      category.el.checked = false;
+      category.checked = false;
+    }
     Object.values(category.subCategories).forEach(subCategory => {
       if (category.el.checked) {
         subCategory.el.checked = true;
