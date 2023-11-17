@@ -12,9 +12,11 @@
     @include('layouts.categories-list.' . $categoriesListType , ['categories' => $categories, 'modifier' => $modifier])
     <div class="search__action">
         <button class="btn btn--primary search__btn search__btn--selection">
-            <span>Выбрано (6)</span>
+            <span class="search__icon search__icon--apply"></span>
+            <span class="search__count-title">Не выбрано</span>
+            <span class="search__count"></span>
         </button>
-        <button class="btn search__btn search__btn--clear">
+        <button class="btn search__btn search__btn--clear disabled">
             <img src="img/icon/trash.svg" alt="Очистить" />
         </button>
     </div>

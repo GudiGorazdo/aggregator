@@ -28,12 +28,12 @@
     color: $colorMainBackground;
   }
 
-  &--categories &__btn--selection span {
+  &__icon--apply {
     position: relative;
     padding-left: 2.8rem;
   }
 
-  &--categories &__btn--selection span::before {
+  &__icon--apply::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -48,6 +48,10 @@
 
   &--categories &__btn--clear {
     background-color: $colorSecondaryBackground;
+  }
+
+  &--categories &__action.hidden {
+    display: none;
   }
 }
 

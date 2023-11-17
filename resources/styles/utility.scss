@@ -1,3 +1,5 @@
+@import "./mixins.scss";
+
 .container {
   width: 124rem;
   max-width: 86vw;
@@ -85,4 +87,16 @@
   position: fixed;
 }
 
+.hidden {
+  @include hidden;
+}
 
+.visible {
+  @include visible;
+}
+
+.disabled {
+  filter: grayscale(100%);
+  opacity: 0.4;
+  pointer-events: none;
+}

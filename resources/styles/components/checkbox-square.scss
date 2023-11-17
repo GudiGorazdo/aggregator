@@ -32,6 +32,10 @@
   &__input:checked ~ &__icon {
     background-color: $colorPrimary;
   }
+
+  &__input--partial ~ &__icon {
+    background-color: $colorDarkPrimary;
+  }
 }
 
 

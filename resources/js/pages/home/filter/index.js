@@ -1,5 +1,4 @@
 import { FiltersUIController } from './FiltersUIController';
-import { Filter } from './Filter';
+import  './Filter';
 
 const pageUI = new FiltersUIController();
-const filter = new Filter();
