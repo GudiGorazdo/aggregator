@@ -154,11 +154,9 @@ export default {
   },
 
   setClearCount(category) {
-    console.log(this.inputs[category]);
     if (this.inputs[category].activeBrands) {
       this.buttons.clear.textContent = 'Очистить: ' + this.inputs[category].activeBrands;
     } else {
-      console.log('asdfjasdflkj');
       this.buttons.clear.textContent = 'Очистить всё';
       this.buttons.clear.classList.add(this.classes.disabled);
     }
