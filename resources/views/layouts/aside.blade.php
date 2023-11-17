@@ -31,7 +31,7 @@
 
             <button class="btn aside__clear-btn">
                 <x-icon-trash />
-                <span>Очистить</span>
+                <span>Сбросить</span>
             </button>
         </div>
 

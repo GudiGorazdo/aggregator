@@ -19,7 +19,7 @@
         <button class="btn search__btn search__btn--clear disabled">
             {{-- <x-icon-trash /> --}}
             <span class="search__icon search__icon--clear"></span>
-            <span class="search__clear-title">Очистить всё</span>
+            <span class="search__clear-title">Сбросить всё</span>
             <span class="search__clear-count"></span>
         </button>
     </div>

@@ -151,6 +151,12 @@ export default {
         target.classList.remove(this.classes.open);
         this.setClearCount(e.target.dataset.subcategoryClose);
         this.buttons.clear.removeAttribute(this.selectors.count.clear.data);
+        this.buttons.clear.textContent = 'Сбросить всё';
+        if (!this.getActiveSubcategories()) {
+          this.buttons.clear.classList.add(this.classes.disabled);
+        }else {
+          this.buttons.clear.classList.remove(this.classes.disabled);
+        }
       });
     });
   },
@@ -169,12 +175,10 @@ export default {
   },
 
   setClearCount(category) {
-    if (this.inputs[category].activeBrands && this.isSubCategoryListOpen) {
-      this.buttons.clear.textContent = 'Очистить: ' + this.inputs[category].activeBrands;
-    } else {
-      this.buttons.clear.textContent = 'Очистить всё';
-    }
-    if (!this.getActiveSubcategories()) {
+    if (category && this.inputs[category].activeBrands && this.isSubCategoryListOpen) {
+      this.buttons.clear.textContent = 'Сбросить: ' + this.inputs[category].activeBrands;
+    } else if (category && this.isSubCategoryListOpen) {
+      this.buttons.clear.textContent = 'Сбросить всё';
       this.buttons.clear.classList.add(this.classes.disabled);
     }
   },
