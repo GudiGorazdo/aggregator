@@ -20,8 +20,10 @@ export default {
         title: '.search--filter .search__clear-title',
       },
     },
-    list: {
-      subCategories: 'data-subcategory-target',
+    subCategories: {
+      list: 'data-subcategory-target',
+      close: '[data-subcategory-close]',
+      open: '[data-subcategory-path]',
     },
   },
 
@@ -59,8 +61,8 @@ export default {
     this.count.apply.title = document.querySelector(this.selectors.count.apply.title);
     this.count.clear.el = document.querySelector(this.selectors.count.clear.el);
     this.count.clear.title = document.querySelector(this.selectors.count.clear.title);
-    this.checkboxCrumble = document.querySelectorAll("[data-subcategory-close]");
-    this.subcategoryButtons = document.querySelectorAll("[data-subcategory-path]");
+    this.checkboxCrumble = document.querySelectorAll(this.selectors.subCategories.close);
+    this.subcategoryButtons = document.querySelectorAll(this.selectors.subCategories.open);
 
     this.initInputs();
     this.initActionButtons();
@@ -147,7 +149,7 @@ export default {
     this.checkboxCrumble.forEach((element) => {
       element.addEventListener("click", (e) => {
         this.isSubCategoryListOpen = false;
-        const target = document.querySelector(`[${this.selectors.list.subCategories}="${e.target.dataset.subcategoryClose}"]`);
+        const target = document.querySelector(`[${this.selectors.subCategories.list}="${e.target.dataset.subcategoryClose}"]`);
         target.classList.remove(this.classes.open);
         this.setClearCount(e.target.dataset.subcategoryClose);
         this.buttons.clear.removeAttribute(this.selectors.count.clear.data);
@@ -166,7 +168,7 @@ export default {
       element.addEventListener("click", (e) => {
         this.isSubCategoryListOpen = true;
         const category = e.target.dataset.subcategoryPath;
-        const target = document.querySelector(`[${this.selectors.list.subCategories}="${category}"]`);
+        const target = document.querySelector(`[${this.selectors.subCategories.list}="${category}"]`);
         this.buttons.clear.setAttribute(this.selectors.count.clear.data, category);
         target.classList.add(this.classes.open);
         this.setClearCount(category);
