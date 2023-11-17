@@ -1,3 +1,4 @@
+
 .search {
   &--categories {
     width: 44rem;
@@ -28,12 +29,14 @@
     color: $colorMainBackground;
   }
 
-  &__icon--apply {
+  &__icon--apply,
+  &__icon--clear {
     position: relative;
     padding-left: 2.8rem;
   }
 
-  &__icon--apply::before {
+  &__icon--apply::before,
+  &__icon--clear::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -41,9 +44,16 @@
     transform: translate(0, -50%);
     width: 2rem;
     height: 2rem;
-    background-image: url('/resources/assets/svg/tick-square-icon.svg');
     background-size: cover;
     background-repeat: no-repeat;
+  }
+
+  &__icon--apply::before {
+    background-image: url('/resources/assets/svg/tick-square-icon.svg');
+  }
+
+  &__icon--clear::before {
+    background-image: url('/resources/assets/svg/trash.svg');
   }
 
   &--categories &__btn--clear {

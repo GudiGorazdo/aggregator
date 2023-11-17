@@ -10,13 +10,19 @@ export default {
       subCategories: 'data-filter-category',
     },
     count: {
-      el: '.search--filter .search__count',
-      title: '.search--filter .search__count-title',
+      apply: {
+        el: '.search--filter .search__apply-count',
+        title: '.search--filter .search__apply-title',
+      },
+      clear: {
+        data: 'data-filter-clean',
+        el: '.search--filter .search__clear-count',
+        title: '.search--filter .search__clear-title',
+      },
     },
     list: {
       subCategories: 'data-subcategory-target',
     },
-    clean: 'data-filter-clean',
   },
 
   classes: {
@@ -27,8 +33,15 @@ export default {
   },
 
   count: {
-    el: null,
-    title: null,
+    apply: {
+      el: null,
+      title: null,
+    },
+
+    clear: {
+      el: null,
+      title: null,
+    },
   },
 
   buttons: {
@@ -42,8 +55,10 @@ export default {
   isSubCategoryListOpen: false,
 
   init() {
-    this.count.el = document.querySelector(this.selectors.count.el);
-    this.count.title = document.querySelector(this.selectors.count.title);
+    this.count.apply.el = document.querySelector(this.selectors.count.apply.el);
+    this.count.apply.title = document.querySelector(this.selectors.count.apply.title);
+    this.count.clear.el = document.querySelector(this.selectors.count.clear.el);
+    this.count.clear.title = document.querySelector(this.selectors.count.clear.title);
     this.checkboxCrumble = document.querySelectorAll("[data-subcategory-close]");
     this.subcategoryButtons = document.querySelectorAll("[data-subcategory-path]");
 
@@ -134,8 +149,7 @@ export default {
         this.isSubCategoryListOpen = false;
         const target = document.querySelector(`[${this.selectors.list.subCategories}="${e.target.dataset.subcategoryClose}"]`);
         target.classList.remove(this.classes.open);
-        this.buttons.clear.removeAttribute(this.selectors.clean);
-        this.buttons.clear.textContent = 'Очистить всё';
+        this.buttons.clear.removeAttribute(this.selectors.count.clear.data);
       });
     });
   },
@@ -146,7 +160,7 @@ export default {
         this.isSubCategoryListOpen = true;
         const category = e.target.dataset.subcategoryPath;
         const target = document.querySelector(`[${this.selectors.list.subCategories}="${category}"]`);
-        this.buttons.clear.setAttribute(this.selectors.clean, category);
+        this.buttons.clear.setAttribute(this.selectors.count.clear.data, category);
         target.classList.add(this.classes.open);
         this.setClearCount(category);
       });
@@ -158,22 +172,27 @@ export default {
       this.buttons.clear.textContent = 'Очистить: ' + this.inputs[category].activeBrands;
     } else {
       this.buttons.clear.textContent = 'Очистить всё';
+    }
+    if (!this.getActiveSubcategories()) {
       this.buttons.clear.classList.add(this.classes.disabled);
     }
   },
 
-  setApplyCount() {
-    const count = Object.values(this.inputs).reduce((acc, category) => {
+  getActiveSubcategories() {
+    return Object.values(this.inputs).reduce((acc, category) => {
       return acc + category.activeBrands;
     }, 0);
+  },
 
+  setApplyCount() {
+    const count = this.getActiveSubcategories();
     if (count) {
-      this.count.title.innerHTML = 'Выбрано:&nbsp;';
-      this.count.el.innerHTML = count;
+      this.count.apply.title.innerHTML = 'Выбрано:&nbsp;';
+      this.count.apply.el.innerHTML = count;
       this.buttons.clear.classList.remove(this.classes.disabled);
     } else {
-      this.count.title.innerHTML = 'Не выбрано';
-      this.count.el.innerHTML = '';
+      this.count.apply.title.innerHTML = 'Не выбрано';
+      this.count.apply.el.innerHTML = '';
       this.buttons.clear.classList.add(this.classes.disabled);
     }
   },
@@ -183,7 +202,7 @@ export default {
   },
 
   clear() {
-    if (this.buttons.clear.hasAttribute(this.selectors.clean)) {
+    if (this.buttons.clear.hasAttribute(this.selectors.count.clear.data)) {
       this.clearSubCategories(this.inputs[this.buttons.clear.dataset.filterClean]);
     } else {
       this.clearFull();

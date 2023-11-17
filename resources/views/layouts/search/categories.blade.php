@@ -13,11 +13,14 @@
     <div class="search__action">
         <button class="btn btn--primary search__btn search__btn--selection">
             <span class="search__icon search__icon--apply"></span>
-            <span class="search__count-title">Не выбрано</span>
-            <span class="search__count"></span>
+            <span class="search__apply-title">Не выбрано</span>
+            <span class="search__apply-count"></span>
         </button>
         <button class="btn search__btn search__btn--clear disabled">
-            <img src="img/icon/trash.svg" alt="Очистить" />
+            {{-- <x-icon-trash /> --}}
+            <span class="search__icon search__icon--clear"></span>
+            <span class="search__clear-title">Очистить всё</span>
+            <span class="search__clear-count"></span>
         </button>
     </div>
 </section>
