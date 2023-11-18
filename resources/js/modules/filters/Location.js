@@ -44,18 +44,31 @@ export default class Location {
       return;
     }
     this.items.forEach((item, index) => {
+      this.area.options.group = 'test';
       this.area.options.data.push({
         value: item.name,
         index: item.id,
+        group: `area_${item.id}`,
+        switch: {
+          name: 'area',
+          path: `area_${item.id}`,
+          inverted: true,
+        }
         // attr: {
         //   'val': city.id
         // },
       });
       if (item.subways.length > 0) {
         item.subways.forEach((subItem, index) => {
+          this.subway.options.group = 'test';
           this.subway.options.data.push({
             value: subItem.name,
             index: subItem.id,
+            group: `area_${item.id}`,
+            switch: {
+              name: 'area',
+              target: `area_${item.id}`,
+            }
           });
         });
       } else {

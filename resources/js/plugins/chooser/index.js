@@ -50,8 +50,6 @@
       -- active item on start
   label: 'some_label',
       -- 'label': default "Выберите элемент:". required element. is an ARIA lable
-  group: 'some_group',
-      -- add group to hide the names of one group
   input: {
       -- activate input elment instead of button in header
       filter: true,
@@ -80,6 +78,16 @@
               (select.select (chooserId), select.focuse (chooserId)).
       group: 'some_name',
           -- add group to hide the names of one group
+      switch: {
+        name: 'some_name'
+          -- required
+        target: 'some_value'
+          -- target to be switched
+        path: 'some_value'
+          -- click element to swich target
+        inverted: boolean
+          -- if true target be enabled, and other switch targets disabled
+      }
       onClick(item) {
           someFunction(item);
         } -- the function will be executed during the click of the item
@@ -113,8 +121,8 @@
   Methods
 
   select(index, true) - select element;
-    @index - index needle element in ements array;
-    @true - obligatory;
+    index - index needle element in ements array;
+    true - obligatory;
 
   getCurrentItem() - return current item;
 
@@ -132,27 +140,54 @@
 
 */
 
-const li = (props, item, ind, chooser, list, selected) => {
-  const dataId = item.id ?? `${props.el}_${item.index ?? ind}`;
-  props.data[ind].id = dataId;
-  if (selected) list.setAttribute("aria-activedescendant", dataId);
-
+const getGroup = (item, selected) => {
   let disabled = false;
-  if (item.group || props.group) {
-    props.data[ind].group = item.group
-      ? item.group
-      : `${props.group}_${item.index}`;
+  let group = '';
+  const check = document.querySelectorAll(
+    `[data-chooser_group="${item.group}"]`,
+  );
+  if (check) {
+    check.forEach((item) => {
+      if (item.classList.contains("selected")) disabled = true;
+    });
+  }
+  if (selected) disabled = false;
+  group = `data-chooser_group=${item.group}`;
 
+  return [group, disabled];
+}
+
+const getSwitchGroup = (item, selected) => {
+  let disabled = false;
+  let switchGroup = '';
+
+  if (item.switch.target) {
     const check = document.querySelectorAll(
-      `[data-chooser_group="${props.data[ind].group}"]`,
+      `[data-chooser_switch-path="${item.group}"]`,
     );
     if (check) {
       check.forEach((item) => {
         if (item.classList.contains("selected")) disabled = true;
       });
     }
-    if (selected) disabled = false;
+
+    switchGroup += `data-chooser_switch-target=${item.switch.target}`;
+    if (item.switch.path) switchGroup += ' ';
   }
+
+  if (item.switch.path) {
+    switchGroup += `data-chooser_switch-path=${item.switch.path}`;
+  }
+
+  switchGroup += ` data-chooser_switch-name=${item.switch.name}`;
+
+  return [switchGroup, disabled];
+}
+
+const li = (props, item, ind, chooser, list, selected) => {
+  const dataId = item.id ?? `${props.el}_${item.index ?? ind}`;
+  props.data[ind].id = dataId;
+  if (selected) list.setAttribute("aria-activedescendant", dataId);
 
   let attr = "";
   if (item.attr) {
@@ -162,12 +197,16 @@ const li = (props, item, ind, chooser, list, selected) => {
     }
   }
 
-  let group = props.data[ind].group
-    ? `data-chooser_group=${props.data[ind].group}`
-    : "";
+  let group = '';
+  let disabled = false;
+  if (item.switch) {
+    [group, disabled] = getSwitchGroup(item);
+  } else if (item.group) {
+    [group, disabled] = getGroup(item);
+  }
 
   chooser.data[dataId] = { ...item };
-  return /*html*/ `
+  return `
       <li
         id="${dataId}"
 
@@ -199,7 +238,7 @@ const getTemplate = (props, chooser) => {
         .map((item) => `${item}="${props.input.attr[item]}"`)
         .join(" ")
       : "";
-    current = /*html*/ `
+    current = `
       <input
         class="${props.classList.current ?? ""} chooser__input"
         id=${id}
@@ -213,7 +252,7 @@ const getTemplate = (props, chooser) => {
       <span class="${props.classList.icon ?? ""} chooser__icon"></span>
     `;
   } else {
-    current = /*html*/ `
+    current = `
       <button
         class="${props.classList?.current ?? ""} chooser__current"
         id="${props.el}_button"
@@ -230,7 +269,7 @@ const getTemplate = (props, chooser) => {
     `;
   }
 
-  return /*html*/ `
+  return `
         <span
           id="${props.el}_desc"
           class="${props.classList?.label ?? ""} chooser__desc"
@@ -267,6 +306,7 @@ export default class Chooser {
         `${this.elId}_${props.current - 1}`)
       : null;
     this.activeGroup = null;
+    this.activeSwitchGroup = null;
     this.isOpen = false;
     this.focused = null;
 
@@ -387,21 +427,43 @@ export default class Chooser {
     currentEl.classList.add("selected");
     currentEl.setAttribute("aria-selected", true);
     this.$list.setAttribute("aria-activedescendant", id);
-    if (this.props.group || item.group) this.disableGroup(item.group);
+    if (item.switch?.path) {
+      if (item.switch.inverted) {
+        this.disableSwitchGroupInverted('switch-target', 'activeSwitchGroup', item.switch.path, item.switch.name);
+      } else {
+        this.disableGroup('switch-target', 'activeSwitchGroup', item.switch.path);
+      }
+    } else if (item.group) this.disableGroup("group", "activeGroup", item.group);
   }
 
-  disableGroup(group) {
-    const $disbled = document.querySelectorAll(
-      `[data-chooser_group=${this.activeGroup}]`,
-    );
-    if ($disbled) {
-      $disbled.forEach((item) => item.classList.remove("disabled"));
-    }
-    const $group = document.querySelectorAll(`[data-chooser_group=${group}]`);
+  disableGroup(target, active, group) {
+    this.enableGroupAll(target, active);
+    this[active] = group;
+    const $group = document.querySelectorAll(`[data-chooser_${target}=${group}]`);
     $group.forEach((item) => {
       if (!item.classList.contains("selected")) item.classList.add("disabled");
     });
-    this.activeGroup = group;
+  }
+
+  disableSwitchGroupInverted(target, active, group, name) {
+    this.enableGroupAll(target, active);
+    const $group = document.querySelectorAll(`[data-chooser_switch-name=${name}]`);
+    $group.forEach((item) => {
+      if (!item.classList.contains("selected") &&
+        item.getAttribute("data-chooser_switch-target") !== group) {
+        item.classList.add("disabled");
+      }
+    });
+
+    this[active] = group;
+  }
+
+  enableGroupAll(target, active) {
+    const $disabled = document.querySelectorAll(`[data-chooser_${target}=${this[active]}]`);
+    if ($disabled) {
+      $disabled.forEach((item) => item.classList.remove("disabled"));
+    }
+
   }
 
   #toggle() {
@@ -417,9 +479,9 @@ export default class Chooser {
 
   get $listBottomPos() {
     return this.$list.getBoundingClientRect().bottom >
-        document.documentElement.clientHeight &&
+      document.documentElement.clientHeight &&
       this.$list.getBoundingClientRect().top >
-        document.documentElement.clientHeight;
+      document.documentElement.clientHeight;
   }
 
   addHover(e) {

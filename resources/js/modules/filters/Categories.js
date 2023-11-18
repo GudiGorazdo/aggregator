@@ -55,7 +55,6 @@ export default class extends FilterBase {
   };
 
   inputs = {};
-  active = [];
 
   isSubCategoryListOpen = false;
 
@@ -229,6 +228,8 @@ export default class extends FilterBase {
     } else {
       this.clearFull();
     }
+
+    this.filter();
   }
 
   clearFull() {
