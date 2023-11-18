@@ -1,5 +1,7 @@
-export default {
-  selectors: {
+import FilterBase from '../../../modules/filters/FilterBase';
+
+export default class extends FilterBase {
+  selectors = {
     buttons: {
       apply: '.search--filter .search__btn--selection',
       clear: '.search--filter .search__btn--clear',
@@ -25,38 +27,40 @@ export default {
       close: '[data-subcategory-close]',
       open: '[data-subcategory-path]',
     },
-  },
+  };
 
-  classes: {
+  classes = {
     open: 'open',
     hidden: 'hidden',
     disabled: 'disabled',
     activePartial: 'checkbox-square__input--partial',
-  },
+  };
 
-  count: {
+
+  count = {
     apply: {
       el: null,
       title: null,
     },
-
     clear: {
       el: null,
       title: null,
     },
-  },
+  };
 
-  buttons: {
+  buttons = {
     wrapper: null,
     apply: null,
     clear: null,
-  },
+  };
 
-  inputs: {},
+  inputs = {};
+  active = [];
 
-  isSubCategoryListOpen: false,
+  isSubCategoryListOpen = false;
 
-  init() {
+  constructor(field) {
+    super(field);
     this.count.apply.el = document.querySelector(this.selectors.count.apply.el);
     this.count.apply.title = document.querySelector(this.selectors.count.apply.title);
     this.count.clear.el = document.querySelector(this.selectors.count.clear.el);
@@ -68,7 +72,18 @@ export default {
     this.initActionButtons();
     this.initCheckboxCrumble();
     this.initSubcategoryButtons();
-  },
+  }
+
+  init() {}
+
+  setURLparams(urlParams) {
+    Object.values(this.inputs).forEach(category => {
+      if (category.activeBrands <= 0) return;
+      Object.values(category.subCategories).forEach(subCategory => {
+        subCategory.el.checked && urlParams.append(this.field, subCategory.id);
+      });
+    });
+  }
 
   initInputs() {
     document.querySelectorAll(this.selectors.inputs.categories).forEach(input => {
@@ -88,9 +103,7 @@ export default {
         subCategory.addEventListener('click', this.toggleSubCategories.bind(this));
       });
     });
-
-    console.log(this.inputs);
-  },
+  }
 
   toggleCategories(event) {
     const category = this.inputs[event.target.value];
@@ -109,7 +122,8 @@ export default {
     });
 
     this.setApplyCount();
-  },
+    this.filter();
+  }
 
   toggleSubCategories(event) {
     const category = event.target.dataset.filterCategory;
@@ -128,7 +142,8 @@ export default {
 
     this.setApplyCount();
     this.setClearCount(category);
-  },
+    this.filter();
+  }
 
   initActionButtons() {
     this.buttons.apply = document.querySelector(this.selectors.buttons.apply);
@@ -143,7 +158,7 @@ export default {
           return this.clear();
       }
     });
-  },
+  }
 
   initCheckboxCrumble() {
     this.checkboxCrumble.forEach((element) => {
@@ -156,12 +171,12 @@ export default {
         this.buttons.clear.textContent = 'Сбросить всё';
         if (!this.getActiveSubcategories()) {
           this.buttons.clear.classList.add(this.classes.disabled);
-        }else {
+        } else {
           this.buttons.clear.classList.remove(this.classes.disabled);
         }
       });
     });
-  },
+  }
 
   initSubcategoryButtons() {
     this.subcategoryButtons.forEach((element) => {
@@ -174,7 +189,7 @@ export default {
         this.setClearCount(category);
       });
     });
-  },
+  }
 
   setClearCount(category) {
     if (category && this.inputs[category].activeBrands && this.isSubCategoryListOpen) {
@@ -183,13 +198,13 @@ export default {
       this.buttons.clear.textContent = 'Сбросить всё';
       this.buttons.clear.classList.add(this.classes.disabled);
     }
-  },
+  }
 
   getActiveSubcategories() {
     return Object.values(this.inputs).reduce((acc, category) => {
       return acc + category.activeBrands;
     }, 0);
-  },
+  }
 
   setApplyCount() {
     const count = this.getActiveSubcategories();
@@ -202,11 +217,11 @@ export default {
       this.count.apply.el.innerHTML = '';
       this.buttons.clear.classList.add(this.classes.disabled);
     }
-  },
+  }
 
   apply() {
     console.log('apply');
-  },
+  }
 
   clear() {
     if (this.buttons.clear.hasAttribute(this.selectors.count.clear.data)) {
@@ -214,13 +229,13 @@ export default {
     } else {
       this.clearFull();
     }
-  },
+  }
 
   clearFull() {
     Object.values(this.inputs).forEach(category => {
       this.clearSubCategories(category);
     });
-  },
+  }
 
   clearSubCategories(category) {
     category.el.checked = false;
@@ -232,5 +247,5 @@ export default {
 
     this.setApplyCount();
     this.setClearCount(category.id);
-  },
-};
+  }
+}

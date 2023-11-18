@@ -22,6 +22,12 @@ class ShopController extends Controller
         return view('pages.home.index', compact('shops', 'title', 'cityID'));
     }
 
+    public function shopList(Request $request): View
+    {
+        $shops = Shop::filter()->get();
+        return view('layouts.shops-list', ['shops' => $shops]);
+    }
+
     public function show(string $id): View|RedirectResponse
     {
         $shop = Shop::getByID((int)$id)->get()->first();

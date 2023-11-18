@@ -4,9 +4,9 @@ export default class YandexMapWorker {
   mapWrapper = null;
   shopsData = null;
   shopList = null;
-  markCollection = null;
   isMapVisible = false;
   isMapAdded = false;
+  markCollection = null;
 
   classes = {
     show: "active",
@@ -14,9 +14,18 @@ export default class YandexMapWorker {
   };
 
   constructor() {
-    this.items = document.querySelectorAll("[data-shop-target]");
+    this.setItems();
     this.mapWrapper = document.getElementById("filter-map");
     this.shopList = document.getElementById("shop-list");
+    window.onload = () => this.addMap(this.shopsData);
+
+    this.shopList.addEventListener('ShopListUpdate', this.updateMarks.bind(this));
+  }
+
+  setItems() {
+    this.items = [];
+    this.shopsData = [];
+    this.items = document.querySelectorAll("[data-shop-target]");
     this.shopsData =
       Array.from(document.querySelectorAll('input[name="shop_coord"]')).map((item) => {
         return {
@@ -24,15 +33,10 @@ export default class YandexMapWorker {
           coords: JSON.parse(item.value),
         };
       });
-
-    const addMap = () => this.addMap(this.shopsData);
-    window.onload = function () {
-      addMap();
-    };
   }
 
   // addMarkCollection(collection) {
-  //   this.markCollection = collection;
+  //   this.this.markCollection = collection;
   // }
 
   getMapCenter() {
@@ -66,73 +70,76 @@ export default class YandexMapWorker {
     });
   }
 
-  addMap(shopsData) {
+  addMap() {
     if (this.isMapAdded) return;
     const average = this.getMapCenter();
-    const hideAllItems = this.hideAllItems.bind(this);
-    const showShop = this.showShop.bind(this);
-    const scroll = this.scrollToShop.bind(this);
-    const shops = this.items;
-    const showClass = this.classes.show;
 
-    ymaps.ready(function () {
-      var myMap = new ymaps.Map("filter-map", {
+    ymaps.ready(() => {
+      this.map = new ymaps.Map("filter-map", {
         center: [average.lat, average.long],
         zoom: 10,
         controls: ["zoomControl"],
       }, {
         searchControlProvider: "yandex#search",
-      }),
-        markCollection = new ymaps.GeoObjectCollection(null, {
-          iconColor: "#6c757d",
-        });
+      });
 
-      for (var i = 0, l = shopsData.length; i < l; i++) {
-        const mark = new ymaps.Placemark([
-          shopsData[i].coords["lat"],
-          shopsData[i].coords["long"],
-        ], { path: shopsData[i].path });
-        mark.events.add(
-          "click",
-          ((shop) => {
-            return function () {
-              hideAllItems();
-              showShop(shop);
-              scroll(shop.path);
-              markCollection.each(function (placemark) {
-                placemark.options.set("iconColor", "#6c757d");
-              });
-              mark.options.set("iconColor", "#3d39fc");
-            };
-          })(shopsData[i]),
-        );
-        markCollection.add(mark);
-      }
+      this.markCollection = new ymaps.GeoObjectCollection(null, {
+        iconColor: "#6c757d",
+      });
 
-      document.querySelectorAll("[data-shop-view]").forEach((shop) =>
-        shop.addEventListener("click", (e) => {
-          shops.forEach((shop) => {
-            shop.classList.remove(showClass);
-            if (e.target.dataset.shopView == shop.dataset.shopTarget) {
-              shop.classList.add(showClass);
-            }
-          });
-          markCollection.each(function (mark) {
-            mark.options.set("iconColor", "#6c757d");
-            if (e.target.dataset.shopView == mark.properties.get("path")) {
-              e.target.classList.add(showClass);
-              myMap.setCenter(mark.geometry.getCoordinates());
-              // myMap.setZoom(15);
-              mark.options.set("iconColor", "#3d39fc");
-            }
-          });
-        })
-      );
-
-      myMap.geoObjects.add(markCollection);
+      this.addMarks();
     });
 
+    this.shopList.addEventListener('click', this.selectShop.bind(this));
     this.isMapAdded = true;
+  }
+
+  addMarks() {
+    for (var i = 0, l = this.shopsData.length; i < l; i++) {
+      const mark = new ymaps.Placemark(
+        [this.shopsData[i].coords["lat"], this.shopsData[i].coords["long"],],
+        { path: this.shopsData[i].path }
+      );
+      mark.events.add("click", ((shop) => {
+        return () => {
+          this.hideAllItems();
+          this.showShop(shop);
+          this.scrollToShop(shop.path);
+          this.markCollection.each(function (placemark) {
+            placemark.options.set("iconColor", "#6c757d");
+          });
+          mark.options.set("iconColor", "#3d39fc");
+        };
+      })(this.shopsData[i]),
+      );
+      this.markCollection.add(mark);
+      this.map.geoObjects.add(this.markCollection);
+    }
+  }
+
+  updateMarks(e) {
+    this.setItems();
+    this.markCollection.removeAll();
+    this.addMarks();
+  }
+
+  selectShop(e) {
+    if (!e.target.hasAttribute('data-shop-view')) return;
+    this.items.forEach((shop) => {
+      shop.classList.remove(this.classes.show);
+      if (e.target.dataset.shopView == shop.dataset.shopTarget) {
+        shop.classList.add(this.classes.show);
+      }
+    });
+    this.markCollection.each((mark) => {
+      mark.options.set("iconColor", "#6c757d");
+      if (e.target.dataset.shopView == mark.properties.get("path")) {
+        e.target.classList.add(this.classes.show);
+        this.map.setCenter(mark.geometry.getCoordinates());
+        this.map.setZoom(12);
+        mark.options.set("iconColor", "#3d39fc");
+      }
+    });
   }
 
   hideMap() {

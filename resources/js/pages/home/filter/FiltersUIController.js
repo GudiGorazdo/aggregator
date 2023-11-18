@@ -1,9 +1,7 @@
 import "../../../layouts/aside";
 import "../../../scripts/expand";
-import categories from "./categories";
-categories.init();
 
-export class FiltersUIController {
+export default class {
   constructor() {
     this.bodyEl = document.querySelector("body");
     this.aside = document.querySelector(".aside");

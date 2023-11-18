@@ -2,7 +2,7 @@
     <div class="filter__container">
         @include('layouts.aside')
         <div class="flex-ctr correct filter__wrapper" data-correct>
-            @include('pages.home.layouts.shops-list', ['shops' => $shops])
+            @include('layouts.shops-list', ['shops' => $shops])
             <div id="filter-map" class="filter__map"></div>
         </div>
     </div>

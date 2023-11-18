@@ -11,7 +11,7 @@ class CategoryFilter extends BaseFilter
 
     public function apply(Builder $query): Builder
     {
-        $this->categories = $this->request['sub_category'] ?? [];
+        $this->categories = $this->request['sub_categories'] ?? [];
         if ($this->categories) {
             return $query->whereHas('subCategories', function (Builder $query) {
                 return $query->whereIn('id', $this->categories);
