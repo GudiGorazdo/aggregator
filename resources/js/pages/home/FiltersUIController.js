@@ -1,5 +1,5 @@
-import "../../../layouts/aside";
-import "../../../scripts/expand";
+import "../../layouts/aside";
+import "../../scripts/expand";
 
 export default class {
   constructor() {

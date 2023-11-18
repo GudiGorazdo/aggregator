@@ -1,4 +1,4 @@
-import FilterBase from '../../../modules/filters/FilterBase';
+import FilterBase from './FilterBase';
 
 export default class extends FilterBase {
   selectors = {

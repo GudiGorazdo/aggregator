@@ -95,6 +95,7 @@ export default class YandexMapWorker {
   }
 
   addMarks() {
+    console.log(this.shopsData.length);
     for (var i = 0, l = this.shopsData.length; i < l; i++) {
       const mark = new ymaps.Placemark(
         [this.shopsData[i].coords["lat"], this.shopsData[i].coords["long"],],
