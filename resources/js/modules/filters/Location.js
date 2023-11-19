@@ -43,6 +43,11 @@ export default class Location {
       this.disableSubway();
       return;
     }
+
+    this.setAreaItems();
+  }
+
+  setAreaItems() {
     this.items.forEach((item, index) => {
       this.area.options.group = 'test';
       this.area.options.data.push({
@@ -54,26 +59,27 @@ export default class Location {
           path: `area_${item.id}`,
           inverted: true,
         }
-        // attr: {
-        //   'val': city.id
-        // },
       });
       if (item.subways.length > 0) {
-        item.subways.forEach((subItem, index) => {
-          this.subway.options.group = 'test';
-          this.subway.options.data.push({
-            value: subItem.name,
-            index: subItem.id,
-            group: `area_${item.id}`,
-            switch: {
-              name: 'area',
-              target: `area_${item.id}`,
-            }
-          });
-        });
+        this.setSubwayItems(item);
       } else {
         this.disableSubway();
       }
+    });
+  }
+
+  setSubwayItems(area) {
+    area.subways.forEach((subItem, index) => {
+      this.subway.options.group = 'test';
+      this.subway.options.data.push({
+        value: subItem.name,
+        index: subItem.id,
+        group: `area_${area.id}`,
+        switch: {
+          name: 'area',
+          target: `area_${area.id}`,
+        }
+      });
     });
   }
 
