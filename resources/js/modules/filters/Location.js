@@ -53,11 +53,10 @@ export default class Location {
       this.area.options.data.push({
         value: item.name,
         index: item.id,
-        group: `area_${item.id}`,
         switch: {
           name: 'area',
           path: `area_${item.id}`,
-          inverted: true,
+          // inverted: true,
         }
       });
       if (item.subways.length > 0) {
@@ -74,7 +73,6 @@ export default class Location {
       this.subway.options.data.push({
         value: subItem.name,
         index: subItem.id,
-        group: `area_${area.id}`,
         switch: {
           name: 'area',
           target: `area_${area.id}`,

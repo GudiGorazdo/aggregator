@@ -442,8 +442,8 @@ export default class Chooser {
     this.enableSwitchGroupInverted(name);
     const $group = document.querySelectorAll(`[data-chooser_switch-name=${name}][data-chooser_switch-target]`);
     $group.forEach((item) => {
-      if (!item.classList.contains("selected") &&
-        item.getAttribute("data-chooser_switch-target") !== group) {
+      if (item.classList.contains("selected")) item.classList.remove("selected");
+      if (item.getAttribute("data-chooser_switch-target") !== group) {
         item.classList.add("disabled");
       }
     });
