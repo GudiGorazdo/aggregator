@@ -49,15 +49,18 @@ export default class Location {
 
   setAreaItems() {
     this.items.forEach((item, index) => {
-      this.area.options.group = 'test';
+      // this.area.options.isMultiple = true;
       this.area.options.data.push({
         value: item.name,
         index: item.id,
-        switch: {
-          name: 'area',
+        group: {
           path: `area_${item.id}`,
-          // inverted: true,
-        }
+          inverted: true,
+        },
+        // onClick(item) {
+        //   console.log('onClick:');
+        //   console.log(item);
+        // }
       });
       if (item.subways.length > 0) {
         this.setSubwayItems(item);
@@ -69,14 +72,14 @@ export default class Location {
 
   setSubwayItems(area) {
     area.subways.forEach((subItem, index) => {
-      this.subway.options.group = 'test';
+      // this.subway.options.isMultiple = true;
       this.subway.options.data.push({
         value: subItem.name,
         index: subItem.id,
-        switch: {
-          name: 'area',
-          target: `area_${area.id}`,
-        }
+        group: {
+          path: `area_${area.id}`,
+          slave: true,
+        },
       });
     });
   }
