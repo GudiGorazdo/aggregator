@@ -283,12 +283,13 @@ export default class Chooser {
       this.filterOnInput = this.filterOnInput.bind(this);
       this.$current.addEventListener("input", this.filterOnInput);
     }
-    if (this.props.onSetUp) this.props.onSetUp(this.props.data);
 
     const groups = this.props.data.filter(item => item.group);
     if (groups.length > 0) {
       document.addEventListener('ChooserGroupChange', this.onGroupChange.bind(this));
     }
+
+    if (this.props.onSetUp) this.props.onSetUp(this);
   }
 
 
@@ -343,8 +344,8 @@ export default class Chooser {
   }
 
   runCallbacks(id) {
-    if (this.props.onSelect) this.props.onSelect(this.data[id]);
-    if (this.data[id].onClick) this.data[id].onClick(this.data[id]);
+    if (this.props.onSelect) this.props.onSelect(this.data[id], this);
+    if (this.data[id].onClick) this.data[id].onClick(this.data[id], this);
   }
 
   disableSelectedAll() {
@@ -370,31 +371,32 @@ export default class Chooser {
     else this.$current.textContent = this.current.value;
   }
 
-  select(id, handler = false) {
+  select(id, handler = false, action = true) {
     if (handler) id = `${this.elId}_${id}`;
     const currentEl = this.$el.querySelector(`#${id}`);
     if (this.isMultiple) {
-      return this.selectMultiple(id, currentEl);
+      return this.selectMultiple(id, currentEl, action);
     };
     this.activeDescendant = id;
     this.disableSelectedAll();
     this.setCurrentText();
-    this.runCallbacks(id);
     this.enableSelected(id, currentEl);
     if (this.current.group) this.generateGroupEvent(this.current);
+    action && this.runCallbacks(id);
   }
 
-  selectMultiple(id, currentEl) {
+  selectMultiple(id, currentEl, action) {
     if (this.multipleList.includes(id)) {
-      this.multipleList = this.multipleList.filter(item => item !== id);
+      this.removeFromMultipleList(id);
       this.disableSelected(currentEl);
       if (this.data[id].group) this.generateGroupEvent(this.data[id]);
-      return;
+    } else {
+      this.enableSelected(id, currentEl);
+      this.multipleList.push(id);
+      if (this.data[id].group) this.generateGroupEvent(this.data[id]);
     }
 
-    this.enableSelected(id, currentEl);
-    this.multipleList.push(id);
-    if (this.data[id].group) this.generateGroupEvent(this.data[id]);
+    action && this.runCallbacks(id);
   }
 
   generateGroupEvent(item) {
@@ -404,7 +406,7 @@ export default class Chooser {
         path: item.group.path,
         isInverted: item.group.isInverted,
         isSlave: item.group.isSlave ?? false,
-        isMultilple: this.isMultiple,
+        isMultiple: this.isMultiple,
         multipleList: this.multipleList.reduce((list, id) => {
           list.push(this.data[id].group.path);
           return list;
@@ -418,19 +420,33 @@ export default class Chooser {
     return this.props.data.filter(item => item.group.path === path);
   }
 
+  groupReset(path) {
+    if (this.current && (path !== this.current.group.path)) {
+      this.reset();
+    }
+  }
+
+  groupResetMultiple(event) {
+    if (!event.detail.isMultiple) return;
+  }
+
   onGroupChange(event) {
     if (event.detail.el === this.props.el) return;
     if (event.detail.isSlave) return;
     if (!this.groupItems(event.detail.path)) return;
-    if (event.detail.isMultilple) this.setGroupMultiple(event.detail);
+    if (event.detail.isMultiple) this.setGroupMultiple(event.detail);
     else this.setGroup(event.detail);
-    if (!this.current) return;
-    if (event.detail.isInverted && (event.detail.path !== this.current.group.path)) {
-      this.reset();
+    if (!this.current && !event.detail.isMultiple) return;
+    if (event.detail.isInverted) {
+      this.groupReset(event.detail.path);
+      this.groupResetMultiple(event);
+    } else {
+
     }
-    if (event.isMultiple && eventDetail.multipleList.length < 1) {
-      this.reset();
-    }
+  }
+
+  removeFromMultipleList(id) {
+    this.multipleList = this.multipleList.filter(item => item !== id);
   }
 
   setGroupMultiple(eventDetail) {
@@ -479,6 +495,9 @@ export default class Chooser {
       item.classList.remove('selected');
     };
     item.classList.add('disabled');
+    if (this.multipleList) {
+      this.removeFromMultipleList(item.id);
+    }
   }
 
   enableGroupItem(item) {

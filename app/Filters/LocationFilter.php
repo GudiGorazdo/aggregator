@@ -37,8 +37,8 @@ class LocationFilter extends BaseFilter
         string $related = null
     ) {
         parent::__construct($name, $label, $field, $attributes, $related);
-        $this->subway = $this->request['subway'] ?? false;
-        $this->area = $this->request['area'] ?? false;
+        $this->subway = $this->request['subways'] ?? false;
+        $this->area = $this->request['areas'] ?? false;
     }
 
     public function getItems(int $cityID): Collection

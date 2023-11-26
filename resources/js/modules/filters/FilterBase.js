@@ -1,17 +1,17 @@
 import { ShopListUpdate } from "../../Events";
 
 export default class {
- api = '/api/filter/shop?';
- list = null;
+  api = '/api/filter/shop?';
+  list = null;
 
- constructor(field) {
-  this.field = field;
-  this.list = document.getElementById('shop-list');
- }
+  constructor(fields) {
+    this.fields = fields;
+    this.list = document.getElementById('shop-list');
+  }
 
   async filter() {
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.delete(this.field);
+    this.removeFieldsFromURL(urlParams);
     this.setURLparams(urlParams);
     const url = `${this.api}${urlParams.toString()}`;
     const response = await fetch(url);
@@ -31,5 +31,11 @@ export default class {
     window.history.pushState({}, '', url);
   }
 
-  setURLparams(urlParams) {}
+  removeFieldsFromURL(urlParams) {
+    Object.keys(this.fields).forEach(field => {
+      urlParams.delete(this.fields[field]);
+    });
+  }
+
+  setURLparams(urlParams) { }
 }

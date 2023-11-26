@@ -8,7 +8,7 @@ import Categories from "../../modules/filters/Categories";
 
 document.addEventListener("DOMContentLoaded", () => {
   new YandexMapWorker();
-  new Location();
-  new Categories('sub_categories[]');
+  new Location({area: 'areas[]', subway: 'subways[]'});
+  new Categories({subCategories: 'sub_categories[]'});
   new FiltersUIController();
 });

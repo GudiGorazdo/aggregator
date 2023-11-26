@@ -58,8 +58,8 @@ export default class extends FilterBase {
 
   isSubCategoryListOpen = false;
 
-  constructor(field) {
-    super(field);
+  constructor(fields) {
+    super(fields);
     this.count.apply.el = document.querySelector(this.selectors.count.apply.el);
     this.count.apply.title = document.querySelector(this.selectors.count.apply.title);
     this.count.clear.el = document.querySelector(this.selectors.count.clear.el);
@@ -79,7 +79,7 @@ export default class extends FilterBase {
     Object.values(this.inputs).forEach(category => {
       if (category.activeBrands <= 0) return;
       Object.values(category.subCategories).forEach(subCategory => {
-        subCategory.el.checked && urlParams.append(this.field, subCategory.id);
+        subCategory.el.checked && urlParams.append(this.fields.subCategories, subCategory.id);
       });
     });
   }
