@@ -49,13 +49,13 @@ export default class Location {
 
   setAreaItems() {
     this.items.forEach((item, index) => {
-      // this.area.options.isMultiple = true;
+      this.area.options.isMultiple = true;
       this.area.options.data.push({
         value: item.name,
         index: item.id,
         group: {
           path: `area_${item.id}`,
-          inverted: true,
+          isInverted: true,
         },
         // onClick(item) {
         //   console.log('onClick:');
@@ -72,13 +72,13 @@ export default class Location {
 
   setSubwayItems(area) {
     area.subways.forEach((subItem, index) => {
-      // this.subway.options.isMultiple = true;
+      this.subway.options.isMultiple = true;
       this.subway.options.data.push({
         value: subItem.name,
         index: subItem.id,
         group: {
           path: `area_${area.id}`,
-          slave: true,
+          isSlave: true,
         },
       });
     });

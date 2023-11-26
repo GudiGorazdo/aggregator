@@ -1,17 +1,18 @@
 /**
-  Start
+  Step 1: Setting Up Chooser
+
   First, just copy the chooser.js and chooser.css files to the project folder.
 
-  Then connect them to the head of your html file
+  Link them in the head of your HTML file:
   <script defer="defer" src="/your/path/chooser.js"></script>
   <link href="/your/path/chooser.css" rel="stylesheet">
 
-  Then connect your file with scripts, such as scripts.js
+  Connect your script file, such as scripts.js:
   <script defer="defer" src="scripts.js"></script>
 
-  and create a new Chooser instance in your file using the object with the settings.
+  Step 2: Creating a Chooser Instance
 
-  Example of a settings object
+  Create a new Chooser instance in your file using the settings object:
   const options = {
     el: 'select',
     placeholder: 'placeholder',
@@ -38,106 +39,81 @@
 
   const select = new Chooser(options);
 
-  Complete list of settings
+  Full List of Chooser Settings:
+
   const select = new Chooser({
-  el: 'element',
-      -- 'el': Root element Id
-  index: some_index,
-      -- required, some unique index for convenience of choosing the side of the code
-  placeholder: 'some_placeholder',
-      -- 'placeholder': default "choser"
-  current: 2,
-      -- active item on start
-  label: 'some_label',
-      -- 'label': default "Выберите элемент:". required element. is an ARIA lable
-  multiple: boolean,
-      -- multiple choice;
-  input: {
-      -- activate input elment instead of button in header
-      filter: true,
-        -- if true - filters the items according to the entered line
-      numbers: true,
-        -- if true - only numbers can be entered in the input
-      id: 'some id',
-      attr: {
+  el: 'element',                      -- ID of the root element (required).
+  index: some_index,                  -- A unique index for ease of selection in the code (required).
+  placeholder: 'some_placeholder',    -- 'Default value for the selected item (default is "Chooser").
+  current: 2,                         -- Index of the active item on start.
+  label: 'some_label',                -- default "Выберите элемент:". required element. is an ARIA lable
+  multiple: boolean,                  -- Allowing multiple selection.
+  input: {                            -- Settings for activating an input element instead of a button in the header.
+      filter: boolean,                -- Filtering items based on the entered string.
+      numbers: boolean,               -- Allowing only numerical input.
+      id: 'some id',                  -- ID of the input element.
+      attr: {                         -- Additional attributes for the input element.
         type: 'text',
         placeholder: 'placeholder',
       },
+
     },
-  data: [
+  data: [                             --An array of objects with data for Chooser items.
     {
       value: 'some_value',
       attr: {
         'some_attr': 'some_value',
         'some_attr': 'some_value',
         'some_attr': 'some_value',
-          -- 'attr': any attributes can be added (key - value)
+                                      -- any attributes can be added (key - value)
       },
       id: 'some_unique_id',
-          -- 'id': item id is assigned automatically by the index of the item in the array.
-              If necessary, you can reassign it.
-              Used to select an element and focus on an element:
-              (select.select (chooserId), select.focuse (chooserId)).
-      group: 'some_name',
-          -- add group to hide the names of one group
-      switch: {
-        name: 'some_name'
-          -- required
-        target: 'some_value'
-          -- target to be switched
-        path: 'some_value'
-          -- click element to swich target
-        inverted: boolean
-          -- if true target be enabled, and other switch targets disabled
-      }
-      onClick(item) {
-          someFunction(item);
-        } -- the function will be executed during the click of the item
-    },
-    {
-      value: 'some_value',
-      attr: {
-        'some_attr': 'some_value',
-        'some_attr': 'some_value',
-        'some_attr': 'some_value',
+                                      -- 'id': item id is assigned automatically by the index of the item in the array.
+                                          If necessary, you can reassign it.
+                                          Used to select an element and focus on an element:
+                                          (select.select (chooserId), select.focuse (chooserId)).
+      group: {
+        'path': 'some_value',         -- add group to hide the items other instance of Chooser
+        'isInverted': bollean,        -- makes all elements not included in the group inactive
+        'isSlave': boolean,           -- cannot influence other elements of the group, only susceptible to influence
       },
-      id: 'some_unique_id'
+      onClick(item) {                 -- A function executed during initialization.
+          someFunction(item);
+        }
     },
-    { value: 'some_value' },
   ],
-  classList: {
+  classList: {                        -- Classes for different Chooser elements.
     label: 'some-class__label',
     wrapper: 'some-class__wrapper',
     current: 'some-class__button',
     list: 'some-class__list',
     item: 'some-class__item',
   }
-  onSetUp(items) {
+  onSetUp(items) {                    -- A function executed during initialization.
       someFunction(items);
-    }, -- function will be executed during initialization
-  onSelect(item) {
+    },
+  onSelect(item) {                    -- A function executed when selecting an item.
     someFunction(item);
-  }  -- the function will be executed during the selection of the item
+  }
 });
 
   Methods
 
-  select(index, true) - select element;
-    index - index needle element in ements array;
-    true - obligatory;
+  select(index, true)      -- Selecting an element by index.
+    index                  -- index needle element in ements array;
+    true                   -- obligatory;
 
-  getCurrentItem() - return current item;
+  getCurrentItem()         -- Getting the currently selected item.
+  getMultipleCurrents()    -- Getting the currently selected item.
 
   Aattributes
-  data-chooser_no_close=${id} - do not close this.checkMiss(event);
+  data-chooser_no_close=${id} -- Preventing the element from closing on an event.
 
   Classes
-  hover       - stylizing the state of hover
-  focused     - stylizing the state of focus when accessing from the keyboard
-  selected    - stylizing the state of selected item
-  disabled    - stylizing the state of disabled item
-                (is automatically added to all items in the group except the selected)
-                it with this class becomes selectable and skipped when selected from the keyboard
+  hover       -- Styling state on hover.
+  focused     -- Styling state when accessed from the keyboard.
+  selected    -- Styling state of the selected item.
+  disabled    -- Styling state of a disabled item in a group (automatically added to all items except the selected).
 
 
 */
@@ -155,13 +131,10 @@ const checkgroupDisabled = (groupName) => {
 const getGroup = (item, selected) => {
   if (!item.group?.path) return ['', false];
 
-  const disabled = selected
-    ? false
-    : checkgroupDisabled(item.group.path);
-
-  let group = `data-chooser_group=${item.group.path}`;
-
-  return [group, disabled];
+  return [
+    `data-chooser_group=${item.group.path}`,
+    selected ? false : checkgroupDisabled(item.group.path)
+  ];
 };
 
 const getAttributesString = (attributes) => {
@@ -278,10 +251,6 @@ export default class Chooser {
     this.multipleList = [];
     this.isOpen = false;
     this.focused = null;
-    this.activeGroup = {
-      path: null,
-      name: null,
-    };
 
     this.#render();
     this.#setup();
@@ -325,6 +294,10 @@ export default class Chooser {
 
   getCurrentItem() {
     return this.current;
+  }
+
+  getMultipleCurrents() {
+    return this.multipleCurrents;
   }
 
   filterItemsByValueStart(value) {
@@ -397,16 +370,6 @@ export default class Chooser {
     else this.$current.textContent = this.current.value;
   }
 
-  selectMultiple(id, currentEl) {
-    if (this.multipleList.includes(id)) {
-      this.multipleList = this.multipleList.filter(item => item !== id);
-      return this.disableSelected(currentEl);
-    }
-
-    this.enableSelected(id, currentEl);
-    this.multipleList.push(id);
-  }
-
   select(id, handler = false) {
     if (handler) id = `${this.elId}_${id}`;
     const currentEl = this.$el.querySelector(`#${id}`);
@@ -418,72 +381,116 @@ export default class Chooser {
     this.setCurrentText();
     this.runCallbacks(id);
     this.enableSelected(id, currentEl);
-    if (this.current.group) this.generateGroupEvent();
+    if (this.current.group) this.generateGroupEvent(this.current);
   }
 
-  generateGroupEvent() {
+  selectMultiple(id, currentEl) {
+    if (this.multipleList.includes(id)) {
+      this.multipleList = this.multipleList.filter(item => item !== id);
+      this.disableSelected(currentEl);
+      if (this.data[id].group) this.generateGroupEvent(this.data[id]);
+      return;
+    }
+
+    this.enableSelected(id, currentEl);
+    this.multipleList.push(id);
+    if (this.data[id].group) this.generateGroupEvent(this.data[id]);
+  }
+
+  generateGroupEvent(item) {
     const groupEvent = new CustomEvent('ChooserGroupChange', {
       detail: {
-        path: this.current.group.path,
-        inverted: this.current.group.inverted,
-        slave: this.current.group.slave ?? false,
         el: this.props.el,
+        path: item.group.path,
+        isInverted: item.group.isInverted,
+        isSlave: item.group.isSlave ?? false,
+        isMultilple: this.isMultiple,
+        multipleList: this.multipleList.reduce((list, id) => {
+          list.push(this.data[id].group.path);
+          return list;
+        }, []),
       }
     });
     document.dispatchEvent(groupEvent);
   }
 
+  groupItems(path) {
+    return this.props.data.filter(item => item.group.path === path);
+  }
+
   onGroupChange(event) {
     if (event.detail.el === this.props.el) return;
-    if (event.detail.slave) return;
-    this.setGroup(event.detail);
+    if (event.detail.isSlave) return;
+    if (!this.groupItems(event.detail.path)) return;
+    if (event.detail.isMultilple) this.setGroupMultiple(event.detail);
+    else this.setGroup(event.detail);
     if (!this.current) return;
-    if (event.detail.inverted && (event.detail.path !== this.current.group.path)) {
+    if (event.detail.isInverted && (event.detail.path !== this.current.group.path)) {
+      this.reset();
+    }
+    if (event.isMultiple && eventDetail.multipleList.length < 1) {
       this.reset();
     }
   }
 
-  setGroup(eventDetils) {
-    if (eventDetils.inverted) {
-      return this.setGroupInverted(eventDetils);
+  setGroupMultiple(eventDetail) {
+    this.$el.querySelectorAll('[data-chooser_type="chooser_item"]')
+      .forEach(item => {
+        if (eventDetail.multipleList.length < 1) {
+          return this.enableGroupItem(item);
+        }
+        const { chooser_group } = item.dataset;
+        const condition = eventDetail.multipleList.includes(chooser_group);
+        this.switchGroup(item, condition, eventDetail.isInverted);
+      });
+  }
+
+  setGroup(eventDetail) {
+    this.$el.querySelectorAll('[data-chooser_type="chooser_item"]')
+      .forEach(item => {
+        const { chooser_group } = item.dataset;
+        const condition = chooser_group === eventDetail.path;
+        this.switchGroup(item, condition, eventDetail.isInverted);
+      });
+  }
+
+  switchGroup(item, condition, isInverted) {
+    if (condition) {
+      this.enableGroup(item, isInverted);
+    } else {
+      this.disableGroup(item, isInverted);
     }
-    this.activeGroup.path && this.enableGroupElements(this.activeGroup.path);
-    this.disableGroupElements(eventDetils.path);
-    this.activeGroup.path = eventDetils.path;
   }
 
-  setGroupInverted(eventDetils) {
-    this.enableGroupElements(eventDetils.path);
-    this.disableGroupElementsInverted(eventDetils.path);
+  enableGroup(item, isInverted) {
+    isInverted
+      ? this.enableGroupItem(item)
+      : this.disableGroupItem(item);
   }
 
-  disableGroupElementsInverted(group) {
-    const $group = this.$el.querySelectorAll(`[data-chooser_type="chooser_item"]`);
-    $group.forEach((item) => this.disableGroupElementInverted(item, group));
+  disableGroup(item, isInverted) {
+    isInverted
+      ? this.disableGroupItem(item)
+      : this.enableGroupItem(item);
   }
 
-  disableGroupElementInverted(item, group) {
-    const { chooser_group } = item.dataset;
-    if (chooser_group !== group) {
-      item.classList.add("disabled");
-    }
+  disableGroupItem(item) {
+    if (item.classList.contains('selected')) {
+      item.classList.remove('selected');
+    };
+    item.classList.add('disabled');
   }
 
-  enableGroupElements(group) {
-    const $group = this.$el.querySelectorAll(`[data-chooser_group=${group}]`);
-    $group.forEach((item) => item.classList.remove("disabled"));
-  }
-
-  disableGroupElements(group) {
-    const $group = this.$el.querySelectorAll(`[data-chooser_group=${group}]`);
-    $group.forEach((item) => item.classList.add("disabled"));
+  enableGroupItem(item) {
+    item.classList.remove('disabled');
   }
 
   reset() {
+    console.log('reset');
     if (this.props.input) this.$current.value = '';
     else this.$current.textContent = this.props.placeholder;
     this.activeDescendant = null;
-    this.activeGroup = null;
+    this.multipleList = [];
     this.$el.querySelectorAll('[data-chooser_type="chooser_item"]')
       .forEach(item => item.classList.remove('selected'));
   }
