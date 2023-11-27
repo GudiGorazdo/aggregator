@@ -69,8 +69,6 @@ const expand = {
     if (!width) return;
     switch (width) {
       case 'fixed':
-        console.log(container.getBoundingClientRect())
-        console.log(container.offsetWidth);
         container.style.width = `${container.offsetWidth}px`;
         return;
     }
