@@ -64,7 +64,7 @@ export default class Location extends FilterBase {
   onSelect() {
     this.activeAreas = this.area.select.getMultipleCurrents();
     this.activeSubways = this.subway.select.getMultipleCurrents();
-    this.filter();
+    this.filterApply();
   }
 
   setAreaItems() {

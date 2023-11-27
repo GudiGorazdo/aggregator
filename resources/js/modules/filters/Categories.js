@@ -124,7 +124,7 @@ export default class extends FilterBase {
     });
 
     this.setApplyCount();
-    this.filter();
+    this.filterApply();
   }
 
   toggleSubCategories(event) {
@@ -144,7 +144,7 @@ export default class extends FilterBase {
 
     this.setApplyCount();
     this.setClearCount(category);
-    this.filter();
+    this.filterApply();
   }
 
   initActionButtons() {
@@ -232,7 +232,7 @@ export default class extends FilterBase {
       this.clearFull();
     }
 
-    this.filter();
+    this.filterApply();
   }
 
   clearFull() {

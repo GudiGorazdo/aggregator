@@ -9,7 +9,7 @@ export default class {
     this.list = document.getElementById('shop-list');
   }
 
-  async filter() {
+  async filterApply() {
     const urlParams = new URLSearchParams(window.location.search);
     this.removeFieldsFromURL(urlParams);
     this.setURLparams(urlParams);

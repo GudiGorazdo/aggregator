@@ -25,7 +25,7 @@ export default class Rating extends FilterBase {
 
   apply(e) {
     this.value = e.target.value;
-    this.filter();
+    this.filterApply();
   }
 
   setURLparams(urlParams) {

@@ -3,7 +3,8 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use \App\Services\GetDayTime;
+use \App\Services\CityTimeService;
+use \App\Services\DayService;
 use \App\Filters\BaseFilter;
 use \App\Http\Controllers\CookieController;
 use \App\Constants\CookieConstants;
@@ -39,15 +40,15 @@ class OptionsFilter extends BaseFilter
     public function workNow(Builder $query): Builder
     {
         $query = $query->whereHas('workingMode', function (Builder $query) {
-            return $query->where('day_of_week', GetDayTime::getNowDayNum($this->timezone))
+            return $query->where('day_of_week', DayService::getDayNumByDate(CityTimeService::getDate($this->timezone)))
                 ->where('is_open', 1)
                 ->where(function (Builder $query) {
-                        $query->whereTime('open_time', '<', GetDayTime::getTime($this->timezone))
+                        $query->whereTime('open_time', '<', CityTimeService::getTime($this->timezone))
                             ->orWhereNull('open_time')
                     ;
                 })
                 ->where(function (Builder $query) {
-                        $query->whereTime('close_time', '>', GetDayTime::getTime($this->timezone))
+                        $query->whereTime('close_time', '>', CityTimeService::getTime($this->timezone))
                             ->orWhereNull('close_time')
                     ;
                 })
@@ -62,8 +63,9 @@ class OptionsFilter extends BaseFilter
             $value = $this->request[$filter['name']] ?? false;
             if (!$value) continue;
             if ($filter['name'] == 'work_now') {
-                $this->city_id = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
-                $this->timezone = City::getById($this->city_id)['timezone'];
+                $this->cityID = $this->request['city'] ?? CookieController::getCookie(CookieConstants::LOCATION);
+                $city = City::with('region')->getById($this->cityID);
+                $this->timezone = (int)$city->region->timezone;
                 $this->workNow($query);
                 continue;
             }
