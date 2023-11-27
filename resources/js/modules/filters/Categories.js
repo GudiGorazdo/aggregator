@@ -252,4 +252,16 @@ export default class extends FilterBase {
     this.setApplyCount();
     this.setClearCount(category.id);
   }
+
+  reset() {
+    for (let input in this.inputs) {
+      console.log(this.inputs[input]);
+      this.inputs[input].el.classList.remove(this.classes.activePartial);
+      this.inputs[input].el.checked = false;
+      if (this.inputs[input].activeBrands < 1) continue;
+      for (let sub in this.inputs[input].subCategories) {
+        this.inputs[input].subCategories[sub].el.checked = false;
+      }
+    }
+  }
 }

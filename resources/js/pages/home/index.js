@@ -7,6 +7,7 @@ import YandexMapWorker from "../../modules/YandexMapWorker";
 import Categories from "../../modules/filters/Categories";
 import Rating from "../../modules/filters/Rating";
 import Options from "../../modules/filters/Options";
+import FilterBase from "../../modules/filters/FilterBase";
 
 document.addEventListener("DOMContentLoaded", () => {
   new YandexMapWorker();
@@ -15,4 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   new Rating({rating: 'rating'});
   new Options({workNow: 'work_now', convenienceShop: 'convenience_shop', appraisalOnline: 'appraisal_online', pawnshop: 'pawnshop'});
   new FiltersUIController();
+
+  const filteBase = new FilterBase();
+  const fullClear = document.getElementById('filter-clear-all');
+  fullClear.addEventListener('click', () => filteBase.fullReset());
 });

@@ -29,7 +29,7 @@
                 <span> Фильтр </span>
             </button>
 
-            <button class="btn aside__clear-btn">
+            <button id="filter-clear-all" class="btn aside__clear-btn">
                 <x-icon-trash />
                 <span>Сбросить</span>
             </button>

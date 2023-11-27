@@ -130,4 +130,11 @@ export default class Location extends FilterBase {
       select.select(id, false);
     }
   }
+
+  reset() {
+    this.area.select.reset();
+    this.subway.select.reset();
+    this.activeAreas = [];
+    this.activeSubways = [];
+  }
 }

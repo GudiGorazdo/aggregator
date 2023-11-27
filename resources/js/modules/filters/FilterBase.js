@@ -1,23 +1,47 @@
-import { ShopListUpdate } from "../../Events";
+export const ShopListUpdate = new CustomEvent('ShopListUpdate', {
+  detail: {},
+  bubbles: true,
+  cancelable: true,
+});
 
-export default class {
+export const FilterFullReset = new CustomEvent('filterFullReset', {
+  detail: {},
+  bubbles: true,
+  cancelable: true,
+});
+
+export default class FilterBase {
   api = '/api/filter/shop?';
   list = null;
 
   constructor(fields) {
     this.fields = fields;
     this.list = document.getElementById('shop-list');
+    this.list.addEventListener('filterFullReset', this.reset.bind(this));
   }
 
   async filterApply() {
     const urlParams = new URLSearchParams(window.location.search);
     this.removeFieldsFromURL(urlParams);
     this.setURLparams(urlParams);
-    const url = `${this.api}${urlParams.toString()}`;
-    const response = await fetch(url);
-    const result = await response.text();
-    this.updateList(result);
-    this.setURL(urlParams);
+    try {
+      const result = await this.getShopList(urlParams);
+      this.updateList(result);
+      this.setURL(urlParams);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getShopList(urlParams) {
+    try {
+      const url = `${this.api}${urlParams.toString()}`;
+      const response = await fetch(url);
+      const result = await response.text();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   updateList(result) {
@@ -37,5 +61,23 @@ export default class {
     });
   }
 
+  async fullReset() {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.forEach((value, key) => {
+      urlParams.delete(key);
+    });
+    try {
+      const result = await this.getShopList(urlParams);
+      this.updateList(result);
+      this.setURL(urlParams);
+      this.list.dispatchEvent(FilterFullReset);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   setURLparams(urlParams) { }
+
+  reset() { }
+
 }

@@ -14,6 +14,10 @@ export default class Options extends FilterBase {
     }
   }
 
+  setInputsState() {
+
+  }
+
   apply(e) {
     this.filterApply();
   }
@@ -22,6 +26,15 @@ export default class Options extends FilterBase {
     for(let input in this.inputs) {
       this.inputs[input].checked
         && urlParams.append(this.fields[input], this.inputs[input].value);
+    }
+  }
+
+  reset() {
+    const urlParams = new URLSearchParams(window.location.search);
+    for (let field in this.fields) {
+      const value = urlParams.get(this.fields[field]);
+      if (value) this.inputs[field].checked = true;
+      else this.inputs[field].checked = false;
     }
   }
 }
