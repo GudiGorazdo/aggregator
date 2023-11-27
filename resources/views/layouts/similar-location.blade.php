@@ -5,7 +5,7 @@
         @endforeach
     </div>
     {{-- <button class="btn btn--more similar-location__more" data-button="district" data-expand-path="similar-categories"> --}}
-    <button class="btn btn--more similar-location__more" data-expand-path="similar-location">
+    <button class="btn btn--more similar-location__more" data-expand-path="similar-location" data-expand-width='fixed'>
         Показать все
     </button>
 </div>

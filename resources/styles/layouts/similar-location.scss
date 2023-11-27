@@ -1,5 +1,5 @@
 .similar-location {
-  max-width: 50em;
+  flex-basis: 25%;
   flex-shrink: 0;
 
   & a:link,
@@ -34,23 +34,23 @@
 
   &__list {
     margin-bottom: 1.8rem;
-    height: 12.1rem;
+    padding: 0 2rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.8rem;
-    column-gap: 1.8rem;
     overflow: hidden;
-    transition: height 0.5s;
+    transition: height  0.5s, width 0.5s;
 
     @media only screen and (max-width: $pointMD) {
       grid-template-columns: 1fr;
       margin-bottom: 3rem;
     }
-  }
 
-  .active &__list {
-    height: max-content;
+    >a:nth-child(n+5) {
+      display: none;
+    }
+
+    &[data-expand-start-height]>a:nth-child(n+5) {
+      display: inline-block;
+    }
   }
 }
-
-
