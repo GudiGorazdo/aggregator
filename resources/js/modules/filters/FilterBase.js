@@ -62,14 +62,11 @@ export default class FilterBase {
   }
 
   async fullReset() {
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.forEach((value, key) => {
-      urlParams.delete(key);
-    });
+    const urlParams = window.location.pathname;
     try {
       const result = await this.getShopList(urlParams);
       this.updateList(result);
-      this.setURL(urlParams);
+      window.history.pushState({}, '', urlParams);
       this.list.dispatchEvent(FilterFullReset);
     } catch (error) {
       console.log(error);

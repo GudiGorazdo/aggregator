@@ -255,7 +255,6 @@ export default class extends FilterBase {
 
   reset() {
     for (let input in this.inputs) {
-      console.log(this.inputs[input]);
       this.inputs[input].el.classList.remove(this.classes.activePartial);
       this.inputs[input].el.checked = false;
       if (this.inputs[input].activeBrands < 1) continue;

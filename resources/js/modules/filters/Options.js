@@ -14,10 +14,6 @@ export default class Options extends FilterBase {
     }
   }
 
-  setInputsState() {
-
-  }
-
   apply(e) {
     this.filterApply();
   }
@@ -31,6 +27,7 @@ export default class Options extends FilterBase {
 
   reset() {
     const urlParams = new URLSearchParams(window.location.search);
+    this.fields;
     for (let field in this.fields) {
       const value = urlParams.get(this.fields[field]);
       if (value) this.inputs[field].checked = true;
