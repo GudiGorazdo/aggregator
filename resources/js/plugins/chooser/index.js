@@ -89,19 +89,19 @@
     list: 'some-class__list',
     item: 'some-class__item',
   }
-  onSetUp(items) {                    -- A function executed during initialization.
-      someFunction(items);
+  onSetUp(items, instance) {                    -- A function executed during initialization.
+      someFunction(items, instance);
     },
-  onSelect(item) {                    -- A function executed when selecting an item.
-    someFunction(item);
+  onSelect(item, instance) {                    -- A function executed when selecting an item.
+    someFunction(item, instance);
   }
 });
 
   Methods
 
-  select(index, true)      -- Selecting an element by index.
-    index                  -- index needle element in ements array;
-    true                   -- obligatory;
+  select(id, action = true)      -- Selecting an element by index.
+    id                           -- id html el;
+    action                       -- run callbacks;
 
   getCurrentItem()         -- Getting the currently selected item.
   getMultipleCurrents()    -- Getting the currently selected item.
@@ -371,8 +371,7 @@ export default class Chooser {
     else this.$current.textContent = this.current.value;
   }
 
-  select(id, handler = false, action = true) {
-    if (handler) id = `${this.elId}_${id}`;
+  select(id, action = true) {
     const currentEl = this.$el.querySelector(`#${id}`);
     if (this.isMultiple) {
       return this.selectMultiple(id, currentEl, action);

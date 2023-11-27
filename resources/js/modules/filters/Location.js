@@ -3,7 +3,7 @@ import areaOptions from "./options/area";
 import subwayOptions from "./options/subway";
 import FilterBase from './FilterBase';
 
-export default class Locati extends FilterBase {
+export default class Location extends FilterBase {
   items = [];
   area = {
     options: areaOptions,
@@ -127,7 +127,7 @@ export default class Locati extends FilterBase {
 
   checkSelectedAndSelect(select, id) {
     if(select.data[id].selected) {
-      select.select(id, false, false);
+      select.select(id, false);
     }
   }
 }

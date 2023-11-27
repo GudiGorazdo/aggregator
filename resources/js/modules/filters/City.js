@@ -128,7 +128,8 @@ export default class City {
   };
 
   setCurrentCity(current) {
-    this.city.select.select(current, true);
+    const cityItem = this.city.options.data.filter(item => +item.index === +current)[0];
+    this.city.select.select(cityItem.id, false);
   }
 
   onSelectCity = (id) => {

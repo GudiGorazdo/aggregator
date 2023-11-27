@@ -73,7 +73,7 @@ export default class extends FilterBase {
     this.initSubcategoryButtons();
   }
 
-  init() {}
+  init() { }
 
   setURLparams(urlParams) {
     Object.values(this.inputs).forEach(category => {
@@ -98,7 +98,10 @@ export default class extends FilterBase {
           'el': subCategory,
           'id': +subCategory.value,
         };
-        if (subCategory.checked) this.inputs[input.value].activeBrands++;
+        if (subCategory.checked) {
+          this.inputs[input.value].activeBrands++;
+          this.inputs[input.value].el.classList.add(this.classes.activePartial);
+        };
         subCategory.addEventListener('click', this.toggleSubCategories.bind(this));
       });
     });
