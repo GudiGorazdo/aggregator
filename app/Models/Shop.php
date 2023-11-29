@@ -10,14 +10,47 @@ use Illuminate\Database\Eloquent\Relations\belongsToMany;
 use Illuminate\Database\Eloquent\Relations\hasMany;
 use App\Services\FilterService;
 use App\Filters\SimilarCategoriesFilter;
+use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
 class Shop extends Model
 {
     use HasFactory;
     use AsSource;
+    use Filterable;
 
     public $guarded = [];
+    protected $allowedSorts = [
+        'id',
+        'region_id',
+        'city_id',
+        'area_id',
+        'municipality_id',
+        'name',
+        'convenience_shop',
+        'appraisal_online',
+        'pawnshop',
+        'average_rating',
+        'show',
+        'created_at',
+        'updated_at',
+    ];
+    protected $allowedFilters = [
+        'id',
+        'region_id',
+        'city_id',
+        'area_id',
+        'municipality_id',
+        'address',
+        'name',
+        'phone',
+        'whatsapp',
+        'telegram',
+        'emails',
+        'average_rating',
+        'created_at',
+        'updated_at',
+    ];
 
     public function getRouteKey()
     {
@@ -78,6 +111,11 @@ class Shop extends Model
     public function working(): belongsTo
     {
         return $this->belongsTo(\App\Models\City::class);
+    }
+
+    public function municipality(): belongsTo
+    {
+        return $this->belongsTo(\App\Models\Municipality::class);
     }
 
     public function city(): belongsTo

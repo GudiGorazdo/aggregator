@@ -56,7 +56,6 @@ export default class YandexMapWorker {
   scrollToShop(id) {
     const shopItem = document.querySelector(`[data-shop-target="${id}"]`);
     const shopListHeight = this.shopList.offsetHeight;
-    console.log(shopListHeight);
     const shopItemHeight = shopItem.offsetHeight;
     const marginBottom = parseFloat(
       window.getComputedStyle(shopItem).marginBottom,
@@ -65,16 +64,10 @@ export default class YandexMapWorker {
     const scrollToPosition = offsetTop - (shopListHeight / 2) +
       (shopItemHeight / 2) + (marginBottom / 2);
 
-    console.log(scrollToPosition);
-
-    try {
-      this.shopList.scrollTo({
-        top: scrollToPosition,
-        behavior: "smooth",
-      });
-    } catch(err) {
-      console.log(err);
-    }
+    this.shopList.scrollTo({
+      top: scrollToPosition,
+      behavior: "smooth",
+    });
   }
 
   addMap() {
