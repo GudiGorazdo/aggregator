@@ -25,7 +25,7 @@ class ShopController extends Controller
     public function shopList(Request $request): View
     {
         $shops = Shop::filter()->get();
-        return view('layouts.shops-list', ['shops' => $shops]);
+        return view('layouts.shop-list-items', ['shops' => $shops]);
     }
 
     public function show(string $id): View|RedirectResponse

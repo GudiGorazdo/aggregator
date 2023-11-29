@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
 use Illuminate\Database\Eloquent\Relations\hasMany;
-use Illuminate\Database\Eloquent\Relations\hasOne;
 use App\Services\FilterService;
 use App\Filters\SimilarCategoriesFilter;
+use Orchid\Screen\AsSource;
 
 class Shop extends Model
 {
     use HasFactory;
+    use AsSource;
 
     public $guarded = [];
 

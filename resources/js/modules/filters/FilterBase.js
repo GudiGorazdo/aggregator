@@ -26,6 +26,7 @@ export default class FilterBase {
     this.setURLparams(urlParams);
     try {
       const result = await this.getShopList(urlParams);
+      console.log(result);
       this.updateList(result);
       this.setURL(urlParams);
     } catch (error) {

@@ -5,6 +5,7 @@
 @endsection
 
 @section('styles')
+    @vite(['resources/styles/pages/404/index.scss'])
 @endsection
 
 @section('content')
