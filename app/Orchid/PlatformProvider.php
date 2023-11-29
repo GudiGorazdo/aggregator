@@ -30,7 +30,7 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             Menu::make('Магазины')
                 ->icon('building')
-                ->route('platform.shops')
+                ->route('platform.shop.list')
                 ->title('Магазины')
 
             // Menu::make('Example screen')

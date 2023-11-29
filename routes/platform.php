@@ -13,6 +13,7 @@ use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Shop\ShopListScreen;
+use App\Orchid\Screens\Shop\ShopEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -34,8 +35,11 @@ use Tabuna\Breadcrumbs\Trail;
 Route::screen('/main', PlatformScreen::class)
     ->name('platform.main');
 
-Route::screen('/shops', ShopListScreen::class)
-    ->name('platform.shops');
+Route::screen('/shop/list', ShopListScreen::class)
+    ->name('platform.shop.list');
+
+Route::screen('/shop/edit/{id?}', ShopEditScreen::class)
+    ->name('platform.shop.edit');
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)

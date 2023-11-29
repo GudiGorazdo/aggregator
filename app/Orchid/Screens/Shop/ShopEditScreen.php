@@ -2,31 +2,22 @@
 
 namespace App\Orchid\Screens\Shop;
 
-use Orchid\Screen\Screen;
-use Orchid\Screen\TD;
-use Orchid\Support\Facades\Layout;
-use Carbon\Carbon;
 use App\Models\Shop;
-use App\Orchid\Layouts\Shop\ShopListTable;
+use App\Orchid\Layouts\Shop\ShopEditRows;
+use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
 
-class ShopListScreen extends Screen
+class ShopEditScreen extends Screen
 {
     /**
      * Fetch data to be displayed on the screen.
      *
      * @return array
      */
-    public function query(): iterable
+    public function query(Shop $shop): iterable
     {
         return [
-            'shops' => Shop::filters()
-                // ->defaultSort('id', 'asc')
-                ->with('city')
-                ->with('region')
-                ->with('area')
-                ->with('subways')
-                ->with('municipality')
-                ->paginate(20),
+            'shop' => $shop,
         ];
     }
 
@@ -37,7 +28,7 @@ class ShopListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Список магазинов';
+        return 'Редактирование';
     }
 
     /**
@@ -58,7 +49,7 @@ class ShopListScreen extends Screen
     public function layout(): iterable
     {
         return [
-            ShopListTable::class,
+            ShopEditRows::class,
         ];
     }
 }
