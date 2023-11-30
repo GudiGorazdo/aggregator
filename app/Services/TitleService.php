@@ -51,7 +51,7 @@ class TitleService
             return $subway->area->name_for_title;
         });
 
-        $areasTitles = [... $areasTitles, ... $subwaysAreas->toArray()];
+        $areasTitles = [...$areasTitles, ...$subwaysAreas->toArray()];
         $areasTitles = array_values(array_unique($areasTitles));
         $string = self::getStringFromAtrray($areasTitles);
 
@@ -122,49 +122,75 @@ class TitleService
         $shopClose = $shop->workingMode[$dayNum]['close_time'];
         $shopIsOpen = $shop->workingMode[$dayNum]['is_open'];
 
-        [$year, $time] = explode(' ', CityTimeService::getFullTimeAndDate($shop->region->timezone));
-        $openTime = $shopOpen ? Carbon::parse($time . ' ' . $shopOpen) : null;
-        $closeTime = $shopClose ? Carbon::parse($time . ' ' . $shopClose) : null;
-        $nowTime = Carbon::parse($time . ' ' . $year);
+        [$year, $currentTime] = explode(' ', CityTimeService::getFullTimeAndDate($shop->region->timezone));
+        $openTime = $shopOpen ? Carbon::parse($currentTime . ' ' . $shopOpen) : null;
+        $closeTime = $shopClose ? Carbon::parse($currentTime . ' ' . $shopClose) : null;
+        $nowTime = Carbon::parse($currentTime . ' ' . $year);
 
         if (!$shopIsOpen) {
-            return 'Магазин закрыт';
+            return '<span class="info__isclosed">Магазин закрыт</span>';
         }
 
         if (!is_null($openTime) && $openTime->greaterThan($nowTime)) {
-            // Если время open_time позже чем время сейчас, магазин еще не открыт.
-            $timeBeforeOpen = explode(':', $openTime->diff($nowTime)->format('%H:%I'));
-            if ($timeBeforeOpen[0][0] == '0') $timeBeforeOpen[0] = $timeBeforeOpen[0][1];
-            return 'Магазин откроется через '
-                . $timeBeforeOpen[0]
-                . ' '
-                . getNumEnding((int)$timeBeforeOpen[0], array('час', 'часа', 'часов'))
-                . ' '
-                . $timeBeforeOpen[1]
-                . ' '
-                . getNumEnding((int)$timeBeforeOpen[1], array('минута', 'минуты', 'минут'))
-                ;
+            return self::getOpeningStatus($openTime, $nowTime, $justTime);
         } elseif (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
-            // Если магазин открыт и есть время закрытия, и текущее время меньше времени закрытия.
-            $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
-            if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
-            if ($justTime) return "Работает до " . $shopClose;
-            return 'До закрытия магазина осталось '
-                . $timeBeforeClose[0]
-                . ' '
-                . getNumEnding((int)$timeBeforeClose[0], array('час', 'часа', 'часов'))
-                . ' '
-                . $timeBeforeClose[1]
-                . ' '
-                . getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
-                ;
+            return self::getClosingStatus($closeTime, $nowTime, $justTime, $shopClose);
         } elseif (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
-            // Если магазин открыт круглосуточно.
-            return 'Магазин открыт круглосуточно';
+            return '<span class="info__isopen">Магазин открыт круглосуточно</span>';
         } else {
-            return 'Магазин закрыт';
+            return '<span class="info__isclosed">Магазин закрыт</span>';
+        }
+    }
+
+    private static function getOpeningStatus($openTime, $nowTime, $justTime)
+    {
+        $timeBeforeOpen = $openTime->diff($nowTime);
+        $hours = $timeBeforeOpen->h;
+        $minutes = $timeBeforeOpen->i;
+
+        if ($hours == 0 && $minutes > 0) {
+            return '<span class="info__isopen">Магазин откроется</span> через '
+                . $minutes
+                . ' '
+                . getNumEnding($minutes, array('минута', 'минуты', 'минут'));
+        } elseif ($hours > 0 && $hours <= 12) {
+            return '<span class="info__isopen">Магазин откроется</span> через '
+                . $hours
+                . ' '
+                . getNumEnding($hours, array('час', 'часа', 'часов'))
+                . ' '
+                . $minutes
+                . ' '
+                . getNumEnding($minutes, array('минута', 'минуты', 'минут'));
+        } else {
+            return '<span class="info__isopen">Магазин открыт круглосуточно</span>';
+        }
+    }
+
+    private static function getClosingStatus($closeTime, $nowTime, $justTime, $shopClose)
+    {
+        $timeBeforeClose = $closeTime->diff($nowTime);
+        $hours = $timeBeforeClose->h;
+        $minutes = $timeBeforeClose->i;
+
+        if ($hours == 0 && $minutes > 0) {
+            if ($justTime) return '<span class="info__isopen">Работает до</span> ' . $shopClose;
+            return '<span class="info__isopen">До закрытия</span> магазина осталось '
+                . $minutes
+                . ' '
+                . getNumEnding($minutes, array('минута', 'минуты', 'минут'));
+        } elseif ($hours > 0 && $hours <= 12) {
+            if ($justTime) return '<span class="info__isopen">Работает до</span> ' . $shopClose;
+            return '<span class="info__isopen">До закрытия</span> магазина осталось '
+                . $hours
+                . ' '
+                . getNumEnding($hours, array('час', 'часа', 'часов'))
+                . ' '
+                . $minutes
+                . ' '
+                . getNumEnding($minutes, array('минута', 'минуты', 'минут'));
+        } else {
+            return '<span class="info__isopen">Магазин открыт круглосуточно</span>';
         }
     }
 }
-
-

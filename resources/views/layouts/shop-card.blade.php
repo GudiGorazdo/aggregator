@@ -11,7 +11,7 @@
                 </h4>
                 <x-display-rating rating="{{ $shop->average_rating }}"/>
                 <div class="shop-card__data">
-                    <p class="shop-card__time">{{ \App\Services\TitleService::timeBeforeClose($shop) }}</p>
+                    <p class="shop-card__time">{!! \App\Services\TitleService::timeBeforeClose($shop) !!}</p>
                     <a class="shop-card__address" href="#">{{ $shop->address }}</a>
                 </div>
             </div>
