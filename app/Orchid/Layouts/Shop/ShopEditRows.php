@@ -20,13 +20,14 @@ class ShopEditRows extends Rows
      */
     protected $title;
 
-    private function getFiedsFromJSON(array $fields, string $name, string $placeholder): array
+    private function getFiedsFromJSON(array $fields, string $name, string $placeholder, bool $names = false): array
     {
         $array = [];
-        foreach ($fields as $field) {
+        foreach ($fields as $key => $field) {
             $array[] = Input::make($name)
                 ->placeholder($placeholder)
-                ->value($field);
+                ->value($field)
+                ->title($names ? $key : '');
         }
 
         return $array;
@@ -41,10 +42,19 @@ class ShopEditRows extends Rows
     {
         $shop = $this->query->get('shop');
         $coord = json_decode($shop->coord);
-        $additionalPhones = $this->getFiedsFromJSON(json_decode($shop->additional_phones), 'additional_phones[]', 'Телефон');
         $webs = $this->getFiedsFromJSON(json_decode($shop->web), 'web[]', 'Сайт');
-        $additionalSocials = $this->getFiedsFromJSON(json_decode($shop->more_socials), 'more_socials[]', 'Адрес');
         $emails = $this->getFiedsFromJSON(json_decode($shop->emails), 'emails[]', 'Адрес');
+        $additionalPhones = $this->getFiedsFromJSON(
+            json_decode($shop->additional_phones),
+            'additional_phones[]',
+            'Телефон'
+        );
+        $additionalSocials = $this->getFiedsFromJSON(
+            json_decode($shop->more_socials, true),
+            'more_socials[]',
+            'Адрес',
+            true,
+        );
 
         return [
             Input::make('name')

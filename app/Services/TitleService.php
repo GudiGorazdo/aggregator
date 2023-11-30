@@ -116,19 +116,36 @@ class TitleService
 
     public static function timeBeforeClose(Model $shop, bool $justTime = false): string
     {
-        $dayNum = DayService::getDayNumByDate(CityTimeService::getDate($shop->region->timezone));
-        $shopOpen = $shop->workingMode[(int)$dayNum - 1]['open_time'];
-        $shopClose = $shop->workingMode[(int)$dayNum - 1]['close_time'];
-        $shopIsOpen = $shop->workingMode[(int)$dayNum - 1]['is_open'];
+        $dayNum = (int)DayService::getDayNumByDate(CityTimeService::getDate($shop->region->timezone));
+        $dayNum--;
+        $shopOpen = $shop->workingMode[$dayNum]['open_time'];
+        $shopClose = $shop->workingMode[$dayNum]['close_time'];
+        $shopIsOpen = $shop->workingMode[$dayNum]['is_open'];
 
         [$year, $time] = explode(' ', CityTimeService::getFullTimeAndDate($shop->region->timezone));
         $openTime = $shopOpen ? Carbon::parse($time . ' ' . $shopOpen) : null;
         $closeTime = $shopClose ? Carbon::parse($time . ' ' . $shopClose) : null;
         $nowTime = Carbon::parse($time . ' ' . $year);
 
-        if (!$shopIsOpen) return 'Магазин закрыт';
+        if (!$shopIsOpen) {
+            return 'Магазин закрыт';
+        }
 
-        if (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
+        if (!is_null($openTime) && $openTime->greaterThan($nowTime)) {
+            // Если время open_time позже чем время сейчас, магазин еще не открыт.
+            $timeBeforeOpen = explode(':', $openTime->diff($nowTime)->format('%H:%I'));
+            if ($timeBeforeOpen[0][0] == '0') $timeBeforeOpen[0] = $timeBeforeOpen[0][1];
+            return 'Магазин откроется через '
+                . $timeBeforeOpen[0]
+                . ' '
+                . getNumEnding((int)$timeBeforeOpen[0], array('час', 'часа', 'часов'))
+                . ' '
+                . $timeBeforeOpen[1]
+                . ' '
+                . getNumEnding((int)$timeBeforeOpen[1], array('минута', 'минуты', 'минут'))
+                ;
+        } elseif (!is_null($closeTime) && $closeTime->greaterThan($nowTime) && $closeTime->greaterThan($openTime)) {
+            // Если магазин открыт и есть время закрытия, и текущее время меньше времени закрытия.
             $timeBeforeClose = explode(':', $closeTime->diff($nowTime)->format('%H:%I'));
             if ($timeBeforeClose[0][0] == '0') $timeBeforeClose[0] = $timeBeforeClose[0][1];
             if ($justTime) return "Работает до " . $shopClose;
@@ -140,14 +157,13 @@ class TitleService
                 . $timeBeforeClose[1]
                 . ' '
                 . getNumEnding((int)$timeBeforeClose[1], array('минута', 'минуты', 'минут'))
-            ;
-         } else if (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
+                ;
+        } elseif (is_null($closeTime) && $nowTime->greaterThan($openTime)) {
+            // Если магазин открыт круглосуточно.
             return 'Магазин открыт круглосуточно';
         } else {
             return 'Магазин закрыт';
         }
-
-        return '';
     }
 }
 

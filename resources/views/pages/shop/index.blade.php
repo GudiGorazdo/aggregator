@@ -30,7 +30,7 @@
     ])
     @include('pages.shop.layouts.sell', ['categories' => $categories])
     @include('pages.shop.layouts.feedback', ['shop' => $shop])
-    @include('layouts.similar-companies', ['similars' => $similars])
+    {{-- @include('layouts.similar-companies', ['similars' => $similars]) --}}
     @include('layouts.similar-categories-and-location', ['cityID' => $shop->city_id])
 @section('modal')
     @include('layouts.carousel.modal', ['photos' => $photos, 'modalTarget' => 'carousel_photos'])
