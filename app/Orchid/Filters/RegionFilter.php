@@ -43,7 +43,7 @@ class RegionFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        return $builder->where('region_id', $this->request->get('filter[region_id]'));;
+        return $builder->where('region_id', $this->request->get('region_id'));;
     }
 
     /**

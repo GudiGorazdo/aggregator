@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\hasMany;
 use App\Services\FilterService;
 use App\Filters\SimilarCategoriesFilter;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
 use Orchid\Screen\AsSource;
 
 class Shop extends Model
@@ -36,26 +38,21 @@ class Shop extends Model
         'updated_at',
     ];
     protected $allowedFilters = [
-        'id',
-        'region_id',
-        'city_id',
-        'area_id',
-        'municipality_id',
-        'address',
-        'name',
-        'phone',
-        'whatsapp',
-        'telegram',
-        'emails',
-        'average_rating',
-        'created_at',
-        'updated_at',
+        'id' => Where::class,
+        'region_id'  => Where::class,
+        'city_id'  => Where::class,
+        'area_id'  => Where::class,
+        'municipality_id'  => Where::class,
+        'address'  => Like::class,
+        'name'  => Like::class,
+        'phone'  => Like::class,
+        'whatsapp'  => Like::class,
+        'telegram'  => Like::class,
+        'emails'  => Like::class,
+        'average_rating'  => Like::class,
+        'created_at'  => Like::class,
+        'updated_at'  => Like::class,
     ];
-
-    // public function getRouteKey()
-    // {
-    //     return 'id';
-    // }
 
     public function scopeFilter(Builder $query): Builder
     {

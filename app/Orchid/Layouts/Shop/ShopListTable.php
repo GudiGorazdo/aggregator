@@ -43,7 +43,7 @@ class ShopListTable extends Table
         }
 
         return [
-            TD::make('id', 'Ид')->sort()->popover('Идентификационный номер в системе')->filter(TD::FILTER_NUMERIC),
+            TD::make('id', 'Ид')->sort()->popover('Идентификационный номер в системе')->filter(),
             TD::make('region_id', 'Регион')
                 ->render(function (Shop $shop) {
                     return $shop->region->name;
