@@ -49,7 +49,7 @@ class ShopListScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Link::make('Добавить магазин')->route('platform.shop.edit')->icon('plus-alt'),
+            Link::make('Добавить магазин')->icon('plus-alt')->route('platform.shop.add'),
         ];
     }
 

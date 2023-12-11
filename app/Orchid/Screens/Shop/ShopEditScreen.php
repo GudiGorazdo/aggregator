@@ -41,7 +41,7 @@ class ShopEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make('Сохранить')->icon('save-alt')->method('create'),
+            Button::make('Сохранить')->icon('save-alt')->method('save'),
         ];
     }
 
@@ -57,7 +57,7 @@ class ShopEditScreen extends Screen
         ];
     }
 
-    public function create(Request $request): void
+    public function save(Request $request): void
     {
         \App\Helpers::log($request->all());
     }

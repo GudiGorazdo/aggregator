@@ -17,8 +17,10 @@
                     ])
                 @else
                     <div class="col-12 col-md form-group mb-md-0 pe-md-0">
-                        <input class="form-control" type="text" name="{{ $name }}[]"
-                            value="{{ $values[$fieldName] }}">
+                        <div data-controller="input" data-input-mask="{{ $mask ?? '' }}">
+                            <input class="form-control" type="text" name="{{ $name }}[]"
+                                value="{{ $values[$fieldName] }}">
+                        </div>
                     </div>
                 @endif
                 <div class="col-12 col-md form-group mb-md-0">
@@ -32,13 +34,15 @@
             @if (isset($useNames) && $useNames)
                 @include('orchid.fields.input-with-name', [
                     'name' => $name,
-                    'index' =>0,
+                    'index' => 0,
                     'fieldName' => '',
                     'fieldValue' => '',
                 ])
             @else
                 <div class="col-12 col-md form-group mb-md-0 pe-md-0">
-                    <input class="form-control" type="text" name="{{ $name }}[]">
+                    <div data-controller="input" data-input-mask="{{ $mask ?? '' }}">
+                        <input class="form-control" type="text" name="{{ $name }}[]">
+                    </div>
                 </div>
             @endif
             <div class="col-12 col-md form-group mb-md-0">
@@ -81,7 +85,7 @@
             getNewFieldIndex() {
                 let index = -1;
                 if (this.container.lastElementChild) {
-                  index = +this.container.lastElementChild.dataset.fieldIndex;
+                    index = +this.container.lastElementChild.dataset.fieldIndex;
                 }
                 return ++index;
             },
@@ -98,19 +102,19 @@
             },
 
             setInputsAttributes(field, index) {
-              if (this.useNames) {
-                const inputElementName = field.querySelector('[data-input-type="name"]');
-                inputElementName.setAttribute('name', `${this.name}[${index}]['name']`);
-                inputElementName.setAttribute('value', '');
+                if (this.useNames) {
+                    const inputElementName = field.querySelector('[data-input-type="name"]');
+                    inputElementName.setAttribute('name', `${this.name}[${index}]['name']`);
+                    inputElementName.setAttribute('value', '');
 
-                const inputElementValue = field.querySelector('[data-input-type="value"]');
-                inputElementValue.setAttribute('name', `${this.name}[${index}]['value']`);
-                inputElementValue.setAttribute('value', '');
-              } else {
-                const inputElement = field.querySelector('input');
-                inputElement.setAttribute('name', `${this.name}[]`);
-                inputElement.setAttribute('value', '');
-              }
+                    const inputElementValue = field.querySelector('[data-input-type="value"]');
+                    inputElementValue.setAttribute('name', `${this.name}[${index}]['value']`);
+                    inputElementValue.setAttribute('value', '');
+                } else {
+                    const inputElement = field.querySelector('input');
+                    inputElement.setAttribute('name', `${this.name}[]`);
+                    inputElement.setAttribute('value', '');
+                }
             }
         }.init();
     })();

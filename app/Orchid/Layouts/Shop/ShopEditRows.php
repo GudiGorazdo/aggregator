@@ -4,7 +4,6 @@ namespace App\Orchid\Layouts\Shop;
 
 use App\Models\City;
 use App\Models\Region;
-use App\Models\Shop;
 use Orchid\Screen\Field;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Input;
@@ -13,8 +12,8 @@ use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\SimpleMDE;
+use Orchid\Screen\Fields\Picture;
 use App\Orchid\Fields\DynamicInput;
-use Orchid\Screen\Fields\TextArea;
 
 class ShopEditRows extends Rows
 {
@@ -59,6 +58,7 @@ class ShopEditRows extends Rows
                 ->value($shop->title ?? '')
                 ->popover('Заголовок для карточки магазина')
                 ->required(),
+            Picture::make('picture'),
             SimpleMDE::make('description')->value($shop->description ?? ''),
             Input::make('zip')
                 ->title('Индекс')
@@ -71,16 +71,33 @@ class ShopEditRows extends Rows
             Group::make([
                 Input::make('lat')
                     ->placeholder('Широта')
-                    ->value($coord->lat ?? ''),
+                    ->value($coord->lat ?? '')
+                    ->mask([
+                        'mask' => '99.99999',
+                        'numericInput' => true
+                    ]),
                 Input::make('long')
                     ->placeholder('Долгота')
-                    ->value($coord->long ?? ''),
+                    ->value($coord->long ?? '')
+                    ->mask([
+                        'mask' => '99.99999',
+                        'numericInput' => true
+                    ]),
             ]),
             Input::make('phone')
                 ->title('Телефон')
-                ->value($shop->phone ?? ''),
+                ->value($shop->phone ?? '')
+                ->mask([
+                    'mask' => '999 999 9999',
+                    'numericInput' => true
+                ]),
             DynamicInput::make('additional_phones')
                 ->title('Дополнительные номера телефонов')
+                ->value($shop->phone ?? '')
+                ->mask([
+                    'mask' => '999 999 9999',
+                    'numericInput' => true
+                ])
                 ->values(json_decode($shop->additional_phones, true) ?? []),
             Input::make('whatsapp')
                 ->title('Whatsapp')

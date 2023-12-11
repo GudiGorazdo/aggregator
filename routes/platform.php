@@ -14,6 +14,7 @@ use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Shop\ShopListScreen;
 use App\Orchid\Screens\Shop\ShopEditScreen;
+use App\Orchid\Screens\Shop\ShopAddScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -36,13 +37,22 @@ Route::screen('/main', PlatformScreen::class)
     ->name('platform.main');
 
 Route::screen('/shop/list', ShopListScreen::class)
-    ->name('platform.shop.list');
+    ->name('platform.shop.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Список магазинов'), route('platform.shop.list')));
 
-Route::screen('/shop/edit/', ShopEditScreen::class)
-    ->name('platform.shop.add');
+Route::screen('/shop/add', ShopAddScreen::class)
+    ->name('platform.shop.add')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.shop.list')
+        ->push(__('Добавить'), route('platform.shop.add')));
 
 Route::screen('/shop/edit/{id?}', ShopEditScreen::class)
-    ->name('platform.shop.edit');
+    ->name('platform.shop.edit')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.shop.list')
+        ->push(__('Редактировать'), route('platform.shop.edit')));
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)

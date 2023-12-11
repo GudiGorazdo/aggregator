@@ -6,6 +6,18 @@ use Orchid\Screen\Field;
 
 class DynamicInput extends Field
 {
+    public function __construct()
+    {
+        // parent::__construct();
+        $this->addBeforeRender(function () {
+            $mask = $this->get('mask');
+
+            if (is_array($mask)) {
+                $this->set('mask', json_encode($mask));
+            }
+        });
+    }
+
     /**
      * The field view.
      *
