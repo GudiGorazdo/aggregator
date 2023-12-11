@@ -33,25 +33,31 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 // Main
-Route::screen('/main', PlatformScreen::class)
-    ->name('platform.main');
+// Route::screen('/main', PlatformScreen::class)
+//     ->name('platform.main');
 
-Route::screen('/shop/list', ShopListScreen::class)
-    ->name('platform.shop.list')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Список магазинов'), route('platform.shop.list')));
+// Route::screen('/shop/list', ShopListScreen::class)
+//     ->name('platform.shop.list')
+//     ->breadcrumbs(fn (Trail $trail) => $trail
+//         ->parent('platform.index')
+//         ->push(__('Список магазинов'), route('platform.shop.list')));
+
+Route::screen('/main', ShopListScreen::class)
+    ->name('platform.main');
+    // ->breadcrumbs(fn (Trail $trail) => $trail
+    //     ->parent('platform.index')
+    //     ->push(__('Список магазинов'), route('platform.shop.list')));
 
 Route::screen('/shop/add', ShopAddScreen::class)
     ->name('platform.shop.add')
     ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.shop.list')
+        ->parent('platform.index')
         ->push(__('Добавить'), route('platform.shop.add')));
 
 Route::screen('/shop/edit/{id?}', ShopEditScreen::class)
     ->name('platform.shop.edit')
     ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.shop.list')
+        ->parent('platform.index')
         ->push(__('Редактировать'), route('platform.shop.edit')));
 
 // Platform > Profile
