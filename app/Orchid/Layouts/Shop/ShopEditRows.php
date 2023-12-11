@@ -25,19 +25,6 @@ class ShopEditRows extends Rows
      */
     protected $title;
 
-    private function getFiedsFromJSON(array $fields, string $name, string $placeholder, bool $names = false): array
-    {
-        $array = [];
-        foreach ($fields as $key => $field) {
-            $array[] = Input::make($name)
-                ->placeholder($placeholder)
-                ->value($field)
-                ->title($names ? $key : '');
-        }
-
-        return $array;
-    }
-
     /**
      * Get the fields elements to be displayed.
      *
@@ -48,19 +35,6 @@ class ShopEditRows extends Rows
         $shop = $this->query->get('shop');
         if ($shop->id) {
             $coord = json_decode($shop->coord);
-            $webs = $this->getFiedsFromJSON(json_decode($shop->web), 'web[]', 'Сайт');
-            $emails = $this->getFiedsFromJSON(json_decode($shop->emails), 'emails[]', 'Адрес');
-            $additionalPhones = $this->getFiedsFromJSON(
-                json_decode($shop->additional_phones),
-                'additional_phones[]',
-                'Телефон'
-            );
-            $additionalSocials = $this->getFiedsFromJSON(
-                json_decode($shop->more_socials, true),
-                'more_socials[]',
-                'Адрес',
-                true,
-            );
         }
 
         return [
@@ -107,7 +81,7 @@ class ShopEditRows extends Rows
                 ->value($shop->phone ?? ''),
             DynamicInput::make('additional_phones')
                 ->title('Дополнительные номера телефонов')
-                ->values(json_decode($shop->additional_phones)),
+                ->values(json_decode($shop->additional_phones, true) ?? []),
             Input::make('whatsapp')
                 ->title('Whatsapp')
                 ->value($shop->whatsapp ?? ''),
@@ -117,16 +91,16 @@ class ShopEditRows extends Rows
             Input::make('vk')
                 ->title('VK')
                 ->value($shop->vk ?? ''),
-            // Label::make('')->title('Дополнительные социальные сети'),
-            // Group::make($additionalSocials ?? []),
             DynamicInput::make('more_socials')
                 ->title('Дополнительные социальные сети')
-                ->values(json_decode($shop->more_socials, true))
-                ->useNames(),
-            Label::make('')->title('Сайты'),
-            Group::make($webs ?? []),
-            Label::make('')->title('Почта'),
-            Group::make($emails ?? []),
+                ->values(json_decode($shop->more_socials, true) ?? [])
+                ->useNames('Название', 'Ссылка'),
+            DynamicInput::make('web')
+                ->title('Сайты')
+                ->values(json_decode($shop->web, true) ?? []),
+            DynamicInput::make('emails')
+                ->title('Почта')
+                ->values(json_decode($shop->emails, true) ?? []),
             CheckBox::make('convenience_shop')
                 ->title('Круглосуточный магазин')
                 ->checked($shop->convenience_shop ?? false)

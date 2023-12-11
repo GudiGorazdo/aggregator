@@ -26,16 +26,18 @@ class DynamicInput extends Field
      *
      * @return $this
      */
-    public function values(array $values)
+    public function values(array $values = [])
     {
         $this->attributes['values'] = $values;
 
         return $this;
     }
 
-    public function useNames()
+    public function useNames(string $lableName, string $lableValue)
     {
         $this->attributes['useNames'] = true;
+        $this->attributes['lableName'] = $lableName;
+        $this->attributes['lableValue'] = $lableValue;
 
         return $this;
     }
