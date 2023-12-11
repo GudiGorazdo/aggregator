@@ -36,18 +36,18 @@ class ShopEditRows extends Rows
         }
 
         return [
-            Group::make([
-                Relation::make('region_id')
-                    ->title('Регион')
-                    ->fromModel(Region::class, 'name')
-                    ->value($shop->region_id ?? null)
-                    ->required(),
-                Relation::make('city_id')
-                    ->title('Город')
-                    ->fromModel(City::class, 'name')
-                    ->value($shop->city_id ?? null)
-                    ->required(),
-            ]),
+            // Group::make([
+            //     Relation::make('region_id')
+            //         ->title('Регион')
+            //         ->fromModel(Region::class, 'name')
+            //         ->value($shop->region_id ?? null)
+            //         ->required(),
+            //     Relation::make('city_id')
+            //         ->title('Город')
+            //         ->fromModel(City::class, 'name')
+            //         ->value($shop->city_id ?? null)
+            //         ->required(),
+            // ]),
             Input::make('name')
                 ->title('Название')
                 ->value($shop->name ?? '')

@@ -53,7 +53,7 @@ class ShopEditScreen extends Screen
     public function layout(): iterable
     {
         return [
-            // SubtractListener::class,
+            SubtractListener::class,
             ShopEditRows::class,
         ];
     }
