@@ -5,12 +5,13 @@ namespace App\Orchid\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Field;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 
 class RegionFilter extends Filter
 {
     public $parameters = [
-        'region',
+        'filter[region_id]',
     ];
 
     /**
@@ -20,7 +21,7 @@ class RegionFilter extends Filter
      */
     public function name(): string
     {
-        return 'Region';
+        return 'Регион';
     }
 
     /**
@@ -42,7 +43,7 @@ class RegionFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        return $builder->where('region_id', $this->request->get('region'));;
+        return $builder->where('region_id', $this->request->get('filter[region_id]'));;
     }
 
     /**
@@ -53,7 +54,10 @@ class RegionFilter extends Filter
     public function display(): iterable
     {
         return [
-            Select::make('region'),
+            Input::make('region')
+            ->type('text')
+            ->value($this->request->get('filter[region_id]'))
+            ->title('Регион'),
         ];
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Orchid\Layouts\Shop;
 
+use Illuminate\Support\Facades\Request;
 use Orchid\Support\Facades\Layout;
+use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 use Orchid\Screen\Actions\Link;
@@ -29,14 +32,22 @@ class ShopListTable extends Table
      */
     protected function columns(): iterable
     {
+        $filter = Request::get('filter');
+        $regionID = isset($filter['region_id']) ? $filter['region_id'] : null;
+
         return [
             TD::make('id', 'Ид')->sort()->popover('Идентификационный номер в системе')->filter(TD::FILTER_NUMERIC),
-            TD::make('region_id', 'Регион')->render(function (Shop $shop) {
-                return $shop->region->name;
-            })->sort()->filter(TD::FILTER_TEXT),
+            TD::make('region_id', 'Регион')
+                ->render(function (Shop $shop) {
+                    return $shop->region->name;
+                })
+                ->sort()
+                ->filter(Select::make()->options(\App\Models\Region::pluck('name', 'id')->toArray())->empty(), null),
             TD::make('city_id', 'Город')->render(function (Shop $shop) {
                 return $shop->city->name;
-            })->sort()->filter(TD::FILTER_TEXT),
+            })->sort()->filter(Select::make()->options(\App\Models\City::when($regionID, function ($query) use ($regionID) {
+                return $query->where('region_id', $regionID);
+            })->pluck('name', 'id')->toArray())->empty(), null),
             TD::make('area_id', 'Район')->render(function (Shop $shop) {
                 return $shop->area->name;
             })->sort()->defaultHidden(),
