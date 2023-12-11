@@ -31,7 +31,7 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Магазины')
                 ->icon('building')
                 ->route('platform.shop.list')
-                ->title('Магазины')
+                ->title('Магазины'),
 
             // Menu::make('Example screen')
             //     ->icon('monitor')
@@ -84,16 +84,16 @@ class PlatformProvider extends OrchidServiceProvider
             //     ->target('_blank')
             //     ->badge(fn () => Dashboard::version(), Color::DARK()),
 
-            // Menu::make(__('Users'))
-            //     ->icon('user')
-            //     ->route('platform.systems.users')
-            //     ->permission('platform.systems.users')
-            //     ->title(__('Access rights')),
+            Menu::make(__('Users'))
+                ->icon('user')
+                ->route('platform.systems.users')
+                ->permission('platform.systems.users')
+                ->title(__('Access rights')),
 
-            // Menu::make(__('Roles'))
-            //     ->icon('lock')
-            //     ->route('platform.systems.roles')
-            //     ->permission('platform.systems.roles'),
+            Menu::make(__('Roles'))
+                ->icon('lock')
+                ->route('platform.systems.roles')
+                ->permission('platform.systems.roles'),
         ];
     }
 

@@ -8,6 +8,7 @@ use Orchid\Support\Facades\Layout;
 use Carbon\Carbon;
 use App\Models\Shop;
 use App\Orchid\Layouts\Shop\ShopListTable;
+use Orchid\Screen\Actions\Link;
 
 class ShopListScreen extends Screen
 {
@@ -47,7 +48,9 @@ class ShopListScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Link::make('Добавить магазин')->route('platform.shop.edit')->icon('plus-alt'),
+        ];
     }
 
     /**

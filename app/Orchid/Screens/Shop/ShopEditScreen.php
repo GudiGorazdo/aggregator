@@ -4,6 +4,8 @@ namespace App\Orchid\Screens\Shop;
 
 use App\Models\Shop;
 use App\Orchid\Layouts\Shop\ShopEditRows;
+use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
@@ -38,7 +40,9 @@ class ShopEditScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Button::make('Сохранить')->icon('save-alt')->method('create'),
+        ];
     }
 
     /**
@@ -51,5 +55,10 @@ class ShopEditScreen extends Screen
         return [
             ShopEditRows::class,
         ];
+    }
+
+    public function create(Request $request): void
+    {
+        \App\Helpers::log($request->all());
     }
 }

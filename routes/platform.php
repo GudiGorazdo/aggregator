@@ -38,6 +38,9 @@ Route::screen('/main', PlatformScreen::class)
 Route::screen('/shop/list', ShopListScreen::class)
     ->name('platform.shop.list');
 
+Route::screen('/shop/edit/', ShopEditScreen::class)
+    ->name('platform.shop.add');
+
 Route::screen('/shop/edit/{id?}', ShopEditScreen::class)
     ->name('platform.shop.edit');
 

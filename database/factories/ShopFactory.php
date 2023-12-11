@@ -80,7 +80,7 @@ class ShopFactory extends Factory
                 'long' => fake()->longitude($longMin, $longMax)
             )),
             'photos' => json_encode($photos),
-            'phone' => fake()->phoneNumber(),
+            'phone' => fake()->e164PhoneNumber(),
             'additional_phones' => json_encode($additionalPhones),
             'whatsapp' => fake()->phoneNumber(),
             'telegram' => fake()->phoneNumber(),
