@@ -105,8 +105,8 @@ class ShopEditRows extends Rows
             Input::make('phone')
                 ->title('Телефон')
                 ->value($shop->phone ?? ''),
-            // DynamicInput::make('additional_phones')->title('Дополнительные номера телефонов'),
-            DynamicInput::make('additional_phones')->title('Дополнительные номера телефонов')->values(json_decode($shop->additional_phones)),
+            DynamicInput::make('additional_phones')->title('Дополнительные номера телефонов'),
+            // DynamicInput::make('additional_phones')->title('Дополнительные номера телефонов')->values(json_decode($shop->additional_phones)),
             // Label::make('')->title('Дополнительные номера телефонов'),
             // Group::make($additionalPhones ?? []),
             Input::make('whatsapp')

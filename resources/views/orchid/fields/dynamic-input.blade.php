@@ -20,53 +20,75 @@
                         </div>
                     </div>
                 @else
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="{{ $name }}[]" value="{{ $fieldValue }}">
+                    <div class="col-12 col-md form-group mb-md-0 pe-md-0">
+                        <input class="form-control" type="text" name="{{ $name }}[]"
+                            value="{{ $fieldValue }}">
                     </div>
                 @endif
                 <div class="col-12 col-md form-group mb-md-0">
                     <button type="button" class="btn btn-danger"
-                        onclick="removeField('{{ $fieldName }}')">Удалить</button>
+                        data-field-remove="{{ $fieldName }}">Удалить</button>
                 </div>
             </div>
         @endforeach
     @endif
 
-    <div class="form-group" style="display: none">
-        <input class="form-control" type="text" name="{{ $name }}[]">
-        <button type="button" class="btn btn-danger" onclick="removeNewField(this)">Удалить</button>
+    <div class="row form-group align-items-baseline" data-field-name="0">
+        <div class="col-12 col-md form-group mb-md-0 pe-md-0">
+            <input class="form-control" type="text" name="{{ $name }}[]">
+        </div>
+        <div class="col-12 col-md form-group mb-md-0">
+            <button type="button" class="btn btn-danger" data-field-remove="0">Удалить</button>
+        </div>
     </div>
 </div>
 
-<button type="button" class="btn btn-primary" onclick="addField()">Добавить поле</button>
+<button id="{{ $id }}-add" type="button" class="btn btn-primary">Добавить поле</button>
 
 <script>
-    function removeField(fieldName) {
-        var container = document.getElementById('{{ $id }}-container');
-        var fieldToRemove = container.querySelector('[data-field-name="' + fieldName + '"]');
-        if (fieldToRemove) {
-            container.removeChild(fieldToRemove);
-        }
-    }
+    (() => {
+        const worker = {
+            container: document.getElementById('{{ $id }}-container'),
+            addButton: document.getElementById('{{ $id }}-add'),
+            template: null,
 
-    function removeNewField(button) {
-        var container = document.getElementById('{{ $id }}-container');
-        var newField = button.closest('.form-group');
-        container.removeChild(newField);
-    }
+            init() {
+                this.template = this.container.querySelector('.form-group').cloneNode(true);
+                this.container.addEventListener('click', this.handleClick.bind(this));
+                this.addButton.addEventListener('click', this.addNewField.bind(this));
+            },
 
-    function addField() {
-        var container = document.getElementById('{{ $id }}-container');
-        var newIndex = container.children.length;
-        var newFieldName = newIndex;
+            handleClick(event) {
+                if (event.target.dataset.fieldRemove) {
+                    this.container.removeChild(this.container.querySelector(
+                        `[data-field-name="${event.target.dataset.fieldRemove}"]`));
+                }
+            },
 
-        var newField = container.querySelector('.form-group').cloneNode(true);
-        newField.style.display = 'flex';
+            getNewFieldName() {
+                let newFieldName = `field_${Math.round(Math.random() * 10000)}`;
+                while (this.container.querySelector(`[data-field-name="${newFieldName}"]`)) {
+                    newFieldName = `field_${Math.round(Math.random() * 10000)}`;
+                };
 
-        var inputElement = newField.querySelector('input');
-        inputElement.name = '{{ $name }}[' + newFieldName + ']';
-        inputElement.value = '';
+                return newFieldName;
+            },
 
-        container.appendChild(newField);
-    }
+            addNewField() {
+                const newIndex = this.container.children.length;
+                let newFieldName = this.getNewFieldName();
+
+                const newField = this.template.cloneNode(true);
+                const button = newField.querySelector('[data-field-remove]');
+                newField.dataset.fieldName = newFieldName;
+                button.dataset.fieldRemove = newFieldName;
+
+                const inputElement = newField.querySelector('input');
+                inputElement.name = '{{ $name }}[]';
+                inputElement.value = '';
+
+                this.container.appendChild(newField);
+            },
+        }.init();
+    })();
 </script>
