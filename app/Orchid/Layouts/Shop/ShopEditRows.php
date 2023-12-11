@@ -105,10 +105,9 @@ class ShopEditRows extends Rows
             Input::make('phone')
                 ->title('Телефон')
                 ->value($shop->phone ?? ''),
-            DynamicInput::make('additional_phones')->title('Дополнительные номера телефонов'),
-            // DynamicInput::make('additional_phones')->title('Дополнительные номера телефонов')->values(json_decode($shop->additional_phones)),
-            // Label::make('')->title('Дополнительные номера телефонов'),
-            // Group::make($additionalPhones ?? []),
+            DynamicInput::make('additional_phones')
+                ->title('Дополнительные номера телефонов')
+                ->values(json_decode($shop->additional_phones)),
             Input::make('whatsapp')
                 ->title('Whatsapp')
                 ->value($shop->whatsapp ?? ''),
@@ -118,8 +117,12 @@ class ShopEditRows extends Rows
             Input::make('vk')
                 ->title('VK')
                 ->value($shop->vk ?? ''),
-            Label::make('')->title('Дополнительные социальные сети'),
-            Group::make($additionalSocials ?? []),
+            // Label::make('')->title('Дополнительные социальные сети'),
+            // Group::make($additionalSocials ?? []),
+            DynamicInput::make('more_socials')
+                ->title('Дополнительные социальные сети')
+                ->values(json_decode($shop->more_socials, true))
+                ->useNames(),
             Label::make('')->title('Сайты'),
             Group::make($webs ?? []),
             Label::make('')->title('Почта'),
