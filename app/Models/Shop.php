@@ -52,10 +52,10 @@ class Shop extends Model
         'updated_at',
     ];
 
-    public function getRouteKey()
-    {
-        return 'id';
-    }
+    // public function getRouteKey()
+    // {
+    //     return 'id';
+    // }
 
     public function scopeFilter(Builder $query): Builder
     {

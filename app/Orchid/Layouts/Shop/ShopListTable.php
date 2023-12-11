@@ -72,7 +72,7 @@ class ShopListTable extends Table
             TD::make('municipality_id', 'Муниципалитет')->render(function (Shop $shop) {
                 return $shop->municipality->name;
             })->sort()->defaultHidden(),
-            TD::make('name', 'Название')->sort()->filter(TD::FILTER_TEXT),
+            TD::make('name', 'Название')->sort()->filter(),
             TD::make('title', 'Заголовок')->filter(TD::FILTER_TEXT)->popover('Заголовок для карточки магазина')->defaultHidden(),
             TD::make('phone', 'Телефон')->filter(TD::FILTER_TEXT),
             TD::make('whatsapp', 'Watsapp')->defaultHidden()->filter(TD::FILTER_TEXT),

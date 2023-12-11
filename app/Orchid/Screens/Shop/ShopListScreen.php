@@ -20,8 +20,8 @@ class ShopListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'shops' => Shop::filters()
-                // ->defaultSort('id', 'asc')
+            'shops' => \App\Models\Shop::filters()
+                ->defaultSort('id')
                 ->with('city')
                 ->with('region')
                 ->with('area')

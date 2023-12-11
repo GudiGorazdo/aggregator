@@ -12,7 +12,6 @@ use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\SimpleMDE;
-use Orchid\Screen\Fields\Picture;
 use App\Orchid\Fields\DynamicInput;
 
 class ShopEditRows extends Rows
@@ -58,7 +57,6 @@ class ShopEditRows extends Rows
                 ->value($shop->title ?? '')
                 ->popover('Заголовок для карточки магазина')
                 ->required(),
-            Picture::make('picture'),
             SimpleMDE::make('description')->value($shop->description ?? ''),
             Input::make('zip')
                 ->title('Индекс')
