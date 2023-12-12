@@ -31,12 +31,13 @@ class ShopEditRows extends Rows
         $shop = $this->query->get('shop');
         if ($shop->id) {
             $coord = json_decode($shop->coord);
-            $subways = \App\Models\Shop::find($shop->id)->subways->toArray();
+            $subways = \App\Models\Shop::find($shop->id)->subways->pluck('id')->toArray();
         }
 
 
+
         return [
-            ShopLocation::make('location')->shop(isset($shop->id) ? 1 : 0, $shop->region_id, $shop->city_id, $shop->area_id, json_encode($subways ?? [])),
+            ShopLocation::make('location')->shop(isset($shop->id) ? 1 : 0, $shop->region_id, $shop->city_id, $shop->area_id, implode(',', ($subways ?? []))),
             Input::make('name')
                 ->title('Название')
                 ->value($shop->name ?? '')
