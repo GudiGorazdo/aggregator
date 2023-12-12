@@ -1,7 +1,7 @@
 export default class extends window.Controller {
   connect() {
     const options = {
-      edit: this.data.get('edit'),
+      edit: Number(this.data.get('edit')),
       regionID: Number(this.data.get('region')),
       cityID: Number(this.data.get('city')),
       areaID: Number(this.data.get('area')),
@@ -41,12 +41,13 @@ export default class extends window.Controller {
         this.setEditData();
         await this.getData();
         this.getEls();
-        if (this.edit) {
-          Object.keys(this.current).forEach(type => this.setOptions(type));
-        } else {
-          this.setOptions('region');
-        }
-        this.checkDisabled();
+        Object.keys(this.current).forEach(type => {
+          if (!this.edit && type !== 'region') return;
+          this.getRenderArray(type);
+          this.checkDisabled(type);
+          this.setOptions(type);
+        });
+
         this.start = false;
       },
 
@@ -66,7 +67,8 @@ export default class extends window.Controller {
           return this.setCurrentSubways();
         }
         this.current[type] = value;
-        this.checkDisabled(type);
+        this.getRenderArray(this.disableMap[type]);
+        this.checkDisabled(this.disableMap[type]);
         this.resetOptions(type);
         this.setOptions(this.disableMap[type]);
       },
@@ -76,23 +78,25 @@ export default class extends window.Controller {
       },
 
       getRenderArray(type) {
-        if (type === 'region') return this.data;
+        if (type === 'region') return this.temp = this.data;
         const region = this.data.find(region => region.id === this.current.region);
         const city = region && region.cities.find(city => city.id === this.current.city);
         const area = city && city.areas.find(area => area.id === this.current.area);
         switch (type) {
           case 'city':
-            return region && region.cities;
+            return this.temp = region ? region.cities : null;
           case 'area':
-            return city?.areas;
+            return this.temp = city.areas ?? null;
           case 'subways':
-            return area?.subways;
+            return this.temp = area.subways ?? null;
         }
+
+        this.temp = null;
       },
 
       setOptions(type) {
-        const array = this.getRenderArray(type);
-        array && array.forEach(item => this.createOptionEl(item.id, item.name, type));
+        this.temp && this.temp.forEach(item => this.createOptionEl(item.id, item.name, type));
+        this.temp = null;
       },
 
       resetOptions(type) {
@@ -125,6 +129,7 @@ export default class extends window.Controller {
 
       removeOptions(type) {
         this.current[type] = null;
+        this.el[type].selectedIndex = 0;
         const elChilds = this.el[type].children;
         for (var i = elChilds.length - 1; i > 0; i--) {
           elChilds[i].removeEventListener('click', this.setCurrent);
@@ -159,15 +164,10 @@ export default class extends window.Controller {
         return false;
       },
 
-      checkDisabled() {
-        Object.keys(this.current).forEach(type => {
-          if (!this.current[type]) return;
-          if (!this.disableMap[type]) return;
-          const el = this.disableMap[type];
-          if (this.el[el]?.hasAttribute('disabled')) {
-            this.el[el].removeAttribute('disabled');
-          }
-        });
+      checkDisabled(type) {
+        if (!this.el[type].hasAttribute('disabled')) return;
+        if (!this.temp || this.temp.length < 1) return;
+        this.el[type].removeAttribute('disabled');
       },
 
       getEls() {
