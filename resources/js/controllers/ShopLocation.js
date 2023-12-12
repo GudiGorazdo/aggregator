@@ -14,7 +14,7 @@ export default class extends window.Controller {
         },
         city: {
           current: Number(this.data.get('city')) ?? null,
-          id: 'select-citiy',
+          id: 'select-city',
           disable: 'area',
           data: [],
         },

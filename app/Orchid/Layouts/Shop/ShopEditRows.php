@@ -37,7 +37,36 @@ class ShopEditRows extends Rows
 
 
         return [
-            ShopLocation::make('location')->shop(isset($shop->id) ? 1 : 0, $shop->region_id, $shop->city_id, $shop->area_id, implode(',', ($subways ?? []))),
+            ShopLocation::make('location')
+                ->inputs([
+                    [
+                        'name' => 'region_id',
+                        'id' => 'select-region',
+                        'default' => true,
+                        'title' => 'Регион',
+                        'placeholder' => 'Выбрать регион'
+                    ],
+                    [
+                        'name' => 'city_id',
+                        'id' => 'select-city',
+                        'title' => 'Город',
+                        'placeholder' => 'Выбрать город'
+                    ],
+                    [
+                        'name' => 'area_id',
+                        'id' => 'select-area',
+                        'title' => 'Район',
+                        'placeholder' => 'Выбрать район'
+                    ],
+                    [
+                        'name' => 'subways[]',
+                        'id' => 'select-subways',
+                        'multiple' => true,
+                        'title' => 'Метро',
+                        'placeholder' => 'Выбрать метро'
+                    ],
+                ])
+                ->shop(isset($shop->id) ? 1 : 0, $shop->region_id, $shop->city_id, $shop->area_id, implode(',', ($subways ?? []))),
             Input::make('name')
                 ->title('Название')
                 ->value($shop->name ?? '')

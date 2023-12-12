@@ -44,4 +44,11 @@ class ShopLocation extends Field
 
         return $this;
     }
+
+    public function inputs(array $inputs)
+    {
+        $this->attributes['inputs'] = $inputs;
+
+        return $this;
+    }
 }

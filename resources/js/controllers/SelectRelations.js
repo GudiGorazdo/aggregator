@@ -35,8 +35,6 @@ export default class SelectRelations {
       }
     });
 
-    console.log(this.current);
-
     Object.keys(this.current).forEach(type => {
       if (this.defaultType === type) {
         this.temp = this.data[type];
@@ -120,7 +118,6 @@ export default class SelectRelations {
     let check;
     if (this.multiples.includes(type)) {
       check = this.current.subways?.includes(value);
-      console.log(check);
       check && (this.current.subways.push(value));
     } else {
       check = this.current[type] === value;
