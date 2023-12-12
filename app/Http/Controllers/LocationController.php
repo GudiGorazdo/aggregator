@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\CookieConstants;
 use App\Models\City;
+use App\Models\Region;
 use Illuminate\Http\Response;
 use \App\Http\Controllers\CookieController;
 
@@ -29,6 +30,11 @@ class LocationController extends Controller
     {
         $filter = app(\App\Services\FilterService::class)->getFilterByName('location');
         return response($filter->getItems(self::getCityID()));
+    }
+
+    public function allLocations()
+    {
+        return response(\App\Models\Region::full()->get());
     }
 }
 

@@ -27,6 +27,7 @@ class SubwayFactory extends Factory
 
         return [
             'name' => $name,
+            'region_id' => $area->region_id,
             'city_id' => $area->city_id,
             'area_id' => $area->id,
         ];

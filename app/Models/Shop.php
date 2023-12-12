@@ -54,6 +54,11 @@ class Shop extends Model
         'updated_at'  => Like::class,
     ];
 
+    public function getRouteKey()
+    {
+        return 'id';
+    }
+
     public function scopeFilter(Builder $query): Builder
     {
         foreach (app(FilterService::class)->getFilters() as $filter) {

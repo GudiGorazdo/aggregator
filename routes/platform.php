@@ -44,9 +44,9 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::screen('/main', ShopListScreen::class)
     ->name('platform.main');
-    // ->breadcrumbs(fn (Trail $trail) => $trail
-    //     ->parent('platform.index')
-    //     ->push(__('Список магазинов'), route('platform.shop.list')));
+// ->breadcrumbs(fn (Trail $trail) => $trail
+//     ->parent('platform.index')
+//     ->push(__('Список магазинов'), route('platform.shop.list')));
 
 Route::screen('/shop/add', ShopAddScreen::class)
     ->name('platform.shop.add')
@@ -54,11 +54,11 @@ Route::screen('/shop/add', ShopAddScreen::class)
         ->parent('platform.index')
         ->push(__('Добавить'), route('platform.shop.add')));
 
-Route::screen('/shop/edit/{id?}', ShopEditScreen::class)
+Route::screen('/shop/{shop}/edit', ShopEditScreen::class)
     ->name('platform.shop.edit')
-    ->breadcrumbs(fn (Trail $trail) => $trail
+    ->breadcrumbs(fn (Trail $trail, $shop) => $trail
         ->parent('platform.index')
-        ->push(__('Редактировать'), route('platform.shop.edit')));
+        ->push(__('Редактировать'), route('platform.shop.edit', $shop)));
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)

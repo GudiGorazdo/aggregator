@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,12 +15,12 @@ class Area extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function scopeGetByCityID($query, int $id): Builder
+    public function scopeGetByCityID(Builder $query, int $id): Builder
     {
         return $query->where('city_id', $id);
     }
 
-    public function scopeGetByCityIdWithSubways($query, int $id): Builder
+    public function scopeGetByCityIdWithSubways(Builder $query, int $id): Builder
     {
         return $query->with('subways')->where('city_id', $id);
     }
@@ -28,6 +28,11 @@ class Area extends Model
     public function shops(): HasMany
     {
         return $this->hasMany(\App\Models\Shop::class);
+    }
+
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Region::class);
     }
 
     public function city(): BelongsTo

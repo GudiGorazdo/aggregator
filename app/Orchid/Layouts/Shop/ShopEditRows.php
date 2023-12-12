@@ -2,17 +2,15 @@
 
 namespace App\Orchid\Layouts\Shop;
 
-use App\Models\City;
-use App\Models\Region;
 use Orchid\Screen\Field;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\CheckBox;
-use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\SimpleMDE;
 use App\Orchid\Fields\DynamicInput;
+use App\Orchid\Fields\ShopLocation;
 
 class ShopEditRows extends Rows
 {
@@ -36,18 +34,7 @@ class ShopEditRows extends Rows
         }
 
         return [
-            // Group::make([
-            //     Relation::make('region_id')
-            //         ->title('Регион')
-            //         ->fromModel(Region::class, 'name')
-            //         ->value($shop->region_id ?? null)
-            //         ->required(),
-            //     Relation::make('city_id')
-            //         ->title('Город')
-            //         ->fromModel(City::class, 'name')
-            //         ->value($shop->city_id ?? null)
-            //         ->required(),
-            // ]),
+            ShopLocation::make('location'),
             Input::make('name')
                 ->title('Название')
                 ->value($shop->name ?? '')

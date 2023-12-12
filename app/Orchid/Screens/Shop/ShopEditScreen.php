@@ -7,10 +7,10 @@ use App\Orchid\Layouts\Shop\ShopEditRows;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
-use App\Orchid\Layouts\SubtractListener;
 
 class ShopEditScreen extends Screen
 {
+    public $shop;
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -53,12 +53,16 @@ class ShopEditScreen extends Screen
     public function layout(): iterable
     {
         return [
-            SubtractListener::class,
             ShopEditRows::class,
         ];
     }
 
     public function save(Request $request): void
+    {
+        \App\Helpers::log($request->all());
+    }
+
+    public function edit(Request $request): void
     {
         \App\Helpers::log($request->all());
     }
