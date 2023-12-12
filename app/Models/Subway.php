@@ -15,6 +15,11 @@ class Subway extends Model
     protected $fillable = ['name'];
     public $timestamps = false;
 
+    public function scopeGetByShopId(Builder $query, $id): Builder
+    {
+        return $query->where('shop_id', $id);
+    }
+
     public function scopeGetByAreasIds(Builder $query, $ids): Builder
     {
         return $query->whereIn('area_id', $ids);
@@ -37,6 +42,6 @@ class Subway extends Model
 
     public function shops(): belongsToMany
     {
-        return $this->belongsToMany(\App\Models\Shop::class);
+        return $this->belongsToMany(\App\Models\Shop::class, 'shop_subway', 'shop_id', 'subway_id');
     }
 }

@@ -93,9 +93,10 @@ class Shop extends Model
     {
         return $query->where('id', $id)
             ->with('workingMode')
+            ->with('region')
             ->with('area')
             ->with('city')
-            ->with('region')
+            ->with('subways')
             ->with('categories')
             ->with('subCategories')
             ->with('services')

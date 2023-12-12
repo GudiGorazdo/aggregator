@@ -3,6 +3,7 @@
 namespace App\Orchid\Fields;
 
 use Orchid\Screen\Field;
+use Illuminate\Database\Eloquent\Collection;
 
 class ShopLocation extends Field
 {
@@ -33,9 +34,13 @@ class ShopLocation extends Field
         return $this;
     }
 
-    public function shop(int|null $shopID)
+    public function shop(int $edit, int|null $regionID, int|null $cityID, int|null $areaID, string|null $subways)
     {
-        $this->attributes['shopID'] = $shopID;
+        $this->attributes['edit'] = $edit;
+        $this->attributes['regionID'] = $regionID ?? 0;
+        $this->attributes['cityID'] = $cityID ?? 0;
+        $this->attributes['areaID'] = $areaID ?? 0;
+        $this->attributes['subways'] = $subways ?? 0;
 
         return $this;
     }
