@@ -31,6 +31,7 @@ export default defineConfig({
         "resources/js/app.js",
         "resources/js/pages/home/index.js",
         "resources/js/pages/shop/index.js",
+        "resources/js/dashboard.js",
       ],
       refresh: true,
     }),

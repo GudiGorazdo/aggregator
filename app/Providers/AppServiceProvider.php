@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use \App\Services\FilterService;
 use \App\Services\ImportDataService;
+use Orchid\Platform\Dashboard;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,9 +30,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(FilterService $filters)
     {
-        // COMPONENTS
-        Blade::component(\App\View\Components\Filters\CheckboxItem::class, 'checkbox-item');
-
         // ADD FILTERS
         $filters->registerFilters([
             // 'CityFilterAside' => new \App\Filters\CityFilterAside('city', 'Город', 'city_id', ['id'=>'aside_city']),

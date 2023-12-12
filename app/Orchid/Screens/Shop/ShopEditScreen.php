@@ -41,7 +41,7 @@ class ShopEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make('Сохранить')->icon('save-alt')->method('save'),
+            Button::make('Сохранить')->icon('save-alt')->method('save')->turbo(false),
         ];
     }
 
