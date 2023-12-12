@@ -10,7 +10,7 @@ use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\SimpleMDE;
 use App\Orchid\Fields\DynamicInput;
-use App\Orchid\Fields\ShopLocation;
+use App\Orchid\Fields\SelectRelation;
 
 class ShopEditRows extends Rows
 {
@@ -37,36 +37,39 @@ class ShopEditRows extends Rows
 
 
         return [
-            ShopLocation::make('location')
+            SelectRelation::make('location')
                 ->inputs([
-                    [
+                    'region' => [
                         'name' => 'region_id',
                         'id' => 'select-region',
                         'default' => true,
                         'title' => 'Регион',
-                        'placeholder' => 'Выбрать регион'
+                        'placeholder' => 'Выбрать регион',
+                        'current' => $shop->region_id,
                     ],
-                    [
+                    'city' =>  [
                         'name' => 'city_id',
                         'id' => 'select-city',
                         'title' => 'Город',
-                        'placeholder' => 'Выбрать город'
+                        'placeholder' => 'Выбрать город',
+                        'current' => $shop->city_id,
                     ],
-                    [
+                    'area' => [
                         'name' => 'area_id',
                         'id' => 'select-area',
                         'title' => 'Район',
-                        'placeholder' => 'Выбрать район'
+                        'placeholder' => 'Выбрать район',
+                        'current' => $shop->area_id,
                     ],
-                    [
+                    'subways' => [
                         'name' => 'subways[]',
                         'id' => 'select-subways',
                         'multiple' => true,
                         'title' => 'Метро',
-                        'placeholder' => 'Выбрать метро'
+                        'placeholder' => 'Выбрать метро',
+                        'current' => implode(',', ($subways ?? [])),
                     ],
-                ])
-                ->shop(isset($shop->id) ? 1 : 0, $shop->region_id, $shop->city_id, $shop->area_id, implode(',', ($subways ?? []))),
+                ])->edit($shop->id ? true : false),
             Input::make('name')
                 ->title('Название')
                 ->value($shop->name ?? '')
@@ -151,6 +154,7 @@ class ShopEditRows extends Rows
                 ->title('Показывать в списке')
                 ->checked($shop->show ?? true)
                 ->horizontal(),
+            // Label::make('')->render('<h2>Категории</h2>'),
         ];
     }
 }

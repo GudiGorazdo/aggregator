@@ -1,2 +1,2 @@
-import ShopLocation from "./controllers/ShopLocation";
-application.register('location', ShopLocation);
+import SelectRelations from "./controllers/ShopLocation";
+application.register('relation', SelectRelations);

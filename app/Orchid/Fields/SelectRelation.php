@@ -5,14 +5,19 @@ namespace App\Orchid\Fields;
 use Orchid\Screen\Field;
 use Illuminate\Database\Eloquent\Collection;
 
-class ShopLocation extends Field
+class SelectRelation extends Field
 {
+    public $attributes = [
+        'edit' => false,
+        'inputs' => [] ,
+    ];
+
     /**
      * The field view.
      *
      * @var string
      */
-    public $view = 'orchid.fields.shop-location';
+    public $view = 'orchid.fields.select-relation';
 
     /**
      * Values for the dynamic input.
@@ -34,13 +39,9 @@ class ShopLocation extends Field
         return $this;
     }
 
-    public function shop(int $edit, int|null $regionID, int|null $cityID, int|null $areaID, string|null $subways)
+    public function edit(bool $edit)
     {
         $this->attributes['edit'] = $edit;
-        $this->attributes['regionID'] = $regionID ?? 0;
-        $this->attributes['cityID'] = $cityID ?? 0;
-        $this->attributes['areaID'] = $areaID ?? 0;
-        $this->attributes['subways'] = $subways ?? 0;
 
         return $this;
     }
