@@ -3,13 +3,7 @@
 namespace App\Orchid\Screens\Shop;
 
 use Orchid\Screen\Screen;
-use Orchid\Screen\TD;
-use Orchid\Support\Facades\Layout;
-use Carbon\Carbon;
-use App\Models\Shop;
-use App\Orchid\Filters\RegionFilter;
 use App\Orchid\Layouts\Shop\ShopListTable;
-use App\Orchid\Layouts\SubtractListener;
 use Orchid\Screen\Actions\Link;
 
 class ShopListScreen extends Screen

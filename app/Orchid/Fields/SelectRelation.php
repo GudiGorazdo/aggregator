@@ -9,6 +9,8 @@ class SelectRelation extends Field
 {
     public $attributes = [
         'edit' => false,
+        'addButton' => true,
+        'controller' => '',
         'inputs' => [] ,
     ];
 
@@ -49,6 +51,20 @@ class SelectRelation extends Field
     public function inputs(array $inputs)
     {
         $this->attributes['inputs'] = $inputs;
+
+        return $this;
+    }
+
+    public function controller(string $controller)
+    {
+        $this->attributes['controller'] = $controller;
+
+        return $this;
+    }
+
+    public function addButton(bool $addButton)
+    {
+        $this->attributes['addButton'] = $addButton;
 
         return $this;
     }

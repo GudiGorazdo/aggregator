@@ -3,6 +3,7 @@ import SelectRelations from "./SelectRelations"
 export default class extends window.Controller {
   connect() {
     const options = {
+      element: this.element,
       edit: Number(this.data.get('edit')),
       create: {
         region: {

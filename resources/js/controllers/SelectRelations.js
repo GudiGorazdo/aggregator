@@ -1,6 +1,8 @@
 export default class SelectRelations {
   start = true;
-  api = null;
+  constainer = null;
+  template = null;
+  addButton = null;
   options = null;
   edit = false;
   defaultType = null;
@@ -13,10 +15,16 @@ export default class SelectRelations {
 
   constructor(options) {
     this.options = options;
-    this.api = options.api;
     this.edit = !!this.options.edit;
+    this.element = options.element;
+    this.constainer = this.element.querySelector('[data-container]');
+    this.addButton = this.element.querySelector('[data-add]') || null;
+    if (this.addButton) {
+      this.template = this.element.querySelector('[data-template]');
+      this.addButton.addEventListener('click', this.addNewSet.bind(this));
+    }
     Object.keys(this.options.create).forEach(type => {
-      this.el[type] = document.getElementById(options.create[type].id);
+      this.el[type] = this.element.querySelector(`#${options.create[type].id}`);
       this.current[type] = null;
       this.data[type] = options.create[type].data;
       if (options.create[type].disable) {
@@ -48,7 +56,12 @@ export default class SelectRelations {
     });
 
     this.start = false;
-  }
+  };
+
+  addNewSet() {
+    const newSet = this.template.cloneNode(true);
+    this.constainer.append(newSet);
+  };
 
   setCurrent(event) {
     const { type } = event.target.dataset;

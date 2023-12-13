@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('area_id')->nullable();
             $table->unsignedBigInteger('municipality_id')->nullable();
+            $table->unsignedBigInteger('chain_id')->nullable();
             $table->text('logo')->nullable();
             $table->text('photos')->nullable();
             $table->text('title')->nullable();
@@ -53,10 +54,12 @@ return new class extends Migration
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('municipality_id')->references('id')->on('municipalities');
             $table->foreign('area_id')->references('id')->on('areas');
+            $table->foreign('chain_id')->references('id')->on('chains');
             $table->index('region_id');
             $table->index('municipality_id');
             $table->index('city_id');
             $table->index('area_id');
+            $table->index('chain_id');
         });
     }
 

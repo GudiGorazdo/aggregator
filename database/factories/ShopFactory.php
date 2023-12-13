@@ -17,6 +17,7 @@ class ShopFactory extends Factory
     public function definition()
     {
         $municipality = \App\Models\Municipality::inRandomOrder()->first();
+        $chain = \App\Models\Chain::inRandomOrder()->first();
         $city = \App\Models\City::find($municipality->city_id);
         $city_c = json_decode($city->coord);
         $latMin = (int)$city_c->lat - (125 / 1000);
@@ -69,6 +70,7 @@ class ShopFactory extends Factory
             'city_id' => $municipality->city_id,
             'area_id' => $municipality->area_id,
             'municipality_id' => $municipality->id,
+            'chain_id' =>rand(0,3) > 1 ? $chain->id : null,
             'logo' =>  'https://picsum.photos/',
             'title' => 'shop_title_' . fake()->word(),
             'name' => $name,

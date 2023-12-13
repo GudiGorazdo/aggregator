@@ -3,10 +3,18 @@
 namespace App\Orchid\Screens\Shop;
 
 use App\Models\Shop;
-use App\Orchid\Layouts\Shop\ShopEditRows;
+use App\Orchid\Layouts\Shop\Edit\ShopCategories;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
+use App\Orchid\Layouts\Shop\Edit\ShopChain;
+use App\Orchid\Layouts\Shop\Edit\ShopContacts;
+use App\Orchid\Layouts\Shop\Edit\ShopDescription;
+use App\Orchid\Layouts\Shop\Edit\ShopLocation;
+use App\Orchid\Layouts\Shop\Edit\ShopOptions;
+use App\Orchid\Layouts\Shop\Edit\ShopWorkingMode;
+use Orchid\Support\Facades\Layout;
+use Orchid\Screen\Actions\ModalToggle;
 
 class ShopEditScreen extends Screen
 {
@@ -41,7 +49,7 @@ class ShopEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make('Сохранить')->icon('save-alt')->method('save')->turbo(false),
+            Button::make('Сохранить все изменения')->icon('save-alt')->method('save')->turbo(false),
         ];
     }
 
@@ -53,7 +61,22 @@ class ShopEditScreen extends Screen
     public function layout(): iterable
     {
         return [
-            ShopEditRows::class,
+            Layout::modal('exampleModal', [
+                // ModalToggle::make('Launch demo modal')
+                //     ->modal('exampleModal')
+                //     ->method('action')
+                //     ->icon('full-screen'),
+            ]),
+            Layout::modal('exampleModal', [
+                Layout::rows([]),
+            ]),
+            ShopCategories::class,
+            ShopChain::class,
+            ShopLocation::class,
+            ShopDescription::class,
+            ShopContacts::class,
+            ShopOptions::class,
+            ShopWorkingMode::class,
         ];
     }
 

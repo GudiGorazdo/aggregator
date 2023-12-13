@@ -52,13 +52,13 @@ class DatabaseSeeder extends Seeder
     {
         // SEED MAIN TABLES
         // $this->seedModel(\App\Models\User::class, 1, 'user');
+        $this->seedModel(\App\Models\Chain::class, 10, 'chains');
         $this->seedModel(\App\Models\Region::class, 3, 'regions');
         $this->seedModel(\App\Models\City::class, 5, 'cities');
         $this->seedModel(\App\Models\Area::class, 30, 'area');
         $this->seedModel(\App\Models\Municipality::class, 40, 'municipalities');
         $this->seedModel(\App\Models\Subway::class, 50, 'subways');
         $this->seedModelHas(\App\Models\Category::class, 15, \App\Models\SubCategory::class, 30, 'categories and subcategories');
-        $this->seedModel(\App\Models\Chain::class, 100, 'chains');
         $this->seedModel(\App\Models\Shop::class, 200, 'shops');
         $this->executeWithLogging('services', 'seedServices');
 
