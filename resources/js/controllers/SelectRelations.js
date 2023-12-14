@@ -1,3 +1,31 @@
+/**
+ *
+ * Элементы связаны по цепочке от элемента с default: true;
+ * Элементом с multiple: true может быть только последний элемент
+ * в этой цепочке, то есть не имеющий поля disable.
+ *
+ * options = {
+ *  element: HTMLElement,       --- получаем из window.Controller (this.element)
+ *  rows: boolean,              --- указывает есть ли возможность динамически добавлять новые группы полей
+ *  create: {                   --- объект хранит информацию о полях в группе
+ *   key: {
+ *    default: true,            --- указывает является ли элемент первым(доступным всегда). может быть только один элемент с default: true.
+ *    multiple: true,           --- указывает есть ли у элемента возможность множественного выбора. С возможностью выбора может быть только "последний" элемент в группе.
+ *    dataID: string            --- идентификатор элемента в группе
+ *    disable: string           --- указывает зависимое поле.
+ *    data: array [             ---  массив элементов для выбора
+ *     {
+ *       relation: number       --- id связанного элемента при котором список активен (у элемента с default: true отсутствует)
+ *       name: string           --- отображаемое имя
+ *       id: number             --- value элемента, отображаемое при отправке формы, а так же служит для активации связанного списка
+ *     }
+ *    ]
+ *   }
+ *  }
+ * }
+ *
+ */
+
 class RelationBunch {
   start = true;
   container = null;
@@ -169,11 +197,11 @@ export default class SelectRelations {
     this.options = options;
     this.element = options.element;
     this.container = this.element.querySelector('[data-container]');
-    this.init();
+    this.initBunchs();
+    this.start = false;
   };
 
-  async init() {
-    // await this.createData();
+  async initBunchs() {
     const rows = this.element.querySelectorAll('[data-row]');
     rows.forEach(row => {
       this.rows.push(new RelationBunch(row, this.container, this.options, this.start));
@@ -185,8 +213,6 @@ export default class SelectRelations {
       this.addButton = this.element.querySelector('[data-add]') || null;
       this.addButton.addEventListener('click', this.addNewSet.bind(this));
     }
-
-    this.start = false;
   }
 
   addNewSet() {
@@ -197,8 +223,4 @@ export default class SelectRelations {
     this.rows.push(new RelationBunch(newSet, this.container, this.options, this.start));
     this.container.append(newSet);
   };
-
-  // async createData(data) {
-
-  // }
 }
