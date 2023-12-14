@@ -34,10 +34,6 @@ class ShopDescription extends ShopEditRow
             SimpleMDE::make('description')->value($shop->description ?? ''),
         ];
 
-        if ($shop->id) {
-            $row[] = Button::make('Сохранить')->method('save-desc')->class('btn btn-success m-auto')->right();
-        }
-
         return $row;
     }
 
