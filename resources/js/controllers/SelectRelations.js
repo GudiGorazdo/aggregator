@@ -89,6 +89,7 @@ class RelationBunch {
   };
 
   setRenderArray(type, id) {
+    if (!id) return;
     const data = this.data[type];
     this.temp = data.find(item => item.relation === id).items;
   };
@@ -168,6 +169,11 @@ export default class SelectRelations {
     this.options = options;
     this.element = options.element;
     this.container = this.element.querySelector('[data-container]');
+    this.init();
+  };
+
+  async init() {
+    // await this.createData();
     const rows = this.element.querySelectorAll('[data-row]');
     rows.forEach(row => {
       this.rows.push(new RelationBunch(row, this.container, this.options, this.start));
@@ -181,7 +187,7 @@ export default class SelectRelations {
     }
 
     this.start = false;
-  };
+  }
 
   addNewSet() {
     const newSet = document.createElement('div');
@@ -192,4 +198,7 @@ export default class SelectRelations {
     this.container.append(newSet);
   };
 
+  // async createData(data) {
+
+  // }
 }

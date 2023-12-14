@@ -32,7 +32,7 @@ class LocationController extends Controller
         return response($filter->getItems(self::getCityID()));
     }
 
-    public function allLocations()
+    public function allLocations(): Response
     {
         return response(\App\Models\Region::full()->get());
     }

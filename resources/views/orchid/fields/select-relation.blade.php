@@ -1,6 +1,5 @@
 @component($typeForm, get_defined_vars())
-    <div id={{ $id }} data-controller="{{ $controller }}" data-{{ $controller }}-edit={{ $edit }}
-        data-{{ $controller }}-rows={{ $rows }}>
+    <div id={{ $id }} data-controller="{{ $controller }}" data-{{ $controller }}-rows={{ $rows }}>
         <template data-template>
             @foreach ($inputsGroups[0] as $input)
                 <div class="form-group mb-3">
@@ -29,7 +28,8 @@
                             @endif
                             <select class="form-control" {{ isset($input['default']) ? '' : 'disabled' }}
                                 name="{{ $input['name'] }}" data-id="{{ $input['id'] }}" autocomplete="off"
-                                {{ isset($input['multiple']) ? 'multiple' : '' }} {{ isset($input['current']) ? 'data-current=' . $input['current'] : '' }}>
+                                {{ isset($input['multiple']) ? 'multiple' : '' }}
+                                {{ isset($input['current']) && $input['current'] ? 'data-current=' . $input['current'] : '' }}>
                                 @if (!isset($multiple))
                                     <option selected="selected" disabled>{{ $input['placeholder'] }}</option>
                                 @endif

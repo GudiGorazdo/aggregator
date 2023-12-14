@@ -28,25 +28,27 @@ class ShopCategories extends Rows
 
         return [
             Title::make('Категории')->class('pt-4'),
-            // SelectRelation::make('categories')
-            //     ->controller('categories')
-            //     ->inputs([
-            //         'category' => [
-            //             'default' => true,
-            //             'name' => 'category_id',
-            //             'id' => 'select-category',
-            //             'placeholder' => 'Выбрать категорию',
-            //             'current' => $shop->region_id ?? null,
-            //         ],
-            //         'subCategories' =>  [
-            //             'multiple' => true,
-            //             'name' => 'sub_categories[]',
-            //             'id' => 'select-subcategories',
-            //             'title' => 'Подкатегории',
-            //             'placeholder' => 'Выбрать подкатегории',
-            //             'current' => implode(',', ($subways ?? [])),
-            //         ],
-            //     ])->edit($shop->id ? true : false),
+            SelectRelation::make('categories')
+                ->controller('categories')
+                ->inputsGroups([
+                    [
+                        'category' => [
+                            'default' => true,
+                            'name' => 'category_id[]',
+                            'id' => 'select-category',
+                            'placeholder' => 'Выбрать категорию',
+                            // 'current' => $shop->region_id ?? null,
+                        ],
+                        'subCategories' =>  [
+                            'multiple' => true,
+                            'name' => 'sub_categories[]',
+                            'id' => 'select-subcategories',
+                            'title' => 'Подкатегории',
+                            'placeholder' => 'Выбрать подкатегории',
+                            // 'current' => implode(',', ($subways ?? [])),
+                        ],
+                    ]
+                ])->setRows(),
 
             Button::make('Сохранить')->method('save-categories'),
         ];

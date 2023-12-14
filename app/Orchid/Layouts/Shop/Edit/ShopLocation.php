@@ -69,8 +69,7 @@ class ShopLocation extends Rows
                             'current' => implode(',', ($subways ?? [])),
                         ],
                     ],
-                ])->setRows()
-                ->edit($shop->id ? true : false),
+                ]),
             Label::make('')->title('Координаты'),
             Group::make([
                 Input::make('lat')

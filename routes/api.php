@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/data/cities', [App\Http\Controllers\LocationController::class, 'cities']);
 Route::get('/data/location', [App\Http\Controllers\LocationController::class, 'location']);
 Route::get('/data/allLocations', [App\Http\Controllers\LocationController::class, 'allLocations']);
+Route::get('/data/allCategories', [App\Http\Controllers\CategoryController::class, 'allCategories']);
 Route::get('/data/services', [App\Http\Controllers\ServiceController::class, 'services']);
 Route::get('/filter/shop', [App\Http\Controllers\ShopController::class, 'shopList']);
 
