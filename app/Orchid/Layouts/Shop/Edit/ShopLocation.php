@@ -37,39 +37,40 @@ class ShopLocation extends Rows
             Title::make('Регион')->class('pt-4'),
             SelectRelation::make('location')
                 ->controller('location')
-                ->inputs([
-                    'region' => [
-                        'name' => 'region_id',
-                        'id' => 'select-region',
-                        'default' => true,
-                        'placeholder' => 'Выбрать регион',
-                        'current' => $shop->region_id,
+                ->inputsGroups([
+                    [
+                        'region' => [
+                            'name' => 'region_id',
+                            'id' => 'select-region',
+                            'default' => true,
+                            'placeholder' => 'Выбрать регион',
+                            'current' => $shop->region_id,
+                        ],
+                        'city' =>  [
+                            'name' => 'city_id',
+                            'id' => 'select-city',
+                            'title' => 'Город',
+                            'placeholder' => 'Выбрать город',
+                            'current' => $shop->city_id,
+                        ],
+                        'area' => [
+                            'name' => 'area_id',
+                            'id' => 'select-area',
+                            'title' => 'Район',
+                            'placeholder' => 'Выбрать район',
+                            'current' => $shop->area_id,
+                        ],
+                        'subways' => [
+                            'name' => 'subways[]',
+                            'id' => 'select-subways',
+                            'multiple' => true,
+                            'title' => 'Метро',
+                            'placeholder' => 'Выбрать метро',
+                            'current' => implode(',', ($subways ?? [])),
+                        ],
                     ],
-                    'city' =>  [
-                        'name' => 'city_id',
-                        'id' => 'select-city',
-                        'title' => 'Город',
-                        'placeholder' => 'Выбрать город',
-                        'current' => $shop->city_id,
-                    ],
-                    'area' => [
-                        'name' => 'area_id',
-                        'id' => 'select-area',
-                        'title' => 'Район',
-                        'placeholder' => 'Выбрать район',
-                        'current' => $shop->area_id,
-                    ],
-                    'subways' => [
-                        'name' => 'subways[]',
-                        'id' => 'select-subways',
-                        'multiple' => true,
-                        'title' => 'Метро',
-                        'placeholder' => 'Выбрать метро',
-                        'current' => implode(',', ($subways ?? [])),
-                    ],
-                ])
-                ->edit($shop->id ? true : false)
-                ->addButton(true),
+                ])->setRows()
+                ->edit($shop->id ? true : false),
             Label::make('')->title('Координаты'),
             Group::make([
                 Input::make('lat')

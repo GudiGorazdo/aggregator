@@ -9,9 +9,9 @@ class SelectRelation extends Field
 {
     public $attributes = [
         'edit' => false,
-        'addButton' => true,
+        'rows' => false,
         'controller' => '',
-        'inputs' => [] ,
+        'inputsGroups' => [] ,
     ];
 
     /**
@@ -48,9 +48,9 @@ class SelectRelation extends Field
         return $this;
     }
 
-    public function inputs(array $inputs)
+    public function inputsGroups(array $groups)
     {
-        $this->attributes['inputs'] = $inputs;
+        $this->attributes['inputsGroups'] = $groups;
 
         return $this;
     }
@@ -62,9 +62,9 @@ class SelectRelation extends Field
         return $this;
     }
 
-    public function addButton(bool $addButton)
+    public function setRows()
     {
-        $this->attributes['addButton'] = $addButton;
+        $this->attributes['rows'] = true;
 
         return $this;
     }

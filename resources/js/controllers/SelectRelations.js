@@ -1,66 +1,71 @@
-export default class SelectRelations {
+class RelationBunch {
   start = true;
-  constainer = null;
-  template = null;
-  addButton = null;
+  container = null;
+  element = null;
   options = null;
   edit = false;
   defaultType = null;
   temp = null;
+  removeButton = null;
   data = {};
   el = {};
   current = {};
   disableMap = {};
   multiples = [];
 
-  constructor(options) {
+  constructor(element, container, options, start) {
+    this.start = start;
+    this.container = container;
+    this.element = element;
     this.options = options;
     this.edit = !!this.options.edit;
-    this.element = options.element;
-    this.constainer = this.element.querySelector('[data-container]');
-    this.addButton = this.element.querySelector('[data-add]') || null;
-    if (this.addButton) {
-      this.template = this.element.querySelector('[data-template]');
-      this.addButton.addEventListener('click', this.addNewSet.bind(this));
+    this.createNewBunch();
+    this.createNewOptions();
+    if (this.options.rows) {
+      this.removeButton = this.element.querySelector('[data-remove]') || null;
+      this.removeButton.addEventListener('click', this.removeBunch.bind(this));
     }
-    Object.keys(this.options.create).forEach(type => {
-      this.el[type] = this.element.querySelector(`#${options.create[type].id}`);
-      this.current[type] = null;
-      this.data[type] = options.create[type].data;
-      if (options.create[type].disable) {
-        this.disableMap[type] = options.create[type].disable;
-      }
-      if (options.create[type].multiple) {
-        this.multiples.push(type);
-      }
-      if (options.create[type].default) {
-        this.defaultType = type;
-      }
+  }
 
-      if (! this.edit) return;
-      if (options.create[type].current) {
-        this.current[type] = options.create[type].current;
-      }
-    });
+  removeBunch() {
+    this.container.removeChild(this.element);
+  };
 
+  createNewOptions() {
     Object.keys(this.current).forEach(type => {
+      this.removeOptions(type);
       if (this.defaultType === type) {
         this.temp = this.data[type];
         this.setOptions(type);
       }
-      if (! this.edit) return;
-      if (! this.disableMap[type]) return;
+      if (!this.edit) return;
+      if (!this.disableMap[type]) return;
       this.setRenderArray(this.disableMap[type], this.current[type]);
       this.checkDisabled(this.disableMap[type]);
       this.setOptions(this.disableMap[type]);
     });
-
-    this.start = false;
   };
 
-  addNewSet() {
-    const newSet = this.template.cloneNode(true);
-    this.constainer.append(newSet);
+  createNewBunch() {
+    Object.keys(this.options.create).forEach(type => {
+      this.el[type] = this.element.querySelector(`[data-id="${this.options.create[type].dataID}"]`);
+      this.current[type] = null;
+      this.data[type] = this.options.create[type].data;
+      if (this.options.create[type].disable) {
+        this.disableMap[type] = this.options.create[type].disable;
+      }
+      if (this.options.create[type].multiple) {
+        this.multiples.push(type);
+      }
+      if (this.options.create[type].default) {
+        this.defaultType = type;
+      }
+
+      if (!this.edit) return;
+      if (this.options.create[type].current) {
+        this.current[type] = this.options.create[type].current;
+      }
+    });
   };
 
   setCurrent(event) {
@@ -146,4 +151,42 @@ export default class SelectRelations {
     if (!this.temp || this.temp.length < 1) return;
     this.el[type].removeAttribute('disabled');
   };
+}
+
+// FABRIC
+export default class SelectRelations {
+  start = true;
+  container = null;
+  template = null;
+  addButton = null;
+  rows = [];
+
+  constructor(options) {
+    this.options = options;
+    this.element = options.element;
+    this.container = this.element.querySelector('[data-container]');
+    const rows = this.element.querySelectorAll('[data-row]');
+    rows.forEach(row => {
+      this.rows.push(new RelationBunch(row, this.container, this.options, this.start));
+    });
+    if (this.options.rows) {
+      const template = this.element.querySelector('[data-template]');
+      this.template = template.innerHTML;
+      this.element.removeChild(template);
+      this.addButton = this.element.querySelector('[data-add]') || null;
+      this.addButton.addEventListener('click', this.addNewSet.bind(this));
+    }
+
+    this.start = false;
+  };
+
+  addNewSet() {
+    const newSet = document.createElement('div');
+    newSet.classList.add('mb-3');
+    newSet.setAttribute('data-row', '');
+    newSet.innerHTML = this.template;
+    this.rows.push(new RelationBunch(newSet, this.container, this.options, this.start));
+    this.container.append(newSet);
+  };
+
 }
