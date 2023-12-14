@@ -167,8 +167,8 @@ class RelationBunch {
     if (!this.start) return;
     let check;
     if (this.multiples.includes(type)) {
-      check = this.current.subways?.includes(value);
-      check && (this.current.subways.push(value));
+      check = this.current[type]?.includes(value);
+      check && (this.current[type].push(value));
     } else {
       check = this.current[type] === value;
       check && (this.current[type] = value);

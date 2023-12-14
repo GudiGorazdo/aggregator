@@ -61,22 +61,13 @@ class ShopEditScreen extends Screen
     public function layout(): iterable
     {
         return [
-            Layout::modal('exampleModal', [
-                // ModalToggle::make('Launch demo modal')
-                //     ->modal('exampleModal')
-                //     ->method('action')
-                //     ->icon('full-screen'),
-            ]),
-            Layout::modal('exampleModal', [
-                Layout::rows([]),
-            ]),
-            ShopCategories::class,
             ShopChain::class,
             ShopLocation::class,
             ShopDescription::class,
             ShopContacts::class,
             ShopOptions::class,
             ShopWorkingMode::class,
+            ShopCategories::class,
         ];
     }
 
