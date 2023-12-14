@@ -1,4 +1,4 @@
-import ShopLocation from "./controllers/ShopLocation";
+import ShopLocation from "./orchid/ShopLocation";
 application.register('location', ShopLocation);
-import ShopCategories from "./controllers/ShopCategories";
+import ShopCategories from "./orchid/ShopCategories";
 application.register('categories', ShopCategories);

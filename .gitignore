@@ -106,3 +106,8 @@ data/
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,laravel
 
 
+
+
+composer.lock
+package-lock.json
+public/build/
