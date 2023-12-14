@@ -18,6 +18,23 @@ class ShopChain extends Rows
      */
     protected $title;
 
+    private function getRow($chains, $shop)
+    {
+        $row = [
+            Title::make('Принадлежит сети'),
+            Group::make([
+                Select::make('chains')->options($chains)->empty($chains[$shop->chain_id] ?? '', $shop->chain_id ?? ''),
+                Button::make('Сохранить')->method('save-chain'),
+            ]),
+        ];
+
+        if ($shop->id) {
+            $row[] = Button::make('Сохранить')->method('save-cahains')->class('btn btn-success m-auto')->right();
+        }
+
+        return $row;
+    }
+
     /**
      * Get the fields elements to be displayed.
      *
@@ -28,12 +45,6 @@ class ShopChain extends Rows
         $shop = $this->query->get('shop');
         $chains = \App\Models\Chain::all()->pluck('name', 'id');
 
-        return [
-            Title::make('Принадлежит сети'),
-            Group::make([
-                Select::make('chains')->options($chains)->empty($chains[$shop->chain_id] ?? '', $shop->chain_id ?? ''),
-                Button::make('Сохранить')->method('save-chain'),
-            ]),
-        ];
+        return $this->getRow($chains, $shop);
     }
 }

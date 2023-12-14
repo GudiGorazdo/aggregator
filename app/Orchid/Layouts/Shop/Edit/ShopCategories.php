@@ -7,6 +7,7 @@ use Orchid\Screen\Layouts\Rows;
 use App\Orchid\Fields\Title;
 use App\Orchid\Fields\SelectRelation;
 use Illuminate\Database\Eloquent\Collection;
+use Mockery\Undefined;
 use Orchid\Screen\Actions\Button;
 
 class ShopCategories extends Rows
@@ -50,6 +51,22 @@ class ShopCategories extends Rows
         return $groups;
     }
 
+    private function getRow($categories, $checkButton)
+    {
+        $row = [
+            Title::make('Категории')->class('pt-4'),
+            SelectRelation::make('categories')
+                ->controller('categories')
+                ->inputsGroups($this->createInputsGroups($categories))->setRows(),
+        ];
+
+        if ($checkButton) {
+            $row[] = Button::make('Сохранить')->method('save-categories')->class('btn btn-success m-auto')->right();
+        }
+
+        return $row;
+    }
+
     /**
      * Get the fields elements to be displayed.
      *
@@ -61,16 +78,8 @@ class ShopCategories extends Rows
         $shop = $this->query->get('shop');
         if ($shop->id) {
             $categories = \App\Models\SubCategory::getByShopID($shop->id)->get()->groupBy('category_id');
-            // dd($categories[1]->pluck('id'));
         }
 
-        return [
-            Title::make('Категории')->class('pt-4'),
-            SelectRelation::make('categories')
-                ->controller('categories')
-                ->inputsGroups($this->createInputsGroups($categories))->setRows(),
-
-            Button::make('Сохранить')->method('save-categories'),
-        ];
+        return $this->getRow($categories, $shop->id ? true : false);
     }
 }

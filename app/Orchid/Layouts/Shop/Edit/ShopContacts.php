@@ -18,15 +18,9 @@ class ShopContacts extends Rows
      */
     protected $title;
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    private function getRow($shop)
     {
-        $shop = $this->query->get('shop');
-        return [
+        $row = [
             Title::make('Контакты')->class('pt-4'),
             Input::make('zip')
                 ->title('Индекс')
@@ -72,7 +66,24 @@ class ShopContacts extends Rows
                 ->title('Почта')
                 ->values(json_decode($shop->emails, true) ?? []),
 
-            Button::make('Сохранить')->method('save-contacts'),
-        ];
+            ];
+
+            if ($shop->id) {
+            $row[] = Button::make('Сохранить')->method('save-contacts')->class('btn btn-success m-auto')->right();
+        }
+
+        return $row;
+    }
+
+    /**
+     * Get the fields elements to be displayed.
+     *
+     * @return Field[]
+     */
+    protected function fields(): iterable
+    {
+        $shop = $this->query->get('shop');
+
+        return $this->getRow($shop);
     }
 }

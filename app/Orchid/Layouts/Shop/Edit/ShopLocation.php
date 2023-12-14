@@ -20,20 +20,14 @@ class ShopLocation extends Rows
      */
     protected $title;
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    private function getRow($shop)
     {
-        $shop = $this->query->get('shop');
         if ($shop->id) {
             $subways = \App\Models\Shop::find($shop->id)->subways->pluck('id')->toArray();
             $coord = json_decode($shop->coord);
         }
 
-        return [
+        $row = [
             Title::make('Регион')->class('pt-4'),
             SelectRelation::make('location')
                 ->controller('location')
@@ -87,8 +81,24 @@ class ShopLocation extends Rows
                         'numericInput' => true
                     ]),
             ])->autoWidth(),
-
-            Button::make('Сохранить')->method('save-location'),
         ];
+
+        if ($shop->id) {
+            $row[] = Button::make('Сохранить')->method('save-location')->class('btn btn-success m-auto')->right();
+        }
+
+        return $row;
+    }
+
+    /**
+     * Get the fields elements to be displayed.
+     *
+     * @return Field[]
+     */
+    protected function fields(): iterable
+    {
+        $shop = $this->query->get('shop');
+
+        return $this->getRow($shop);
     }
 }

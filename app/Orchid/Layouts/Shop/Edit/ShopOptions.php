@@ -17,16 +17,9 @@ class ShopOptions extends Rows
      */
     protected $title;
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    private function getRow($shop)
     {
-        $shop = $this->query->get('shop');
-
-        return [
+        $row = [
             Title::make('Опции')->class('pt-4'),
             CheckBox::make('convenience_shop')
                 ->title('Круглосуточный магазин')
@@ -44,8 +37,24 @@ class ShopOptions extends Rows
                 ->title('Показывать в списке')
                 ->checked($shop->show ?? true)
                 ->horizontal(),
-
-            Button::make('Сохранить')->method('save-options'),
         ];
+
+        if ($shop->id) {
+            $row[] = Button::make('Сохранить')->method('save-options')->class('btn btn-success m-auto')->right();
+        }
+
+        return $row;
+    }
+
+    /**
+     * Get the fields elements to be displayed.
+     *
+     * @return Field[]
+     */
+    protected function fields(): iterable
+    {
+        $shop = $this->query->get('shop');
+
+        return $this->getRow($shop);
     }
 }

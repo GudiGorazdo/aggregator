@@ -18,15 +18,9 @@ class ShopDescription extends Rows
      */
     protected $title;
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    private function getRow($shop)
     {
-        $shop = $this->query->get('shop');
-        return [
+        $row = [
             Title::make('Описание')->class('pt-4'),
             Input::make('name')
                 ->title('Название')
@@ -38,7 +32,24 @@ class ShopDescription extends Rows
                 ->popover('Заголовок для карточки магазина')
                 ->required(),
             SimpleMDE::make('description')->value($shop->description ?? ''),
-            Button::make('Сохранить')->method('save-desc'),
         ];
+
+        if ($shop->id) {
+            $row[] = Button::make('Сохранить')->method('save-desc')->class('btn btn-success m-auto')->right();
+        }
+
+        return $row;
+    }
+
+    /**
+     * Get the fields elements to be displayed.
+     *
+     * @return Field[]
+     */
+    protected function fields(): iterable
+    {
+        $shop = $this->query->get('shop');
+
+        return $this->getRow($shop);
     }
 }

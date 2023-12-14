@@ -68,7 +68,9 @@ class ShopWorkingMode extends Rows
             ]);
         }
 
-        $group[] = Button::make('Сохранить')->method('save-workingmode');
+        if ($shop->id) {
+            $group[] = Button::make('Сохранить')->method('save-workingmode')->class('btn btn-success m-auto')->right();
+        }
 
         return $group;
     }
