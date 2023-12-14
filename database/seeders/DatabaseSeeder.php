@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
         // SEED MAIN TABLES
         // $this->seedModel(\App\Models\User::class, 1, 'user');
         $this->seedModel(\App\Models\Chain::class, 10, 'chains');
-        $this->seedModel(\App\Models\Region::class, 3, 'regions');
+        $this->seedModel(\App\Models\Region::class, 7, 'regions');
         $this->seedModel(\App\Models\City::class, 5, 'cities');
         $this->seedModel(\App\Models\Area::class, 30, 'area');
         $this->seedModel(\App\Models\Municipality::class, 40, 'municipalities');
