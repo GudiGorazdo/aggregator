@@ -3,7 +3,6 @@ class RelationBunch {
   container = null;
   element = null;
   options = null;
-  edit = false;
   defaultType = null;
   temp = null;
   removeButton = null;
@@ -18,7 +17,6 @@ class RelationBunch {
     this.container = container;
     this.element = element;
     this.options = options;
-    this.edit = !!this.options.edit;
     this.createNewBunch();
     this.createNewOptions();
     if (this.options.rows) {
@@ -33,12 +31,11 @@ class RelationBunch {
 
   createNewOptions() {
     Object.keys(this.current).forEach(type => {
-      this.removeOptions(type);
       if (this.defaultType === type) {
         this.temp = this.data[type];
         this.setOptions(type);
       }
-      if (!this.edit) return;
+      if (!this.start) return;
       if (!this.disableMap[type]) return;
       this.setRenderArray(this.disableMap[type], this.current[type]);
       this.checkDisabled(this.disableMap[type]);
@@ -49,7 +46,6 @@ class RelationBunch {
   createNewBunch() {
     Object.keys(this.options.create).forEach(type => {
       this.el[type] = this.element.querySelector(`[data-id="${this.options.create[type].dataID}"]`);
-      this.current[type] = null;
       this.data[type] = this.options.create[type].data;
       if (this.options.create[type].disable) {
         this.disableMap[type] = this.options.create[type].disable;
@@ -61,9 +57,16 @@ class RelationBunch {
         this.defaultType = type;
       }
 
-      if (!this.edit) return;
-      if (this.options.create[type].current) {
-        this.current[type] = this.options.create[type].current;
+
+      if (!this.el[type].dataset.current) {
+        this.current[type] = null;
+        return;
+      }
+
+      if (this.options.create[type].multiple) {
+        this.current[type] = this.el[type].dataset.current.split(',').map(Number);
+      } else {
+        this.current[type] = +this.el[type].dataset.current;
       }
     });
   };
@@ -132,7 +135,7 @@ class RelationBunch {
   };
 
   checkSelected(value, type) {
-    if (!this.start || !this.edit) return;
+    if (!this.start) return;
     let check;
     if (this.multiples.includes(type)) {
       check = this.current.subways?.includes(value);

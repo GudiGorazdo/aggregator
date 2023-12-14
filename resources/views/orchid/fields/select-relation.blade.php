@@ -16,7 +16,7 @@
                 </div>
             @endforeach
             @if ($rows)
-                <button class="btn btn-primary mt-3" data-remove type="button">Удалить</button>
+                <button class="btn btn-danger mt-3" data-remove type="button">Удалить</button>
             @endif
         </template>
         <div data-container>
@@ -29,7 +29,7 @@
                             @endif
                             <select class="form-control" {{ isset($input['default']) ? '' : 'disabled' }}
                                 name="{{ $input['name'] }}" data-id="{{ $input['id'] }}" autocomplete="off"
-                                {{ isset($input['multiple']) ? 'multiple' : '' }}>
+                                {{ isset($input['multiple']) ? 'multiple' : '' }} {{ isset($input['current']) ? 'data-current=' . $input['current'] : '' }}>
                                 @if (!isset($multiple))
                                     <option selected="selected" disabled>{{ $input['placeholder'] }}</option>
                                 @endif
@@ -37,7 +37,7 @@
                         </div>
                     @endforeach
                     @if ($rows)
-                        <button class="btn btn-primary mt-3" data-remove type="button">Удалить</button>
+                        <button class="btn btn-danger mt-3" data-remove type="button">Удалить</button>
                     @endif
                 </div>
             @endforeach

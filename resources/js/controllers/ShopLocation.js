@@ -4,31 +4,25 @@ export default class extends window.Controller {
   connect() {
     const options = {
       element: this.element,
-      edit: false,
-      // edit: Number(this.data.get('edit')),
       rows: Number(this.data.get('rows')),
       create: {
         region: {
           default: true,
-          // current: Number(this.data.get('region')) ?? null,
           dataID: 'select-region',
           disable: 'city',
           data: [],
         },
         city: {
-          // current: Number(this.data.get('city')) ?? null,
           dataID: 'select-city',
           disable: 'area',
           data: [],
         },
         area: {
-          // current: Number(this.data.get('area')) ?? null,
           dataID: 'select-area',
           disable: 'subways',
           data: [],
         },
         subways: {
-        //   current: this.data.get('subways').split(',').map(Number) ?? null,
           multiple: true,
           dataID: 'select-subways',
           data: [],
