@@ -2,14 +2,14 @@
 
 namespace App\Orchid\Layouts\Shop\Edit;
 
-use Orchid\Screen\Field;
-use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Select;
 use App\Orchid\Fields\Title;
 use Orchid\Screen\Actions\Button;
+use App\Orchid\Layouts\Shop\Edit\ShopEditRow;
+use App\Models\Shop;
 
-class ShopChain extends Rows
+class ShopChain extends ShopEditRow
 {
     /**
      * Used to create the title of a group of form elements.
@@ -18,8 +18,10 @@ class ShopChain extends Rows
      */
     protected $title;
 
-    private function getRow($chains, $shop)
+    public function getRow(Shop $shop): iterable
     {
+        $chains = \App\Models\Chain::all()->pluck('name', 'id');
+
         $row = [
             Title::make('Принадлежит сети'),
             Group::make([
@@ -28,23 +30,11 @@ class ShopChain extends Rows
             ]),
         ];
 
-        if ($shop->id) {
-            $row[] = Button::make('Сохранить')->method('save-cahains')->class('btn btn-success m-auto')->right();
-        }
-
         return $row;
     }
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    public function getMethod(): string
     {
-        $shop = $this->query->get('shop');
-        $chains = \App\Models\Chain::all()->pluck('name', 'id');
-
-        return $this->getRow($chains, $shop);
+        return 'cahains';
     }
 }

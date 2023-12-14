@@ -7,8 +7,10 @@ use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\CheckBox;
 use App\Orchid\Fields\Title;
 use Orchid\Screen\Actions\Button;
+use App\Orchid\Layouts\Shop\Edit\ShopEditRow;
+use App\Models\Shop;
 
-class ShopOptions extends Rows
+class ShopOptions extends ShopEditRow
 {
     /**
      * Used to create the title of a group of form elements.
@@ -17,7 +19,7 @@ class ShopOptions extends Rows
      */
     protected $title;
 
-    private function getRow($shop)
+    public function getRow(Shop $shop): iterable
     {
         $row = [
             Title::make('Опции')->class('pt-4'),
@@ -39,22 +41,11 @@ class ShopOptions extends Rows
                 ->horizontal(),
         ];
 
-        if ($shop->id) {
-            $row[] = Button::make('Сохранить')->method('save-options')->class('btn btn-success m-auto')->right();
-        }
-
         return $row;
     }
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    public function getMethod(): string
     {
-        $shop = $this->query->get('shop');
-
-        return $this->getRow($shop);
+        return 'options';
     }
 }

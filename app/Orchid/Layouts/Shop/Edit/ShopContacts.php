@@ -2,14 +2,13 @@
 
 namespace App\Orchid\Layouts\Shop\Edit;
 
-use Orchid\Screen\Field;
-use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Input;
 use App\Orchid\Fields\Title;
 use App\Orchid\Fields\DynamicInput;
-use Orchid\Screen\Actions\Button;
+use App\Orchid\Layouts\Shop\Edit\ShopEditRow;
+use App\Models\Shop;
 
-class ShopContacts extends Rows
+class ShopContacts extends ShopEditRow
 {
     /**
      * Used to create the title of a group of form elements.
@@ -18,7 +17,7 @@ class ShopContacts extends Rows
      */
     protected $title;
 
-    private function getRow($shop)
+    public function getRow(Shop $shop): iterable
     {
         $row = [
             Title::make('Контакты')->class('pt-4'),
@@ -66,24 +65,13 @@ class ShopContacts extends Rows
                 ->title('Почта')
                 ->values(json_decode($shop->emails, true) ?? []),
 
-            ];
-
-            if ($shop->id) {
-            $row[] = Button::make('Сохранить')->method('save-contacts')->class('btn btn-success m-auto')->right();
-        }
+        ];
 
         return $row;
     }
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    public function getMethod(): string
     {
-        $shop = $this->query->get('shop');
-
-        return $this->getRow($shop);
+        return 'contacts';
     }
 }

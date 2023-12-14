@@ -2,15 +2,13 @@
 
 namespace App\Orchid\Layouts\Shop\Edit;
 
-use Orchid\Screen\Field;
-use Orchid\Screen\Layouts\Rows;
 use App\Orchid\Fields\Title;
 use App\Orchid\Fields\SelectRelation;
 use Illuminate\Database\Eloquent\Collection;
-use Mockery\Undefined;
-use Orchid\Screen\Actions\Button;
+use App\Orchid\Layouts\Shop\Edit\ShopEditRow;
+use App\Models\Shop;
 
-class ShopCategories extends Rows
+class ShopCategories extends ShopEditRow
 {
     /**
      * Used to create the title of a group of form elements.
@@ -51,8 +49,13 @@ class ShopCategories extends Rows
         return $groups;
     }
 
-    private function getRow($categories, $checkButton)
+    public function getRow(Shop $shop): iterable
     {
+        $categories = null;
+        if ($shop->id) {
+            $categories = \App\Models\SubCategory::getByShopID($shop->id)->get()->groupBy('category_id');
+        }
+
         $row = [
             Title::make('Категории')->class('pt-4'),
             SelectRelation::make('categories')
@@ -60,26 +63,10 @@ class ShopCategories extends Rows
                 ->inputsGroups($this->createInputsGroups($categories))->setRows(),
         ];
 
-        if ($checkButton) {
-            $row[] = Button::make('Сохранить')->method('save-categories')->class('btn btn-success m-auto')->right();
-        }
-
         return $row;
     }
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
-    {
-        $categories = null;
-        $shop = $this->query->get('shop');
-        if ($shop->id) {
-            $categories = \App\Models\SubCategory::getByShopID($shop->id)->get()->groupBy('category_id');
-        }
-
-        return $this->getRow($categories, $shop->id ? true : false);
+    public function getMethod(): string {
+        return 'categories';
     }
 }

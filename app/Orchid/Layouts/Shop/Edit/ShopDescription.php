@@ -2,14 +2,14 @@
 
 namespace App\Orchid\Layouts\Shop\Edit;
 
-use Orchid\Screen\Field;
-use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\SimpleMDE;
 use App\Orchid\Fields\Title;
 use Orchid\Screen\Actions\Button;
+use App\Orchid\Layouts\Shop\Edit\ShopEditRow;
+use App\Models\Shop;
 
-class ShopDescription extends Rows
+class ShopDescription extends ShopEditRow
 {
     /**
      * Used to create the title of a group of form elements.
@@ -18,7 +18,7 @@ class ShopDescription extends Rows
      */
     protected $title;
 
-    private function getRow($shop)
+    public function getRow(Shop $shop): iterable
     {
         $row = [
             Title::make('Описание')->class('pt-4'),
@@ -41,15 +41,8 @@ class ShopDescription extends Rows
         return $row;
     }
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    public function getMethod(): string
     {
-        $shop = $this->query->get('shop');
-
-        return $this->getRow($shop);
+        return 'desc';
     }
 }

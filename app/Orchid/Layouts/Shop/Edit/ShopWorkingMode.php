@@ -3,17 +3,16 @@
 namespace App\Orchid\Layouts\Shop\Edit;
 
 use Illuminate\Database\Eloquent\Collection;
-use Orchid\Screen\Field;
-use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\CheckBox;
-use Orchid\Screen\Actions\Button;
 use App\Orchid\Fields\Title;
+use App\Orchid\Layouts\Shop\Edit\ShopEditRow;
+use App\Models\Shop;
 use Carbon\Carbon;
 
-class ShopWorkingMode extends Rows
+class ShopWorkingMode extends ShopEditRow
 {
     /**
      * Used to create the title of a group of form elements.
@@ -37,7 +36,7 @@ class ShopWorkingMode extends Rows
         return $workingMode ? !$workingMode[$day]->is_open : false;
     }
 
-    private function setGroups($shop)
+    public function getRow(Shop $shop): iterable
     {
         $workingMode = null;
         if ($shop->id) {
@@ -68,22 +67,11 @@ class ShopWorkingMode extends Rows
             ]);
         }
 
-        if ($shop->id) {
-            $group[] = Button::make('Сохранить')->method('save-workingmode')->class('btn btn-success m-auto')->right();
-        }
-
         return $group;
     }
 
-    /**
-     * Get the fields elements to be displayed.
-     *
-     * @return Field[]
-     */
-    protected function fields(): iterable
+    public function getMethod(): string
     {
-        $shop = $this->query->get('shop');
-
-        return $this->setGroups($shop);
+        return 'workingmode';
     }
 }
