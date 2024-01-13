@@ -28,7 +28,8 @@ class ShopController extends Controller
 
     public function shopList(Request $request): View
     {
-        $shops = $this->getShopListPaginated($request->input('page', 1));
+        $shops = Shop::filter()->get();
+        // $shops = $this->getShopListPaginated($request->input('page', 1));
         return view('layouts.shop-list-items', ['shops' => $shops]);
     }
 
