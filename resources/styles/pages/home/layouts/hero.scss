@@ -64,6 +64,9 @@
     width: 2rem;
     height: 2rem;
     padding-left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 0.5s;
     z-index: 50;
 
@@ -73,6 +76,15 @@
       margin-bottom: 0;
       transform: translate(-50%);
     }
+  }
+
+  &__text-expand-btn::before {
+    content: '';
+    position: absolute;
+    width: 100vh;
+    height: 100%;
+    padding: 2rem 0;
+    background: $colorSecondaryBackground;
   }
 
   &__text {

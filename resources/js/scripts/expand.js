@@ -37,7 +37,7 @@ const expand = {
 	},
 	itemsPath: null,
 	itemsTarget: null,
-	transition: 0.3,
+	transition: .3,
 
 	init() {
 		this.itemsPath = document.querySelectorAll(`[${this.attributes.path}]`);

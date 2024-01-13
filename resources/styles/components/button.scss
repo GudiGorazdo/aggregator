@@ -82,7 +82,7 @@
     }
   }
 
-  &--more::before {
+  &--more::after {
     content: "";
     position: absolute;
     width: 2rem;
@@ -96,7 +96,7 @@
     transition: all 0.5s;
   }
 
-  &--more.active::before {
+  &--more.active::after {
     transform: translateY(-50%) rotate(180deg);
   }
 }

@@ -32,7 +32,7 @@ abstract class ShopEditRow extends Rows
         if ($shop->id) {
             $rows[] = Button::make('Сохранить')
                 ->method('save-' . $this->getMethod())
-                ->class('btn btn-success m-auto')->right();
+                ->class('btn btn-success m-auto');
         }
 
         return $rows;

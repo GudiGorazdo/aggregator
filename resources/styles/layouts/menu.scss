@@ -119,6 +119,7 @@
 }
 
 .search {
+  display: none;
   &--menu.search--categories {
     width: 100%;
     margin: 0;
@@ -129,7 +130,7 @@
     }
   }
 
-  &--menu &__action {
+  &--menu.search--categories .search__action {
     display: none;
   }
 }
