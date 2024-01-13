@@ -59,7 +59,7 @@ class Shop extends Model
         return 'id';
     }
 
-    public function scopeFilter(Builder $query): Builder
+    public function scopeFilter(Builder $query, ): Builder
     {
         foreach (app(FilterService::class)->getFilters() as $filter) {
             $query = $filter->apply($query)

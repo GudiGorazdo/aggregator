@@ -3,6 +3,7 @@ import "../../scripts/expand";
 
 export default class {
   constructor() {
+    this.main = document.querySelector('.main-content');
     this.bodyEl = document.querySelector("body");
     this.aside = document.querySelector(".aside");
     this.filterWrapper = document.querySelector(".filter__wrapper");
@@ -15,6 +16,7 @@ export default class {
     this.searchFilterCtrlBtns = document.querySelectorAll(".search__mobile-btn");
     this.brandsList = document.querySelectorAll(".brands-list__item");
     this.mapToggleBtn = document.querySelector(".mobile-nav-section__toggle-btn--map");
+    this.cardsMapToggleBtns = document.querySelectorAll('[data-shop-view]');
     this.scrollToTopBtn = document.querySelector(".footer__btn-top");
     this.mobileFilterBtn = document.querySelector(".mobile-nav-section__toggle-btn--filter");
     this.clearButton = document.querySelector('.search--filter .search__btn--clear')
@@ -24,6 +26,7 @@ export default class {
   }
 
   init() {
+    this.placesItems.addEventListener('SetActiveShopListItem', this.scrollToShop.bind(this));
     this.setListeners(this.x);
     this.x.addListener(this.setListeners.bind(this));
     this.initFilterButtons();
@@ -54,10 +57,35 @@ export default class {
     });
   }
 
+  scrollToShop() {
+    if (!this.bodyEl.classList.contains("map-open")) return;
+    this.toggleMap();
+
+    const shopItem = document.querySelector(`[data-shop-target].active`);
+    if (!shopItem) return;
+
+    const shopItemHeight = shopItem.offsetHeight;
+    const marginBottom = parseFloat(
+      window.getComputedStyle(shopItem).marginBottom,
+    );
+    const offsetTop = shopItem.offsetTop - this.main.offsetTop;
+    const scrollToPosition = offsetTop - marginBottom;
+
+    this.main.scrollTo({
+      top: scrollToPosition,
+      behavior: "instant",
+    });
+  }
+
+
+  toggleMap() {
+    this.toggleClass(this.bodyEl, "map-open");
+    this.toggleClass(this.mapToggleBtn, "active");
+  }
+
   initMapToggleButton() {
-    this.mapToggleBtn.addEventListener("click", () => {
-      this.toggleClass(this.bodyEl, "map-open");
-      this.toggleClass(this.mapToggleBtn, "active");
+    [...Array.from(this.cardsMapToggleBtns), this.mapToggleBtn].forEach(btn => {
+      btn.addEventListener("click", this.toggleMap.bind(this));
     });
   }
 

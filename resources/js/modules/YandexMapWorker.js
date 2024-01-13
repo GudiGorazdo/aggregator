@@ -1,3 +1,5 @@
+import { SetActiveShopListItem } from '../events';
+
 export default class YandexMapWorker {
   button = null;
   items = null;
@@ -16,6 +18,7 @@ export default class YandexMapWorker {
   constructor() {
     this.setItems();
     this.mapWrapper = document.getElementById("filter-map");
+    this.main = document.querySelector(".main-content");
     this.shopList = document.getElementById("shop-list");
     window.onload = () => this.addMap(this.shopsData);
 
@@ -64,6 +67,7 @@ export default class YandexMapWorker {
     const scrollToPosition = offsetTop - (shopListHeight / 2) +
       (shopItemHeight / 2) + (marginBottom / 2);
 
+
     this.shopList.scrollTo({
       top: scrollToPosition,
       behavior: "smooth",
@@ -109,6 +113,7 @@ export default class YandexMapWorker {
             placemark.options.set("iconColor", "#6c757d");
           });
           mark.options.set("iconColor", "#3d39fc");
+          this.shopList.dispatchEvent(SetActiveShopListItem);
         };
       })(this.shopsData[i]),
       );

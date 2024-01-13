@@ -9,3 +9,9 @@ export const FilterFullReset = new CustomEvent('filterFullReset', {
   bubbles: true,
   cancelable: true,
 });
+
+export const SetActiveShopListItem = new CustomEvent('SetActiveShopListItem', {
+  detail: {},
+  bubbles: true,
+  cancelable: true,
+});
