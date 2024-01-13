@@ -5,7 +5,7 @@
   position: absolute;
   top: $mainSectionPaddingXXL;
   transition: all 0.5s;
-  z-index: 122;
+  z-index: 200;
   left: 50%;
   transform: translateX(-50%);
   visibility: hidden;
@@ -29,7 +29,7 @@
     @media only screen and (max-width: $pointMD) {
       flex-direction: column;
       max-width: 100%;
-      max-height: 75.5dvh;
+      // max-height: 75.5dvh;
       overflow-y: scroll;
     }
   }

@@ -4,7 +4,6 @@
   position: fixed;
   bottom: 0;
   background-color: $colorMainBackground;
-  z-index: 1000;
   display: none;
 
   @media only screen and (max-width: $pointMD) {

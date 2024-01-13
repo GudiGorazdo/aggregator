@@ -29,10 +29,10 @@ export default class {
   }
 
   init() {
-
     this.placesItems.addEventListener('BeforeShopListUpdate', this.removeMapToggleBtns.bind(this));
     this.placesItems.addEventListener('ShopListUpdate', this.updateMapToggleBtns.bind(this));
     this.placesItems.addEventListener('SetActiveShopListItem', this.scrollToShop.bind(this));
+
     this.setListeners(this.x);
     this.x.addListener(this.setListeners.bind(this));
     this.initFilterButtons();
