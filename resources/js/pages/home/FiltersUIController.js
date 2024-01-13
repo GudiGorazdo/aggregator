@@ -11,7 +11,6 @@ export default class {
     this.filterBtns = document.querySelectorAll(".filter-toggle-btn");
     this.categoriesList = document.querySelector(".search--filter");
     this.placesItems = document.querySelector(".shop-list");
-    // this.placesBtn = document.querySelector(".shop-list__more");
     this.filterCollapseBtn = document.querySelector(".aside__collapse-btn");
     this.searchFilterEl = document.querySelector(".search--filter");
     this.searchFilterCtrlBtns = document.querySelectorAll(".search__mobile-btn");
@@ -37,7 +36,6 @@ export default class {
     this.setListeners(this.x);
     this.x.addListener(this.setListeners.bind(this));
     this.initFilterButtons();
-    // this.initPlacesButton();
     this.initScrollToTopButton();
     this.initBrandsList();
   }
@@ -95,7 +93,6 @@ export default class {
 
   removeMapToggleBtns() {
     [...Array.from(this.cardsMapToggleBtns), this.mapToggleBtn].forEach(btn => {
-      // console.log(btn);
       btn.removeEventListener("click", this.binded.toggleMap);
     });
   }
