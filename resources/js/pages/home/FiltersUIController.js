@@ -5,6 +5,7 @@ export default class {
   constructor() {
     this.main = document.querySelector('.main-content');
     this.bodyEl = document.querySelector("body");
+    this.hero = document.querySelector(".hero");
     this.aside = document.querySelector(".aside");
     this.filterWrapper = document.querySelector(".filter__wrapper");
     this.filterBtns = document.querySelectorAll(".filter-toggle-btn");
@@ -57,6 +58,26 @@ export default class {
     });
   }
 
+  // scrollToShop() {
+  //   if (!this.bodyEl.classList.contains("map-open")) return;
+  //   this.toggleMap();
+
+  //   const shopItem = document.querySelector(`[data-shop-target].active`);
+  //   if (!shopItem) return;
+
+  //   const shopItemHeight = shopItem.offsetHeight;
+  //   const marginBottom = parseFloat(
+  //     window.getComputedStyle(shopItem).marginBottom,
+  //   );
+  //   const offsetTop = shopItem.offsetTop - this.main.offsetTop + (shopItemHeight / 2.5);
+  //   const scrollToPosition = offsetTop - marginBottom;
+
+  //   this.main.scrollTo({
+  //     top: scrollToPosition,
+  //     behavior: "instant",
+  //   });
+  // }
+
   scrollToShop() {
     if (!this.bodyEl.classList.contains("map-open")) return;
     this.toggleMap();
@@ -64,12 +85,16 @@ export default class {
     const shopItem = document.querySelector(`[data-shop-target].active`);
     if (!shopItem) return;
 
+    const windowHeight = window.innerHeight;
     const shopItemHeight = shopItem.offsetHeight;
-    const marginBottom = parseFloat(
-      window.getComputedStyle(shopItem).marginBottom,
-    );
-    const offsetTop = shopItem.offsetTop - this.main.offsetTop;
-    const scrollToPosition = offsetTop - marginBottom;
+    const mainStyles = window.getComputedStyle(this.main);
+    const paddingTop = parseFloat(mainStyles.paddingTop);
+    const paddingBottom = parseFloat(mainStyles.paddingBottom);
+    const marginBottom = parseFloat(mainStyles.marginBottom);
+    const offsetTop =
+      shopItem.offsetTop - this.main.offsetTop + this.hero.offsetTop + paddingTop + paddingBottom;
+    const scrollToPosition =
+      offsetTop - (windowHeight / 2) + (shopItemHeight / 2) + (marginBottom / 2);
 
     this.main.scrollTo({
       top: scrollToPosition,
