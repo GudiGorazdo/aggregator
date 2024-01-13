@@ -72,7 +72,6 @@ export default class YandexMapWorker {
     const scrollToPosition = offsetTop - (shopListHeight / 2) +
       (shopItemHeight / 2) + (marginBottom / 2);
 
-
     this.shopList.scrollTo({
       top: scrollToPosition,
       behavior: "smooth",

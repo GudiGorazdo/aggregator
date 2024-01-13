@@ -66,19 +66,8 @@ export default class {
     const shopItem = document.querySelector(`[data-shop-target].active`);
     if (!shopItem) return;
 
-    const windowHeight = window.innerHeight;
-    const shopItemHeight = shopItem.offsetHeight;
-    const mainStyles = window.getComputedStyle(this.main);
-    const paddingTop = parseFloat(mainStyles.paddingTop);
-    const paddingBottom = parseFloat(mainStyles.paddingBottom);
-    const marginBottom = parseFloat(mainStyles.marginBottom);
-    const offsetTop =
-      shopItem.offsetTop - this.main.offsetTop + this.hero.offsetTop + paddingTop + paddingBottom;
-    const scrollToPosition =
-      offsetTop - (windowHeight / 2) + (shopItemHeight / 2) + (marginBottom / 2);
-
-    this.main.scrollTo({
-      top: scrollToPosition,
+    window.scrollTo({
+      top: shopItem.offsetTop - this.bodyEl.offsetTop + (shopItem.offsetHeight / 3),
       behavior: "instant",
     });
   }
