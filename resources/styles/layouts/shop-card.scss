@@ -54,32 +54,26 @@
   }
 
   &__info {
-    width: 100%;
-    max-width: 35.5rem;
+    max-width: 62%;
   }
 
   &__title {
     max-width: 100%;
+    display: inline-block;
+    font-size: 1.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     @media only screen and (max-width: $pointMD) {
       margin-bottom: 0.5rem;
     }
 
     a {
-      max-width: 100%;
-      display: inline-block;
-      font-size: 1.7rem;
-      font-weight: 600;
-      white-space: nowrap;
       color: $colorMainBackground;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
-
-  // .active & {
-  //   display: none;
-  // }
 
   &__show-location {
     font-size: 1.4rem;
