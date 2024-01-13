@@ -11,7 +11,7 @@ export default class Pagination {
     this.list = document.getElementById('shop-list');
     this.startScrollPosition();
     this.list.addEventListener('filterFullReset', this.reset.bind(this));
-    window.addEventListener('scroll', this.checkPage.bind(this));
+    this.list.addEventListener('scroll', this.checkPage.bind(this));
     this.checkPage();
     this.start = false;
   }
@@ -59,21 +59,13 @@ export default class Pagination {
   }
 
   isLastElementVisible() {
-    const listItems = this.list.getElementsByTagName('li');
-    const lastListItem = listItems[listItems.length - 1];
-    const rect = lastListItem.getBoundingClientRect();
-
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+    return this.list.scrollTop + this.list.clientHeight === this.list.scrollHeight;
   }
 
   checkPage() {
     if (this.start) return;
     if (this.loading) return;
+    console.log(this.isLastElementVisible());
     if (!this.isLastElementVisible()) return;
     this.loading = true;
     this.page++;

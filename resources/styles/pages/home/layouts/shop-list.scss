@@ -6,14 +6,17 @@
   transition: height 0.5s;
   overflow-y: auto;
 
-  &>li+li {
+  & > li + li {
     margin-top: 2rem;
   }
 
   @media only screen and (max-width: $pointMD) {
-    height: max-content;
+    height: 119.5rem;
     padding-bottom: 5rem;
-    overflow-y: unset;
+
+    // height: max-content;
+    // padding-bottom: 5rem;
+    // overflow-y: unset;
   }
 
   &.active {
@@ -75,3 +78,5 @@
     }
   }
 }
+
+
