@@ -19,7 +19,8 @@ class ShopController extends Controller
 
     public function index(Request $request): View
     {
-        $shops = $this->getShopListPaginated($request->input('page', 1));
+        $shops = Shop::filter()->get();
+        // $shops = $this->getShopListPaginated($request->input('page', 1));
         $title = TitleService::homePage($request, $shops);
         $cityID = LocationController::getCityID();
         return view('pages.home.index', compact('shops', 'title', 'cityID'));
@@ -33,7 +34,6 @@ class ShopController extends Controller
 
     private function getShopListPaginated(int $page)
     {
-        \App\Helpers::log($page);
         return Shop::filter()->paginate($this->perPage, ['*'], 'page', $page);
     }
 

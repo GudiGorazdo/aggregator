@@ -11,12 +11,12 @@
   }
 
   @media only screen and (max-width: $pointMD) {
-    height: 119.5rem;
-    padding-bottom: 5rem;
-
-    // height: max-content;
+    // height: 119.5rem;
     // padding-bottom: 5rem;
-    // overflow-y: unset;
+
+    height: max-content;
+    padding-bottom: 5rem;
+    overflow-y: unset;
   }
 
   &.active {

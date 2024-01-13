@@ -13,11 +13,13 @@ import Pagination from "../../modules/filters/Pagination";
 document.addEventListener("DOMContentLoaded", () => {
   new YandexMapWorker();
   new Location({area: 'areas[]', subway: 'subways[]'});
-  new Pagination();
   new Categories({subCategories: 'sub_categories[]'});
   new Rating({rating: 'rating'});
   new Options({workNow: 'work_now', convenienceShop: 'convenience_shop', appraisalOnline: 'appraisal_online', pawnshop: 'pawnshop'});
   new FiltersUIController();
+
+  // const pagination = new Pagination();
+  // pagination.setDisable();
 
   const filteBase = new FilterBase();
   const fullClear = document.getElementById('filter-clear-all');

@@ -2,16 +2,24 @@ import { ShopListUpdate, FilterFullReset } from '../../events';
 
 export default class Pagination {
   api = '/api/filter/shop?';
+  main = null;
   list = null;
   page = 1;
   loading = false;
+  disable = false;
   start = true;
 
   constructor() {
+    this.init();
+  }
+
+  init() {
     this.list = document.getElementById('shop-list');
+    this.main = document.querySelector('.main-content');
     this.startScrollPosition();
     this.list.addEventListener('filterFullReset', this.reset.bind(this));
-    this.list.addEventListener('scroll', this.checkPage.bind(this));
+    this.main.addEventListener('scroll', this.checkPage.bind(this));
+    // this.list.addEventListener('scroll', this.checkPage.bind(this));
     this.checkPage();
     this.start = false;
   }
@@ -23,7 +31,6 @@ export default class Pagination {
       behavior: 'instant'
     };
     this.list.scrollTo(opt);
-    window.scrollTo(opt);
   }
 
   async apply(e) {
@@ -63,9 +70,10 @@ export default class Pagination {
   }
 
   checkPage() {
+    if (this.disable) return;
+    console.log('scroll');
     if (this.start) return;
     if (this.loading) return;
-    console.log(this.isLastElementVisible());
     if (!this.isLastElementVisible()) return;
     this.loading = true;
     this.page++;
@@ -75,5 +83,13 @@ export default class Pagination {
   reset() {
     this.page = 1;
     this.apply();
+  }
+
+  setDisable() {
+    this.disable = true;
+  }
+
+  setEnable() {
+    this.disable = false;
   }
 }
