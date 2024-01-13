@@ -11,28 +11,29 @@ export default class {
     this.filterBtns = document.querySelectorAll(".filter-toggle-btn");
     this.categoriesList = document.querySelector(".search--filter");
     this.placesItems = document.querySelector(".shop-list");
-    this.placesBtn = document.querySelector(".shop-list__more");
+    // this.placesBtn = document.querySelector(".shop-list__more");
     this.filterCollapseBtn = document.querySelector(".aside__collapse-btn");
     this.searchFilterEl = document.querySelector(".search--filter");
     this.searchFilterCtrlBtns = document.querySelectorAll(".search__mobile-btn");
-    this.brandsList = document.querySelectorAll(".brands-list__item");
     this.mapToggleBtn = document.querySelector(".mobile-nav-section__toggle-btn--map");
-    this.cardsMapToggleBtns = document.querySelectorAll('[data-shop-view]');
+    this.brandsList = document.querySelectorAll(".brands-list__item");
     this.scrollToTopBtn = document.querySelector(".footer__btn-top");
     this.mobileFilterBtn = document.querySelector(".mobile-nav-section__toggle-btn--filter");
     this.clearButton = document.querySelector('.search--filter .search__btn--clear')
+    this.updateMapToggleBtns();
 
     this.x = window.matchMedia("(max-width: 56.25em)");
     this.init();
   }
 
   init() {
+    this.placesItems.addEventListener('BeforeShopListUpdate', this.removeMapToggleBtns.bind(this));
+    this.placesItems.addEventListener('ShopListUpdate', this.updateMapToggleBtns.bind(this));
     this.placesItems.addEventListener('SetActiveShopListItem', this.scrollToShop.bind(this));
     this.setListeners(this.x);
     this.x.addListener(this.setListeners.bind(this));
     this.initFilterButtons();
-    this.initPlacesButton();
-    this.initMapToggleButton();
+    // this.initPlacesButton();
     this.initScrollToTopButton();
     this.initBrandsList();
   }
@@ -81,6 +82,17 @@ export default class {
   initMapToggleButton() {
     [...Array.from(this.cardsMapToggleBtns), this.mapToggleBtn].forEach(btn => {
       btn.addEventListener("click", this.toggleMap.bind(this));
+    });
+  }
+
+  updateMapToggleBtns() {
+    this.cardsMapToggleBtns = document.querySelectorAll('[data-shop-view]');
+    this.initMapToggleButton();
+  }
+
+  removeMapToggleBtns() {
+    [...Array.from(this.cardsMapToggleBtns), this.mapToggleBtn].forEach(btn => {
+      btn.removeEventListener("click", this.toggleMap.bind(this));
     });
   }
 

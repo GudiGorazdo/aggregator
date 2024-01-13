@@ -1,4 +1,4 @@
-import { SetActiveShopListItem } from '../events';
+import { SetActiveShopListItem, BeforeShopListUpdate } from '../events';
 
 export default class YandexMapWorker {
   button = null;

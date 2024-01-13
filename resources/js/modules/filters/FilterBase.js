@@ -1,4 +1,4 @@
-import { ShopListUpdate, FilterFullReset } from '../../events';
+import { ShopListUpdate, FilterFullReset, BeforeShopListUpdate } from '../../events';
 
 export default class FilterBase {
   api = '/api/filter/shop?';
@@ -35,6 +35,7 @@ export default class FilterBase {
   }
 
   updateList(result) {
+    this.list.dispatchEvent(BeforeShopListUpdate);
     this.list.innerHTML = '';
     this.list.innerHTML = result;
     this.list.dispatchEvent(ShopListUpdate);
