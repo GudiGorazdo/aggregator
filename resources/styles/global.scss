@@ -8,6 +8,12 @@
   cursor: default;
 }
 
-a, button {
-  cursor: pointer;
+a,
+button {
+cursor: pointer;
+}
+
+a *,
+button * {
+  pointer-events: none;
 }
