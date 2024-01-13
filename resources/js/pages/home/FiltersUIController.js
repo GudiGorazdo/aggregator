@@ -58,26 +58,6 @@ export default class {
     });
   }
 
-  // scrollToShop() {
-  //   if (!this.bodyEl.classList.contains("map-open")) return;
-  //   this.toggleMap();
-
-  //   const shopItem = document.querySelector(`[data-shop-target].active`);
-  //   if (!shopItem) return;
-
-  //   const shopItemHeight = shopItem.offsetHeight;
-  //   const marginBottom = parseFloat(
-  //     window.getComputedStyle(shopItem).marginBottom,
-  //   );
-  //   const offsetTop = shopItem.offsetTop - this.main.offsetTop + (shopItemHeight / 2.5);
-  //   const scrollToPosition = offsetTop - marginBottom;
-
-  //   this.main.scrollTo({
-  //     top: scrollToPosition,
-  //     behavior: "instant",
-  //   });
-  // }
-
   scrollToShop() {
     if (!this.bodyEl.classList.contains("map-open")) return;
     this.toggleMap();

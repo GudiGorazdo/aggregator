@@ -38,11 +38,16 @@ export default class YandexMapWorker {
       });
   }
 
-  // addMarkCollection(collection) {
-  //   this.this.markCollection = collection;
-  // }
+  async getCityCoord() {
+    const response = await fetch('/api/data/cityInfo');
+    const result = await response.json();
+    return JSON.parse(result.coord);
+  }
 
   getMapCenter() {
+    if (this.shopsData.length < 1) {
+      return this.getCityCoord();
+    }
     let sumLat = 0;
     let sumLong = 0;
     for (var i = 0; i < this.shopsData.length; i++) {
@@ -74,9 +79,9 @@ export default class YandexMapWorker {
     });
   }
 
-  addMap() {
+  async addMap() {
     if (this.isMapAdded) return;
-    const average = this.getMapCenter();
+    const average = await this.getMapCenter();
 
     ymaps.ready(() => {
       this.map = new ymaps.Map("filter-map", {
