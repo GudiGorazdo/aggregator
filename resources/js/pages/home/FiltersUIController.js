@@ -5,6 +5,7 @@ export default class {
   constructor() {
     this.main = document.querySelector('.main-content');
     this.bodyEl = document.querySelector("body");
+    this.header = document.querySelector(".header");
     this.hero = document.querySelector(".hero");
     this.aside = document.querySelector(".aside");
     this.filterWrapper = document.querySelector(".filter__wrapper");
@@ -69,8 +70,8 @@ export default class {
     if (!shopItem) return;
 
     window.scrollTo({
-      top: shopItem.offsetTop - this.bodyEl.offsetTop + (shopItem.offsetHeight / 3),
-      behavior: "instant",
+      top: shopItem.offsetTop - this.bodyEl.offsetTop + this.header.offsetHeight,
+      behavior: "smooth",
     });
   }
 
