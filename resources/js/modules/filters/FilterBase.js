@@ -1,14 +1,4 @@
-export const ShopListUpdate = new CustomEvent('ShopListUpdate', {
-  detail: {},
-  bubbles: true,
-  cancelable: true,
-});
-
-export const FilterFullReset = new CustomEvent('filterFullReset', {
-  detail: {},
-  bubbles: true,
-  cancelable: true,
-});
+import { ShopListUpdate, FilterFullReset } from '../../events';
 
 export default class FilterBase {
   api = '/api/filter/shop?';

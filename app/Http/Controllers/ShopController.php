@@ -33,6 +33,7 @@ class ShopController extends Controller
 
     private function getShopListPaginated(int $page)
     {
+        \App\Helpers::log($page);
         return Shop::filter()->paginate($this->perPage, ['*'], 'page', $page);
     }
 

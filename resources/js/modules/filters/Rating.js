@@ -1,4 +1,3 @@
-
 import FilterBase from './FilterBase';
 
 export default class Rating extends FilterBase {

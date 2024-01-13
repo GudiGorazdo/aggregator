@@ -8,10 +8,12 @@ import Categories from "../../modules/filters/Categories";
 import Rating from "../../modules/filters/Rating";
 import Options from "../../modules/filters/Options";
 import FilterBase from "../../modules/filters/FilterBase";
+import Pagination from "../../modules/filters/Pagination";
 
 document.addEventListener("DOMContentLoaded", () => {
   new YandexMapWorker();
   new Location({area: 'areas[]', subway: 'subways[]'});
+  new Pagination();
   new Categories({subCategories: 'sub_categories[]'});
   new Rating({rating: 'rating'});
   new Options({workNow: 'work_now', convenienceShop: 'convenience_shop', appraisalOnline: 'appraisal_online', pawnshop: 'pawnshop'});

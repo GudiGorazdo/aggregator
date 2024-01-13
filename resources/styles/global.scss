@@ -4,3 +4,10 @@
 @import "./components/checkbox-square.scss";
 @import "./components/checkbox-switch.scss";
 
+* {
+  cursor: default;
+}
+
+a, button {
+  cursor: pointer;
+}
