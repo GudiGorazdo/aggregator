@@ -32,15 +32,13 @@
       height: calc(100vh - 19rem);
       margin: 0;
       box-shadow: 0 5px 50px $shadow;
-      opacity: 0;
       pointer-events: none;
-      transition: top .3s ease-in-out, opacity .3s ease-in-out;
+      transition: top .3s ease-in-out;
+      z-index: 1;
 
       .map-open & {
         top: 7rem;
-        opacity: 1;
         pointer-events: all;
-        z-index: 1;
       }
     }
   }
