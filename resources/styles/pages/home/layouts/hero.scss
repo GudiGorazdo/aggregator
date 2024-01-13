@@ -84,7 +84,12 @@
     width: 100vh;
     height: 100%;
     padding: 2rem 0;
+    display: none;
     background: $colorSecondaryBackground;
+
+    @media only screen and (max-width: $pointMD) {
+      display: block;
+    }
   }
 
   &__text {
