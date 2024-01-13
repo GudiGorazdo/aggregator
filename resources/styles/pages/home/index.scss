@@ -17,7 +17,24 @@
 @import "./layouts/shop-card.scss";
 @import "./layouts/mobile-nav.scss";
 
+.main-content {
+  padding-bottom: 9rem;
+}
+
+.filter {
+  &__text-btn,
+  &__text {
+    display: none;
+  }
+}
+
+.similar-categories-and-location {
+  display: none;
+}
+
 .footer {
+  display: none;
+
   @media only screen and (max-width: $pointMD) {
     padding-bottom: 15.8rem;
   }

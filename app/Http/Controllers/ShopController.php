@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use \App\Models\Shop;
 use \App\Services\TitleService;
 use \App\Http\Controllers\CookieController;
@@ -14,9 +15,11 @@ use \App\Constants\CookieConstants;
 
 class ShopController extends Controller
 {
+    private $perPage = 5;
+
     public function index(Request $request): View
     {
-        $shops = Shop::filter()->get();
+        $shops = $this->getShopListPaginated($request->input('page', 1));
         $title = TitleService::homePage($request, $shops);
         $cityID = LocationController::getCityID();
         return view('pages.home.index', compact('shops', 'title', 'cityID'));
@@ -24,8 +27,13 @@ class ShopController extends Controller
 
     public function shopList(Request $request): View
     {
-        $shops = Shop::filter()->get();
+        $shops = $this->getShopListPaginated($request->input('page', 1));
         return view('layouts.shop-list-items', ['shops' => $shops]);
+    }
+
+    private function getShopListPaginated(int $page)
+    {
+        return Shop::filter()->paginate($this->perPage, ['*'], 'page', $page);
     }
 
     public function show(string $id): View|RedirectResponse
@@ -61,5 +69,3 @@ class ShopController extends Controller
         return Shop::similarFilter(+$shop->city_id, +$shop->id, $shopSubCategories)->get();
     }
 }
-
-

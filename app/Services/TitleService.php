@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -18,7 +19,7 @@ use \App\Helpers;
 
 class TitleService
 {
-    public static function homePage(Request $request, Collection $shops): string
+    public static function homePage(Request $request, Collection|LengthAwarePaginator $shops): string
     {
         $categories = self::getCategories($request);
         $areas = self::getAreas($request, $shops);
@@ -36,7 +37,7 @@ class TitleService
         return 'Скупки ' . $title;
     }
 
-    private static function getAreas(Request $request, Collection $shops): string
+    private static function getAreas(Request $request, Collection|LengthAwarePaginator $shops): string
     {
         $areas_ids = $request->get('area') ?? [];
         $areas = Area::whereIn('id', $areas_ids)->get();
@@ -61,7 +62,7 @@ class TitleService
         return $string;
     }
 
-    private static function getCity(Request $request, Collection $shops): string
+    private static function getCity(Request $request, Collection|LengthAwarePaginator $shops): string
     {
         $city = $shops->map(function ($shop, $key) {
             return $shop->city->name_for_title;
