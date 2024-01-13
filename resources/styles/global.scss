@@ -6,14 +6,19 @@
 
 * {
   cursor: default;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a,
 button {
-cursor: pointer;
+  cursor: pointer;
 }
 
 a *,
 button * {
   pointer-events: none;
+}
+
+input {
+  cursor: text;
 }

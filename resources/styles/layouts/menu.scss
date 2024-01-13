@@ -137,7 +137,8 @@
 
 .categories-list {
   &--menu {
-    height: 53.5rem;
+    height: unset;
+    overflow: unset;
 
     @media only screen and (max-width: $pointMD) {
       padding-inline: 2rem;
