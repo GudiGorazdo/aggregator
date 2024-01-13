@@ -44,6 +44,7 @@ export default class {
   initFilterButtons() {
     this.filterBtns.forEach((button) => {
       button.addEventListener("click", () => {
+        console.log(button);
         this.toggleClass(this.filterWrapper, "active");
         this.toggleClass(button, "active");
         this.toggleClass(this.aside, "active");
@@ -124,7 +125,6 @@ export default class {
       });
 
       this.mobileFilterBtn.addEventListener("click", () => {
-        this.toggleClass(this.filterWrapper, "active");
         this.toggleClass(this.bodyEl, "fixed-position");
       });
     } else {
