@@ -36,9 +36,9 @@ export default class FilterBase {
 
   updateList(result) {
     this.list.dispatchEvent(BeforeShopListUpdate);
-    this.list.innerHTML = '';
-    this.list.innerHTML = result;
-    this.list.dispatchEvent(ShopListUpdate);
+    // this.list.innerHTML = '';
+    // this.list.innerHTML = result;
+    // this.list.dispatchEvent(ShopListUpdate);
   }
 
   setURL(urlParams) {

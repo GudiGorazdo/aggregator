@@ -20,6 +20,9 @@ export default class {
     this.scrollToTopBtn = document.querySelector(".footer__btn-top");
     this.mobileFilterBtn = document.querySelector(".mobile-nav-section__toggle-btn--filter");
     this.clearButton = document.querySelector('.search--filter .search__btn--clear')
+
+    this.binded = {};
+    this.binded.toggleMap = this.toggleMap.bind(this);
     this.updateMapToggleBtns();
 
     this.x = window.matchMedia("(max-width: 56.25em)");
@@ -27,6 +30,7 @@ export default class {
   }
 
   init() {
+
     this.placesItems.addEventListener('BeforeShopListUpdate', this.removeMapToggleBtns.bind(this));
     this.placesItems.addEventListener('ShopListUpdate', this.updateMapToggleBtns.bind(this));
     this.placesItems.addEventListener('SetActiveShopListItem', this.scrollToShop.bind(this));
@@ -45,7 +49,6 @@ export default class {
   initFilterButtons() {
     this.filterBtns.forEach((button) => {
       button.addEventListener("click", () => {
-        console.log(button);
         this.toggleClass(this.filterWrapper, "active");
         this.toggleClass(button, "active");
         this.toggleClass(this.aside, "active");
@@ -81,7 +84,7 @@ export default class {
 
   initMapToggleButton() {
     [...Array.from(this.cardsMapToggleBtns), this.mapToggleBtn].forEach(btn => {
-      btn.addEventListener("click", this.toggleMap.bind(this));
+      btn.addEventListener("click", this.binded.toggleMap);
     });
   }
 
@@ -92,7 +95,8 @@ export default class {
 
   removeMapToggleBtns() {
     [...Array.from(this.cardsMapToggleBtns), this.mapToggleBtn].forEach(btn => {
-      btn.removeEventListener("click", this.toggleMap.bind(this));
+      // console.log(btn);
+      btn.removeEventListener("click", this.binded.toggleMap);
     });
   }
 
