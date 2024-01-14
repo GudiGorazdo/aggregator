@@ -8,20 +8,32 @@
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
     padding-right: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     @media only screen and (max-width: $pointMD) {
-      padding-left: 4rem;
-      padding-right: 4rem;
+      padding: 2rem 2rem;
+      justify-content: center;
     }
   }
 
-  &__menu-btn,
+  &__menu-lines,
   &__map-btn {
     width: 2rem;
     height: 1.7rem;
   }
 
   &__menu-btn {
+    padding: 1rem;
+  }
+
+  &__menu-lines {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     span {
       content: '';
       position: absolute;
@@ -44,7 +56,7 @@
   }
 
   .active__animation {
-    >span {
+    .header__menu-lines>span {
       &:nth-child(1) {
         top: 50%;
         transform: translateY(-50%);
@@ -58,7 +70,7 @@
   }
 
   .active__cross {
-    >span {
+    .header__menu-lines>span {
       &:nth-child(1) {
         transform: translateY(-50%) rotate(45deg);
       }
@@ -70,7 +82,7 @@
   }
 
   .active__middle {
-    >span {
+    .header__menu-lines>span {
       &:nth-child(2) {
         display: none;
       }
@@ -106,7 +118,7 @@
     @media only screen and (max-width: $pointMD) {
       max-width: 114px;
       min-width: 114px;
-      margin: 0;
+      margin: auto;
 
       img {
         max-height: 2.2rem;
@@ -179,7 +191,7 @@
       min-height: unset;
       height: unset;
       width: unset;
-      padding: 0;
+      padding: 1rem;
       justify-content: center;
       align-items: center;
       background-color: transparent;
@@ -197,6 +209,7 @@
       position: relative;
       right: 0;
       margin: 0;
+      padding: 1rem;
     }
   }
 
@@ -211,9 +224,10 @@
 
   .select-menu__list {
     @media only screen and (max-width: $pointMD) {
-      right: -100%;
+      right: -50%;
     }
   }
+
   .select-menu__item {
     @media only screen and (max-width: $pointMD) {
       padding-right: 3rem;
