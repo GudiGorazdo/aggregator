@@ -154,6 +154,7 @@ export default class City {
     this.city.options.onSelect = (item) => {
       this.onSelectCity(item.index);
     };
+    this.city.options.classList.icon = 'select-menu__icon select-menu__icon--header'
   };
 
   getCityLink = (value) => {

@@ -23,9 +23,9 @@
                 </div>
             </div>
             <a class="btn btn--primary header__top-link" href="#">Добавить организацию</a>
-            <button class="btn header__map-btn">
+            {{-- <button class="btn header__map-btn">
                 <x-icon-location-icon />
-            </button>
+            </button> --}}
         </div>
         @include('layouts.menu', [
             'categories' => \App\Models\Category::all(),

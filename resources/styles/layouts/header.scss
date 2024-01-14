@@ -167,7 +167,57 @@
   min-width: 21rem;
 
   @media only screen and (max-width: $pointMD) {
-    display: none;
+    min-width: unset;
+    min-height: unset;
+    height: unset;
+    width: unset;
+    margin: 0;
+    padding: 0;
+
+    .select-menu__current {
+      min-width: unset;
+      min-height: unset;
+      height: unset;
+      width: unset;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+    }
+
+    [data-chooser_current] {
+      display: none;
+    }
+  }
+
+  .select-menu__icon {
+    background-image: url("/resources/assets/svg/location-icon.svg");
+
+    @media only screen and (max-width: $pointMD) {
+      position: relative;
+      right: 0;
+      margin: 0;
+    }
+  }
+
+  .select-menu__icon.open {
+    transform: unset;
+  }
+
+  .select-menu__list,
+  .select-menu__item {
+    min-width: max-content;
+  }
+
+  .select-menu__list {
+    @media only screen and (max-width: $pointMD) {
+      right: -100%;
+    }
+  }
+  .select-menu__item {
+    @media only screen and (max-width: $pointMD) {
+      padding-right: 3rem;
+    }
   }
 }
 
