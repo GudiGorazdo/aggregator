@@ -10,12 +10,22 @@
   @media only screen and (max-width: $pointMD) {
     display: block;
 
-    .hero__btn {
+    & .hero__btn {
       min-width: 100%;
       padding: 2.2rem;
       display: flex;
+      justify-content: center;
+      align-items: center;
       transform: translate(-50%, 0);
-      font-size: 1.9rem;
+      font-size: 1.5rem;
+
+      &::before {
+        position: relative;
+        top: unset;
+        left: unset;
+        margin-right: 1rem;
+        transform: unset;
+      }
     }
   }
 
