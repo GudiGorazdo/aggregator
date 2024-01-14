@@ -101,7 +101,7 @@
 
   select(id, action = true)      -- Selecting an element by index.
     id                           -- id html el;
-    action                       -- run callbacks;
+    action                       -- run onSAelect and onClick callbacks;
 
   getCurrentItem()         -- Getting the currently selected item.
   getMultipleCurrents()    -- Getting the currently selected item.
